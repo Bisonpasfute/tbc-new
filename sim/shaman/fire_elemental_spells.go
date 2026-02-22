@@ -60,9 +60,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 		BonusCoefficient: 0.332, // https://discord.com/channels/260297137554849794/699626629152112730/904088040992026655
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-			spell.CalcAndDealAoeDamageWithVariance(sim, spell.OutcomeMagicHitAndCrit, func(sim *core.Simulation, _ *core.Spell) float64 {
-				return 703 // https://discord.com/channels/260297137554849794/699626629152112730/904088040992026655
-			})
+			spell.CalcAndDealAoeDamage(sim, 703, spell.OutcomeMagicHitAndCrit)
 		},
 	})
 }
