@@ -21,7 +21,7 @@ export const ShamanShieldInput = <SpecType extends ShamanSpecs>() =>
 		fieldName: 'shield',
 		values: [
 			{ value: ShamanShield.NoShield, tooltip: 'No Shield' },
-			{ actionId: ActionId.fromSpellId(52127), value: ShamanShield.WaterShield },
+			{ actionId: ActionId.fromSpellId(33736), value: ShamanShield.WaterShield },
 			{ actionId: ActionId.fromSpellId(324), value: ShamanShield.LightningShield },
 		],
 	});
