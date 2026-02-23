@@ -114,7 +114,7 @@ func (shaman *Shaman) applyFlurry() {
 		Label:     "Flurry",
 		Duration:  time.Second * 15,
 		MaxStacks: 3,
-	}).AttachMultiplyMeleeSpeed(0.05 + 0.05*float64(shaman.Talents.Flurry))
+	}).AttachMultiplyMeleeSpeed(1.05 + 0.05*float64(shaman.Talents.Flurry))
 
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
 		Name:     "Flurry Trigger",
@@ -312,7 +312,7 @@ func (shaman *Shaman) applyWeaponMastery() {
 		return
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
-		Kind:       core.SpellMod_DamageDone_Flat,
+		Kind:       core.SpellMod_DamageDone_Pct,
 		FloatValue: 0.02 * float64(shaman.Talents.WeaponMastery),
 		ProcMask:   core.ProcMaskMelee,
 	})
