@@ -63,8 +63,8 @@ func (shaman *Shaman) registerSearingTotemSpell() {
 				spell.Dot(sim.Encounter.ActiveTargetUnits[0]).BaseTickCount = searingTickCount(0)
 				spell.Dot(sim.Encounter.ActiveTargetUnits[0]).Apply(sim)
 			}
-			duration := 60
-			shaman.TotemExpirations[FireTotem] = sim.CurrentTime + time.Duration(duration)*time.Second
+			duration := time.Second * 60
+			shaman.TotemExpirations[FireTotem] = sim.CurrentTime + duration
 		},
 	})
 }
@@ -110,8 +110,8 @@ func (shaman *Shaman) registerMagmaTotemSpell() {
 			shaman.FireNovaTotemPA.Cancel(sim)
 			spell.AOEDot().Apply(sim)
 
-			duration := 20
-			shaman.TotemExpirations[FireTotem] = sim.CurrentTime + time.Duration(duration)*time.Second
+			duration := time.Second * 20
+			shaman.TotemExpirations[FireTotem] = sim.CurrentTime + duration
 		},
 	})
 }

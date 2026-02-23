@@ -79,11 +79,10 @@ func (shaman *Shaman) applyElementalDevastation() {
 		ProcMask:   core.ProcMaskMelee,
 	})
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:               "Elemental Devastation Trigger",
-		Callback:           core.CallbackOnSpellHitDealt,
-		ProcMask:           core.ProcMaskSpellDamage,
-		Outcome:            core.OutcomeCrit,
-		TriggerImmediately: true,
+		Name:     "Elemental Devastation Trigger",
+		Callback: core.CallbackOnSpellHitDealt,
+		ProcMask: core.ProcMaskSpellDamage,
+		Outcome:  core.OutcomeCrit,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			critBuffAura.Activate(sim)
 		},

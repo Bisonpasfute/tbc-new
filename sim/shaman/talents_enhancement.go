@@ -108,10 +108,9 @@ func (shaman *Shaman) applyFlurry() {
 	}).AttachMultiplyMeleeSpeed(0.05 + 0.05*float64(shaman.Talents.Flurry))
 
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:               "Flurry Trigger",
-		Callback:           core.CallbackOnSpellHitDealt,
-		ProcMask:           core.ProcMaskMelee | core.ProcMaskMeleeProc,
-		TriggerImmediately: true,
+		Name:     "Flurry Trigger",
+		Callback: core.CallbackOnSpellHitDealt,
+		ProcMask: core.ProcMaskMelee | core.ProcMaskMeleeProc,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			if result.Outcome.Matches(core.OutcomeCrit) {
 				flurryAura.Activate(sim)
@@ -188,12 +187,10 @@ func (shaman *Shaman) applyShamanisticFocus() {
 	})
 
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:     "Shamanistic Focus Untrigger",
-		Callback: core.CallbackOnCastComplete,
+		Name:           "Shamanistic Focus Untrigger",
+		Callback:       core.CallbackOnCastComplete,
+		ClassSpellMask: SpellMaskShock,
 		Handler: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) {
-			if !spell.Matches(SpellMaskShock) {
-				return
-			}
 			sfAura.Deactivate(sim)
 		},
 	})
@@ -214,7 +211,6 @@ func (shaman *Shaman) applyShamanisticRage() {
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
 		DPM:                shaman.NewLegacyPPMManager(15.0, core.ProcMaskMeleeWhiteHit),
-		TriggerImmediately: true,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			shaman.AddMana(sim, 0.3*shaman.GetAttackPowerValue(spell), srManaMetric)
 		},
@@ -284,7 +280,6 @@ func (shaman *Shaman) applyUnleashedRage() {
 		ProcMask:           core.ProcMaskMeleeOrMeleeProc,
 		Outcome:            core.OutcomeCrit,
 		RequireDamageDealt: true,
-		TriggerImmediately: true,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			unleashBuffAura.Activate(sim)
 		},
