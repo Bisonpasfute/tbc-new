@@ -93,7 +93,6 @@ import {
 	APLValueUnitDistance,
 	APLValueUnitIsMoving,
 	APLValueVariablePlaceholder,
-	APLValueWarlockHandOfGuldanInFlight,
 	APLValueAuraIsInactive,
 	APLValueAuraICDIsReady,
 	APLValueActiveItemSwapSet,
@@ -1467,14 +1466,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		shortDescription: i18n.t('rotation_tab.apl.values.cat_new_savage_roar_duration.tooltip'),
 		newValue: APLValueCatNewSavageRoarDuration.create,
 		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecFeralCatDruid,
-		fields: [],
-	}),
-	warlockHandOfGuldanInFlight: inputBuilder({
-		label: i18n.t('rotation_tab.apl.values.warlock_hand_of_guldan_in_flight.label'),
-		submenu: ['warlock'],
-		shortDescription: i18n.t('rotation_tab.apl.values.warlock_hand_of_guldan_in_flight.tooltip'),
-		newValue: APLValueWarlockHandOfGuldanInFlight.create,
-		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecWarlock,
 		fields: [],
 	}),
 	warlockAssignedCurseIsActive: inputBuilder({
