@@ -91,7 +91,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 
 	// IconInputs to include in the 'Player' section on the settings tab.
 	playerIconInputs: [
-		ShamanInputs.ShamanShieldInput(),
 		ShamanInputs.ShamanImbueMH(),
 		EnhancementInputs.ShamanImbueOH,
 		ShamanInputs.ShamanImbueMHSwap(),
@@ -102,7 +101,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 	excludeBuffDebuffInputs: [],
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
-		inputs: [EnhancementInputs.SyncTypeInput, OtherInputs.InputDelay, OtherInputs.TankAssignment, OtherInputs.InFrontOfTarget],
+		inputs: [EnhancementInputs.SyncTypeInput, ShamanInputs.ShamanShieldProcrate(), OtherInputs.InputDelay, OtherInputs.TankAssignment, OtherInputs.InFrontOfTarget],
 	},
 	itemSwapSlots: [ItemSlot.ItemSlotTrinket1, ItemSlot.ItemSlotTrinket2, ItemSlot.ItemSlotMainHand, ItemSlot.ItemSlotOffHand],
 	customSections: [],

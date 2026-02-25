@@ -27,11 +27,11 @@ func NewElementalShaman(character *core.Character, options *proto.Player) *Eleme
 	eleOptions := options.GetElementalShaman().Options
 
 	selfBuffs := shaman.SelfBuffs{
-		Shield:      eleOptions.ClassOptions.Shield,
-		ImbueMH:     proto.ShamanImbue_FlametongueWeapon,
-		ImbueOH:     proto.ShamanImbue_NoImbue,
-		ImbueMHSwap: proto.ShamanImbue_FlametongueWeapon,
-		ImbueOHSwap: proto.ShamanImbue_NoImbue,
+		ShieldProcrate: eleOptions.ClassOptions.ShieldProcrate,
+		ImbueMH:        eleOptions.ClassOptions.ImbueMh,
+		ImbueOH:        proto.ShamanImbue_NoImbue,
+		ImbueMHSwap:    eleOptions.ClassOptions.ImbueMhSwap,
+		ImbueOHSwap:    proto.ShamanImbue_NoImbue,
 	}
 
 	ele := &ElementalShaman{

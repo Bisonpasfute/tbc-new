@@ -7,24 +7,14 @@ import { NumberPicker } from '../core/components/pickers/number_picker';
 import { IndividualSimUI } from '../core/individual_sim_ui';
 import { Player } from '../core/player';
 import { Spec } from '../core/proto/common';
-import { ShamanImbue, ShamanShield } from '../core/proto/shaman';
+import { ShamanImbue} from '../core/proto/shaman';
 import { ActionId } from '../core/proto_utils/action_id';
-import { ShamanSpecs } from '../core/proto_utils/utils';
+import { ShamanSpecs, SpecType } from '../core/proto_utils/utils';
 import { EventID, TypedEvent } from '../core/typed_event';
 import i18n from '../i18n/config';
 
 // Configuration for class-specific UI elements on the settings tab.
 // These don't need to be in a separate file but it keeps things cleaner.
-
-export const ShamanShieldInput = <SpecType extends ShamanSpecs>() =>
-	InputHelpers.makeClassOptionsEnumIconInput<SpecType, ShamanShield>({
-		fieldName: 'shield',
-		values: [
-			{ value: ShamanShield.NoShield, tooltip: 'No Shield' },
-			{ actionId: ActionId.fromSpellId(33736), value: ShamanShield.WaterShield },
-			{ actionId: ActionId.fromSpellId(324), value: ShamanShield.LightningShield },
-		],
-	});
 
 export const ShamanImbueMH = <SpecType extends ShamanSpecs>() =>
 	InputHelpers.makeClassOptionsEnumIconInput<SpecType, ShamanImbue>({
@@ -47,6 +37,15 @@ export const ShamanImbueMHSwap = <SpecType extends ShamanSpecs>() =>
 		],
 		showWhen: (player: Player<SpecType>) => player.itemSwapSettings.getEnableItemSwap(),
 		changeEmitter: (player: Player<SpecType>) => TypedEvent.onAny([player.specOptionsChangeEmitter, player.itemSwapSettings.changeEmitter]),
+	});
+
+export const ShamanShieldProcrate = <SpecType extends ShamanSpecs>() => 
+	InputHelpers.makeClassOptionsNumberInput<SpecType>({
+		fieldName: 'shieldProcrate',
+		label: 'Shield Proc Rate',
+		labelTooltip: 'Number of proc per minute of the active effect of your Shaman Shield',
+		positive: true,
+		float: true,
 	});
 
 export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<any>): ContentBlock {

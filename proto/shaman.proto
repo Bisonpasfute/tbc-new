@@ -79,6 +79,7 @@ enum EarthTotem {
 	EarthElementalTotem = 1;
 	TremorTotem = 2;
 	EarthbindTotem = 3;
+    StrengthOfEarthTotem = 4;
 }
 
 enum AirTotem {
@@ -86,8 +87,8 @@ enum AirTotem {
     GraceOfAirTotem = 1;
 	GroundingTotem = 2;
     NatureResistanceTotem = 3;  
-    StrengthOfEarthTotem = 4;
-    WindfuryTotem = 5;
+    WindfuryTotem = 4;
+    WrathOfAirTotem = 5;
 }
 
 enum FireTotem {
@@ -122,12 +123,6 @@ message ShamanTotems {
 	WaterTotem water = 4;
 }
 
-enum ShamanShield {
-	NoShield = 0;
-	WaterShield = 1;
-	LightningShield = 2;
-}
-
 enum ShamanImbue {
     NoImbue = 0;
     WindfuryWeapon = 1;
@@ -144,9 +139,9 @@ enum ShamanSyncType {
 }
 
 message ShamanOptions {
-	ShamanShield shield = 1;
-	ShamanImbue imbue_mh = 2;
-    ShamanImbue imbue_mh_swap = 3;
+	ShamanImbue imbue_mh = 1;
+    ShamanImbue imbue_mh_swap = 2;
+    double shield_procrate = 3;
 }
 
 message ElementalShaman {

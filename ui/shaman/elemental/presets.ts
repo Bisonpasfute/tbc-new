@@ -3,7 +3,6 @@ import * as PresetUtils from '../../core/preset_utils.js';
 import { Class, ConsumesSpec, Debuffs, Profession, Race, RaidBuffs, Stat } from '../../core/proto/common.js';
 import {
 	ElementalShaman_Options as ElementalShamanOptions,
-	ShamanShield,
 } from '../../core/proto/shaman.js';
 import { SavedTalents } from '../../core/proto/ui.js';
 import { Stats } from '../../core/proto_utils/stats';
@@ -53,7 +52,7 @@ export const StandardTalents = {
 
 export const DefaultOptions = ElementalShamanOptions.create({
 	classOptions: {
-		shield: ShamanShield.LightningShield,
+		shieldProcrate: 0,
 	},
 });
 

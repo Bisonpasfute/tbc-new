@@ -29,11 +29,11 @@ func NewEnhancementShaman(character *core.Character, options *proto.Player) *Enh
 	enhOptions := options.GetEnhancementShaman().Options
 
 	selfBuffs := shaman.SelfBuffs{
-		Shield:      enhOptions.ClassOptions.Shield,
-		ImbueMH:     enhOptions.ClassOptions.ImbueMh,
-		ImbueOH:     enhOptions.ImbueOh,
-		ImbueMHSwap: enhOptions.ClassOptions.ImbueMhSwap,
-		ImbueOHSwap: enhOptions.ImbueOhSwap,
+		ShieldProcrate: enhOptions.ClassOptions.ShieldProcrate,
+		ImbueMH:        enhOptions.ClassOptions.ImbueMh,
+		ImbueOH:        enhOptions.ImbueOh,
+		ImbueMHSwap:    enhOptions.ClassOptions.ImbueMhSwap,
+		ImbueOHSwap:    enhOptions.ImbueOhSwap,
 	}
 
 	enh := &EnhancementShaman{

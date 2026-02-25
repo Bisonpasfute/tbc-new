@@ -4,7 +4,6 @@ import { Class, ConsumesSpec, Debuffs, Profession, PseudoStat, Race, RaidBuffs, 
 import {
 	EnhancementShaman_Options as EnhancementShamanOptions,
 	ShamanImbue,
-	ShamanShield,
 	ShamanSyncType,
 } from '../../core/proto/shaman.js';
 import { SavedTalents } from '../../core/proto/ui.js';
@@ -94,7 +93,7 @@ export const SubEle = {
 
 export const DefaultOptions = EnhancementShamanOptions.create({
 	classOptions: {
-		shield: ShamanShield.LightningShield,
+		shieldProcrate: 0,
 		imbueMh: ShamanImbue.WindfuryWeapon,
 		imbueMhSwap: ShamanImbue.WindfuryWeapon,
 	},

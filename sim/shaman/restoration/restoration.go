@@ -24,11 +24,7 @@ func RegisterRestorationShaman() {
 }
 
 func NewRestorationShaman(character *core.Character, options *proto.Player) *RestorationShaman {
-	restoOptions := options.GetRestorationShaman().Options
-
-	selfBuffs := shaman.SelfBuffs{
-		Shield: restoOptions.ClassOptions.Shield,
-	}
+	selfBuffs := shaman.SelfBuffs{}
 
 	resto := &RestorationShaman{
 		Shaman: shaman.NewShaman(character, options.TalentsString, selfBuffs),

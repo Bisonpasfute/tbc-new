@@ -24,7 +24,6 @@ func NewShaman(character *core.Character, talents string, selfBuffs SelfBuffs) *
 		Totems:    &proto.ShamanTotems{},
 		SelfBuffs: selfBuffs,
 	}
-	// shaman.waterShieldManaMetrics = shaman.NewManaMetrics(core.ActionID{SpellID: 57960})
 
 	core.FillTalentsProto(shaman.Talents.ProtoReflect(), talents, TalentTreeSizes)
 
@@ -36,10 +35,6 @@ func NewShaman(character *core.Character, talents string, selfBuffs SelfBuffs) *
 
 	shaman.AddStatDependency(stats.Strength, stats.AttackPower, 2.0)
 	shaman.AddStat(stats.AttackPower, -20)
-
-	if selfBuffs.Shield == proto.ShamanShield_WaterShield {
-		shaman.AddStat(stats.MP5, 50)
-	}
 
 	shaman.FireElemental = shaman.NewFireElemental()
 	//shaman.EarthElemental = shaman.NewEarthElemental()
@@ -60,11 +55,11 @@ func (shaman *Shaman) GetImbueProcMask(imbue proto.ShamanImbue) core.ProcMask {
 
 // Which buffs this shaman is using.
 type SelfBuffs struct {
-	Shield      proto.ShamanShield
-	ImbueMH     proto.ShamanImbue
-	ImbueOH     proto.ShamanImbue
-	ImbueMHSwap proto.ShamanImbue
-	ImbueOHSwap proto.ShamanImbue
+	ShieldProcrate float64
+	ImbueMH        proto.ShamanImbue
+	ImbueOH        proto.ShamanImbue
+	ImbueMHSwap    proto.ShamanImbue
+	ImbueOHSwap    proto.ShamanImbue
 }
 
 // Indexes into NextTotemDrops for self buffs
@@ -96,9 +91,9 @@ type Shaman struct {
 	Stormstrike           *core.Spell
 	StormstrikeCastResult *core.SpellResult
 
-	LightningShield       *core.Spell
-	LightningShieldDamage *core.Spell
-	LightningShieldAura   *core.Aura
+	LightningShieldAura *core.Aura
+	WaterShieldAura     *core.Aura
+	ShieldSelfProcSpell *core.Spell
 
 	EarthShock *core.Spell
 	FlameShock *core.Spell
@@ -123,8 +118,6 @@ type Shaman struct {
 	AirTotemAura   *core.Aura
 	EarthTotemAura *core.Aura
 	WaterTotemAura *core.Aura
-
-	waterShieldManaMetrics *core.ResourceMetrics
 }
 
 // Implemented by each Shaman spec.
@@ -147,7 +140,7 @@ func (shaman *Shaman) Initialize() {
 	shaman.registerFireElementalTotem()
 	//shaman.registerEarthElementalTotem()
 	shaman.registerLightningBoltSpell()
-	shaman.registerLightningShieldSpell()
+	shaman.registerShieldsSpells()
 	shaman.registerMagmaTotemSpell()
 	shaman.registerSearingTotemSpell()
 	shaman.registerFireNovaTotemSpell()
@@ -170,6 +163,7 @@ func (shaman *Shaman) Reset(sim *core.Simulation) {
 }
 
 func (shaman *Shaman) OnEncounterStart(sim *core.Simulation) {
+	shaman.startShieldProcPeriodicAction(sim)
 }
 
 func (shaman *Shaman) GetOverloadChance() float64 {
@@ -208,6 +202,7 @@ const (
 	SpellMaskShamanisticRage
 	SpellMaskBloodlust
 	SpellMaskBasicTotem
+	SpellMaskShieldSelfProc
 
 	SpellMaskStormstrike  = SpellMaskStormstrikeCast | SpellMaskStormstrikeDamage
 	SpellMaskFlameShock   = SpellMaskFlameShockDirect | SpellMaskFlameShockDot
