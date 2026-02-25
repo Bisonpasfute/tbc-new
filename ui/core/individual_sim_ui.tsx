@@ -45,6 +45,7 @@ import {
 	Encounter as EncounterProto,
 	EquipmentSpec,
 	Faction,
+	HealingModel,
 	IndividualBuffs,
 	ItemSlot,
 	ItemSwap,
@@ -94,6 +95,7 @@ export interface OtherDefaults {
 	highHpThreshold?: number;
 	iterationCount?: number;
 	race?: Race;
+	healingModel?: HealingModel;
 }
 
 export interface RaidSimPreset<SpecType extends Spec> {
@@ -596,6 +598,10 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 					this.sim.encounter.applyDefaults(eventID);
 				}
 				this.sim.encounter.setExecuteProportion90(eventID, this.individualConfig.defaults.other?.highHpThreshold || 0.9);
+				if (this.individualConfig.defaults.other?.healingModel) {
+					this.player.setHealingModel(eventID, this.individualConfig.defaults.other?.healingModel);
+				}
+
 				this.sim.raid.setDebuffs(eventID, this.individualConfig.defaults.debuffs);
 				this.sim.applyDefaults(eventID, tankSpec, healingSpec);
 

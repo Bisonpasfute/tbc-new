@@ -1032,10 +1032,7 @@
             "discord_message": {
               "type": "string"
             },
-            "healing_message": {
-              "type": "string"
-            },
-            "qe_live_message": {
+            "old_sim_message": {
               "type": "string"
             }
           },
@@ -1044,8 +1041,7 @@
             "title",
             "contribute_message",
             "discord_message",
-            "healing_message",
-            "qe_live_message"
+            "old_sim_message"
           ]
         },
         "notifications": {
