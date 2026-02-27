@@ -705,6 +705,6 @@ const actionKindFactories: { [f in NonNullable<APLActionKind>]: ActionKindConfig
 		shortDescription: "Casts the Warlock's Assigned Curse",
 		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecWarlock,
 		newValue: () => APLActionCastWarlockAssignedCurse.create({}),
-		fields: [],
+		fields: [AplHelpers.unitFieldConfig('newTarget', 'targets')],
 	}),
 };

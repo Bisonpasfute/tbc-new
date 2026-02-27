@@ -20,6 +20,7 @@ func (warlock *Warlock) NewAPLValue(rot *core.APLRotation, config *proto.APLValu
 type APLValueWarlockAssignedCurseIsActive struct {
 	core.DefaultAPLValueImpl
 	warlock *Warlock
+	target  core.UnitReference
 }
 
 func (x *APLValueWarlockAssignedCurseIsActive) GetInnerActions() []*core.APLAction { return nil }
@@ -33,8 +34,14 @@ func (x *APLValueWarlockAssignedCurseIsActive) GetSpellFromAction(sim *core.Simu
 }
 
 func (warlock *Warlock) newValueWarlockAssignedCurseIsActive(rot *core.APLRotation, config *proto.APLValueWarlockAssignedCurseIsActive) core.APLValue {
+	target := rot.GetTargetUnit(config.TargetUnit)
+
+	if target.Get() == nil {
+		return nil
+	}
 	return &APLValueWarlockAssignedCurseIsActive{
 		warlock: warlock,
+		target:  target,
 	}
 }
 
@@ -44,7 +51,7 @@ func (x *APLValueWarlockAssignedCurseIsActive) Type() proto.APLValueType {
 
 func (x *APLValueWarlockAssignedCurseIsActive) GetBool(sim *core.Simulation) bool {
 	assignedCurse := x.GetSpellFromAction(sim)
-	aura := x.warlock.CurrentTarget.GetAuraByID(assignedCurse.ActionID)
+	aura := x.target.Get().GetAuraByID(assignedCurse.ActionID)
 
 	return aura.IsActive()
 }
@@ -83,9 +90,13 @@ func (x *APLActionCastWarlockAssignedCurse) GetSpellFromAction(sim *core.Simulat
 }
 
 func (warlock *Warlock) newActionWarlockAssignedCurseAction(rot *core.APLRotation, config *proto.APLActionCastWarlockAssignedCurse) core.APLActionImpl {
+	target := rot.GetTargetUnit(config.Target)
+	if target.Get() == nil {
+		return nil
+	}
 	return &APLActionCastWarlockAssignedCurse{
 		warlock: warlock,
-		target:  rot.GetTargetUnit(config.Target),
+		target:  target,
 	}
 }
 
