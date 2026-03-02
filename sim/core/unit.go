@@ -646,21 +646,6 @@ func (unit *Unit) MultiplyResourceRegenSpeed(sim *Simulation, amount float64) {
 	})
 }
 
-func (unit *Unit) AddBonusRangedHitPercent(percentage float64) {
-	unit.OnSpellRegistered(func(spell *Spell) {
-		if spell.ProcMask.Matches(ProcMaskRanged) {
-			spell.BonusHitPercent += percentage
-		}
-	})
-}
-func (unit *Unit) AddBonusRangedCritPercent(percentage float64) {
-	unit.OnSpellRegistered(func(spell *Spell) {
-		if spell.ProcMask.Matches(ProcMaskRanged) {
-			spell.BonusCritPercent += percentage
-		}
-	})
-}
-
 func (unit *Unit) SetCurrentPowerBar(bar PowerBarType) {
 	unit.currentPowerBar = bar
 }

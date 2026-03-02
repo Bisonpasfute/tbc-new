@@ -169,6 +169,8 @@
 			"melee_hit": "Melee Hit",
 			"melee_crit": "Melee Crit",
 			"melee_haste": "Melee Haste",
+			"ranged_hit": "Ranged Hit",
+			"ranged_crit": "Ranged Crit",
 			"ranged_haste": "Ranged Haste",
 			"healing_power": "Healing Power",
 			"spell_damage": "Spell Damage",

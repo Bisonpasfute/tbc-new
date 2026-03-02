@@ -2131,12 +2131,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		30448, // Talon of Al'ar
-		[
-			"Your Arcane Shot ability increases the damage dealt by all other damaging shots by 40 for 6s.", // 37507 - https://www.wowhead.com/tbc/spell=37507
-		]
-	],
-	[
 		30450, // Warp-Spring Coil
 		[
 			"Your special attacks have a chance to give you 1000 armor penetration for 15s.", // 37174 - https://www.wowhead.com/tbc/spell=37174
@@ -2200,13 +2194,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		30847, // X-52 Rocket Helmet
 		[
 			"Launch yourself from Outland to the stars. For the safety of others, please clear the launching platform before use.", // 37896 - https://www.wowhead.com/tbc/spell=37896
-		]
-	],
-	[
-		30892, // Beast-tamer's Shoulders
-		[
-			"Increases damage dealt by your pet by 3%.", // 27206 - https://www.wowhead.com/tbc/spell=27206
-			"Increases your pet's critical strike chance by 2%.", // 27043 - https://www.wowhead.com/tbc/spell=27043
 		]
 	],
 	[
@@ -2528,12 +2515,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		32336, // Black Bow of the Betrayer
-		[
-			"Increases attack power by 26.", // 0 - https://www.wowhead.com/tbc/spell=0
-		]
-	],
-	[
 		32368, // Tome of the Lightbringer
 		[
 			"Your Judgement ability also increases your shield block value by 186 for 5s.", // 41042 - https://www.wowhead.com/tbc/spell=41042
@@ -2561,12 +2542,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		32486, // Ashtongue Talisman of Equilibrium
 		[
 			"Mangle has a 40% chance to grant 140 Strength for 8s, Starfire has a 25% chance to grant up to 150 spell damage for 8s, and Rejuvenation has a 25% chance to grant up to 210 healing for 8s.", // 40442 - https://www.wowhead.com/tbc/spell=40442
-		]
-	],
-	[
-		32487, // Ashtongue Talisman of Swiftness
-		[
-			"Your Steady Shot has a 15% chance to grant you 275 attack power for 8s.", // 40487 - https://www.wowhead.com/tbc/spell=40487
 		]
 	],
 	[

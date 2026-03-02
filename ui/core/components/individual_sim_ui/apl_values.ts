@@ -925,7 +925,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			const clss = player.getClass();
 			const spec = player.getSpec();
 			return (
-				clss !== Class.ClassHunter &&
 				clss !== Class.ClassMage &&
 				clss !== Class.ClassPriest &&
 				clss !== Class.ClassWarlock &&
@@ -944,7 +943,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			const clss = player.getClass();
 			const spec = player.getSpec();
 			return (
-				clss !== Class.ClassHunter &&
 				clss !== Class.ClassMage &&
 				clss !== Class.ClassPriest &&
 				clss !== Class.ClassWarlock &&
@@ -963,7 +961,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			const clss = player.getClass();
 			const spec = player.getSpec();
 			return (
-				clss !== Class.ClassHunter &&
 				clss !== Class.ClassMage &&
 				clss !== Class.ClassPriest &&
 				clss !== Class.ClassWarlock &&
