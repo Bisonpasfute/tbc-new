@@ -16,10 +16,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.CurseOfElements != proto.TristateEffect_TristateEffectMissing {
-		ranks := int32(0)
-		if IsImproved(debuffs.CurseOfElements) {
-			ranks = 3
-		}
+		ranks := GetTristateValueInt32(debuffs.CurseOfElements, 0, 3)
 		MakePermanent(CurseOfElementsAura(target, ranks))
 	}
 
