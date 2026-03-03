@@ -121,6 +121,9 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecDpsWarrior, {
 			Presets.P4_BIS_ARMS_PRESET,
 		],
 		builds: [
+			Presets.PRESET_BUILD_FURY,
+			Presets.PRESET_BUILD_ARMS,
+			Presets.PRESET_BUILD_ARMS_KEBAB,
 			Presets.P1_PRESET_BUILD_FURY,
 			Presets.P2_PRESET_BUILD_FURY,
 			Presets.P3_PRESET_BUILD_FURY,

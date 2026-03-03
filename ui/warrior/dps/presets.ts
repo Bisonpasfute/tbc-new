@@ -108,11 +108,11 @@ export const P2_FURY_EP_PRESET = PresetUtils.makePresetEpWeights(
 			[Stat.StatMeleeHitRating]: 0.56,
 			[Stat.StatMeleeCritRating]: 1.01,
 			[Stat.StatMeleeHasteRating]: 0.86,
-			[Stat.StatArmorPenetration]: 0.20,
+			[Stat.StatArmorPenetration]: 0.2,
 			[Stat.StatExpertiseRating]: 1.31,
 		},
 		{
-			[PseudoStat.PseudoStatMainHandDps]: 2.80,
+			[PseudoStat.PseudoStatMainHandDps]: 2.8,
 			[PseudoStat.PseudoStatOffHandDps]: 1.5,
 		},
 	),
@@ -205,6 +205,21 @@ export const OtherDefaults = {
 	distanceFromTarget: 25,
 };
 
+export const PRESET_BUILD_FURY = PresetUtils.makePresetBuild('Fury', {
+	talents: FuryTalents,
+	rotation: FURY_DEFAULT_ROTATION,
+});
+
+export const PRESET_BUILD_ARMS = PresetUtils.makePresetBuild('Arms', {
+	talents: ArmsTalents,
+	rotation: ARMS_DEFAULT_ROTATION,
+});
+
+export const PRESET_BUILD_ARMS_KEBAB = PresetUtils.makePresetBuild('Arms - Kebab', {
+	talents: ArmsKebabTalents,
+	rotation: ARMS_DEFAULT_ROTATION,
+});
+
 export const P1_PLAYER_SETTINGS = {
 	name: 'P1',
 	playerOptions: OtherDefaults,
@@ -240,7 +255,7 @@ export const P2_PRESET_BUILD_FURY = PresetUtils.makePresetBuild('P2 - Fury', {
 		...P1_PLAYER_SETTINGS,
 		reforgeSettings: {
 			maxGemPhase: Phase.Phase2,
-		}
+		},
 	},
 });
 

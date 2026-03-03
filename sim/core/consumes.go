@@ -598,5 +598,14 @@ func registerStaticImbue(agent Agent, imbueId int32, isMH bool) {
 			character.AutoAttacks.OH().BaseDamageMax += 12
 			character.AutoAttacks.OH().BaseDamageMin += 12
 		}
+	case 28891: // Consecrated Sharpening Stone
+		character.Env.RegisterPostFinalizeEffect(func() {
+			for _, at := range character.AttackTables {
+				at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Add(stats.Stats{
+					stats.AttackPower:       100,
+					stats.RangedAttackPower: 100,
+				})
+			}
+		})
 	}
 }
