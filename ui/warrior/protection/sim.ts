@@ -105,6 +105,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionWarrior, {
 			graceOfAirTotem: TristateEffect.TristateEffectImproved,
 			strengthOfEarthTotem: TristateEffect.TristateEffectImproved,
 			windfuryTotem: TristateEffect.TristateEffectImproved,
+			totemTwisting: true,
 			battleShout: TristateEffect.TristateEffectImproved,
 		}),
 		individualBuffs: IndividualBuffs.create({

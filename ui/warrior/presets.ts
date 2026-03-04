@@ -16,6 +16,7 @@ export const DefaultPartyBuffs = PartyBuffs.create({
 	battleShout: TristateEffect.TristateEffectImproved,
 	leaderOfThePack: TristateEffect.TristateEffectImproved,
 	trueshotAura: true,
+	totemTwisting: true,
 });
 
 export const DefaultRaidBuffs = RaidBuffs.create({
