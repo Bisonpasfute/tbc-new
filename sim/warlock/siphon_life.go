@@ -43,7 +43,7 @@ func (warlock *Warlock) registerSiphonLifeSpell() {
 				Label: "SiphonLife",
 				Tag:   "Affliction",
 			},
-			NumberOfTicks:       6,
+			NumberOfTicks:       10,
 			TickLength:          3 * time.Second,
 			AffectedByCastSpeed: false,
 			BonusCoefficient:    0.1,
