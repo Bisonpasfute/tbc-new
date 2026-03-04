@@ -254,8 +254,7 @@
 			"title": "This sim is currently not supported.",
 			"contribute_message": "Want to contribute?",
 			"discord_message": "Make sure to join our Discord!",
-			"healing_message": "Looking for healing simulations?",
-			"qe_live_message": "Check out QE Live!"
+			"old_sim_message": "You can find the old Sim for this spec here:"
 		},
 		"notifications": {
 			"raid_sim_cancelled": "Raid sim cancelled.",

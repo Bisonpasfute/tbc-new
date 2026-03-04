@@ -82,17 +82,17 @@ export const P1_FURY_EP_PRESET = PresetUtils.makePresetEpWeights(
 	Stats.fromMap(
 		{
 			[Stat.StatStrength]: 1.0,
-			[Stat.StatAgility]: 0.79,
+			[Stat.StatAgility]: 0.68,
 			[Stat.StatAttackPower]: 0.45,
-			[Stat.StatMeleeHitRating]: 0.56,
-			[Stat.StatMeleeCritRating]: 1.07,
-			[Stat.StatMeleeHasteRating]: 0.92,
+			[Stat.StatMeleeHitRating]: 0.48,
+			[Stat.StatMeleeCritRating]: 0.92,
+			[Stat.StatMeleeHasteRating]: 0.81,
 			[Stat.StatArmorPenetration]: 0.15,
-			[Stat.StatExpertiseRating]: 1.14,
+			[Stat.StatExpertiseRating]: 1.03,
 		},
 		{
-			[PseudoStat.PseudoStatMainHandDps]: 2.82,
-			[PseudoStat.PseudoStatOffHandDps]: 1.5,
+			[PseudoStat.PseudoStatMainHandDps]: 2.79,
+			[PseudoStat.PseudoStatOffHandDps]: 1.47,
 		},
 	),
 	FURY_PRESET_OPTIONS,
@@ -107,12 +107,12 @@ export const P2_FURY_EP_PRESET = PresetUtils.makePresetEpWeights(
 			[Stat.StatAttackPower]: 0.45,
 			[Stat.StatMeleeHitRating]: 0.56,
 			[Stat.StatMeleeCritRating]: 1.01,
-			[Stat.StatMeleeHasteRating]: 0.92,
-			[Stat.StatArmorPenetration]: 0.18,
-			[Stat.StatExpertiseRating]: 1.1,
+			[Stat.StatMeleeHasteRating]: 0.86,
+			[Stat.StatArmorPenetration]: 0.2,
+			[Stat.StatExpertiseRating]: 1.31,
 		},
 		{
-			[PseudoStat.PseudoStatMainHandDps]: 2.73,
+			[PseudoStat.PseudoStatMainHandDps]: 2.8,
 			[PseudoStat.PseudoStatOffHandDps]: 1.5,
 		},
 	),
@@ -177,6 +177,14 @@ export const ArmsTalents = {
 	...ARMS_PRESET_OPTIONS,
 };
 
+export const ArmsKebabTalents = {
+	name: 'Arms - Kebab',
+	data: SavedTalents.create({
+		talentsString: '34005021302010510321-0550000520501203',
+	}),
+	...FURY_PRESET_OPTIONS,
+};
+
 export const DefaultOptions = WarriorOptions.create({
 	classOptions: {
 		queueDelay: 250,
@@ -196,6 +204,21 @@ export const OtherDefaults = {
 	profession2: Profession.Blacksmithing,
 	distanceFromTarget: 25,
 };
+
+export const PRESET_BUILD_FURY = PresetUtils.makePresetBuild('Fury', {
+	talents: FuryTalents,
+	rotation: FURY_DEFAULT_ROTATION,
+});
+
+export const PRESET_BUILD_ARMS = PresetUtils.makePresetBuild('Arms', {
+	talents: ArmsTalents,
+	rotation: ARMS_DEFAULT_ROTATION,
+});
+
+export const PRESET_BUILD_ARMS_KEBAB = PresetUtils.makePresetBuild('Arms - Kebab', {
+	talents: ArmsKebabTalents,
+	rotation: ARMS_DEFAULT_ROTATION,
+});
 
 export const P1_PLAYER_SETTINGS = {
 	name: 'P1',
