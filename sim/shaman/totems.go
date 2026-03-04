@@ -128,7 +128,7 @@ func (shaman *Shaman) registerStrengthOfEarthTotemSpell() {
 		ActionID: config.ActionID,
 		Duration: duration,
 	})
-	buffAura.NewExclusiveEffect(core.StrengthOfEarthTotemCategory, false, core.ExclusiveEffect{
+	buffAura.NewExclusiveEffect(core.StrengthOfEarthTotemCategory+stats.Strength.StatName()+"Add", false, core.ExclusiveEffect{
 		Priority: value,
 		OnGain: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
 			ee.Aura.Unit.AddStatDynamic(sim, stats.Strength, value)
@@ -157,7 +157,7 @@ func (shaman *Shaman) registerGraceOfAirTotemSpell() {
 		ActionID: config.ActionID,
 		Duration: duration,
 	})
-	buffAura.NewExclusiveEffect(core.GraceOfAirTotemCategory, false, core.ExclusiveEffect{
+	buffAura.NewExclusiveEffect(core.GraceOfAirTotemCategory+stats.Agility.StatName()+"Add", false, core.ExclusiveEffect{
 		Priority: value,
 		OnGain: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
 			ee.Aura.Unit.AddStatDynamic(sim, stats.Agility, value)
@@ -186,19 +186,22 @@ func (shaman *Shaman) registerWrathOfAirTotemSpell() {
 		ActionID: config.ActionID,
 		Duration: duration,
 	})
-	buffAura.NewExclusiveEffect(core.WrathOfAirTotemCategory, false, core.ExclusiveEffect{
+	buffAura.NewExclusiveEffect(core.WrathOfAirTotemCategory+stats.SpellDamage.StatName()+"Add", false, core.ExclusiveEffect{
 		Priority: value,
 		OnGain: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
-			ee.Aura.Unit.AddStatsDynamic(sim, stats.Stats{
-				stats.SpellDamage:  value,
-				stats.HealingPower: value,
-			})
+			ee.Aura.Unit.AddStatDynamic(sim, stats.SpellDamage, value)
 		},
 		OnExpire: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
-			ee.Aura.Unit.AddStatsDynamic(sim, stats.Stats{
-				stats.SpellDamage:  -value,
-				stats.HealingPower: -value,
-			})
+			ee.Aura.Unit.AddStatDynamic(sim, stats.SpellDamage, -value)
+		},
+	})
+	buffAura.NewExclusiveEffect(core.WrathOfAirTotemCategory+stats.HealingPower.StatName()+"Add", false, core.ExclusiveEffect{
+		Priority: value,
+		OnGain: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.HealingPower, value)
+		},
+		OnExpire: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.HealingPower, -value)
 		},
 	})
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -221,7 +224,7 @@ func (shaman *Shaman) registerManaSpringTotemSpell() {
 		ActionID: config.ActionID,
 		Duration: duration,
 	})
-	buffAura.NewExclusiveEffect(core.ManaSpringTotemCategory, false, core.ExclusiveEffect{
+	buffAura.NewExclusiveEffect(core.ManaSpringTotemCategory+stats.MP5.StatName()+"Add", false, core.ExclusiveEffect{
 		Priority: value,
 		OnGain: func(ee *core.ExclusiveEffect, sim *core.Simulation) {
 			ee.Aura.Unit.AddStatDynamic(sim, stats.MP5, value)

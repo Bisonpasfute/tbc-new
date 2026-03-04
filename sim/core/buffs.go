@@ -54,7 +54,7 @@ func registerStatEffect(aura *Aura, config []StatConfig) {
 
 func makeExclusiveMultiplierBuff(aura *Aura, stat stats.Stat, value float64, exclusiveCategory string) {
 	dep := aura.Unit.NewDynamicMultiplyStat(stat, value)
-	aura.NewExclusiveEffect(exclusiveCategory, false, ExclusiveEffect{
+	aura.NewExclusiveEffect(exclusiveCategory+stat.StatName()+"Mul", false, ExclusiveEffect{
 		Priority: value,
 		OnGain: func(ee *ExclusiveEffect, s *Simulation) {
 			ee.Aura.Unit.EnableBuildPhaseStatDep(s, dep)
@@ -66,7 +66,7 @@ func makeExclusiveMultiplierBuff(aura *Aura, stat stats.Stat, value float64, exc
 }
 
 func makeExclusiveFlatStatBuff(aura *Aura, stat stats.Stat, value float64, exclusiveCategory string) {
-	aura.NewExclusiveEffect(exclusiveCategory, false, ExclusiveEffect{
+	aura.NewExclusiveEffect(exclusiveCategory+stat.StatName()+"Add", false, ExclusiveEffect{
 		Priority: value,
 		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
 			ee.Aura.Unit.AddStatDynamic(sim, stat, value)
