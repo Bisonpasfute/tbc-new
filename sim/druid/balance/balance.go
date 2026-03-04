@@ -30,17 +30,16 @@ func NewBalanceDruid(character *core.Character, options *proto.Player) *BalanceD
 	moonkin := &BalanceDruid{
 		Druid:   druid.New(character, druid.Moonkin, selfBuffs, options.TalentsString),
 		Options: balanceOptions.Options,
-		// EclipseEnergyMap: make(EclipseEnergyMap),
 	}
-
-	// moonkin.registerTreants()
 
 	moonkin.SelfBuffs.InnervateTarget = &proto.UnitReference{}
 	if balanceOptions.Options.ClassOptions.InnervateTarget != nil {
 		moonkin.SelfBuffs.InnervateTarget = balanceOptions.Options.ClassOptions.InnervateTarget
 	}
 
+	moonkin.RegisterMoonkinFormSpell()
 	moonkin.RegisterMoonkinFormAura()
+
 	return moonkin
 }
 
@@ -57,37 +56,13 @@ func (moonkin *BalanceDruid) GetDruid() *druid.Druid {
 
 func (moonkin *BalanceDruid) Initialize() {
 	moonkin.Druid.Initialize()
-
-	// moonkin.EnableEclipseBar()
-	// moonkin.RegisterEclipseSpellMods()
-	// moonkin.RegisterEclipseAuras()
-	// moonkin.RegisterEclipseEnergyGainAura()
-
-	// moonkin.RegisterBalancePassives()
-	// moonkin.RegisterBalanceSpells()
-
 	moonkin.ManaMetric = moonkin.NewManaMetrics(core.ActionID{SpellID: 81070 /* Eclipse */})
 }
 
 func (moonkin *BalanceDruid) ApplyTalents() {
 	moonkin.Druid.ApplyTalents()
-	//moonkin.ApplyBalanceTalents()
-}
-
-func (moonkin *BalanceDruid) RegisterBalanceSpells() {
-	moonkin.RegisterMoonkinFormSpell()
-
-	// moonkin.registerSunfireSpell()
-	// moonkin.registerStarfireSpell()
-	// moonkin.registerStarsurgeSpell()
-	// moonkin.registerStarfallSpell()
-	// moonkin.registerAstralCommunionSpell()
-	// moonkin.registerCelestialAlignmentSpell()
-	// moonkin.registerAstralStormSpell()
-	// moonkin.registerWildMushrooms()
 }
 
 func (moonkin *BalanceDruid) Reset(sim *core.Simulation) {
-	//moonkin.eclipseEnergyBar.reset()
 	moonkin.Druid.Reset(sim)
 }

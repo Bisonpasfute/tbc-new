@@ -56,7 +56,6 @@ type Druid struct {
 	BearForm    *DruidSpell
 	MoonkinForm *DruidSpell
 
-	BarkskinAura             *core.Aura
 	BearFormAura             *core.Aura
 	CatFormAura              *core.Aura
 	DashAura                 *core.Aura
@@ -190,9 +189,13 @@ func (druid *Druid) Initialize() {
 }
 
 func (druid *Druid) RegisterBaselineSpells() {
+	// Balance
+	druid.registerBarkskin()
+
 	druid.registerStarfireSpell()
 	druid.registerMoonfireSpell()
 	druid.registerWrathSpell()
+
 	// druid.registerHealingTouchSpell()
 	// druid.registerHurricaneSpell()
 	// druid.registerNaturesSwiftness()
