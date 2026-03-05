@@ -507,7 +507,7 @@ func (warlock *Warlock) applyCataclysm() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_PowerCost_Pct,
-		FloatValue: 1.0 - 0.01*float64(warlock.Talents.Cataclysm),
+		FloatValue: -0.01 * float64(warlock.Talents.Cataclysm),
 		ClassMask:  WarlockDestructionSpells,
 	})
 }

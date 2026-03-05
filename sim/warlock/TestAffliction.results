@@ -55,154 +55,154 @@ character_stats_results: {
 dps_results: {
  key: "TestAffliction-AllItems-AshtongueTalismanofShadows-32493"
  value: {
-  dps: 1760.48702
-  tps: 1165.22199
+  dps: 1641.04515
+  tps: 1102.55272
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-CorruptorRaiment"
  value: {
-  dps: 1676.69819
-  tps: 1105.54093
+  dps: 1561.98378
+  tps: 1045.67366
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-MaleficRaiment"
  value: {
-  dps: 1842.18882
-  tps: 1255.81851
+  dps: 1718.40014
+  tps: 1188.07528
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-OblivionRaiment"
  value: {
-  dps: 1523.3504
-  tps: 986.4644
+  dps: 1417.19953
+  tps: 933.00553
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-SwiftWindfireDiamond"
  value: {
-  dps: 1728.3813
-  tps: 1142.73101
+  dps: 1610.80096
+  tps: 1081.21618
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-TheBlackBook-19337"
  value: {
-  dps: 1708.32912
-  tps: 1129.29774
+  dps: 1592.14798
+  tps: 1068.53699
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-VoidStarTalisman-30449"
  value: {
-  dps: 1762.14443
-  tps: 1156.15783
+  dps: 1640.86844
+  tps: 1094.00899
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-VoidheartRaiment"
  value: {
-  dps: 1650.80722
-  tps: 1087.24682
+  dps: 1542.00187
+  tps: 1027.74805
  }
 }
 dps_results: {
  key: "TestAffliction-Average-Default"
  value: {
-  dps: 1744.00203
-  tps: 1153.24383
+  dps: 1625.52612
+  tps: 1091.05456
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 5426.62675
-  tps: 3107.59032
+  dps: 1605.79548
+  tps: 2196.61056
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1722.50045
-  tps: 1145.2986
+  dps: 1605.79548
+  tps: 1083.65997
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1983.84155
-  tps: 1361.18906
+  dps: 1853.45532
+  tps: 1286.82718
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 911.16176
-  tps: 1751.95387
+  dps: 865.22083
+  tps: 1725.70007
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 911.16176
-  tps: 582.26321
+  dps: 865.22083
+  tps: 556.0094
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 968.70063
-  tps: 598.15042
+  dps: 919.85858
+  tps: 569.68215
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 5514.468
-  tps: 3121.01685
+  dps: 1620.43384
+  tps: 2207.37101
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1738.52567
-  tps: 1151.34811
+  dps: 1620.43384
+  tps: 1089.39881
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2021.98134
-  tps: 1381.85627
+  dps: 1888.85779
+  tps: 1306.35384
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 918.90104
-  tps: 1744.82386
+  dps: 872.56989
+  tps: 1718.5505
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 918.90104
-  tps: 582.27509
+  dps: 872.56989
+  tps: 556.00173
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 986.3309
-  tps: 602.93628
+  dps: 936.59993
+  tps: 574.2267
  }
 }
 dps_results: {
  key: "TestAffliction-SwitchInFrontOfTarget-Default"
  value: {
-  dps: 1738.52567
-  tps: 1151.34811
+  dps: 1620.43384
+  tps: 1089.39881
  }
 }

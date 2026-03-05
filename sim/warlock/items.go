@@ -78,7 +78,7 @@ var ItemSetVoidheartRaiment = core.NewItemSet(core.ItemSet{
 			setBonusAura.AttachSpellMod(core.SpellModConfig{
 				Kind:      core.SpellMod_DotNumberOfTicks_Flat,
 				IntValue:  1,
-				ClassMask: WarlockSpellCorruption | WarlockSpellImmolate,
+				ClassMask: WarlockSpellCorruption | WarlockSpellImmolateDot,
 			})
 		},
 	},
