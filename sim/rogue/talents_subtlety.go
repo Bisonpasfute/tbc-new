@@ -294,7 +294,7 @@ func (rogue *Rogue) registerDeadliness() {
 		return
 	}
 
-	rogue.MultiplyStat(stats.AttackPower, 1+0.2*float64(rogue.Talents.Deadliness))
+	rogue.MultiplyStat(stats.AttackPower, 1+0.02*float64(rogue.Talents.Deadliness))
 }
 
 func (rogue *Rogue) registerPremeditation() {
