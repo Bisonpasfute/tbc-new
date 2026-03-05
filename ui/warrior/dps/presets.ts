@@ -106,7 +106,7 @@ export const P2_FURY_EP_PRESET = PresetUtils.makePresetEpWeights(
 			[Stat.StatAgility]: 0.75,
 			[Stat.StatAttackPower]: 0.45,
 			[Stat.StatMeleeHitRating]: 0.56,
-			[Stat.StatMeleeCritRating]: 1.01,
+			[Stat.StatMeleeCritRating]: 0.90,
 			[Stat.StatMeleeHasteRating]: 0.86,
 			[Stat.StatArmorPenetration]: 0.2,
 			[Stat.StatExpertiseRating]: 1.31,
