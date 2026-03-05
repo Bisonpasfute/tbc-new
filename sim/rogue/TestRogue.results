@@ -216,8 +216,8 @@ dps_results: {
 dps_results: {
  key: "TestRogue-AllItems-Slayer'sArmor"
  value: {
-  dps: 2620.21387
-  tps: 1860.35185
+  dps: 2099.41666
+  tps: 1490.58583
  }
 }
 dps_results: {
