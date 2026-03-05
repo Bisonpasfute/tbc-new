@@ -5,8 +5,8 @@ character_stats_results: {
   final_stats: 620.9709
   final_stats: 581.8384
   final_stats: 114.29
-  final_stats: 456.5099
-  final_stats: 504.5099
+  final_stats: 234.5009
+  final_stats: 221.5009
   final_stats: 0
   final_stats: 0
   final_stats: 0
@@ -14,7 +14,7 @@ character_stats_results: {
   final_stats: 0
   final_stats: 0
   final_stats: 0
-  final_stats: 40
+  final_stats: 68
   final_stats: 0
   final_stats: 0
   final_stats: 185.009
@@ -36,7 +36,7 @@ character_stats_results: {
   final_stats: 0
   final_stats: 10512.384
   final_stats: 0
-  final_stats: 111.7
+  final_stats: 122.7
   final_stats: 33.75
   final_stats: 33.75
   final_stats: 33.75
@@ -46,7 +46,7 @@ character_stats_results: {
   final_stats: 26.03902
   final_stats: 4
   final_stats: 32.29547
-  final_stats: 11.81185
+  final_stats: 13.08014
   final_stats: 0
   final_stats: 1
   final_stats: 5
@@ -132,8 +132,8 @@ dps_results: {
 dps_results: {
  key: "TestRogue-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1882.0774
-  tps: 1336.27496
+  dps: 1882.10721
+  tps: 1336.29612
  }
 }
 dps_results: {

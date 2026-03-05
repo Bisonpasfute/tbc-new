@@ -5,8 +5,8 @@ character_stats_results: {
   final_stats: 467.995
   final_stats: 1250.403
   final_stats: 104.39
-  final_stats: 438.009
-  final_stats: 486.009
+  final_stats: 232.819
+  final_stats: 219.819
   final_stats: 0
   final_stats: 0
   final_stats: 0
@@ -14,7 +14,7 @@ character_stats_results: {
   final_stats: 0
   final_stats: 0
   final_stats: 0
-  final_stats: 40
+  final_stats: 68
   final_stats: 0
   final_stats: 0
   final_stats: 168.19
@@ -36,7 +36,7 @@ character_stats_results: {
   final_stats: 0
   final_stats: 17938.03
   final_stats: 0
-  final_stats: 111.7
+  final_stats: 122.7
   final_stats: 33.75
   final_stats: 33.75
   final_stats: 33.75
@@ -46,7 +46,7 @@ character_stats_results: {
   final_stats: 2.34634
   final_stats: 3
   final_stats: 28.89168
-  final_stats: 11.81185
+  final_stats: 13.08014
   final_stats: 15.04
   final_stats: 0
   final_stats: 5
@@ -135,8 +135,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-DarkmoonCard:Wrath-31857"
  value: {
-  dps: 684.32181
-  tps: 1071.90065
+  dps: 684.60442
+  tps: 1072.26804
   dtps: 1315.71689
  }
 }
@@ -175,8 +175,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 686.55263
-  tps: 1077.41923
+  dps: 686.57724
+  tps: 1077.45123
   dtps: 1302.13442
  }
 }
@@ -263,8 +263,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-SextantofUnstableCurrents-30626"
  value: {
-  dps: 677.87871
-  tps: 1063.62998
+  dps: 678.26168
+  tps: 1064.12783
   dtps: 1317.12665
  }
 }
@@ -344,16 +344,16 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-Average-Default"
  value: {
-  dps: 696.99855
-  tps: 1091.2067
-  dtps: 1294.87389
+  dps: 697.24902
+  tps: 1091.5323
+  dtps: 1294.93423
  }
 }
 dps_results: {
  key: "TestProtectionWarrior-Settings-Human-p1_bis-Protection-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 9172.36446
-  tps: 9183.39836
+  dps: 9223.42169
+  tps: 9237.00752
   dtps: 28369.14123
  }
 }
@@ -400,8 +400,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-Settings-Human-preraid-Protection-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 9255.40848
-  tps: 9262.51589
+  dps: 9306.46572
+  tps: 9316.12505
   dtps: 28739.78625
  }
 }
@@ -448,8 +448,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-Settings-Orc-p1_bis-Protection-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 9245.2673
-  tps: 9237.31093
+  dps: 9296.32454
+  tps: 9290.92009
   dtps: 28488.46916
  }
 }
@@ -496,8 +496,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-Settings-Orc-preraid-Protection-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 9195.60856
-  tps: 9212.47516
+  dps: 9246.6658
+  tps: 9266.08432
   dtps: 28753.94359
  }
 }
