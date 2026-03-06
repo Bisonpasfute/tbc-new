@@ -620,6 +620,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRogue-AllItems-Mana-EtchedRegalia"
+ value: {
+  dps: 1503.50705
+  tps: 1067.49001
+ }
+}
+dps_results: {
  key: "TestRogue-AllItems-MasqueradeGown-28578"
  value: {
   dps: 1877.15533

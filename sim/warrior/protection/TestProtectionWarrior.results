@@ -757,6 +757,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-Mana-EtchedRegalia"
+ value: {
+  dps: 674.27743
+  tps: 1068.62405
+  dtps: 1880.85199
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-MasqueradeGown-28578"
  value: {
   dps: 695.76372

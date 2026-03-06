@@ -84,4 +84,33 @@ var ItemSetBurningRage = core.NewItemSet(core.ItemSet{
 	},
 })
 
+// Dungeon Set 3 - Cloth
+var ItemSetManaEtchedRegalia = core.NewItemSet(core.ItemSet{
+	ID:   658,
+	Name: "Mana-Etched Regalia",
+	Bonuses: map[int32]core.ApplySetBonus{
+		2: func(agent core.Agent, setBonusAura *core.Aura) {
+			// Increases your spell hit rating by 35
+			// Spell Hit Rating - 37607
+			setBonusAura.AttachStatBuff(stats.SpellHitRating, 35)
+		},
+		4: func(agent core.Agent, setBonusAura *core.Aura) {
+			// Your harmful spells have a chance to grant you up to 110 spell damage and healing for 15 sec
+			// Spell Power Bonus - 37619
+			clothie := agent.GetCharacter()
+
+			bonusPower := clothie.NewTemporaryStatsAura("Spell POwer Bonus", core.ActionID{SpellID: 37619}, stats.Stats{stats.SpellDamage: 110, stats.HealingPower: 110}, time.Second*15)
+
+			setBonusAura.AttachProcTrigger(core.ProcTrigger{
+				Name:       "Mana Etched Regalia 4pc",
+				ProcChance: 0.02,
+				Callback:   core.CallbackOnCastComplete,
+				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+					bonusPower.Activate(sim)
+				},
+			})
+		},
+	},
+})
+
 func init() {}

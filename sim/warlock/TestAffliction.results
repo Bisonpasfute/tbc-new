@@ -13,7 +13,7 @@ character_stats_results: {
   final_stats: 0
   final_stats: 0
   final_stats: 233
-  final_stats: 164
+  final_stats: 199
   final_stats: 219
   final_stats: 0
   final_stats: 15
@@ -44,7 +44,7 @@ character_stats_results: {
   final_stats: 93.75
   final_stats: 0
   final_stats: 0
-  final_stats: 16
+  final_stats: 18.77439
   final_stats: 9.17422
   final_stats: 26.54366
   final_stats: 0
@@ -139,22 +139,22 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-BandoftheEternalChampion-29301"
  value: {
-  dps: 1731.2753
-  tps: 1155.39981
+  dps: 1754.82357
+  tps: 1175.0366
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-BandoftheEternalRestorer-29309"
  value: {
-  dps: 1759.3496
-  tps: 1171.98006
+  dps: 1752.04256
+  tps: 1166.49932
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-BandoftheEternalSage-29305"
  value: {
-  dps: 1785.43573
-  tps: 1193.83918
+  dps: 1777.72278
+  tps: 1188.19204
  }
 }
 dps_results: {
@@ -258,8 +258,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-BraidedEterniumChain-24114"
  value: {
-  dps: 1734.09913
-  tps: 1157.95275
+  dps: 1754.82357
+  tps: 1175.0366
  }
 }
 dps_results: {
@@ -606,10 +606,17 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestAffliction-AllItems-Mana-EtchedRegalia"
+ value: {
+  dps: 1508.69727
+  tps: 989.82754
+ }
+}
+dps_results: {
  key: "TestAffliction-AllItems-MasqueradeGown-28578"
  value: {
-  dps: 1741.29926
-  tps: 1166.62896
+  dps: 1734.12072
+  tps: 1161.12033
  }
 }
 dps_results: {
@@ -692,8 +699,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-RobeoftheElderScribes-28602"
  value: {
-  dps: 1769.22111
-  tps: 1187.29838
+  dps: 1754.02144
+  tps: 1174.82946
  }
 }
 dps_results: {
@@ -938,8 +945,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-WrathofCenarius-21190"
  value: {
-  dps: 1770.63958
-  tps: 1185.80123
+  dps: 1783.44105
+  tps: 1195.76375
  }
 }
 dps_results: {
@@ -987,22 +994,22 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 898.88346
-  tps: 1778.26449
+  dps: 930.63706
+  tps: 1804.16114
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 898.88346
-  tps: 573.80382
+  dps: 930.63706
+  tps: 600.35491
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Human-preraid-Affliction-affliction-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 954.84593
-  tps: 589.55115
+  dps: 977.78752
+  tps: 609.0441
  }
 }
 dps_results: {
@@ -1029,22 +1036,22 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 917.31903
-  tps: 1790.58407
+  dps: 938.74556
+  tps: 1812.51047
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 917.31903
-  tps: 584.13684
+  dps: 938.74556
+  tps: 602.44058
  }
 }
 dps_results: {
  key: "TestAffliction-Settings-Orc-preraid-Affliction-affliction-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 970.04219
-  tps: 594.37768
+  dps: 997.1891
+  tps: 615.9754
  }
 }
 dps_results: {
