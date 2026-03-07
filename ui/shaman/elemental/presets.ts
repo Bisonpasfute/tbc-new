@@ -1,9 +1,7 @@
 import { Encounter } from '../../core/encounter';
 import * as PresetUtils from '../../core/preset_utils.js';
-import { Class, ConsumesSpec, Debuffs, Profession, Race, RaidBuffs, Stat } from '../../core/proto/common.js';
-import {
-	ElementalShaman_Options as ElementalShamanOptions,
-} from '../../core/proto/shaman.js';
+import { Class, ConsumesSpec, Debuffs, IndividualBuffs, PartyBuffs, Profession, Race, RaidBuffs, Stat, TristateEffect } from '../../core/proto/common.js';
+import { ElementalShaman_Options as ElementalShamanOptions } from '../../core/proto/shaman.js';
 import { SavedTalents } from '../../core/proto/ui.js';
 import { Stats } from '../../core/proto_utils/stats';
 import { defaultRaidBuffMajorDamageCooldowns } from '../../core/proto_utils/utils';
@@ -58,19 +56,43 @@ export const DefaultOptions = ElementalShamanOptions.create({
 
 export const OtherDefaults = {
 	distanceFromTarget: 20,
-	profession1: Profession.Engineering,
-	profession2: Profession.Tailoring,
-	race: Race.RaceTroll,
+	profession1: Profession.Leatherworking,
+	profession2: Profession.Enchanting,
+	race: Race.RaceDraenei,
 };
 
 export const DefaultRaidBuffs = RaidBuffs.create({
 	...defaultRaidBuffMajorDamageCooldowns(Class.ClassShaman),
+	arcaneBrilliance: true,
+	giftOfTheWild: TristateEffect.TristateEffectImproved,
+	powerWordFortitude: TristateEffect.TristateEffectImproved,
+	divineSpirit: TristateEffect.TristateEffectImproved,
+});
+
+export const DefaultPartyBuffs = PartyBuffs.create({
+	moonkinAura: TristateEffect.TristateEffectImproved,
+});
+
+export const DefaultIndividualBuffs = IndividualBuffs.create({
+	blessingOfKings: true,
+	blessingOfWisdom: TristateEffect.TristateEffectImproved,
+	shadowPriestDps: 800,
 });
 
 export const DefaultDebuffs = Debuffs.create({
+	improvedSealOfTheCrusader: true,
+	judgementOfWisdom: true,
+	misery: true,
+	curseOfElements: TristateEffect.TristateEffectImproved,
 });
 
 export const DefaultConsumables = ConsumesSpec.create({
+	conjuredId: 12662, // Demonic Rune
+	drumsId: 351355, // Greater Drums of Battle
+	flaskId: 22861, // Flask of Blinding Light
+	foodId: 27657, // Blackened Basilisk
+	mhImbueId: 25122, // Brilliant Wizard Oil
+	potId: 22839, // Destruction Potion
 });
 
 const ENCOUNTER_SINGLE_TARGET = PresetUtils.makePresetEncounter('Single Target Dummy', Encounter.defaultEncounterProto());
