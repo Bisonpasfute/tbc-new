@@ -579,7 +579,7 @@ export class EpWeightsMenu extends BaseModal {
 
 	private updateTable() {
 		const tempTable = <></>;
-		EpWeightsMenu.epUnitStats.forEach((stat, index) => {
+		EpWeightsMenu.epUnitStats.forEach(stat => {
 			// Don't show extra stats when 'Show all stats' is not selected
 			if (
 				(!this.showAllStats && stat.isStat() && !this.epStats.includes(stat.getStat())) ||
@@ -587,7 +587,7 @@ export class EpWeightsMenu extends BaseModal {
 			) {
 				return;
 			}
-			console.log(index, stat.getKey());
+
 			const row = this.makeTableRow(stat);
 			tempTable.appendChild(row);
 		});
@@ -787,28 +787,27 @@ export class EpWeightsMenu extends BaseModal {
 		);
 	}
 
-	private static epUnitStats: UnitStat[] = UnitStat.getAll()
-		.filter(stat => {
-			if (stat.isStat()) {
-				return true;
-			} else {
-				return [
-					PseudoStat.PseudoStatMainHandDps,
-					PseudoStat.PseudoStatOffHandDps,
-					PseudoStat.PseudoStatRangedDps,
-					PseudoStat.PseudoStatMeleeHitPercent,
-					PseudoStat.PseudoStatSpellHitPercent,
-					PseudoStat.PseudoStatSchoolHitPercentArcane,
-					PseudoStat.PseudoStatSchoolHitPercentFire,
-					PseudoStat.PseudoStatSchoolHitPercentFrost,
-					PseudoStat.PseudoStatSchoolHitPercentHoly,
-					PseudoStat.PseudoStatSchoolHitPercentNature,
-					PseudoStat.PseudoStatSchoolHitPercentShadow,
-					PseudoStat.PseudoStatMeleeCritPercent,
-					PseudoStat.PseudoStatSpellCritPercent,
-				].includes(stat.getPseudoStat());
-			}
-		})
+	private static epUnitStats: UnitStat[] = UnitStat.getAll().filter(stat => {
+		if (stat.isStat()) {
+			return true;
+		} else {
+			return [
+				PseudoStat.PseudoStatMainHandDps,
+				PseudoStat.PseudoStatOffHandDps,
+				PseudoStat.PseudoStatRangedDps,
+				PseudoStat.PseudoStatMeleeHitPercent,
+				PseudoStat.PseudoStatSpellHitPercent,
+				PseudoStat.PseudoStatSchoolHitPercentArcane,
+				PseudoStat.PseudoStatSchoolHitPercentFire,
+				PseudoStat.PseudoStatSchoolHitPercentFrost,
+				PseudoStat.PseudoStatSchoolHitPercentHoly,
+				PseudoStat.PseudoStatSchoolHitPercentNature,
+				PseudoStat.PseudoStatSchoolHitPercentShadow,
+				PseudoStat.PseudoStatMeleeCritPercent,
+				PseudoStat.PseudoStatSpellCritPercent,
+			].includes(stat.getPseudoStat());
+		}
+	});
 
 	private buildSavedEPWeightsPicker() {
 		renderSavedEPWeights(this.sidebar, this.simUI);
