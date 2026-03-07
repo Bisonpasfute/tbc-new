@@ -1,5 +1,5 @@
 import { Player } from '../../player';
-import { Class, ConsumesSpec, ItemSlot, Profession, Spec, Stat } from '../../proto/common';
+import { Class, ConsumesSpec, ItemSlot, Profession, Spec, Stat, TristateEffect } from '../../proto/common';
 import { Consumable } from '../../proto/db';
 import { ActionId } from '../../proto_utils/action_id';
 import { EventID, TypedEvent } from '../../typed_event';
@@ -266,7 +266,7 @@ export const IMBUE_CONFIG_OH = [
 
 export const makeMHImbueInput = makeConsumeInputFactory({
 	consumesFieldName: 'mhImbueId',
-	showWhen: (player: Player<any>) => !player.getParty() || player.getParty()!.getBuffs().windfuryTotem == 0,
+	showWhen: (player: Player<any>) => !player.getParty() || player.getParty()!.getBuffs().windfuryTotem == TristateEffect.TristateEffectMissing,
 	changedEvent: (player: Player<any>) => TypedEvent.onAny([player.getParty()!.changeEmitter]),
 });
 export const makeOHImbueInput = makeConsumeInputFactory({
