@@ -119,7 +119,7 @@ var ItemSetNetherstrikeArmor = core.NewItemSet(core.ItemSet{
 	ID:   617,
 	Name: "Netherstrike Armor",
 	Bonuses: map[int32]core.ApplySetBonus{
-		2: func(agent core.Agent, setBonusAura *core.Aura) {
+		3: func(agent core.Agent, setBonusAura *core.Aura) {
 			setBonusAura.
 				AttachStatsBuff(stats.Stats{stats.SpellDamage: 23, stats.HealingPower: 23}).
 				ExposeToAPL(41828)
@@ -132,7 +132,7 @@ var ItemSetWindhawkArmor = core.NewItemSet(core.ItemSet{
 	ID:   618,
 	Name: "Windhawk Armor",
 	Bonuses: map[int32]core.ApplySetBonus{
-		2: func(agent core.Agent, setBonusAura *core.Aura) {
+		3: func(agent core.Agent, setBonusAura *core.Aura) {
 			setBonusAura.
 				AttachStatBuff(stats.MP5, 8).
 				ExposeToAPL(41591)
@@ -174,7 +174,7 @@ var ItemSetWrathOfSpellfire = core.NewItemSet(core.ItemSet{
 	ID:   552,
 	Name: "Wrath of Spellfire",
 	Bonuses: map[int32]core.ApplySetBonus{
-		2: func(agent core.Agent, setBonusAura *core.Aura) {
+		3: func(agent core.Agent, setBonusAura *core.Aura) {
 			// Increases spell damage by up to 7% of your total Intellect.
 			character := agent.GetCharacter()
 			statDep := character.Unit.NewDynamicStatDependency(stats.Intellect, stats.SpellDamage, 1.07)
