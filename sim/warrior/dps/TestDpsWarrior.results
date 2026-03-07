@@ -453,6 +453,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDpsWarrior-AllItems-EnchantGloves-Threat-2613"
+ value: {
+  dps: 2076.95464
+  tps: 1600.25742
+  dtps: 7.2778
+ }
+}
+dps_results: {
  key: "TestDpsWarrior-AllItems-EnchantWeapon-Crusader-1900"
  value: {
   dps: 2081.75655
@@ -1047,8 +1055,8 @@ dps_results: {
 dps_results: {
  key: "TestDpsWarrior-AllItems-WastewalkerArmor"
  value: {
-  dps: 1817.52509
-  tps: 1376.40571
+  dps: 1806.06769
+  tps: 1367.02401
   dtps: 7.21755
  }
 }
@@ -1112,14 +1120,14 @@ dps_results: {
  key: "TestDpsWarrior-Settings-Human-p1_fury-Fury-fury-NoBuffs-25.0yards-LongMultiTarget"
  value: {
   dps: 1036.75699
-  tps: 922.11882
+  tps: 922.1859
  }
 }
 dps_results: {
  key: "TestDpsWarrior-Settings-Human-p1_fury-Fury-fury-NoBuffs-25.0yards-LongSingleTarget"
  value: {
   dps: 633.39238
-  tps: 497.43907
+  tps: 498.78074
  }
 }
 dps_results: {
@@ -1157,14 +1165,14 @@ dps_results: {
  key: "TestDpsWarrior-Settings-Human-preraid_fury-Fury-fury-NoBuffs-25.0yards-LongMultiTarget"
  value: {
   dps: 960.2642
-  tps: 863.95133
+  tps: 864.01841
  }
 }
 dps_results: {
  key: "TestDpsWarrior-Settings-Human-preraid_fury-Fury-fury-NoBuffs-25.0yards-LongSingleTarget"
  value: {
   dps: 595.50403
-  tps: 468.26831
+  tps: 469.60998
  }
 }
 dps_results: {
@@ -1202,14 +1210,14 @@ dps_results: {
  key: "TestDpsWarrior-Settings-Orc-p1_fury-Fury-fury-NoBuffs-25.0yards-LongMultiTarget"
  value: {
   dps: 1054.78232
-  tps: 936.44045
+  tps: 936.50753
  }
 }
 dps_results: {
  key: "TestDpsWarrior-Settings-Orc-p1_fury-Fury-fury-NoBuffs-25.0yards-LongSingleTarget"
  value: {
   dps: 643.3738
-  tps: 504.77954
+  tps: 506.1212
  }
 }
 dps_results: {
@@ -1247,14 +1255,14 @@ dps_results: {
  key: "TestDpsWarrior-Settings-Orc-preraid_fury-Fury-fury-NoBuffs-25.0yards-LongMultiTarget"
  value: {
   dps: 956.05917
-  tps: 859.59083
+  tps: 859.65791
  }
 }
 dps_results: {
  key: "TestDpsWarrior-Settings-Orc-preraid_fury-Fury-fury-NoBuffs-25.0yards-LongSingleTarget"
  value: {
   dps: 589.68718
-  tps: 464.27831
+  tps: 465.61997
  }
 }
 dps_results: {

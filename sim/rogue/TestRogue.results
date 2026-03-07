@@ -410,6 +410,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRogue-AllItems-EnchantGloves-Threat-2613"
+ value: {
+  dps: 1971.6647
+  tps: 1427.87958
+ }
+}
+dps_results: {
  key: "TestRogue-AllItems-EnchantWeapon-Crusader-1900"
  value: {
   dps: 1937.77263
