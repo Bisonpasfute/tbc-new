@@ -229,8 +229,16 @@ var ItemSetPrimalMooncloth = core.NewItemSet(core.ItemSet{
 		3: func(agent core.Agent, setBonusAura *core.Aura) {
 			// Allow 5% of your Mana regeneration to continue while casting.
 			character := agent.GetCharacter()
-			character.PseudoStats.SpiritRegenRateCasting += 0.05
-			character.UpdateManaRegenRates()
+
+			setBonusAura.
+				ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
+					character.PseudoStats.SpiritRegenRateCasting += 0.05
+					character.UpdateManaRegenRates()
+				}).
+				ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
+					character.PseudoStats.SpiritRegenRateCasting -= 0.05
+					character.UpdateManaRegenRates()
+				})
 		},
 	},
 })
