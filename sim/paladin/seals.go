@@ -317,28 +317,7 @@ func (paladin *Paladin) registerSealOfRighteousness(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, granting
 // attacks against the judged enemy a chance to heal the attacker.
 func (paladin *Paladin) registerSealOfLight(seal seal) {
-	registerJoLDebuff := func(target *core.Unit) *core.Aura {
-		return target.GetOrRegisterAura(core.Aura{
-			Label:    "Judgement of Light" + paladin.Label + " " + seal.GetRankLabel(),
-			ActionID: core.ActionID{SpellID: seal.judge.spellID},
-			Tag:      JudgementAuraTag,
-			Duration: time.Second * 20,
-			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if !result.Landed() || !spell.Unit.HasHealthBar() {
-					return
-				}
-				if spell.ProcMask.Matches(core.ProcMaskMeleeOrRanged) && sim.Proc(0.5, "Judgement of Light - Heal") {
-					result := spell.CalcHealing(sim, spell.Unit, seal.judge.minDamage, spell.OutcomeAlwaysHit)
-					spell.DealHealing(sim, result)
-				}
-				if spell.ProcMask.Matches(core.ProcMaskMeleeWhiteHit) {
-					aura.Refresh(sim)
-				}
-			},
-		})
-	}
-
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return registerJoLDebuff(target) })
+	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return core.JudgementOfLightAura(target) })
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
@@ -412,27 +391,7 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, granting
 // attacks against the judged enemy a chance to restore mana to the attacker.
 func (paladin *Paladin) registerSealOfWisdom(seal seal) {
-	judgeManaMetrics := paladin.Unit.NewManaMetrics(core.ActionID{SpellID: seal.judge.spellID})
-	registerJoWDebuff := func(target *core.Unit) *core.Aura {
-		return target.GetOrRegisterAura(core.Aura{
-			Label:    "Judgement of Wisdom" + paladin.Label + " " + seal.GetRankLabel(),
-			ActionID: core.ActionID{SpellID: seal.judge.spellID},
-			Tag:      JudgementAuraTag,
-			Duration: time.Second * 20,
-			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if !result.Landed() || !spell.Unit.HasManaBar() {
-					return
-				}
-				if spell.ProcMask.Matches(core.ProcMaskMeleeOrRanged) && sim.Proc(0.5, "Judgement of Wisdom - Mana") {
-					spell.Unit.AddMana(sim, seal.judge.minDamage, judgeManaMetrics)
-				}
-				if spell.ProcMask.Matches(core.ProcMaskMeleeWhiteHit) {
-					aura.Refresh(sim)
-				}
-			},
-		})
-	}
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return registerJoWDebuff(target) })
+	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return core.JudgementOfWisdomAura(target) })
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
@@ -584,24 +543,7 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, increasing
 // Holy damage taken from all sources.
 func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
-	registerJotCDebuff := func(target *core.Unit) *core.Aura {
-		return target.GetOrRegisterAura(core.Aura{
-			Label:    "Judgement of the Crusader" + paladin.Label + " " + seal.GetRankLabel(),
-			ActionID: core.ActionID{SpellID: seal.judge.spellID},
-			Tag:      JudgementAuraTag,
-			Duration: time.Second * 20,
-			OnGain: func(aura *core.Aura, sim *core.Simulation) { /* aura.Unit.PseudoStats.SchoolBonusDamageTaken[stats.SchoolIndexHoly] += bonus */
-			},
-			OnExpire: func(aura *core.Aura, sim *core.Simulation) { /* aura.Unit.PseudoStats.SchoolBonusDamageTaken[stats.SchoolIndexHoly] -= bonus */
-			},
-			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if result.Landed() && spell.ProcMask.Matches(core.ProcMaskMeleeWhiteHit) {
-					aura.Refresh(sim)
-				}
-			},
-		})
-	}
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return registerJotCDebuff(target) })
+	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return core.ImprovedSealOfTheCrusaderAura(target) })
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
