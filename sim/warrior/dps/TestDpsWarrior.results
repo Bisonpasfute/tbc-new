@@ -1061,6 +1061,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDpsWarrior-AllItems-WindhawkArmor"
+ value: {
+  dps: 1865.8038
+  tps: 1412.53266
+  dtps: 7.2778
+ }
+}
+dps_results: {
  key: "TestDpsWarrior-AllItems-WrathofCenarius-21190"
  value: {
   dps: 2053.3845

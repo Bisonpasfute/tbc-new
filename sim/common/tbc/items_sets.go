@@ -72,18 +72,6 @@ var ItemSetWastewalkerArmor = core.NewItemSet(core.ItemSet{
 	},
 })
 
-// Blacksmithing - Plate
-var ItemSetBurningRage = core.NewItemSet(core.ItemSet{
-	Name: "Burning Rage",
-	Bonuses: map[int32]core.ApplySetBonus{
-		2: func(agent core.Agent, setBonusAura *core.Aura) {
-			setBonusAura.
-				AttachStatBuff(stats.MeleeHitRating, 20).
-				ExposeToAPL(41678)
-		},
-	},
-})
-
 // Dungeon Set 3 - Cloth
 var ItemSetManaEtchedRegalia = core.NewItemSet(core.ItemSet{
 	ID:   658,
@@ -110,6 +98,44 @@ var ItemSetManaEtchedRegalia = core.NewItemSet(core.ItemSet{
 					bonusPower.Activate(sim)
 				},
 			})
+		},
+	},
+})
+
+// Blacksmithing - Plate
+var ItemSetBurningRage = core.NewItemSet(core.ItemSet{
+	Name: "Burning Rage",
+	Bonuses: map[int32]core.ApplySetBonus{
+		2: func(agent core.Agent, setBonusAura *core.Aura) {
+			setBonusAura.
+				AttachStatBuff(stats.MeleeHitRating, 20).
+				ExposeToAPL(41678)
+		},
+	},
+})
+
+// Leatherworking - Mail Caster
+var ItemSetNetherstrikeArmor = core.NewItemSet(core.ItemSet{
+	ID:   617,
+	Name: "Netherstrike Armor",
+	Bonuses: map[int32]core.ApplySetBonus{
+		2: func(agent core.Agent, setBonusAura *core.Aura) {
+			setBonusAura.
+				AttachStatsBuff(stats.Stats{stats.SpellDamage: 23, stats.HealingPower: 23}).
+				ExposeToAPL(41828)
+		},
+	},
+})
+
+// Leatherworking - Leather Caster
+var ItemSetWindhawkArmor = core.NewItemSet(core.ItemSet{
+	ID:   618,
+	Name: "Windhawk Armor",
+	Bonuses: map[int32]core.ApplySetBonus{
+		2: func(agent core.Agent, setBonusAura *core.Aura) {
+			setBonusAura.
+				AttachStatBuff(stats.MP5, 8).
+				ExposeToAPL(41591)
 		},
 	},
 })

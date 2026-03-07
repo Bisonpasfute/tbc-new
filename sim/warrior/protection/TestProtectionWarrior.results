@@ -805,6 +805,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-NetherstrikeArmor"
+ value: {
+  dps: 673.64202
+  tps: 1063.66225
+  dtps: 1402.37349
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-OgreMauler'sBadge-25628"
  value: {
   dps: 696.62939
@@ -1155,6 +1163,14 @@ dps_results: {
   dps: 761.41325
   tps: 1192.08014
   dtps: 1678.76842
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-WindhawkArmor"
+ value: {
+  dps: 676.87142
+  tps: 1067.90202
+  dtps: 1452.61257
  }
 }
 dps_results: {

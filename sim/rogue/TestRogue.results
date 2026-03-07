@@ -957,6 +957,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRogue-AllItems-WindhawkArmor"
+ value: {
+  dps: 1772.96285
+  tps: 1258.80362
+ }
+}
+dps_results: {
  key: "TestRogue-AllItems-WrathofCenarius-21190"
  value: {
   dps: 1955.75741
