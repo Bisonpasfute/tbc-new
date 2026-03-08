@@ -1,9 +1,11 @@
 package shaman
 
 import (
+	"slices"
 	"time"
 
 	"github.com/wowsims/tbc/sim/core"
+	"github.com/wowsims/tbc/sim/core/stats"
 )
 
 var ItemSetCycloneRegalia = core.NewItemSet(core.ItemSet{
@@ -66,12 +68,69 @@ var ItemSetCataclysmRegalia = core.NewItemSet(core.ItemSet{
 				ActionID:       core.ActionID{ItemID: 37237},
 				Callback:       core.CallbackOnSpellHitDealt,
 				Outcome:        core.OutcomeCrit,
-				ClassSpellMask: SpellMaskLightningBolt,
+				ClassSpellMask: SpellMaskLightningBolt, // Does not have Can Proc from Procs so presumably does not proc from overloads
 				ProcChance:     0.25,
 				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 					character.AddMana(sim, 120, manaMetrics)
 				},
 			})
+		},
+	},
+})
+
+var ItemSetSkyshatterRegalia = core.NewItemSet(core.ItemSet{
+	ID:   684,
+	Name: "Skyshatter Regalia",
+	Bonuses: map[int32]core.ApplySetBonus{
+		2: func(agent core.Agent, setBonusAura *core.Aura) {
+			// Whenever you have an air totem, an earth totem, a fire totem, and a water totem active at the same time,
+			// you gain 15 mana per 5 sec, 35 spell critical strike rating, and up to 45 spell damage.
+			shaman := agent.(ShamanAgent).GetShaman()
+			aura := shaman.RegisterAura(core.Aura{
+				Label:    "Totemic Mastery",
+				ActionID: core.ActionID{SpellID: 38437},
+				Duration: core.NeverExpires,
+			}).AttachStatsBuff(stats.Stats{
+				stats.MP5:             15,
+				stats.SpellCritRating: 35,
+				stats.SpellDamage:     45,
+			})
+
+			var periodicAction *core.PendingAction
+
+			core.MakePermanent(shaman.RegisterAura(core.Aura{
+				Label: "Totemic Mastery Periodic Check",
+				OnGain: func(_ *core.Aura, sim *core.Simulation) {
+					periodicAction = core.StartPeriodicAction(sim, core.PeriodicActionOptions{
+						Period:          time.Second * 3,
+						TickImmediately: true,
+						OnAction: func(sim *core.Simulation) {
+							if slices.Min(shaman.TotemExpirations[:]) < sim.CurrentTime {
+								aura.Deactivate(sim)
+							} else if !aura.IsActive() {
+								aura.Activate(sim)
+							}
+						},
+						CleanUp: func(sim *core.Simulation) {
+							aura.Deactivate(sim)
+						},
+					})
+				},
+				OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+					periodicAction.Cancel(sim)
+				},
+				OnReset: func(aura *core.Aura, sim *core.Simulation) {
+					periodicAction = nil
+				},
+			}))
+		},
+		4: func(agent core.Agent, setBonusAura *core.Aura) {
+			// Increases the damage dealt by your Lightning Bolt ability by 5%.
+			setBonusAura.AttachSpellMod(core.SpellModConfig{
+				Kind:       core.SpellMod_DamageDone_Flat,
+				FloatValue: 0.05,
+				ClassMask:  SpellMaskLightningBolt | SpellMaskLightningBoltOverload,
+			}).ExposeToAPL(38436)
 		},
 	},
 })

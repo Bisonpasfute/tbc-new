@@ -22,10 +22,20 @@
 			"name": "Totems",
 			"actions": [
 				{
-					"hide": true,
 					"action": {
 						"condition": {
-							"cmp": { "op": "OpLe", "lhs": { "auraRemainingTime": { "auraId": { "spellId": 25528 } } }, "rhs": { "const": { "val": "5s" } } }
+							"and": {
+								"vals": [
+									{ "auraIsKnown": { "auraId": { "spellId": 38437 } } },
+									{
+										"cmp": {
+											"op": "OpLe",
+											"lhs": { "auraRemainingTime": { "auraId": { "spellId": 25528 } } },
+											"rhs": { "const": { "val": "5s" } }
+										}
+									}
+								]
+							}
 						},
 						"castSpell": { "spellId": { "spellId": 25528 } }
 					}
@@ -33,7 +43,18 @@
 				{
 					"action": {
 						"condition": {
-							"cmp": { "op": "OpLe", "lhs": { "auraRemainingTime": { "auraId": { "spellId": 25570 } } }, "rhs": { "const": { "val": "5s" } } }
+							"and": {
+								"vals": [
+									{ "auraIsKnown": { "auraId": { "spellId": 38437 } } },
+									{
+										"cmp": {
+											"op": "OpLe",
+											"lhs": { "auraRemainingTime": { "auraId": { "spellId": 25570 } } },
+											"rhs": { "const": { "val": "5s" } }
+										}
+									}
+								]
+							}
 						},
 						"castSpell": { "spellId": { "spellId": 25570 } }
 					}

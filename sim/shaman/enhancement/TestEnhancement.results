@@ -830,6 +830,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-SkyshatterRegalia"
+ value: {
+  dps: 1575.87239
+  tps: 1388.98723
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-Slayer'sCrest-23041"
  value: {
   dps: 1942.04352
