@@ -27,12 +27,18 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecElementalShaman, {
 		Stat.StatSpellHitRating,
 		Stat.StatMP5,
 	],
+	epPseudoStats: [PseudoStat.PseudoStatSchoolHitPercentNature],
 	// Reference stat against which to calculate EP.
 	epReferenceStat: Stat.StatSpellDamage,
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
 	displayStats: UnitStat.createDisplayStatArray(
 		[Stat.StatHealth, Stat.StatMana, Stat.StatStamina, Stat.StatIntellect, Stat.StatSpellDamage, Stat.StatNatureDamage, Stat.StatMP5],
-		[PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent, PseudoStat.PseudoStatSpellHitPercent],
+		[
+			PseudoStat.PseudoStatSpellCritPercent,
+			PseudoStat.PseudoStatSpellHastePercent,
+			PseudoStat.PseudoStatSpellHitPercent,
+			PseudoStat.PseudoStatSchoolHitPercentNature,
+		],
 	),
 	gemStats: DEFAULT_HYBRID_CASTER_GEM_STATS,
 	defaults: {

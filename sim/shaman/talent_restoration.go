@@ -21,8 +21,9 @@ func (shaman *Shaman) applyNaturesGuidance() {
 	}
 	value := 1.0 * float64(shaman.Talents.NaturesGuidance)
 	core.MakePermanent(shaman.RegisterAura(core.Aura{
-		Label:    "Nature's Guidance",
-		ActionID: core.ActionID{SpellID: 16198},
+		Label:      "Nature's Guidance",
+		BuildPhase: core.CharacterBuildPhaseTalents,
+		ActionID:   core.ActionID{SpellID: 16198},
 	}).AttachStatsBuff(stats.Stats{
 		stats.SpellHitPercent:    value,
 		stats.PhysicalHitPercent: value,
