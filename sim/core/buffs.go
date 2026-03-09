@@ -1411,7 +1411,7 @@ func BloodlustAura(character *Character, actionTag int32) *Aura {
 			aura.Unit.MultiplyAttackSpeed(sim, 1.3)
 			aura.Unit.MultiplyCastSpeed(sim, 1.3)
 			for _, pet := range character.Pets {
-				if pet.IsEnabled() {
+				if pet.IsEnabled() && !pet.IsGuardian() {
 					BloodlustAura(&pet.Character, actionTag).Activate(sim)
 				}
 			}
