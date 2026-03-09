@@ -17,7 +17,7 @@ type Priest struct {
 	Latency float64
 
 	ShadowfiendAura *core.Aura
-	// ShadowfiendPet  *Shadowfiend
+	ShadowfiendPet  *Shadowfiend
 
 	Shadowfiend *core.Spell
 
@@ -52,7 +52,7 @@ func (priest *Priest) Initialize() {
 	ShadowWordPainRankMap.RegisterAll(priest.registerShadowWordPainSpell)
 	ShadowWordDeathRankMap.RegisterAll(priest.registerShadowWordDeathSpell)
 	VampiricTouchRankMap.RegisterAll(priest.registerVampiricTouchSpell)
-	// priest.registerShadowfiendSpell()
+	priest.registerShadowfiendSpell()
 	// priest.registerVampiricTouchSpell()
 	// priest.registerPowerInfusionSpell()
 }
@@ -76,7 +76,7 @@ func New(char *core.Character, selfBuffs SelfBuffs, talents string) *Priest {
 
 	core.FillTalentsProto(priest.Talents.ProtoReflect(), talents, TalentTreeSizes)
 	priest.EnableManaBar()
-	// priest.ShadowfiendPet = priest.NewShadowfiend()
+	priest.ShadowfiendPet = priest.NewShadowfiend()
 
 	return priest
 }

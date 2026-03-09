@@ -27,7 +27,7 @@ func (priest *Priest) registerVampiricTouchSpell(rankConfig shared.SpellRankConf
 			priest.AddMana(sim, result.Damage*0.05, manaMetrics)
 		},
 		OnPeriodicDamageDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if !spell.SpellSchool.Matches(core.SpellSchoolShadow) || result.Damage == 0 || spell.ClassSpellMask == PriestSpellVampiricTouch {
+			if !spell.SpellSchool.Matches(core.SpellSchoolShadow) || result.Damage == 0 {
 				return
 			}
 			priest.AddMana(sim, result.Damage*0.05, manaMetrics)

@@ -79,8 +79,7 @@ export const simLaunchStatuses: Record<Spec, SimStatus> = {
 	// Priest
 	[Spec.SpecPriest]: {
 		phase: Phase.Phase1,
-		status: LaunchStatus.Unlaunched,
-		oldSimLink: 'https://wowsims.github.io/tbc/shadow_priest/',
+		status: LaunchStatus.Alpha,
 	},
 	// Rogue
 	[Spec.SpecRogue]: {
