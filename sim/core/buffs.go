@@ -940,6 +940,7 @@ func DraneiRacialAura(char *Character, caster bool) *Aura {
 			Stats: []StatConfig{
 				{stats.SpellHitPercent, 1, false},
 			},
+			ExclusiveCategory: "Inspiring Presence",
 		})
 	} else {
 		return makeStatBuff(char, BuffConfig{
@@ -949,6 +950,7 @@ func DraneiRacialAura(char *Character, caster bool) *Aura {
 				{stats.PhysicalHitPercent, 1, false},
 				{stats.RangedHitPercent, 1, false},
 			},
+			ExclusiveCategory: "Heroic Presence",
 		})
 	}
 }

@@ -73,6 +73,8 @@ export const DefaultRaidBuffs = RaidBuffs.create({
 
 export const DefaultPartyBuffs = PartyBuffs.create({
 	moonkinAura: TristateEffect.TristateEffectImproved,
+	chainOfTheTwilightOwl: true,
+	eyeOfTheNight: true,
 });
 
 export const DefaultIndividualBuffs = IndividualBuffs.create({

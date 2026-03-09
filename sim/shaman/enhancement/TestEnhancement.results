@@ -1112,22 +1112,22 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3032.99199
-  tps: 2341.46566
+  dps: 3029.46847
+  tps: 2338.20355
  }
 }
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1950.96077
-  tps: 1824.52033
+  dps: 1944.8592
+  tps: 1817.89596
  }
 }
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1982.94867
-  tps: 1797.59354
+  dps: 1974.15315
+  tps: 1788.31319
  }
 }
 dps_results: {
@@ -1154,22 +1154,22 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-Sub-Elemental-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3113.96228
-  tps: 2450.17361
+  dps: 3109.95949
+  tps: 2447.37974
  }
 }
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-Sub-Elemental-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2029.65081
-  tps: 1907.67937
+  dps: 2026.3305
+  tps: 1904.34109
  }
 }
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-Sub-Elemental-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2097.14495
-  tps: 1917.70317
+  dps: 2092.66341
+  tps: 1913.27424
  }
 }
 dps_results: {
@@ -1196,22 +1196,22 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-Sub-Restoration ILS-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3103.54347
-  tps: 2412.01714
+  dps: 3099.88837
+  tps: 2408.62345
  }
 }
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-Sub-Restoration ILS-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2021.85107
-  tps: 1895.41063
+  dps: 2015.45811
+  tps: 1888.49487
  }
 }
 dps_results: {
  key: "TestEnhancement-Settings-Draenei-p1-Sub-Restoration ILS-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2052.72065
-  tps: 1867.36553
+  dps: 2043.51653
+  tps: 1857.67657
  }
 }
 dps_results: {

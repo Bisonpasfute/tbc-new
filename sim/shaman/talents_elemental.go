@@ -251,9 +251,10 @@ func (shaman *Shaman) applyTotemOfWrath() {
 	value := 3.0
 	config := shaman.newTotemSpellConfig(int32(shaman.GetInitialStat(stats.Mana)*0.05), 30706, SpellMaskBasicTotem)
 	buffAura := shaman.RegisterAura(core.Aura{
-		Label:    "Totem Of Wrath (Self)",
-		ActionID: config.ActionID,
-		Duration: duration,
+		Label:      "Totem Of Wrath (Self)",
+		ActionID:   config.ActionID,
+		Duration:   duration,
+		BuildPhase: core.CharacterBuildPhaseBuffs,
 	}).AttachStatsBuff(stats.Stats{
 		stats.SpellCritPercent: value,
 		stats.SpellHitPercent:  value,
