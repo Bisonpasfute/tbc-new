@@ -59,5 +59,9 @@ func (shaman *Shaman) registerFireElementalTotem() {
 	shaman.AddMajorCooldown(core.MajorCooldown{
 		Spell: shaman.FireElementalTotem,
 		Type:  core.CooldownTypeDPS,
+		ShouldActivate: func(sim *core.Simulation, character *core.Character) bool {
+			// Fele should only be cast by manual APL intervention
+			return false
+		},
 	})
 }

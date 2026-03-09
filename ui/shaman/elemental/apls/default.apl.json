@@ -91,8 +91,17 @@
 						"castSpell": { "spellId": { "spellId": 3738, "rank": 1 } }
 					}
 				},
-				{ "action": { "condition": { "const": { "val": "false" } }, "castSpell": { "spellId": { "spellId": 2894 } } } },
-				{ "hide": true, "action": { "castSpell": { "spellId": { "spellId": 2894 } } } }
+				{
+					"hide": true,
+					"action": {
+						"strictSequence": {
+							"actions": [
+								{ "castAllStatBuffCooldowns": { "statType1": 5, "statType2": -1, "statType3": -1 } },
+								{ "castSpell": { "spellId": { "spellId": 2894, "rank": 1 } } }
+							]
+						}
+					}
+				}
 			]
 		}
 	]
