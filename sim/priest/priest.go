@@ -60,20 +60,6 @@ func (priest *Priest) Initialize() {
 }
 
 func (priest *Priest) ApplyTalents() {
-	priest.applyHolySpecialization()
-}
-
-func (priest *Priest) applyHolySpecialization() {
-	if priest.Talents.HolySpecialization == 0 {
-		return
-	}
-
-	// Holy Specialization: +1% crit per rank for all Holy spells
-	priest.AddStaticMod(core.SpellModConfig{
-		Kind:       core.SpellMod_BonusCrit_Percent,
-		ClassMask:  PriestSpellHolyFire | PriestSpellHolyNova | PriestSpellSmite,
-		FloatValue: 1 * float64(priest.Talents.HolySpecialization),
-	})
 }
 
 func (priest *Priest) Reset(_ *core.Simulation) {
