@@ -105,6 +105,11 @@ export const makeConjuredInput = makeConsumeInputFactory({ consumesFieldName: 'c
 //                               ENGINEERING
 ///////////////////////////////////////////////////////////////////////////
 
+export const EzThroDynamiteTwo = {
+	actionId: ActionId.fromItemId(18588),
+	value: 18588,
+};
+
 export const AdamantiteGrenade = {
 	actionId: ActionId.fromItemId(23737),
 	value: 30217,
@@ -126,6 +131,7 @@ export const GnomishFlameTurrent = {
 export const EXPLOSIVE_CONFIG = [
 	{ config: AdamantiteGrenade, stats: [] },
 	{ config: FelIronBomb, stats: [] },
+	{ config: EzThroDynamiteTwo, stats: [] },
 	// { config: GnomishFlameTurrent, stats: [] }, Excluding this thing for now because it's weird and I don't like it
 ] as ConsumableStatOption<number>[];
 export const makeExplosivesInput = makeConsumeInputFactory({ consumesFieldName: 'explosiveId' });

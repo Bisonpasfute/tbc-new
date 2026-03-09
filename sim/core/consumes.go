@@ -434,6 +434,7 @@ func registerConjuredCD(agent Agent, consumes *proto.ConsumesSpec) {
 
 var SuperSapperActionID = ActionID{ItemID: 23827}
 var GoblinSapperActionID = ActionID{ItemID: 10646}
+var EzThroDynamiteTwoActionID = ActionID{ItemID: 18588}
 var FelIronBombActionID = ActionID{ItemID: 23736}
 var AdamantiteGrenadeActionID = ActionID{ItemID: 23737}
 var GnomishFlameTurretActionID = ActionID{ItemID: 23841}
@@ -465,6 +466,8 @@ func registerExplosivesCD(agent Agent, consumes *proto.ConsumesSpec) {
 	if consumes.ExplosiveId > 0 {
 		var filler *Spell
 		switch consumes.ExplosiveId {
+		case 18588:
+			filler = character.newEzThroDynamiteTwo(sharedTimer)
 		case 30217:
 			filler = character.newAdamantiteGrenadeSpell(sharedTimer)
 		case 30216:
@@ -525,7 +528,10 @@ func (character *Character) newAdamantiteGrenadeSpell(sharedTimer *Timer) *Spell
 	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, AdamantiteGrenadeActionID, SpellSchoolFire, 450, 750, Cooldown{}))
 }
 func (character *Character) newFelIronBombSpell(sharedTimer *Timer) *Spell {
-	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, AdamantiteGrenadeActionID, SpellSchoolFire, 330, 770, Cooldown{}))
+	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, FelIronBombActionID, SpellSchoolFire, 330, 770, Cooldown{}))
+}
+func (character *Character) newEzThroDynamiteTwo(sharedTimer *Timer) *Spell {
+	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, EzThroDynamiteTwoActionID, SpellSchoolFire, 213, 287, Cooldown{}))
 }
 
 func registerDrumsCD(agent Agent, consumables *proto.ConsumesSpec) {
