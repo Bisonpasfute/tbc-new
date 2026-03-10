@@ -1378,12 +1378,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		24122, // Coronet of Verdant Flame
-		[
-			"Chance on successful spellcast to restore 90 Mana over 10s.", // 31036 - https://www.wowhead.com/tbc/spell=31036
-		]
-	],
-	[
 		24127, // Figurine - Talasite Owl
 		[
 			"Restores 900 mana over 12s.", // 31045 - https://www.wowhead.com/tbc/spell=31045
@@ -1833,12 +1827,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		28719, // Grand Marshal's Wyrmhide Gloves
 		[
 			"Reduces the cast time of your Cyclone spell by -0.1 sec.", // 33830 - https://www.wowhead.com/tbc/spell=33830
-		]
-	],
-	[
-		28727, // Pendant of the Violet Eye
-		[
-			"Each spell cast within 20 seconds will grant a stacking bonus of 21 mana regen per 5 sec. Expires after 20 seconds. Abilities with no mana cost will not trigger this trinket.", // 29601 - https://www.wowhead.com/tbc/spell=29601
 		]
 	],
 	[
@@ -2505,12 +2493,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		32492, // Ashtongue Talisman of Lethality
 		[
 			"20% chance per combo point for your finishing moves to grant 145 critical strike rating for 10s.", // 40460 - https://www.wowhead.com/tbc/spell=40460
-		]
-	],
-	[
-		32496, // Memento of Tyrande
-		[
-			"Each time you cast a spell, there is chance you will gain up to 76 mana per 5 for 15s.", // 37656 - https://www.wowhead.com/tbc/spell=37656
 		]
 	],
 	[

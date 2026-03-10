@@ -397,6 +397,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHunter-AllItems-CoronetofVerdantFlame-24122"
+ value: {
+  dps: 1776.07744
+  tps: 1317.0268
+  dtps: 12.1678
+ }
+}
+dps_results: {
  key: "TestHunter-AllItems-CrystalforgedTrinket-32654"
  value: {
   dps: 1904.21796
@@ -829,6 +837,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHunter-AllItems-MementoofTyrande-32496"
+ value: {
+  dps: 1887.96565
+  tps: 1422.84726
+  dtps: 12.12675
+ }
+}
+dps_results: {
  key: "TestHunter-AllItems-MindQuickeningGem-19339"
  value: {
   dps: 1891.33725
@@ -886,6 +902,14 @@ dps_results: {
 }
 dps_results: {
  key: "TestHunter-AllItems-Oshu'gunRelic-25634"
+ value: {
+  dps: 1887.96565
+  tps: 1422.84726
+  dtps: 12.12675
+ }
+}
+dps_results: {
+ key: "TestHunter-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 1887.96565
   tps: 1422.84726

@@ -326,6 +326,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-CoronetofVerdantFlame-24122"
+ value: {
+  dps: 1856.45635
+  tps: 1729.4259
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-CrystalforgedTrinket-32654"
  value: {
   dps: 1930.76446
@@ -697,6 +704,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-MementoofTyrande-32496"
+ value: {
+  dps: 1924.7718
+  tps: 1793.14142
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-MindQuickeningGem-19339"
  value: {
   dps: 1915.38966
@@ -750,6 +764,13 @@ dps_results: {
  value: {
   dps: 1919.95395
   tps: 1791.38358
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 1916.13869
+  tps: 1790.14151
  }
 }
 dps_results: {
