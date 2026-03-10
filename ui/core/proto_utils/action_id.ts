@@ -566,7 +566,9 @@ export class ActionId {
 				}
 				break;
 			default:
-				if (tag) {
+				if (tag === -1) {
+					name += ' (External)';
+				} else if (tag) {
 					name += ' (??)';
 				}
 				break;
