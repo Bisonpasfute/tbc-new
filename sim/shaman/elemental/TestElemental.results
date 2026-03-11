@@ -1055,6 +1055,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-TotemoftheAstralWinds-27815"
+ value: {
+  dps: 1740.26249
+  tps: 1373.19256
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-TotemoftheStorm-23199"
  value: {
   dps: 1774.27707

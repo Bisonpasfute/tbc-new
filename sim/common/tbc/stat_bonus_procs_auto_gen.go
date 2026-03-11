@@ -3839,21 +3839,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Increases the attack power bonus on Windfury Weapon attacks by 80.
-	// https://www.wowhead.com/tbc/spell=34244
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 27815, ItemName: "Totem of the Astral Winds"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Increases the Holy damage bonus of your Judgement of the Crusader by 20.
 	// https://www.wowhead.com/tbc/spell=23300
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
@@ -7055,8 +7040,8 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Increases ranged attack speed by 15%. Does not stack with quiver or ammo pouch haste effects.
-	// https://www.wowhead.com/tbc/spell=44972
+	// Thori'dal generates magical arrows when the bow string is drawn. Does not use ammo.
+	// https://www.wowhead.com/tbc/spell=46699
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskUnknown,
@@ -7117,9 +7102,8 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Release all accumulated Holy Energy to instantly heal current friendly target by the amount of Holy Energy
-	// accumulated.
-	// https://www.wowhead.com/tbc/spell=45064
+	// Collects 100 Holy Energy from healing spells you cast. Cannot collect more than 2000 Holy Energy.
+	// https://www.wowhead.com/tbc/spell=45062
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskUnknown,

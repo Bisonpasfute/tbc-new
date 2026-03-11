@@ -39,6 +39,8 @@ func NewShaman(character *core.Character, talents string, selfBuffs SelfBuffs) *
 	shaman.FireElemental = shaman.NewFireElemental()
 	//shaman.EarthElemental = shaman.NewEarthElemental()
 
+	shaman.WindfuryAPBonus = 475.0 //Base Windfury Bonus
+
 	return shaman
 }
 
@@ -73,6 +75,8 @@ const (
 // Shaman represents a shaman character.
 type Shaman struct {
 	core.Character
+
+	WindfuryAPBonus float64
 
 	Talents   *proto.ShamanTalents
 	SelfBuffs SelfBuffs
