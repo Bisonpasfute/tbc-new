@@ -24,7 +24,6 @@ func (paladin *Paladin) registerDivineFavor() {
 		ClassMask:  SpellMaskHolyLight | SpellMaskFlashOfLight | SpellMaskHolyShock,
 		FloatValue: 100,
 	}).AttachProcTrigger(core.ProcTrigger{
-		Name:               "Divine Favor - Consume",
 		Callback:           core.CallbackOnCastComplete,
 		ClassSpellMask:     SpellMaskHolyLight | SpellMaskFlashOfLight | SpellMaskHolyShock,
 		TriggerImmediately: true,
