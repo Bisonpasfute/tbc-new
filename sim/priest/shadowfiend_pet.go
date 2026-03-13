@@ -7,7 +7,8 @@ import (
 
 type Shadowfiend struct {
 	core.Pet
-	Priest *Priest
+	Priest          *Priest
+	ManaRestoreAura *core.Aura
 }
 
 var baseStats = stats.Stats{
@@ -35,12 +36,13 @@ func (priest *Priest) NewShadowfiend() *Shadowfiend {
 	}
 
 	manaMetric := priest.NewManaMetrics(core.ActionID{SpellID: 34433})
-	core.MakePermanent(shadowfiend.GetOrRegisterAura(core.Aura{
-		Label: "Shadowfiend Mana Restore",
+	shadowfiend.ManaRestoreAura = shadowfiend.GetOrRegisterAura(core.Aura{
+		Label:    "Shadowfiend Mana Restore",
+		Duration: core.NeverExpires,
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			priest.AddMana(sim, result.Damage*2.5, manaMetric)
 		},
-	}))
+	})
 
 	shadowfiend.EnableAutoAttacks(shadowfiend, core.AutoAttackOptions{
 		MainHand: core.Weapon{
@@ -82,8 +84,14 @@ func (shadowfiend *Shadowfiend) Reset(sim *core.Simulation) {
 
 func (shadowfiend *Shadowfiend) OnEncounterStart(_ *core.Simulation) {
 }
+func (shadowfiend *Shadowfiend) OnPetEnable(sim *core.Simulation) {
+	shadowfiend.ManaRestoreAura.Activate(sim)
+}
 
 func (shadowfiend *Shadowfiend) OnPetDisable(sim *core.Simulation) {
+	if shadowfiend.ManaRestoreAura.IsActive() {
+		shadowfiend.ManaRestoreAura.Deactivate(sim)
+	}
 }
 
 func (shadowfiend *Shadowfiend) GetPet() *core.Pet {

@@ -1,5 +1,5 @@
 import * as PresetUtils from '../../core/preset_utils';
-import { ConsumesSpec, Debuffs, IndividualBuffs, Profession, PseudoStat, RaidBuffs, Stat } from '../../core/proto/common';
+import { ConsumesSpec, Debuffs, IndividualBuffs, PartyBuffs, Profession, RaidBuffs, Stat, TristateEffect, PseudoStat } from '../../core/proto/common';
 import { Priest_Options as Options } from '../../core/proto/priest';
 import { SavedTalents } from '../../core/proto/ui';
 import { Stats, UnitStat, UnitStatPresets } from '../../core/proto_utils/stats';
@@ -18,19 +18,29 @@ export const ROTATION_PRESET_DEFAULT = PresetUtils.makePresetAPLRotation('Defaul
 // Preset options for EP weights
 export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
 	'P1',
-	Stats.fromMap({
-		[Stat.StatIntellect]: 1.0,
-		[Stat.StatSpirit]: 0.9,
-		[Stat.StatSpellDamage]: 0.98,
-	}),
+	Stats.fromMap(
+		{
+			[Stat.StatIntellect]: 0.06,
+			[Stat.StatSpirit]: 0.12,
+			[Stat.StatSpellDamage]: 1.0,
+			[Stat.StatShadowDamage]: 1.0,
+			[Stat.StatSpellHitRating]: 1.18,
+			[Stat.StatSpellCritRating]: 0.18,
+			[Stat.StatSpellHasteRating]: 0.69,
+			[Stat.StatMP5]: 0.05,
+		},
+		{
+			[PseudoStat.PseudoStatSchoolHitPercentShadow]: 1.15,
+		},
+	),
 );
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://www.wowhead.com/tbc/talent-calc/priest and copy the numbers in the url.
 export const StandardTalents = {
-	name: 'Standard',
+	name: 'Shadow',
 	data: SavedTalents.create({
-		talentsString: '',
+		talentsString: '500230013--503250510240103051541',
 	}),
 };
 
@@ -40,15 +50,44 @@ export const DefaultOptions = Options.create({
 	},
 });
 
-export const DefaultConsumables = ConsumesSpec.create({});
+export const DefaultConsumables = ConsumesSpec.create({
+	flaskId: 22866, // Flask of Pure Death
+	foodId: 27657, // Blackened Basilisk
+	conjuredId: 12662, // Demonic Rune
+	mhImbueId: 25122, // Brilliant Wizard Oil
+	potId: 22839, // Destruction Potion
+});
 
 export const DefaultRaidBuffs = RaidBuffs.create({
 	...defaultRaidBuffMajorDamageCooldowns(),
+	arcaneBrilliance: true,
+	giftOfTheWild: TristateEffect.TristateEffectImproved,
+	powerWordFortitude: TristateEffect.TristateEffectImproved,
+	divineSpirit: TristateEffect.TristateEffectImproved,
 });
 
-export const DefaultIndividualBuffs = IndividualBuffs.create({});
+export const DefaultPartyBuffs = PartyBuffs.create({
+	manaSpringTotem: TristateEffect.TristateEffectRegular,
+	wrathOfAirTotem: TristateEffect.TristateEffectImproved,
+});
 
-export const DefaultDebuffs = Debuffs.create({});
+export const DefaultIndividualBuffs = IndividualBuffs.create({
+	blessingOfKings: true,
+	blessingOfWisdom: TristateEffect.TristateEffectImproved,
+	shadowPriestDps: 0,
+});
+
+export const DefaultDebuffs = Debuffs.create({
+	improvedSealOfTheCrusader: true,
+	judgementOfWisdom: true,
+	misery: false,
+	shadowWeaving: false,
+	faerieFire: TristateEffect.TristateEffectImproved,
+	shadowEmbrace: true,
+	curseOfElements: TristateEffect.TristateEffectImproved,
+	exposeArmor: TristateEffect.TristateEffectImproved,
+	isbUptime: 0.52,
+});
 
 export const OtherDefaults = {
 	channelClipDelay: 100,

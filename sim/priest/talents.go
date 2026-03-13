@@ -115,11 +115,8 @@ func (priest *Priest) applyShadowFocus() {
 		return
 	}
 
-	priest.AddStaticMod(core.SpellModConfig{
-		Kind:       core.SpellMod_BonusHit_Percent,
-		FloatValue: 2.0 * float64(priest.Talents.ShadowFocus),
-		ClassMask:  PriestShadowSpells,
-	})
+	priest.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexShadow] += 2 * float64(priest.Talents.ShadowFocus)
+
 }
 
 func (priest *Priest) applyImprovedShadowWordPain() {
