@@ -16,15 +16,13 @@ func (warlock *Warlock) registerSearingPain() {
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellSearingPain,
+		MaxRange:       30,
 
 		ManaCost: core.ManaCostOptions{FlatCost: 205},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
-			},
-			CD: core.Cooldown{
-				Timer:    warlock.NewTimer(),
-				Duration: time.Millisecond * 1500,
+				GCD:      core.GCDDefault,
+				CastTime: time.Millisecond * 1500,
 			},
 		},
 
