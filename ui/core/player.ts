@@ -60,6 +60,7 @@ import {
 	canEquipEnchant,
 	canEquipItem,
 	ClassOptions,
+	ClassSpecs,
 	emptyUnitReference,
 	enchantAppliesToItem,
 	getMetaGemEffectEP,
@@ -394,11 +395,11 @@ export class Player<SpecType extends Spec> {
 	}
 
 	// TODO: Cata - Check this
-	isSpec<T extends Spec>(specId: T): boolean {
+	isSpec<T extends Spec>(specId: T): this is Player<T> {
 		return (this.getSpec() as unknown) == specId;
 	}
 
-	isClass<T extends Class>(classId: T): boolean {
+	isClass<T extends Class>(classId: T): this is Player<ClassSpecs<T>> {
 		return (this.getClass() as unknown) == classId;
 	}
 
