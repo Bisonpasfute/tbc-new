@@ -14,6 +14,8 @@ func (warlock *Warlock) registerDeathCoil() {
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellDeathCoil,
+		MissileSpeed:   24,
+		MaxRange:       30,
 
 		ManaCost: core.ManaCostOptions{FlatCost: 600},
 		Cast: core.CastConfig{
@@ -22,7 +24,7 @@ func (warlock *Warlock) registerDeathCoil() {
 			},
 			CD: core.Cooldown{
 				Timer:    warlock.NewTimer(),
-				Duration: time.Second * 15,
+				Duration: time.Minute * 2,
 			},
 		},
 

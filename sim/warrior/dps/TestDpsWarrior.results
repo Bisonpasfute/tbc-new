@@ -861,6 +861,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDpsWarrior-AllItems-PrimalIntent"
+ value: {
+  dps: 2065.40137
+  tps: 1562.78447
+  dtps: 7.2778
+ }
+}
+dps_results: {
  key: "TestDpsWarrior-AllItems-PrimalMooncloth"
  value: {
   dps: 1820.68883
@@ -1161,6 +1169,14 @@ dps_results: {
  value: {
   dps: 2186.31228
   tps: 1648.46698
+  dtps: 7.2778
+ }
+}
+dps_results: {
+ key: "TestDpsWarrior-AllItems-ThickDraenicArmor"
+ value: {
+  dps: 1860.15449
+  tps: 1407.53227
   dtps: 7.2778
  }
 }

@@ -613,6 +613,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHunter-AllItems-FelscaleArmor"
+ value: {
+  dps: 1753.33097
+  tps: 1284.84458
+  dtps: 11.90044
+ }
+}
+dps_results: {
  key: "TestHunter-AllItems-Figurine-DawnstoneCrab-24125"
  value: {
   dps: 1883.38386
@@ -885,6 +893,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHunter-AllItems-NetherscaleArmor"
+ value: {
+  dps: 1829.57277
+  tps: 1354.46378
+  dtps: 12.39245
+ }
+}
+dps_results: {
  key: "TestHunter-AllItems-NetherstrikeArmor"
  value: {
   dps: 1757.73909
@@ -922,6 +938,14 @@ dps_results: {
   dps: 1888.20945
   tps: 1409.69446
   dtps: 12.02597
+ }
+}
+dps_results: {
+ key: "TestHunter-AllItems-PrimalIntent"
+ value: {
+  dps: 1874.4931
+  tps: 1390.35903
+  dtps: 12.19974
  }
 }
 dps_results: {
@@ -1235,6 +1259,14 @@ dps_results: {
   dps: 1846.53397
   tps: 1364.36411
   dtps: 12.32654
+ }
+}
+dps_results: {
+ key: "TestHunter-AllItems-ThickDraenicArmor"
+ value: {
+  dps: 1733.67628
+  tps: 1268.64229
+  dtps: 11.98646
  }
 }
 dps_results: {

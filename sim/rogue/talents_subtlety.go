@@ -242,7 +242,7 @@ func (rogue *Rogue) registerHemorrhage() {
 		ActionID:       core.ActionID{SpellID: 26864},
 		ClassSpellMask: RogueSpellHemorrhage,
 		SpellSchool:    core.SpellSchoolPhysical,
-		Flags:          core.SpellFlagAPL | core.SpellFlagMeleeMetrics,
+		Flags:          core.SpellFlagAPL | core.SpellFlagMeleeMetrics | SpellFlagBuilder,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		MaxRange:       core.MaxMeleeRange,
 
