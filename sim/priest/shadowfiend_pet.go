@@ -24,13 +24,10 @@ var baseStats = stats.Stats{
 func (priest *Priest) NewShadowfiend() *Shadowfiend {
 	shadowfiend := &Shadowfiend{
 		Pet: core.NewPet(core.PetConfig{
-			Name:                            "Shadowfiend",
-			Owner:                           &priest.Character,
-			BaseStats:                       baseStats,
-			NonHitExpStatInheritance:        priest.shadowfiendStatInheritance(),
-			EnabledOnStart:                  false,
-			IsGuardian:                      false,
-			HasDynamicMeleeSpeedInheritance: false,
+			Name:                     "Shadowfiend",
+			Owner:                    &priest.Character,
+			BaseStats:                baseStats,
+			NonHitExpStatInheritance: priest.shadowfiendStatInheritance(),
 		}),
 		Priest: priest,
 	}

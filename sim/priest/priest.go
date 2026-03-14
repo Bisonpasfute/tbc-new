@@ -24,10 +24,12 @@ type Priest struct {
 	MindBlast       []*core.Spell
 	MindFlay        []*core.Spell
 	ShadowWordDeath []*core.Spell
-	DevouringPlague *core.Spell
+	DevouringPlague []*core.Spell
 	VampiricEmbrace *core.Spell
 	VampiricTouch   []*core.Spell
 	Smite           []*core.Spell
+	Starshards      []*core.Spell
+	HolyNova        []*core.Spell
 }
 
 type SelfBuffs struct {
@@ -38,19 +40,26 @@ type SelfBuffs struct {
 func (priest *Priest) GetCharacter() *core.Character {
 	return &priest.Character
 }
+func (priest *Priest) GetPriest() *Priest {
+	return priest
+}
 
 func (priest *Priest) AddPartyBuffs(_ *proto.PartyBuffs) {
 }
 
 func (priest *Priest) Initialize() {
 	MindBlastRankMap.RegisterAll(priest.registerMindBlastSpell)
-	MindFlayRankMap.RegisterAll(priest.registerMindFlaySpell)
 	ShadowWordPainRankMap.RegisterAll(priest.registerShadowWordPainSpell)
 	ShadowWordDeathRankMap.RegisterAll(priest.registerShadowWordDeathSpell)
-	VampiricTouchRankMap.RegisterAll(priest.registerVampiricTouchSpell)
 	SmiteRankMap.RegisterAll(priest.registerSmiteSpell)
 	priest.registerShadowfiendSpell()
-	// priest.registerPowerInfusionSpell()
+	if priest.Race == proto.Race_RaceNightElf {
+		StarshardsRankMap.RegisterAll(priest.registerStarshardsSpell)
+	}
+	if priest.Race == proto.Race_RaceUndead {
+		DevouringPlagueRankMap.RegisterAll(priest.registerDevouringPlagueSpell)
+	}
+
 }
 
 func (priest *Priest) ApplyTalents() {
@@ -58,8 +67,22 @@ func (priest *Priest) ApplyTalents() {
 	priest.applyInnerFocus()
 	priest.applyMeditation()
 	priest.applyMentalAgility()
+	priest.applyMentalStrength()
+	priest.applyEnlightenment()
+	priest.applyFocusedPower()
+	priest.applyForceOfWill()
+	priest.applySilentResolve()
+	priest.applyPowerInfusion()
+
+	// Holy
+	priest.applyHolyNova()
+	priest.applyDivineFury()
+	priest.applySearingLight()
+	priest.applySurgeOfLight()
+	priest.applySpiritualGuidance()
 
 	// Shadow
+	priest.applyMindFlay()
 	priest.applyDarkness()
 	priest.applyShadowFocus()
 	priest.applyImprovedShadowWordPain()
@@ -70,6 +93,7 @@ func (priest *Priest) ApplyTalents() {
 	priest.applyMisery()
 	priest.applyShadowform()
 	priest.applyVampiricEmbrace()
+	priest.applyVampiricTouch()
 	priest.applyImprovedMindBlast()
 }
 
@@ -139,6 +163,7 @@ const (
 	PriestSpellMindBlast
 	PriestSpellMindFlay
 	PriestSpellPowerInfusion
+	PriestSpellStarshards
 	PriestSpellShadowform
 	PriestSpellShadowWordDeath
 	PriestSpellShadowWordPain
@@ -150,7 +175,7 @@ const (
 
 	PriestSpellLast
 	PriestSpellsAll    = PriestSpellLast<<1 - 1
-	PriestSpellDoT     = PriestSpellDevouringPlague | PriestSpellHolyFire | PriestSpellMindFlay | PriestSpellShadowWordPain | PriestSpellVampiricTouch
+	PriestSpellDoT     = PriestSpellDevouringPlague | PriestSpellHolyFire | PriestSpellMindFlay | PriestSpellShadowWordPain | PriestSpellVampiricTouch | PriestSpellStarshards
 	PriestSpellInstant = PriestSpellDevouringPlague |
 		PriestSpellFade |
 		PriestSpellHolyNova |
@@ -159,7 +184,9 @@ const (
 		PriestSpellShadowWordPain |
 		PriestSpellVampiricEmbrace |
 		PriestSpellShadowFiend |
-		PriestSpellShadowform
+		PriestSpellStarshards |
+		PriestSpellShadowform |
+		PriestSpellPowerInfusion
 	PriestShadowSpells = PriestSpellDevouringPlague |
 		PriestSpellShadowWordDeath |
 		PriestSpellShadowform |
@@ -169,4 +196,5 @@ const (
 		PriestSpellVampiricTouch |
 		PriestSpellShadowFiend |
 		PriestSpellVampiricEmbrace
+	PriestHolySpells = PriestSpellSmite | PriestSpellHolyFire | PriestSpellHolyNova
 )

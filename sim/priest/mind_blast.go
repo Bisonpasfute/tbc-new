@@ -15,7 +15,7 @@ var MindBlastRankMap = shared.SpellRankMap{
 	{Rank: 4, SpellID: 8104, Cost: 150, MinDamage: 174, MaxDamage: 184, Coefficient: 0.42857},
 	{Rank: 5, SpellID: 8105, Cost: 185, MinDamage: 225, MaxDamage: 239, Coefficient: 0.42857},
 	{Rank: 6, SpellID: 8106, Cost: 225, MinDamage: 288, MaxDamage: 307, Coefficient: 0.42857},
-	{Rank: 7, SpellID: 8107, Cost: 265, MinDamage: 356, MaxDamage: 377, Coefficient: 0.42857},
+	{Rank: 7, SpellID: 10945, Cost: 265, MinDamage: 356, MaxDamage: 377, Coefficient: 0.42857},
 	{Rank: 8, SpellID: 10946, Cost: 310, MinDamage: 437, MaxDamage: 461, Coefficient: 0.42857},
 	{Rank: 9, SpellID: 10947, Cost: 350, MinDamage: 516, MaxDamage: 544, Coefficient: 0.42857},
 	{Rank: 10, SpellID: 25372, Cost: 380, MinDamage: 571, MaxDamage: 602, Coefficient: 0.42857},
@@ -55,11 +55,6 @@ func (priest *Priest) registerMindBlastSpell(rankConfig shared.SpellRankConfig) 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := priest.CalcAndRollDamageRange(sim, rankConfig.MinDamage, rankConfig.MaxDamage)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
-
-			if result.Landed() {
-				// TODO: apply Shadow Weaving debuff (1 stack per hit, max 5)
-			}
-
 			spell.DealDamage(sim, result)
 		},
 	})
