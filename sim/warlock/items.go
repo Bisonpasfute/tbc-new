@@ -48,10 +48,10 @@ var ItemSetOblivionRaiment = core.NewItemSet(core.ItemSet{
 				Kind:      core.SpellMod_Custom,
 				ClassMask: WarlockSpellSeedOfCorruptionExplosion,
 				ApplyCustom: func(mod *core.SpellMod, spell *core.Spell) {
-					warlock.SeedOfCorruptionBaseDamage += 180
+					warlock.SeedOfCorruptionBonusDamage += 180
 				},
 				RemoveCustom: func(mod *core.SpellMod, spell *core.Spell) {
-					warlock.SeedOfCorruptionBaseDamage -= 180
+					warlock.SeedOfCorruptionBonusDamage -= 180
 				},
 			})
 

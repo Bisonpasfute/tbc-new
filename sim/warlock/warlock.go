@@ -68,10 +68,10 @@ type Warlock struct {
 
 	currentActiveCurse *core.Spell
 
-	SeedOfCorruptionBaseDamage float64
-	CorruptionTickBaseDamage   float64
-	ImmolateTickBaseDamage     float64
-	T5_4PC_Multiplier          map[int32]map[*core.Spell]float64
+	SeedOfCorruptionBonusDamage float64
+	CorruptionTickBaseDamage    float64
+	ImmolateTickBaseDamage      float64
+	T5_4PC_Multiplier           map[int32]map[*core.Spell]float64
 }
 
 func (warlock *Warlock) GetCharacter() *core.Character {
