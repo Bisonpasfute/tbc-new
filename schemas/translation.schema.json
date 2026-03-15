@@ -6567,6 +6567,45 @@
 									"additionalProperties": false,
 									"required": ["label", "tooltip"]
 								},
+								"weave_only_raptor": {
+									"type": "object",
+									"properties": {
+										"label": {
+											"type": "string"
+										},
+										"tooltip": {
+											"type": "string"
+										}
+									},
+									"additionalProperties": false,
+									"required": ["label", "tooltip"]
+								},
+								"use_multi": {
+									"type": "object",
+									"properties": {
+										"label": {
+											"type": "string"
+										},
+										"tooltip": {
+											"type": "string"
+										}
+									},
+									"additionalProperties": false,
+									"required": ["label", "tooltip"]
+								},
+								"use_arcane": {
+									"type": "object",
+									"properties": {
+										"label": {
+											"type": "string"
+										},
+										"tooltip": {
+											"type": "string"
+										}
+									},
+									"additionalProperties": false,
+									"required": ["label", "tooltip"]
+								},
 								"viper_start_mana_percent": {
 									"type": "object",
 									"properties": {
@@ -6595,7 +6634,15 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": ["sting", "melee_weave", "viper_start_mana_percent", "viper_stop_mana_percent"]
+							"required": [
+								"sting",
+								"melee_weave",
+								"weave_only_raptor",
+								"use_multi",
+								"use_arcane",
+								"viper_start_mana_percent",
+								"viper_stop_mana_percent"
+							]
 						}
 					},
 					"additionalProperties": false,

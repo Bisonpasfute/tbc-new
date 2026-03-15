@@ -1865,6 +1865,18 @@
 					"label": "Melee Weave",
 					"tooltip": "Moves in to melee weave at appropriate times."
 				},
+				"weave_only_raptor": {
+					"label": "Only melee weave when Raptor Strike is ready",
+					"tooltip": "Enable to only weave when Raptor Strike is ready."
+				},
+				"use_multi": {
+					"label": "Use Multi-Shot",
+					"tooltip": "Enable to include Multi-Shot as a filler."
+				},
+				"use_arcane": {
+					"label": "Use Arcane Shot",
+					"tooltip": "Enable to include Arcane Shot as a filler."
+				},
 				"viper_start_mana_percent": {
 					"label": "Aspect of the Viper swap threshold start",
 					"tooltip": "The percentage of mana to swap to Aspect of the Viper."

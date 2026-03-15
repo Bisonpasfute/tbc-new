@@ -131,6 +131,9 @@ message Hunter {
 		HunterStingType sting = 5;
 
 		bool melee_weave = 1;
+		bool weave_only_raptor = 2;
+		bool use_multi = 3;
+		bool use_arcane = 4;
 
 		// Switch to Aspect of the Viper when mana goes below this percent.
 		double viper_start_mana_percent = 6;
