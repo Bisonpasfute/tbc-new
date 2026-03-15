@@ -4,6 +4,7 @@ import * as Mechanics from '../../core/constants/mechanics';
 import { IndividualSimUI, registerSpecConfig } from '../../core/individual_sim_ui';
 import { Player } from '../../core/player';
 import { PlayerClasses } from '../../core/player_classes';
+import { ReforgeOptimizer } from '../../core/components/suggest_reforges_action';
 import { APLRotation } from '../../core/proto/apl';
 import { Faction, ItemSlot, PartyBuffs, PseudoStat, Race, Spec, Stat } from '../../core/proto/common';
 import { DEFAULT_HYBRID_CASTER_GEM_STATS, Stats, UnitStat } from '../../core/proto_utils/stats';
@@ -29,7 +30,10 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 		Stat.StatSpellCritRating,
 		Stat.StatSpellHasteRating,
 		Stat.StatMana,
+		Stat.StatMP5,
+		Stat.StatSpirit,
 	],
+	epPseudoStats: [PseudoStat.PseudoStatSchoolHitPercentShadow],
 	// Reference stat against which to calculate EP. I think all classes use either spell power or attack power.
 	epReferenceStat: Stat.StatSpellDamage,
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
@@ -37,6 +41,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 		[
 			Stat.StatHealth,
 			Stat.StatMana,
+			Stat.StatMP5,
+			Stat.StatSpirit,
 			Stat.StatStamina,
 			Stat.StatIntellect,
 			Stat.StatSpirit,
@@ -44,7 +50,12 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 			Stat.StatShadowDamage,
 			Stat.StatHolyDamage,
 		],
-		[PseudoStat.PseudoStatSpellHitPercent, PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent],
+		[
+			PseudoStat.PseudoStatSpellHitPercent,
+			PseudoStat.PseudoStatSpellCritPercent,
+			PseudoStat.PseudoStatSpellHastePercent,
+			PseudoStat.PseudoStatSchoolHitPercentShadow,
+		],
 	),
 	gemStats: DEFAULT_HYBRID_CASTER_GEM_STATS,
 
@@ -54,7 +65,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 		// Default EP weights for sorting gear in the gear picker.
 		epWeights: Presets.P1_EP_PRESET.epWeights,
 		statCaps: (() => {
-			return new Stats().withPseudoStat(PseudoStat.PseudoStatSpellHitPercent, 15);
+			return new Stats().withPseudoStat(PseudoStat.PseudoStatSchoolHitPercentShadow, 16);
 		})(),
 		// Default consumes settings.
 		consumables: Presets.DefaultConsumables,
@@ -65,7 +76,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 		// Default raid/party buffs settings.
 		raidBuffs: Presets.DefaultRaidBuffs,
 
-		partyBuffs: PartyBuffs.create({}),
+		partyBuffs: Presets.DefaultPartyBuffs,
 
 		individualBuffs: Presets.DefaultIndividualBuffs,
 
@@ -81,12 +92,12 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 	excludeBuffDebuffInputs: [],
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
-		inputs: [OtherInputs.InputDelay, OtherInputs.ChannelClipDelay, OtherInputs.TankAssignment, OtherInputs.DistanceFromTarget],
+		inputs: [OtherInputs.IsbUptime, OtherInputs.InputDelay, OtherInputs.ChannelClipDelay, OtherInputs.TankAssignment, OtherInputs.DistanceFromTarget],
 	},
 	itemSwapSlots: [ItemSlot.ItemSlotMainHand, ItemSlot.ItemSlotOffHand, ItemSlot.ItemSlotTrinket1, ItemSlot.ItemSlotTrinket2],
 	encounterPicker: {
 		// Whether to include 'Execute Duration (%)' in the 'Encounter' section of the settings tab.
-		showExecuteProportion: true,
+		showExecuteProportion: false,
 	},
 
 	presets: {
@@ -104,35 +115,13 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 		return Presets.ROTATION_PRESET_DEFAULT.rotation.rotation!;
 	},
 
-	raidSimPresets: [
-		{
-			spec: Spec.SpecPriest,
-			talents: Presets.StandardTalents.data,
-			specOptions: Presets.DefaultOptions,
-			consumables: Presets.DefaultConsumables,
-			otherDefaults: Presets.OtherDefaults,
-			defaultFactionRaces: {
-				[Faction.Unknown]: Race.RaceUnknown,
-				[Faction.Alliance]: Race.RaceDraenei,
-				[Faction.Horde]: Race.RaceTroll,
-			},
-			defaultGear: {
-				[Faction.Unknown]: {},
-				[Faction.Alliance]: {
-					1: Presets.PRE_RAID_PRESET.gear,
-					2: Presets.P1_PRESET.gear,
-				},
-				[Faction.Horde]: {
-					1: Presets.PRE_RAID_PRESET.gear,
-					2: Presets.P1_PRESET.gear,
-				},
-			},
-		},
-	],
+	raidSimPresets: [],
 });
 
 export class PriestSimUI extends IndividualSimUI<Spec.SpecPriest> {
 	constructor(parentElem: HTMLElement, player: Player<Spec.SpecPriest>) {
 		super(parentElem, player, SPEC_CONFIG);
+
+		this.reforger = new ReforgeOptimizer(this);
 	}
 }

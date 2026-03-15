@@ -12,7 +12,7 @@ var ShadowWordDeathRankMap = shared.SpellRankMap{
 	{Rank: 2, SpellID: 32996, Cost: 309, MinDamage: 572, MaxDamage: 664, Coefficient: 0.429},
 }
 
-func (priest *Priest) registerShadowWordDeathSpell(rankConfig shared.SpellRankConfig) {
+func (priest *Priest) registerShadowWordDeathSpell(rankConfig shared.SpellRankConfig, cdTimer *core.Timer) {
 	spell := priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
@@ -30,7 +30,7 @@ func (priest *Priest) registerShadowWordDeathSpell(rankConfig shared.SpellRankCo
 				GCD: core.GCDDefault,
 			},
 			CD: core.Cooldown{
-				Timer:    priest.NewTimer(),
+				Timer:    cdTimer,
 				Duration: 12 * time.Second, // TODO: verify from wago.tools
 			},
 		},

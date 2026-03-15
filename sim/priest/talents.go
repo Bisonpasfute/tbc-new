@@ -7,6 +7,215 @@ import (
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
+func (priest *Priest) applyForceOfWill() {
+	if priest.Talents.ForceOfWill == 0 {
+		return
+	}
+	// +1% damage per rank
+	priest.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_DamageDone_Flat,
+		FloatValue: 0.01 * float64(priest.Talents.ForceOfWill),
+		ClassMask:  PriestSpellsAll,
+	})
+	// +1% crit per rank
+	priest.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_BonusCrit_Percent,
+		FloatValue: 1.0 * float64(priest.Talents.ForceOfWill),
+		ClassMask:  PriestSpellsAll,
+	})
+}
+
+func (priest *Priest) applyPowerInfusion() {
+	if !priest.Talents.PowerInfusion {
+		return
+	}
+
+	piAura := core.PowerInfusionAura(priest.GetCharacter(), 0)
+
+	piSpell := priest.RegisterSpell(core.SpellConfig{
+		ActionID:    core.ActionID{SpellID: 10060},
+		SpellSchool: core.SpellSchoolHoly,
+		Flags:       core.SpellFlagHelpful,
+		ManaCost: core.ManaCostOptions{
+			BaseCostPercent: 16,
+		},
+		Cast: core.CastConfig{
+			CD: core.Cooldown{
+				Timer:    priest.NewTimer(),
+				Duration: core.PowerInfusionCD,
+			},
+			DefaultCast: core.Cast{
+				NonEmpty: true,
+			},
+		},
+		ApplyEffects: func(sim *core.Simulation, target *core.Unit, _ *core.Spell) {
+			piAura.Activate(sim)
+		},
+	})
+
+	priest.AddMajorCooldown(core.MajorCooldown{
+		Spell:    piSpell,
+		Priority: core.CooldownPriorityBloodlust,
+		Type:     core.CooldownTypeMana,
+	})
+}
+
+func (priest *Priest) applyFocusedPower() {
+	if priest.Talents.FocusedPower == 0 {
+		return
+	}
+	// +2% hit per rank (2 ranks = 4%)
+	priest.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_BonusHit_Percent,
+		FloatValue: 2.0 * float64(priest.Talents.FocusedPower),
+		ClassMask:  PriestSpellSmite | PriestSpellMindBlast,
+	})
+}
+
+func (priest *Priest) applyEnlightenment() {
+	if priest.Talents.Enlightenment == 0 {
+		return
+	}
+	// +1% per rank
+	multiplier := 1.0 + 0.01*float64(priest.Talents.Enlightenment)
+	priest.MultiplyStat(stats.Stamina, multiplier)
+	priest.MultiplyStat(stats.Intellect, multiplier)
+	priest.MultiplyStat(stats.Spirit, multiplier)
+}
+
+func (priest *Priest) applyMentalStrength() {
+	if priest.Talents.MentalStrength == 0 {
+		return
+	}
+	// +2% mana per rank
+	priest.MultiplyStat(stats.Mana, 1.0+0.02*float64(priest.Talents.MentalStrength))
+}
+
+func (priest *Priest) applySpiritualGuidance() {
+	if priest.Talents.SpiritualGuidance == 0 {
+		return
+	}
+	// 5% of Spirit added to spell damage per rank
+	coeff := 0.05 * float64(priest.Talents.SpiritualGuidance)
+	priest.AddStatDependency(stats.Spirit, stats.SpellDamage, coeff) // Only scaling damage for now since no healing sim....yet!
+}
+
+func (priest *Priest) applyDivineFury() {
+	if priest.Talents.DivineFury == 0 {
+		return
+	}
+	// -0.1s per rank
+	priest.AddStaticMod(core.SpellModConfig{
+		Kind:      core.SpellMod_CastTime_Flat,
+		TimeValue: time.Millisecond * time.Duration(-100*priest.Talents.DivineFury),
+		ClassMask: PriestSpellSmite | PriestSpellHolyFire,
+	})
+}
+
+func (priest *Priest) applySearingLight() {
+	if priest.Talents.SearingLight == 0 {
+		return
+	}
+	// +5% damage per rank
+	priest.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_DamageDone_Flat,
+		FloatValue: 0.05 * float64(priest.Talents.SearingLight),
+		ClassMask:  PriestSpellSmite | PriestSpellHolyFire,
+	})
+}
+
+func (priest *Priest) applySurgeOfLight() {
+	if priest.Talents.SurgeOfLight == 0 {
+		return
+	}
+
+	// Dynamic mods activated by the aura
+	castTimeMod := priest.AddDynamicMod(core.SpellModConfig{
+		Kind:       core.SpellMod_CastTime_Pct,
+		FloatValue: -1.0, // -100% = instant cast
+		ClassMask:  PriestSpellSmite,
+	})
+	manaCostMod := priest.AddDynamicMod(core.SpellModConfig{
+		Kind:       core.SpellMod_PowerCost_Pct,
+		FloatValue: -1.0, // -100% = free
+		ClassMask:  PriestSpellSmite,
+	})
+	critMod := priest.AddDynamicMod(core.SpellModConfig{
+		Kind:       core.SpellMod_BonusCrit_Percent,
+		FloatValue: -100.0, // unable to crit
+		ClassMask:  PriestSpellSmite,
+	})
+
+	solAura := priest.RegisterAura(core.Aura{
+		Label:    "Surge of Light",
+		ActionID: core.ActionID{SpellID: 33151},
+		Duration: 10 * time.Second,
+		OnGain: func(aura *core.Aura, sim *core.Simulation) {
+			castTimeMod.Activate()
+			manaCostMod.Activate()
+			critMod.Activate()
+		},
+		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+			castTimeMod.Deactivate()
+			manaCostMod.Deactivate()
+			critMod.Deactivate()
+		},
+		// Consumed on next Smite cast
+		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
+			if spell.Matches(PriestSpellSmite) {
+				aura.Deactivate(sim)
+			}
+		},
+	})
+
+	// 25% proc chance at rank 1, 50% at rank 2
+	procChance := 0.25 * float64(priest.Talents.SurgeOfLight)
+
+	priest.MakeProcTriggerAura(core.ProcTrigger{
+		Name:       "Surge of Light Trigger",
+		Callback:   core.CallbackOnSpellHitDealt,
+		Outcome:    core.OutcomeCrit,
+		ProcChance: procChance,
+		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			solAura.Activate(sim)
+		},
+	})
+}
+
+func (priest *Priest) applySilentResolve() {
+	if priest.Talents.SilentResolve == 0 {
+		return
+	}
+	// -4% threat per rank for discipline and holy spells
+	threatReduction := []float64{0, -0.04, -0.08, -0.12, -0.16, -0.20}[priest.Talents.SilentResolve]
+	priest.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_ThreatMultiplier_Pct,
+		FloatValue: threatReduction,
+		ClassMask:  PriestHolySpells,
+	})
+}
+
+func (priest *Priest) applyHolyNova() {
+	if !priest.Talents.HolyNova {
+		return
+	}
+	HolyNovaRankMap.RegisterAll(priest.registerHolyNovaSpell)
+}
+
+func (priest *Priest) applyVampiricTouch() {
+	if !priest.Talents.VampiricTouch {
+		return
+	}
+	VampiricTouchRankMap.RegisterAll(priest.registerVampiricTouchSpell)
+}
+
+func (priest *Priest) applyMindFlay() {
+	if !priest.Talents.MindFlay {
+		return
+	}
+	MindFlayRankMap.RegisterAll(priest.registerMindFlaySpell)
+}
+
 func (priest *Priest) applyImprovedMindBlast() {
 	if priest.Talents.ImprovedMindBlast == 0 {
 		return
@@ -115,11 +324,8 @@ func (priest *Priest) applyShadowFocus() {
 		return
 	}
 
-	priest.AddStaticMod(core.SpellModConfig{
-		Kind:       core.SpellMod_BonusHit_Percent,
-		FloatValue: 2.0 * float64(priest.Talents.ShadowFocus),
-		ClassMask:  PriestShadowSpells,
-	})
+	priest.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexShadow] += 2 * float64(priest.Talents.ShadowFocus)
+
 }
 
 func (priest *Priest) applyImprovedShadowWordPain() {
@@ -226,22 +432,10 @@ func (priest *Priest) applyMisery() {
 	})
 }
 
-// ---------------------------------------------------------------------------
-// Shadowform
-// Increases shadow damage by 15%. Reduces physical damage taken by 15%.
-// ---------------------------------------------------------------------------
-
 func (priest *Priest) applyShadowform() {
 	if !priest.Talents.Shadowform {
 		return
 	}
-
-	// +15% shadow damage — dynamic so it only applies while the form is up.
-	shadowDmgMod := priest.AddDynamicMod(core.SpellModConfig{
-		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.15,
-		ClassMask:  PriestShadowSpells,
-	})
 
 	shadowformAura := priest.RegisterAura(core.Aura{
 		Label:    "Shadowform",
@@ -251,14 +445,6 @@ func (priest *Priest) applyShadowform() {
 			if priest.SelfBuffs.PreShadowform {
 				aura.Activate(sim)
 			}
-		}, OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			shadowDmgMod.Activate()
-			// -15% physical damage taken
-			aura.Unit.PseudoStats.SchoolDamageTakenMultiplier[stats.SchoolIndexPhysical] *= 0.85
-		},
-		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			shadowDmgMod.Deactivate()
-			aura.Unit.PseudoStats.SchoolDamageTakenMultiplier[stats.SchoolIndexPhysical] /= 0.85
 		},
 		// Casting any holy-school spell breaks Shadowform.
 		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
@@ -266,7 +452,13 @@ func (priest *Priest) applyShadowform() {
 				aura.Deactivate(sim)
 			}
 		},
-	})
+	}).AttachSpellMod(core.SpellModConfig{
+		Kind:       core.SpellMod_DamageDone_Flat,
+		FloatValue: 0.15,
+		ClassMask:  PriestShadowSpells,
+	}).AttachMultiplicativePseudoStatBuff(
+		&priest.PseudoStats.SchoolDamageTakenMultiplier[stats.SchoolIndexPhysical], 0.85,
+	)
 
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: 15473},
@@ -274,7 +466,6 @@ func (priest *Priest) applyShadowform() {
 		ProcMask:       core.ProcMaskEmpty,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: PriestSpellShadowform,
-
 		ManaCost: core.ManaCostOptions{
 			BaseCostPercent: 32,
 		},
@@ -298,30 +489,25 @@ func (priest *Priest) applyVampiricEmbrace() {
 	healthMetrics := priest.NewHealthMetrics(core.ActionID{SpellID: 15286})
 
 	veDebuffAuras := priest.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
-		return target.RegisterAura(core.Aura{
+		aura := target.RegisterAura(core.Aura{
 			Label:    "Vampiric Embrace",
 			ActionID: core.ActionID{SpellID: 15286},
 			Duration: time.Second * 60,
-
-			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if !spell.SpellSchool.Matches(core.SpellSchoolShadow) || result.Damage == 0 {
-					return
-				}
-				priest.GainHealth(sim, result.Damage*healPct, healthMetrics)
-			},
-
-			OnPeriodicDamageTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if !spell.SpellSchool.Matches(core.SpellSchoolShadow) || result.Damage == 0 {
-					return
-				}
+		})
+		aura.AttachProcTriggerCallback(target, core.ProcTrigger{
+			Name:               "Vampiric Embrace Proc",
+			Callback:           core.CallbackOnSpellHitTaken | core.CallbackOnPeriodicDamageTaken,
+			ClassSpellMask:     PriestShadowSpells,
+			RequireDamageDealt: true,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				priest.GainHealth(sim, result.Damage*healPct, healthMetrics)
 			},
 		})
+		return aura
 	})
 
 	priest.VampiricEmbrace = priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: 15286},
-		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskEmpty,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: PriestSpellVampiricEmbrace,
