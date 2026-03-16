@@ -389,10 +389,11 @@ func (priest *Priest) applyShadowWeaving() {
 	procChance := 0.20 * float64(priest.Talents.ShadowWeaving)
 
 	spell := priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 15334},
-		SpellSchool: core.SpellSchoolShadow,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagPassiveSpell,
+		ActionID:       core.ActionID{SpellID: 15334},
+		SpellSchool:    core.SpellSchoolShadow,
+		ClassSpellMask: PriestSpellShadowWeaving,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagPassiveSpell,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			result := spell.CalcAndDealOutcome(sim, target, spell.OutcomeMagicHit)
