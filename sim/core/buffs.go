@@ -573,7 +573,6 @@ func FerociousInspiration(char *Character, count int32) *Aura {
 func LeaderOfThePackAura(char *Character, improved bool) *Aura {
 	statsConfig := []StatConfig{
 		{stats.PhysicalCritPercent, 5, false},
-		{stats.RangedCritPercent, 5, false},
 	}
 
 	if improved {
@@ -975,7 +974,6 @@ func DraneiRacialAura(char *Character, caster bool) *Aura {
 			ActionID: ActionID{SpellID: 6562},
 			Stats: []StatConfig{
 				{stats.PhysicalHitPercent, 1, false},
-				{stats.RangedHitPercent, 1, false},
 			},
 			ExclusiveCategory: "Heroic Presence",
 		})
@@ -1222,26 +1220,38 @@ func registerPowerInfusionCD(char *Character, numPowerInfusions int32) {
 func PowerInfusionAura(char *Character, actionTag int32) *Aura {
 	actionID := ActionID{SpellID: 10060, Tag: actionTag}
 
-	return char.GetOrRegisterAura(Aura{
+	aura := char.GetOrRegisterAura(Aura{
 		Label:    "PowerInfusion-" + actionID.String(),
 		Tag:      PowerInfusionAuraTag,
 		ActionID: actionID,
 		Duration: PowerInfusionDuration,
-		OnGain: func(aura *Aura, sim *Simulation) {
-			if char.HasManaBar() {
-				char.PseudoStats.SpellCostPercentModifier -= 20
-			}
-			if !char.HasActiveAuraWithTag(BloodlustAuraTag) {
-				char.MultiplyCastSpeed(sim, 1.2)
+	})
+
+	aura.NewExclusiveEffect("ManaCost", true, ExclusiveEffect{
+		Priority: -20,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			if ee.Aura.Unit.HasManaBar() {
+				ee.Aura.Unit.PseudoStats.SpellCostPercentModifier -= 20
 			}
 		},
-		OnExpire: func(aura *Aura, sim *Simulation) {
-			if char.HasManaBar() {
-				char.PseudoStats.SpellCostPercentModifier += 20
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			if ee.Aura.Unit.HasManaBar() {
+				ee.Aura.Unit.PseudoStats.SpellCostPercentModifier += 20
 			}
-			if !char.HasActiveAuraWithTag(BloodlustAuraTag) {
-				char.MultiplyCastSpeed(sim, 1/1.2)
-			}
+		},
+	})
+	multiplyCastSpeedEffect(aura, 1.2)
+	return aura
+}
+
+func multiplyCastSpeedEffect(aura *Aura, multiplier float64) *ExclusiveEffect {
+	return aura.NewExclusiveEffect("MultiplyCastSpeed", false, ExclusiveEffect{
+		Priority: multiplier,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.MultiplyCastSpeed(sim, multiplier)
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.MultiplyCastSpeed(sim, 1/multiplier)
 		},
 	})
 }
@@ -1363,18 +1373,36 @@ func applyPetBuffEffects(petAgent PetAgent, raidBuffs *proto.RaidBuffs, partyBuf
 	if petAgent.GetPet().IsGuardian() {
 		return
 	}
-	raidBuffs = googleProto.Clone(raidBuffs).(*proto.RaidBuffs)
-	partyBuffs = googleProto.Clone(partyBuffs).(*proto.PartyBuffs)
-	individualBuffs = googleProto.Clone(individualBuffs).(*proto.IndividualBuffs)
 
-	//Todo: Only cancel the buffs that are supposed to be cancelled
-	// Check beta when pets are better implemented?
-	raidBuffs = &proto.RaidBuffs{}
-	partyBuffs = &proto.PartyBuffs{}
-	individualBuffs = &proto.IndividualBuffs{}
+	// We need to modify the buffs a bit because some things are applied to pets by
+	// the owner during combat (Bloodlust) or don't make sense for a pet.
+	raidBuffs = googleProto.Clone(raidBuffs).(*proto.RaidBuffs)
+	raidBuffs.Bloodlust = false
+	raidBuffs.Thorns = proto.TristateEffect_TristateEffectMissing
+
+	partyBuffs = googleProto.Clone(partyBuffs).(*proto.PartyBuffs)
+	// Pets can't get extra attacks, doh!
+	partyBuffs.WindfuryTotem = proto.TristateEffect_TristateEffectMissing
+
+	individualBuffs = googleProto.Clone(individualBuffs).(*proto.IndividualBuffs)
+	individualBuffs.Innervates = 0
+	individualBuffs.PowerInfusions = 0
+
+	// Pets don't benefit from buffs that are ratings, e.g. crit rating or haste rating.
+	partyBuffs.Drums = proto.Drums_DrumsUnknown
+	partyBuffs.LeaderOfThePack = MinTristate(partyBuffs.LeaderOfThePack, proto.TristateEffect_TristateEffectRegular)
+	partyBuffs.MoonkinAura = MinTristate(partyBuffs.MoonkinAura, proto.TristateEffect_TristateEffectRegular)
+	partyBuffs.BraidedEterniumChain = false
 
 	if !petAgent.GetPet().enabledOnStart {
-		// What do we do with permanent pets that are not enabled at start?
+		// Auras etc still apply, but not targeted buffs (usually)
+		partyBuffs.ChainOfTheTwilightOwl = false
+		partyBuffs.EyeOfTheNight = false
+		partyBuffs.JadePendantOfBlasting = false
+
+		// Only individual buff that would apply is Unleashed Rage.
+		individualBuffs = &proto.IndividualBuffs{}
+		individualBuffs.UnleashedRage = true
 	}
 
 	applyBuffEffects(petAgent, raidBuffs, partyBuffs, individualBuffs)
@@ -1497,7 +1525,8 @@ func registerBloodlustCD(character *Character) {
 		Priority: CooldownPriorityBloodlust,
 		Type:     CooldownTypeDPS,
 		ShouldActivate: func(sim *Simulation, character *Character) bool {
-			return !character.HasActiveAura(SatedAuraLabel)
+			// Haste portion doesn't stack with Power Infusion, so prefer to wait.
+			return !character.HasActiveAuraWithTag(PowerInfusionAuraTag) && !character.HasActiveAura(SatedAuraLabel)
 		},
 	})
 }
@@ -1524,7 +1553,6 @@ func BloodlustAura(character *Character, actionTag int32) *Aura {
 		Duration: BloodlustDuration,
 		OnGain: func(aura *Aura, sim *Simulation) {
 			aura.Unit.MultiplyAttackSpeed(sim, 1.3)
-			aura.Unit.MultiplyCastSpeed(sim, 1.3)
 			for _, pet := range character.Pets {
 				if pet.IsEnabled() && !pet.IsGuardian() {
 					pet.GetAura(aura.Label).Activate(sim)
@@ -1534,10 +1562,9 @@ func BloodlustAura(character *Character, actionTag int32) *Aura {
 		},
 		OnExpire: func(aura *Aura, sim *Simulation) {
 			aura.Unit.MultiplyAttackSpeed(sim, 1/1.3)
-			aura.Unit.MultiplyCastSpeed(sim, 1/1.3)
 		},
 	})
-
+	multiplyCastSpeedEffect(aura, 1.3)
 	return aura
 }
 

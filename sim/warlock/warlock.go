@@ -20,7 +20,6 @@ type Warlock struct {
 	Immolate    *core.Spell
 	Incinerate  *core.Spell
 	SearingPain *core.Spell
-	Seed        *core.Spell
 	ShadowBolt  *core.Spell
 	Soulfire    *core.Spell
 
@@ -69,9 +68,10 @@ type Warlock struct {
 
 	currentActiveCurse *core.Spell
 
-	CorruptionTickBaseDamage float64
-	ImmolateTickBaseDamage   float64
-	T5_4PC_Multiplier        map[int32]map[*core.Spell]float64
+	SeedOfCorruptionBonusDamage float64
+	CorruptionTickBaseDamage    float64
+	ImmolateTickBaseDamage      float64
+	T5_4PC_Multiplier           map[int32]map[*core.Spell]float64
 }
 
 func (warlock *Warlock) GetCharacter() *core.Character {
@@ -86,7 +86,7 @@ func RegisterWarlock() {
 	core.RegisterAgentFactory(
 		proto.Player_Warlock{},
 		proto.Spec_SpecWarlock,
-		func(character *core.Character, options *proto.Player) core.Agent {
+		func(character *core.Character, options *proto.Player, _ *proto.Raid) core.Agent {
 			return NewWarlock(character, options, options.GetWarlock().Options.ClassOptions)
 		},
 		func(player *proto.Player, spec interface{}) {

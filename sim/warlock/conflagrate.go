@@ -31,7 +31,7 @@ func (warlock *Warlock) registerConflagrate() {
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
-			return target.HasActiveAura("Immolate (DoT)-1")
+			return warlock.Immolate.Dot(target).IsActive()
 		},
 
 		DamageMultiplier: 1.0,

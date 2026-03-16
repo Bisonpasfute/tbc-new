@@ -26,7 +26,6 @@ import {
 	APLValueCurrentComboPoints,
 	APLValueCurrentEclipsePhase,
 	APLValueCurrentEnergy,
-	APLValueCurrentFocus,
 	APLValueCurrentGenericResource,
 	APLValueCurrentHealth,
 	APLValueCurrentHealthPercent,
@@ -45,8 +44,6 @@ import {
 	APLValueDotTickFrequency,
 	APLValueEnergyRegenPerSecond,
 	APLValueEnergyTimeToTarget,
-	APLValueFocusRegenPerSecond,
-	APLValueFocusTimeToTarget,
 	APLValueFrontOfTarget,
 	APLValueGCDIsReady,
 	APLValueGCDTimeToReady,
@@ -58,7 +55,6 @@ import {
 	APLValueMax,
 	APLValueMaxComboPoints,
 	APLValueMaxEnergy,
-	APLValueMaxFocus,
 	APLValueMaxHealth,
 	APLValueMaxMana,
 	APLValueMaxRage,
@@ -91,7 +87,6 @@ import {
 	APLValueItemProcsMinRemainingTime,
 	APLValueUnitDistance,
 	APLValueUnitIsMoving,
-	APLValueVariablePlaceholder,
 	APLValueAuraIsInactive,
 	APLValueAuraICDIsReady,
 	APLValueActiveItemSwapSet,
@@ -107,6 +102,7 @@ import {
 	APLValueAutoSwingTime,
 	APLValueAutoTimeSinceLast,
 	APLValueWarlockAssignedCurseIsActive,
+	APLValueWarlockIsAssignedCurse,
 } from '../../proto/apl.js';
 import { Class, Spec } from '../../proto/common.js';
 import { ShamanTotems_TotemType as TotemType } from '../../proto/shaman.js';
@@ -117,7 +113,7 @@ import { TextDropdownPicker, TextDropdownValueConfig } from '../pickers/dropdown
 import { ListItemPickerConfig, ListPicker } from '../pickers/list_picker.jsx';
 import i18n from '../../../i18n/config';
 import * as AplHelpers from './apl_helpers.js';
-import { ActionId } from '../../proto_utils/action_id';
+import { WarlockOptions_CurseOptions } from '../../proto/warlock';
 
 export interface APLValuePickerConfig extends InputConfig<Player<any>, APLValue | undefined> {}
 
@@ -453,6 +449,26 @@ function totemTypeFieldConfig(field: string): AplHelpers.APLPickerBuilderFieldCo
 	};
 }
 
+function curseTypeFieldConfig(field: string): AplHelpers.APLPickerBuilderFieldConfig<any, any> {
+	return {
+		field: field,
+		newValue: () => WarlockOptions_CurseOptions.Agony,
+		factory: (parent, player, config) =>
+			new TextDropdownPicker(parent, player, {
+				id: randomUUID(),
+				...config,
+				defaultLabel: i18n.t('common.none'),
+				equals: (a, b) => a == b,
+				values: [
+					{ value: WarlockOptions_CurseOptions.Agony, label: i18n.t('rotation_tab.apl.curse_types.agony') },
+					{ value: WarlockOptions_CurseOptions.Doom, label: i18n.t('rotation_tab.apl.curse_types.doom') },
+					{ value: WarlockOptions_CurseOptions.Elements, label: i18n.t('rotation_tab.apl.curse_types.elements') },
+					{ value: WarlockOptions_CurseOptions.Recklessness, label: i18n.t('rotation_tab.apl.curse_types.recklessness') },
+				],
+			}),
+	};
+}
+
 export function valueFieldConfig(
 	field: string,
 	options?: Partial<AplHelpers.APLPickerBuilderFieldConfig<any, any>>,
@@ -711,7 +727,7 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		newValue: APLValueCurrentMana.create,
 		includeIf(player: Player<any>, _isPrepull: boolean) {
 			const clss = player.getClass();
-			return clss !== Class.ClassHunter && clss !== Class.ClassRogue && clss !== Class.ClassWarrior;
+			return clss !== Class.ClassRogue && clss !== Class.ClassWarrior;
 		},
 		fields: [],
 	}),
@@ -722,7 +738,7 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		newValue: APLValueCurrentManaPercent.create,
 		includeIf(player: Player<any>, _isPrepull: boolean) {
 			const clss = player.getClass();
-			return clss !== Class.ClassHunter && clss !== Class.ClassRogue && clss !== Class.ClassWarrior;
+			return clss !== Class.ClassRogue && clss !== Class.ClassWarrior;
 		},
 		fields: [],
 	}),
@@ -733,7 +749,7 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		newValue: APLValueMaxMana.create,
 		includeIf(player: Player<any>, _isPrepull: boolean) {
 			const clss = player.getClass();
-			return clss !== Class.ClassHunter && clss !== Class.ClassRogue && clss !== Class.ClassWarrior;
+			return clss !== Class.ClassRogue && clss !== Class.ClassWarrior;
 		},
 		fields: [],
 	}),
@@ -760,38 +776,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			return spec === Spec.SpecFeralCatDruid || spec === Spec.SpecFeralBearDruid || clss === Class.ClassWarrior;
 		},
 		fields: [],
-	}),
-	currentFocus: inputBuilder({
-		label: i18n.t('rotation_tab.apl.values.current_focus.label'),
-		submenu: ['resources', 'focus'],
-		shortDescription: i18n.t('rotation_tab.apl.values.current_focus.tooltip'),
-		newValue: APLValueCurrentFocus.create,
-		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getClass() == Class.ClassHunter,
-		fields: [],
-	}),
-	maxFocus: inputBuilder({
-		label: i18n.t('rotation_tab.apl.values.max_focus.label'),
-		submenu: ['resources', 'focus'],
-		shortDescription: i18n.t('rotation_tab.apl.values.max_focus.tooltip'),
-		newValue: APLValueMaxFocus.create,
-		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getClass() == Class.ClassHunter,
-		fields: [],
-	}),
-	focusRegenPerSecond: inputBuilder({
-		label: i18n.t('rotation_tab.apl.values.focus_regen_per_second.label'),
-		submenu: ['resources', 'focus'],
-		shortDescription: i18n.t('rotation_tab.apl.values.focus_regen_per_second.tooltip'),
-		newValue: APLValueFocusRegenPerSecond.create,
-		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getClass() == Class.ClassHunter,
-		fields: [],
-	}),
-	focusTimeToTarget: inputBuilder({
-		label: i18n.t('rotation_tab.apl.values.estimated_time_to_target_focus.label'),
-		submenu: ['resources', 'focus'],
-		shortDescription: i18n.t('rotation_tab.apl.values.estimated_time_to_target_focus.tooltip'),
-		newValue: APLValueFocusTimeToTarget.create,
-		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getClass() == Class.ClassHunter,
-		fields: [valueFieldConfig('targetFocus')],
 	}),
 	currentEnergy: inputBuilder({
 		label: i18n.t('rotation_tab.apl.values.current_energy.label'),
@@ -924,7 +908,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			const clss = player.getClass();
 			const spec = player.getSpec();
 			return (
-				clss !== Class.ClassHunter &&
 				clss !== Class.ClassMage &&
 				clss !== Class.ClassPriest &&
 				clss !== Class.ClassWarlock &&
@@ -943,7 +926,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			const clss = player.getClass();
 			const spec = player.getSpec();
 			return (
-				clss !== Class.ClassHunter &&
 				clss !== Class.ClassMage &&
 				clss !== Class.ClassPriest &&
 				clss !== Class.ClassWarlock &&
@@ -962,7 +944,6 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 			const clss = player.getClass();
 			const spec = player.getSpec();
 			return (
-				clss !== Class.ClassHunter &&
 				clss !== Class.ClassMage &&
 				clss !== Class.ClassPriest &&
 				clss !== Class.ClassWarlock &&
@@ -1478,6 +1459,14 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecWarlock,
 		fields: [AplHelpers.unitFieldConfig('newTarget', 'targets')],
 	}),
+	warlockIsAssignedCurse: inputBuilder({
+		label: i18n.t('rotation_tab.apl.values.warlock_is_assigned_curse.label'),
+		submenu: ['warlock'],
+		shortDescription: i18n.t('rotation_tab.apl.values.warlock_is_assigned_curse.tooltip'),
+		newValue: APLValueWarlockIsAssignedCurse.create,
+		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecWarlock,
+		fields: [curseTypeFieldConfig('curseType')],
+	}),
 	protectionPaladinDamageTakenLastGlobal: inputBuilder({
 		label: i18n.t('rotation_tab.apl.values.protection_paladin_damage_taken_last_global.label'),
 		submenu: ['tank'],
@@ -1510,9 +1499,10 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		],
 	}),
 	actionGroupUsed: inputBuilder({
-		label: "Action Group is used",
+		label: 'Action Group is used',
 		submenu: ['Variables'],
-		shortDescription: "Returns <b>True</b> if the specified action group is used in the rotation. This allows you to conditionally execute actions based on whether an action group is included in the rotation.",
+		shortDescription:
+			'Returns <b>True</b> if the specified action group is used in the rotation. This allows you to conditionally execute actions based on whether an action group is included in the rotation.',
 		newValue: APLValueActionGroupUsed.create,
 		fields: [AplHelpers.groupNameFieldConfig('name')],
 	}),

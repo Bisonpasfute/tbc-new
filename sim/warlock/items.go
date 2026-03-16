@@ -38,11 +38,23 @@ var ItemSetOblivionRaiment = core.NewItemSet(core.ItemSet{
 		4: func(agent core.Agent, setBonusAura *core.Aura) {
 			// Your Seed of Corruption deals 180 additional damage when it detonates.
 			// Improved Seed of Corruption - 37376
+			if agent.GetCharacter().Class != proto.Class_ClassWarlock {
+				return
+			}
+
+			warlock := agent.(WarlockAgent).GetWarlock()
+
 			setBonusAura.AttachSpellMod(core.SpellModConfig{
-				Kind:       core.SpellMod_BonusSpellDamage_Flat,
-				FloatValue: 180.0,
-				ClassMask:  WarlockSpellSeedOfCorruptionExplosion,
-			})
+				Kind:      core.SpellMod_Custom,
+				ClassMask: WarlockSpellSeedOfCorruptionExplosion,
+				ApplyCustom: func(mod *core.SpellMod, spell *core.Spell) {
+					warlock.SeedOfCorruptionBonusDamage += 180
+				},
+				RemoveCustom: func(mod *core.SpellMod, spell *core.Spell) {
+					warlock.SeedOfCorruptionBonusDamage -= 180
+				},
+			}).ExposeToAPL(37376)
+
 		},
 	},
 })
@@ -84,7 +96,7 @@ var ItemSetVoidheartRaiment = core.NewItemSet(core.ItemSet{
 				Kind:      core.SpellMod_DotNumberOfTicks_Flat,
 				IntValue:  1,
 				ClassMask: WarlockSpellCorruption | WarlockSpellImmolateDot,
-			})
+			}).ExposeToAPL(37380)
 		},
 	},
 })
@@ -161,7 +173,7 @@ var ItemSetCorruptorRaiment = core.NewItemSet(core.ItemSet{
 						dot.SnapshotBaseDamage = newBaseDamage + snapShotterBonusCoeff
 					}
 				},
-			})
+			}).ExposeToAPL(37384)
 		},
 	},
 })
@@ -193,7 +205,7 @@ var ItemSetMaleficRaiment = core.NewItemSet(core.ItemSet{
 				Kind:       core.SpellMod_DamageDone_Flat,
 				FloatValue: 0.06,
 				ClassMask:  WarlockSpellShadowBolt | WarlockSpellIncinerate,
-			})
+			}).ExposeToAPL(38393)
 		},
 	},
 })

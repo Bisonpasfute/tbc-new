@@ -3387,21 +3387,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Chance on successful spellcast to restore 90 Mana over 10s.
-	// https://www.wowhead.com/tbc/spell=31036
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 24122, ItemName: "Coronet of Verdant Flame"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Restores 900 mana over 12s.
 	// https://www.wowhead.com/tbc/spell=31045
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
@@ -4225,21 +4210,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Attempts to impale the target, causing 600 damage.
-	// https://www.wowhead.com/tbc/spell=34580
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 28573, ItemName: "Despair"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// For the next 20s, your direct heals grant Fecundity to your target, increasing the healing received by
 	// the target by up to 30. Fecundity lasts 10s and stacks up to 5 times.
 	// https://www.wowhead.com/tbc/spell=38332
@@ -4447,22 +4417,6 @@ func RegisterAllProcs() {
 	//	RequireDamageDealt: false
 	// }, []shared.ItemVariant{
 	//	{ItemID: 28719, ItemName: "Grand Marshal's Wyrmhide Gloves"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
-	// Each spell cast within 20 seconds will grant a stacking bonus of 21 mana regen per 5 sec. Expires after
-	// 20 seconds. Abilities with no mana cost will not trigger this trinket.
-	// https://www.wowhead.com/tbc/spell=29601
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 28727, ItemName: "Pendant of the Violet Eye"},
 	// })
 
 	// TODO: Manual implementation required
@@ -5045,21 +4999,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Your Arcane Shot ability increases the damage dealt by all other damaging shots by 40 for 6s.
-	// https://www.wowhead.com/tbc/spell=37507
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 30448, ItemName: "Talon of Al'ar"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Your special attacks have a chance to give you 1000 armor penetration for 15s.
 	// https://www.wowhead.com/tbc/spell=37174
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
@@ -5221,22 +5160,6 @@ func RegisterAllProcs() {
 	//	RequireDamageDealt: false
 	// }, []shared.ItemVariant{
 	//	{ItemID: 30847, ItemName: "X-52 Rocket Helmet"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
-	// Increases damage dealt by your pet by 3%.
-	// https://www.wowhead.com/tbc/spell=27206
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 30892, ItemName: "Beast-tamer's Shoulders"},
-	//	{ItemID: 30892, ItemName: "Beast-tamer's Shoulders"},
 	// })
 
 	// TODO: Manual implementation required
@@ -6025,21 +5948,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Increases attack power by 26.
-	// https://www.wowhead.com/tbc/spell=0
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 32336, ItemName: "Black Bow of the Betrayer"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Your Judgement ability also increases your shield block value by 186 for 5s.
 	// https://www.wowhead.com/tbc/spell=41042
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
@@ -6118,21 +6026,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Your Steady Shot has a 15% chance to grant you 275 attack power for 8s.
-	// https://www.wowhead.com/tbc/spell=40487
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 32487, ItemName: "Ashtongue Talisman of Swiftness"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Your spell critical strikes have a 50% chance to grant you 145 spell haste rating for 5s.
 	// https://www.wowhead.com/tbc/spell=40483
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
@@ -6205,21 +6098,6 @@ func RegisterAllProcs() {
 	//	RequireDamageDealt: false
 	// }, []shared.ItemVariant{
 	//	{ItemID: 32492, ItemName: "Ashtongue Talisman of Lethality"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
-	// Each time you cast a spell, there is chance you will gain up to 76 mana per 5 for 15s.
-	// https://www.wowhead.com/tbc/spell=37656
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 32496, ItemName: "Memento of Tyrande"},
 	// })
 
 	// TODO: Manual implementation required
@@ -7040,22 +6918,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Thori'dal generates magical arrows when the bow string is drawn. Does not use ammo.
-	// https://www.wowhead.com/tbc/spell=46699
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 34334, ItemName: "Thori'dal, the Stars' Fury"},
-	//	{ItemID: 34334, ItemName: "Thori'dal, the Stars' Fury"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Conjures a Power Circle lasting for 15s. While standing in this circle, the caster gains up to 320 spell
 	// damage and healing.
 	// https://www.wowhead.com/tbc/spell=45042
@@ -7102,9 +6964,8 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Release all accumulated Holy Energy to instantly heal current friendly target by the amount of Holy Energy
-	// accumulated.
-	// https://www.wowhead.com/tbc/spell=45064
+	// Collects 100 Holy Energy from healing spells you cast. Cannot collect more than 2000 Holy Energy.
+	// https://www.wowhead.com/tbc/spell=45062
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskUnknown,
@@ -7998,6 +7859,17 @@ func RegisterAllProcs() {
 		RequireDamageDealt: false,
 	}, []shared.ItemVariant{
 		{ItemID: 21190, ItemName: "Wrath of Cenarius"},
+	})
+
+	// Chance on successful spellcast to restore 90 Mana over 10s.
+	// https://www.wowhead.com/tbc/spell=31036
+	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
+		Callback:           core.CallbackOnSpellHitDealt,
+		ProcMask:           core.ProcMaskSpellDamage,
+		Outcome:            core.OutcomeLanded,
+		RequireDamageDealt: false,
+	}, []shared.ItemVariant{
+		{ItemID: 24122, ItemName: "Coronet of Verdant Flame"},
 	})
 
 	// 2% chance on successful spellcast to increase your spell damage by up to 1 for 15s.
