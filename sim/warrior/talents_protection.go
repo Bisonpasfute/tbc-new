@@ -441,7 +441,7 @@ func (war *Warrior) registerDevastate() {
 		FlatThreatBonus:  100,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := war.MHWeaponDamage(sim, spell.MeleeAttackPower(target)) * 0.5
+			baseDamage := war.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target)) * 0.5
 			sunderStacks := war.SunderArmorAuras.Get(target).GetStacks()
 			sunderDamage := core.TernaryFloat64(war.CanApplySunderAura(target), float64(sunderStacks)*35, 0)
 			result := spell.CalcAndDealDamage(sim, target, baseDamage+sunderDamage, spell.OutcomeMeleeSpecialHitAndCrit)
