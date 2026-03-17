@@ -59,11 +59,9 @@ func makeMorogrimAI() core.AIFactory {
 
 type MorogrimAI struct {
 	// Unit references
-	Target     *core.Target
-	BossUnit   *core.Unit
-	MainTank   *core.Unit
-	OffTank    *core.Unit
-	ValidTanks []*core.Unit
+	Target   *core.Target
+	BossUnit *core.Unit
+	MainTank *core.Unit
 
 	// Spell + aura references
 	Thrash        *core.Spell
@@ -80,10 +78,6 @@ func (ai *MorogrimAI) Initialize(target *core.Target, config *proto.Target) {
 	ai.BossUnit = &target.Unit
 
 	ai.MainTank = ai.BossUnit.CurrentTarget
-
-	ai.ValidTanks = core.FilterSlice([]*core.Unit{ai.MainTank, ai.OffTank}, func(unit *core.Unit) bool {
-		return unit != nil
-	})
 
 	// Register relevant spells and auras
 	ai.registerTidalWave()
