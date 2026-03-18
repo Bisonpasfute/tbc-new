@@ -5808,6 +5808,9 @@
 								"cooldowns": {
 									"type": "string"
 								},
+								"potions": {
+									"type": "string"
+								},
 								"placeholders": {
 									"type": "string"
 								}
@@ -5844,6 +5847,7 @@
 								"combo_points",
 								"eclipse",
 								"cooldowns",
+								"potions",
 								"placeholders"
 							]
 						},
