@@ -1226,13 +1226,12 @@ export function enchantAppliesToItem(enchant: Enchant, item: Item): boolean {
 	return true;
 }
 
-export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, playerSpec: PlayerSpec<SpecType>): boolean {
-	if (enchant.classAllowlist.length > 0 && !enchant.classAllowlist.includes(playerSpec.classID)) {
+export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, player: Player<SpecType>): boolean {
+	if (enchant.classAllowlist.length > 0 && !enchant.classAllowlist.includes(player.playerSpec.classID)) {
 		return false;
 	}
-
-	// This is a Tinker and we handle them differently
-	if (enchant.requiredProfession == Profession.Engineering) {
+	// This is a enchant requires Enchanting
+	if (enchant.requiredProfession == Profession.Enchanting && !player.hasProfession(Profession.Enchanting)) {
 		return false;
 	}
 

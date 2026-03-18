@@ -1468,7 +1468,7 @@ export class ReforgeOptimizer {
 		if (metaGem?.id) {
 			const { minBlue, minRed, minYellow, compareColorGreater, compareColorLesser } = getMetaGemCondition(metaGem?.id);
 			if (compareColorGreater && compareColorLesser) {
-				constraints.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, greaterEq(2));
+				constraints.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, greaterEq(1));
 			}
 			if (minBlue) {
 				constraints.set(`GemColor_${GemColor.GemColorBlue}`, greaterEq(minBlue));
