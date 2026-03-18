@@ -174,6 +174,7 @@ func (action *APLActionStrictSequence) IsReady(sim *Simulation) bool {
 	return true
 }
 func (action *APLActionStrictSequence) Execute(sim *Simulation) {
+	action.unit.Rotation.inSequence = true
 	action.unit.Rotation.pushControllingAction(action)
 }
 func (action *APLActionStrictSequence) relinquishControl() {
@@ -215,6 +216,9 @@ func (action *APLActionStrictSequence) GetNextAction(sim *Simulation) *APLAction
 		}
 
 		return nextAction
+	} else if !action.unit.CanQueueSpell(sim) {
+		// The spell was already queued at this timestep; return nil to wait for the GCD to become ready.
+		return nil
 	} else if action.unit.GCD.TimeToReady(sim) <= MaxSpellQueueWindow {
 		// If the GCD is ready when the next subaction isn't, it means the sequence is bad
 		// so reset and exit the sequence.
