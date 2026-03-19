@@ -6632,6 +6632,19 @@
 									"additionalProperties": false,
 									"required": ["label", "tooltip"]
 								},
+								"time_to_weave": {
+									"type": "object",
+									"properties": {
+										"label": {
+											"type": "string"
+										},
+										"tooltip": {
+											"type": "string"
+										}
+									},
+									"additionalProperties": false,
+									"required": ["label", "tooltip"]
+								},
 								"use_multi": {
 									"type": "object",
 									"properties": {
@@ -6690,6 +6703,7 @@
 								"sting",
 								"melee_weave",
 								"weave_only_raptor",
+								"time_to_weave",
 								"use_multi",
 								"use_arcane",
 								"viper_start_mana_percent",
