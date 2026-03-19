@@ -303,25 +303,12 @@ export class ActionId {
 				}
 				break;
 			case 'Mind Flay':
-				if (this.spellId === 15407) {
-					if (tag == 1) {
-						name += ' (1 Tick)';
-					} else if (tag == 2) {
-						name += ' (2 Tick)';
-					} else if (tag == 3) {
-						name += ' (3 Tick)';
-					} else if (tag == 77486) {
-						name += ' (Mastery)';
-					}
-				} else {
-					// Gurthalak, Voice of the Deeps
-					if (tag === 0) {
-						name += ' (LFR)';
-					} else if (tag === 1) {
-						name += ' (Normal)';
-					} else if (tag === 2) {
-						name += ' (Heroic)';
-					}
+				if (tag == 1) {
+					name += ' (1 Tick)';
+				} else if (tag == 2) {
+					name += ' (2 Tick)';
+				} else if (tag == 3) {
+					name += ' (3 Tick)';
 				}
 				break;
 			case 'Mind Sear':
@@ -337,12 +324,13 @@ export class ActionId {
 
 				break;
 			case 'Devotion Aura':
-			case 'Shattering Throw':
 			case 'Pain Suppression':
+			case 'Curse of the Elements':
+			case 'Curse of Recklessness':
 				if (tag === -1) {
-					name += ' (raid)';
+					name += ' (External)';
 				} else {
-					name += ` (self)`;
+					name += ` (Self)`;
 				}
 				break;
 			case 'Envenom':
@@ -516,6 +504,11 @@ export class ActionId {
 					name += ' (Normalized)';
 				}
 				break;
+			case 'Sunder Armor':
+				if (tag == 1) {
+					name += ' (Devastate)';
+				}
+				break;
 			case 'Improved Berserker Rage':
 			case 'Improved Overpower':
 				name += ` (${tag}/2)`;
@@ -563,6 +556,10 @@ export class ActionId {
 			case 'Shadow Word: Death':
 				if (tag == 1) {
 					name += ' (No Orb)';
+				}
+			case 'Shadowfiend':
+				if (tag == 1) {
+					name += ' (Mana Restore)';
 				}
 			case 'Steady Focus':
 				if (tag == 2) {
