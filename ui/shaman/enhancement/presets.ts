@@ -64,8 +64,6 @@ export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
 		{
 			[PseudoStat.PseudoStatMainHandDps]: 8.19,
 			[PseudoStat.PseudoStatOffHandDps]: 3.59,
-			[PseudoStat.PseudoStatSpellHitPercent]: 0.54 * Mechanics.SPELL_HIT_RATING_PER_HIT_PERCENT,
-			[PseudoStat.PseudoStatMeleeHitPercent]: 1.69 * Mechanics.PHYSICAL_HIT_RATING_PER_HIT_PERCENT,
 		},
 	),
 );
@@ -90,8 +88,6 @@ export const P3_EP_PRESET = PresetUtils.makePresetEpWeights(
 		{
 			[PseudoStat.PseudoStatMainHandDps]: 8.25,
 			[PseudoStat.PseudoStatOffHandDps]: 3.61,
-			[PseudoStat.PseudoStatSpellHitPercent]: 0.49 * Mechanics.SPELL_HIT_RATING_PER_HIT_PERCENT,
-			[PseudoStat.PseudoStatMeleeHitPercent]: 1.91 * Mechanics.PHYSICAL_HIT_RATING_PER_HIT_PERCENT,
 		},
 	),
 );
