@@ -27,16 +27,8 @@ export class ConsumesPicker extends Component {
 	}
 
 	private getConsumables(type: ConsumableType): Consumable[] {
-		const consumables: Consumable[] = [];
 		const epStats = [...(this.simUI.individualConfig.consumableStats ?? []), ...this.simUI.individualConfig.epStats];
-		const hasAttackPowerStat = epStats.find(stat => stat === Stat.StatAttackPower);
-		if (type == ConsumableType.ConsumableTypeBattleElixir && hasAttackPowerStat) {
-			const elixirOfDemonSlaying = this.db.getConsumable(9224);
-			if (elixirOfDemonSlaying) {
-				consumables.push(elixirOfDemonSlaying);
-			}
-		}
-		return [...consumables, ...this.db.getConsumablesByTypeAndStats(type, epStats)];
+		return this.db.getConsumablesByTypeAndStats(type, epStats);
 	}
 
 	public static create(parentElem: HTMLElement, settingsTab: SettingsTab, simUI: IndividualSimUI<any>): ConsumesPicker {
@@ -168,7 +160,7 @@ export class ConsumesPicker extends Component {
 			petFoods,
 			{
 				consumesFieldName: 'petFoodId',
-				showWhen: (player: Player<any>) => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecShadowPriest].includes(player.getSpec()),
+				showWhen: (player: Player<any>) => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecPriest].includes(player.getSpec()),
 			},
 			'',
 		);

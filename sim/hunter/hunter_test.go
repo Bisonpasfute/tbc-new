@@ -15,6 +15,21 @@ func init() {
 }
 
 func TestHunter(t *testing.T) {
+	weaveRotation := core.GetAplRotation("../../ui/hunter/dps/apls", "default")
+	weaveRotation.Label = "weave"
+
+	turretRotation := core.GetAplRotation("../../ui/hunter/dps/apls", "default").Rotation
+	turretRotation.ValueVariables[2] = &proto.APLValueVariable{
+		Name: "Melee weave",
+		Value: &proto.APLValue{
+			Value: &proto.APLValue_Const{
+				Const: &proto.APLValueConst{
+					Val: "false",
+				},
+			},
+		},
+	}
+
 	core.RunTestSuite(t, t.Name(), core.FullCharacterTestSuiteGenerator([]core.CharacterSuiteConfig{
 		{
 			Class:      proto.Class_ClassHunter,
@@ -31,9 +46,9 @@ func TestHunter(t *testing.T) {
 			Profession1:      proto.Profession_Engineering,
 			Profession2:      proto.Profession_Blacksmithing,
 
-			Rotation: core.GetAplRotation("../../ui/hunter/dps/apls", "weave"),
+			Rotation: weaveRotation,
 			OtherRotations: []core.RotationCombo{
-				{Label: "Turret", Rotation: core.GetAplRotation("../../ui/hunter/dps/apls", "turret").Rotation},
+				{Label: "Turret", Rotation: turretRotation},
 			},
 
 			ItemFilter: core.ItemFilter{

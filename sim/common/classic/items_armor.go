@@ -115,6 +115,6 @@ func init() {
 	// Chain of the Twilight Owl
 	core.NewItemEffect(24121, func(agent core.Agent) {
 		character := agent.GetCharacter()
-		core.EyeOfTheNightAura(character)
+		core.ChainOfTheTwilightOwlAura(character)
 	})
 }
