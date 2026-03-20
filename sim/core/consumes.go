@@ -120,10 +120,12 @@ func applyConsumeEffects(agent Agent, partyBuffs *proto.PartyBuffs) {
 		}
 	}
 
+	drumsBombsSharedTimer := character.NewTimer()
+
 	registerPotionCD(agent, consumables)
 	registerConjuredCD(agent, consumables)
-	registerExplosivesCD(agent, consumables)
-	registerDrumsCD(agent, consumables)
+	registerExplosivesCD(agent, consumables, drumsBombsSharedTimer)
+	registerDrumsCD(agent, consumables, drumsBombsSharedTimer)
 }
 
 var PotionAuraTag = "Potion"
@@ -463,7 +465,7 @@ var FelIronBombActionID = ActionID{ItemID: 23736}
 var AdamantiteGrenadeActionID = ActionID{ItemID: 23737}
 var GnomishFlameTurretActionID = ActionID{ItemID: 23841}
 
-func registerExplosivesCD(agent Agent, consumes *proto.ConsumesSpec) {
+func registerExplosivesCD(agent Agent, consumes *proto.ConsumesSpec, sharedTimer *Timer) {
 	character := agent.GetCharacter()
 	if !character.HasProfession(proto.Profession_Engineering) {
 		return
@@ -471,7 +473,6 @@ func registerExplosivesCD(agent Agent, consumes *proto.ConsumesSpec) {
 	if !consumes.GoblinSapper && !consumes.SuperSapper && consumes.ExplosiveId == 0 {
 		return
 	}
-	sharedTimer := character.NewTimer()
 
 	if consumes.SuperSapper {
 		character.AddMajorCooldown(MajorCooldown{
@@ -574,47 +575,34 @@ func (character *Character) newEzThroDynamiteTwo(sharedTimer *Timer) *Spell {
 	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, EzThroDynamiteTwoActionID, SpellSchoolFire, 213, 287, 14, time.Second, Cooldown{}))
 }
 
-func registerDrumsCD(agent Agent, consumables *proto.ConsumesSpec) {
+func registerDrumsCD(agent Agent, consumables *proto.ConsumesSpec, sharedTimer *Timer) {
 	if consumables.DrumsId > 0 {
 		character := agent.GetCharacter()
-		actionID := ActionID{SpellID: consumables.DrumsId}
-		var drumLabel string
-		var drumStats stats.Stats
-		var duration time.Duration
+		var drum proto.Drums
 		switch consumables.DrumsId {
 		case 351355:
-			drumLabel = "Drums of Battle"
-			drumStats = stats.Stats{stats.MeleeHasteRating: 80, stats.SpellHasteRating: 80}
-			duration = time.Second * 30
+			drum = proto.Drums_DrumsOfBattle
 		case 351360:
-			drumLabel = "Drums of War"
-			drumStats = stats.Stats{stats.AttackPower: 60, stats.RangedAttackPower: 60, stats.SpellDamage: 30}
-			duration = time.Second * 30
+			drum = proto.Drums_DrumsOfWar
 		case 351358:
-			drumLabel = "Drums of Restoration"
-			drumStats = stats.Stats{stats.MP5: 200}
-			duration = time.Second * 15
+			drum = proto.Drums_DrumsOfRestoration
 		}
-		aura := character.NewTemporaryStatsAura(drumLabel, actionID, drumStats, duration)
-
-		spell := character.GetOrRegisterSpell(SpellConfig{
-			ActionID: actionID,
-			Flags:    SpellFlagNoOnCastComplete,
-			ProcMask: ProcMaskEmpty,
-
-			Cast: CastConfig{
-				CD: Cooldown{
-					Timer:    character.NewTimer(),
-					Duration: time.Minute * 2,
-				},
+		config := drumsSpellConfig(character, drum, false)
+		config.Cast = CastConfig{
+			DefaultCast: Cast{
+				CastTime: time.Second,
+				GCD:      GCDDefault,
 			},
-
-			ApplyEffects: func(sim *Simulation, target *Unit, spell *Spell) {
-				aura.Activate(sim)
+			CD: Cooldown{
+				Timer:    character.NewTimer(),
+				Duration: time.Minute * 2,
 			},
-
-			RelatedSelfBuff: aura.Aura,
-		})
+			SharedCD: Cooldown{
+				Timer:    sharedTimer,
+				Duration: time.Minute * 2,
+			},
+		}
+		spell := character.RegisterSpell(config)
 
 		character.AddMajorCooldown(MajorCooldown{
 			Spell:    spell,
