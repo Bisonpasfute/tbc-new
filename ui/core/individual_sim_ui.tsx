@@ -525,13 +525,13 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 					if (oldPartyDrums && oldProto.partyBuffs) {
 						switch (oldPartyDrums) {
 							case 351355: // Greater Drums of Battle
-								oldProto.partyBuffs.drums = Drums.DrumsOfBattle;
+								oldProto.partyBuffs.drums = Drums.LesserDrumsOfBattle;
 								break;
 							case 351360: // Greater Drums of War
-								oldProto.partyBuffs.drums = Drums.DrumsOfWar;
+								oldProto.partyBuffs.drums = Drums.LesserDrumsOfWar;
 								break;
 							case 351358: // Greater Drums of Restoration
-								oldProto.partyBuffs.drums = Drums.DrumsOfRestoration;
+								oldProto.partyBuffs.drums = Drums.LesserDrumsOfRestoration;
 								break;
 						}
 

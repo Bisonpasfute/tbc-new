@@ -79,7 +79,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRogue, {
 			windfuryTotem: TristateEffect.TristateEffectImproved,
 			leaderOfThePack: TristateEffect.TristateEffectRegular,
 			totemTwisting: true,
-			drums: Drums.DrumsOfBattle,
+			drums: Drums.LesserDrumsOfBattle,
 		}),
 		individualBuffs: IndividualBuffs.create({
 			blessingOfKings: true,

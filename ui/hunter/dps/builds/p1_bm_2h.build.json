@@ -34,7 +34,7 @@
 		"windfuryTotem": "TristateEffectImproved",
 		"totemTwisting": true,
 		"battleShout": "TristateEffectImproved",
-		"drums": 1
+		"drums": 4
 	},
 	"player": {
 		"name": "Player",

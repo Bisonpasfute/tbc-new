@@ -88,7 +88,7 @@ export const DefaultPartyBuffs = PartyBuffs.create({
 	manaSpringTotem: 2,
 	manaTideTotems: 1,
 	wrathOfAirTotem: 1,
-	drums: Drums.DrumsOfBattle,
+	drums: Drums.LesserDrumsOfBattle,
 });
 
 export const DefaultIndividualBuffs = IndividualBuffs.create({

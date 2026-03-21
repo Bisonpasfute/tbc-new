@@ -32,7 +32,7 @@
 		"graceOfAirTotem": "TristateEffectImproved",
 		"strengthOfEarthTotem": "TristateEffectImproved",
 		"battleShout": "TristateEffectImproved",
-		"drums": 1
+		"drums": 4
 	},
 	"player": {
 		"name": "Player",

@@ -16,7 +16,7 @@ export const DefaultPartyBuffs = PartyBuffs.create({
 	windfuryTotem: TristateEffect.TristateEffectImproved,
 	leaderOfThePack: TristateEffect.TristateEffectRegular,
 	totemTwisting: true,
-	drums: Drums.DrumsOfBattle,
+	drums: Drums.LesserDrumsOfBattle,
 });
 
 export const DefaultRaidBuffs = RaidBuffs.create({

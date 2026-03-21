@@ -144,7 +144,7 @@ export const DefaultPartyBuffs = PartyBuffs.create({
 	wrathOfAirTotem: TristateEffect.TristateEffectImproved,
 	eyeOfTheNight: true,
 	chainOfTheTwilightOwl: true,
-	drums: Drums.DrumsOfBattle,
+	drums: Drums.LesserDrumsOfBattle,
 });
 
 export const DefaultIndividualBuffs = IndividualBuffs.create({
