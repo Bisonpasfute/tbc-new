@@ -12,13 +12,6 @@ export const RotationInputs = {
 		InputHelpers.makeRotationEnumInput<Spec.SpecDpsWarrior, DpsWarriorSpec>({
 			fieldName: 'spec',
 			label: i18n.t('rotation_tab.options.warrior.dps.spec.label'),
-			changeEmitter: player => TypedEvent.onAny([player.rotationChangeEmitter, player.talentsChangeEmitter, player.gearChangeEmitter]),
-			getValue: player => {
-				if (isFurySpec(player) || isArmsKebabSpec(player)) {
-					return DpsWarriorSpec.DpsWarriorSpecFury;
-				}
-				return DpsWarriorSpec.DpsWarriorSpecArms;
-			},
 			values: [
 				{ name: i18n.t('rotation_tab.options.warrior.dps.spec.fury'), value: DpsWarriorSpec.DpsWarriorSpecFury },
 				{ name: i18n.t('rotation_tab.options.warrior.dps.spec.arms'), value: DpsWarriorSpec.DpsWarriorSpecArms },

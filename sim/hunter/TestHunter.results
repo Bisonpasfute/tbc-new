@@ -335,9 +335,9 @@ dps_results: {
 dps_results: {
  key: "TestHunter-AllItems-BraidedEterniumChain-24114"
  value: {
-  dps: 3102.10338
-  tps: 2117.0037
-  dtps: 13.52106
+  dps: 3086.60215
+  tps: 2098.7422
+  dtps: 13.48113
  }
 }
 dps_results: {

@@ -6,7 +6,7 @@ import (
 
 func RegisterAllOnUseCds() {
 
-	// 
+	//
 	// shared.NewSimpleStatActive(13143) // Mark of the Dragon Lord - https://www.wowhead.com/tbc/spell=17252
 	// shared.NewSimpleStatActive(13171) // Smokey's Lighter - https://www.wowhead.com/tbc/spell=17283
 	// shared.NewSimpleStatActive(13213) // Smolderweb's Eye - https://www.wowhead.com/tbc/spell=17330
@@ -184,9 +184,6 @@ func RegisterAllOnUseCds() {
 	// Health / Strength
 	shared.NewSimpleStatActive(28484) // Bulwark of Kings - https://www.wowhead.com/tbc/spell=34511
 	shared.NewSimpleStatActive(28485) // Bulwark of the Ancient Kings - https://www.wowhead.com/tbc/spell=34511
-
-	// MeleeCritRating
-	shared.NewSimpleStatActive(24114) // Braided Eternium Chain - https://www.wowhead.com/tbc/spell=31025
 
 	// MeleeHasteRating
 	shared.NewSimpleStatActive(22954) // Kiss of the Spider - https://www.wowhead.com/tbc/spell=28866

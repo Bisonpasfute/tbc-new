@@ -258,8 +258,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-BraidedEterniumChain-24114"
  value: {
-  dps: 1886.6861
-  tps: 1788.98729
+  dps: 1876.56217
+  tps: 1778.30072
  }
 }
 dps_results: {
