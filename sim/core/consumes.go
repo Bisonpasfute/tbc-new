@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/wowsims/tbc/sim/core/proto"
@@ -447,7 +446,6 @@ func makeConjuredActivationSpellInternal(conjured Consumable, character *Charact
 			case proto.ResourceType_ResourceTypeMana:
 				totalRegen := character.ManaRegenPerSecondWhileCasting() * 5
 				manaGain := config.min + config.spread
-				fmt.Println(manaGain)
 				shouldActivate = character.MaxMana()-(character.CurrentMana()+totalRegen) >= manaGain
 			case proto.ResourceType_ResourceTypeEnergy:
 				if conjured.Id == 7676 {
