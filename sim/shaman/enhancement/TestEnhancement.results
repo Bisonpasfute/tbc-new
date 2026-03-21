@@ -1155,15 +1155,15 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-TotemofImpact-27947"
  value: {
-  dps: 1899.14711
-  tps: 1801.01478
+  dps: 1879.94516
+  tps: 1781.81283
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-TotemofImpact-27984"
  value: {
-  dps: 1899.14711
-  tps: 1801.01478
+  dps: 1879.94516
+  tps: 1781.81283
  }
 }
 dps_results: {

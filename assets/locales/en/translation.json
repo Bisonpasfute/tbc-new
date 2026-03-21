@@ -1905,6 +1905,31 @@
 					"label": "Viper stop mana %",
 					"tooltip": "Switch back to Aspect of the Hawk when mana goes above this amount."
 				}
+			},
+			"warrior": {
+				"sunder_armor": {
+					"label": "Sunder Armor",
+					"none": "Never",
+					"help": "Help stack",
+					"maintain": "Maintain debuff"
+				},
+				"bloodlust_timing": {
+					"label": "Bloodlust timing (Seconds)",
+					"tooltip": "When, in seconds, to use Bloodlust/Heroism."
+				},
+				"dps": {
+					"spec": {
+						"label": "Rotation",
+						"fury": "Fury",
+						"arms": "Arms"
+					},
+					"use_recklessness": {
+						"label": "Use Recklessness"
+					},
+					"use_overpower": {
+						"label": "Use Overpower"
+					}
+				}
 			}
 		}
 	},
