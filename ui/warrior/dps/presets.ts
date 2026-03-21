@@ -40,6 +40,7 @@ export const isArmsSpec = (player: Player<Spec.SpecDpsWarrior>) =>
 export const isArmsKebabSpec = (player: Player<Spec.SpecDpsWarrior>) => player.getTalents().mortalStrike && isFurySpec(player);
 
 export const isFurySpec = (player: Player<Spec.SpecDpsWarrior>) =>
+	player.getTalents().bloodthirst ||
 	player.getEquippedItem(ItemSlot.ItemSlotMainHand)?.item.handType === HandType.HandTypeMainHand ||
 	player.getEquippedItem(ItemSlot.ItemSlotMainHand)?.item.handType === HandType.HandTypeOneHand;
 
@@ -240,11 +241,13 @@ export const PRESET_BUILD_FURY = PresetUtils.makePresetBuild('Fury', {
 
 export const PRESET_BUILD_ARMS = PresetUtils.makePresetBuild('Arms', {
 	talents: ArmsTalents,
+	rotationType: APLRotation_Type.TypeSimple,
 	rotation: SIMPLE_DEFAULT_ROTATION,
 });
 
 export const PRESET_BUILD_ARMS_KEBAB = PresetUtils.makePresetBuild('Arms - Kebab', {
 	talents: ArmsKebabTalents,
+	rotationType: APLRotation_Type.TypeSimple,
 	rotation: SIMPLE_DEFAULT_ROTATION,
 });
 

@@ -14,7 +14,7 @@ export const RotationInputs = {
 			label: i18n.t('rotation_tab.options.warrior.dps.spec.label'),
 			changeEmitter: player => TypedEvent.onAny([player.rotationChangeEmitter, player.talentsChangeEmitter, player.gearChangeEmitter]),
 			getValue: player => {
-				if (isFurySpec(player) || isArmsKebabSpec(player)) {
+				if (isFurySpec(player) && !isArmsKebabSpec(player)) {
 					return DpsWarriorSpec.DpsWarriorSpecFury;
 				}
 				return DpsWarriorSpec.DpsWarriorSpecArms;
