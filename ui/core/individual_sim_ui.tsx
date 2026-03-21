@@ -515,7 +515,6 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		if (!(settingsProto.apiVersion < CURRENT_API_VERSION)) {
 			return;
 		}
-		console.log('Update proto version');
 		const conversionMap: ProtoConversionMap<IndividualSimSettings> = new Map([
 			[
 				7,

@@ -1017,17 +1017,17 @@ func drumsSpellConfig(character *Character, drum proto.Drums, isExternal bool) S
 		drumLabel = "Drums of Battle"
 		drumStats = stats.Stats{stats.MeleeHasteRating: 80, stats.SpellHasteRating: 80}
 		duration = time.Second * 30
-		actionID = ActionID{SpellID: 351355}
+		actionID = ActionID{SpellID: 35476}
 	case proto.Drums_GreaterDrumsOfWar, proto.Drums_LesserDrumsOfWar:
 		drumLabel = "Drums of War"
 		drumStats = stats.Stats{stats.AttackPower: 60, stats.RangedAttackPower: 60, stats.SpellDamage: 30}
 		duration = time.Second * 30
-		actionID = ActionID{SpellID: 351360}
+		actionID = ActionID{SpellID: 35475}
 	case proto.Drums_GreaterDrumsOfRestoration, proto.Drums_LesserDrumsOfRestoration:
 		drumLabel = "Drums of Restoration"
 		drumStats = stats.Stats{stats.MP5: 200}
 		duration = time.Second * 15
-		actionID = ActionID{SpellID: 351358}
+		actionID = ActionID{SpellID: 35478}
 	}
 
 	if isExternal {

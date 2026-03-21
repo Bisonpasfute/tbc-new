@@ -8,6 +8,7 @@ import { IconEnumValueConfig } from '../pickers/icon_enum_picker';
 import { ActionInputConfig, ItemStatOption } from './stat_options';
 import i18n from '../../../i18n/config.js';
 import { makeBooleanConsumeInput } from '../icon_inputs';
+import { CURRENT_PHASE, Phase } from '../../constants/other';
 
 export interface ConsumableInputConfig<T> extends ActionInputConfig<T> {
 	value: T;
@@ -300,44 +301,37 @@ export const makeOHImbueInput = makeConsumeInputFactory({
 //                               	DRUMS
 ///////////////////////////////////////////////////////////////////////////
 
-export const GreaterDrumsBattle = {
-	actionId: ActionId.fromItemId(185848),
-	value: Drums.GreaterDrumsOfBattle,
+export const DrumsBattle = {
+	...(CURRENT_PHASE >= Phase.Phase4
+		? { actionId: ActionId.fromItemId(185848), value: Drums.GreaterDrumsOfBattle }
+		: {
+				actionId: ActionId.fromItemId(29529),
+				value: Drums.LesserDrumsOfBattle,
+			}),
 };
 
-export const GreaterDrumsRestoration = {
-	actionId: ActionId.fromItemId(185850),
-	value: Drums.GreaterDrumsOfRestoration,
+export const DrumsRestoration = {
+	...(CURRENT_PHASE >= Phase.Phase4
+		? { actionId: ActionId.fromItemId(185850), value: Drums.GreaterDrumsOfRestoration }
+		: {
+				actionId: ActionId.fromItemId(29531),
+				value: Drums.LesserDrumsOfRestoration,
+			}),
 };
 
-export const GreaterDrumsWar = {
-	actionId: ActionId.fromItemId(185852),
-	value: Drums.GreaterDrumsOfWar,
-};
-
-export const LesserDrumsBattle = {
-	actionId: ActionId.fromItemId(29529),
-	value: Drums.LesserDrumsOfBattle,
-};
-
-export const LesserDrumsRestoration = {
-	actionId: ActionId.fromItemId(29531),
-	value: Drums.LesserDrumsOfRestoration,
-};
-
-export const LesserDrumsWar = {
-	actionId: ActionId.fromItemId(29528),
-	value: Drums.LesserDrumsOfWar,
+export const DrumsWar = {
+	...(CURRENT_PHASE >= Phase.Phase4
+		? { actionId: ActionId.fromItemId(185852), value: Drums.GreaterDrumsOfWar }
+		: {
+				actionId: ActionId.fromItemId(29528),
+				value: Drums.LesserDrumsOfWar,
+			}),
 };
 
 export const DRUMS_CONFIG = [
-	// Uncomment when P4 drops
-	// { config: GreaterDrumsBattle, stats: [] },
-	// { config: GreaterDrumsRestoration, stats: [Stat.StatMana] },
-	// { config: GreaterDrumsWar, stats: [Stat.StatAttackPower, Stat.StatSpellDamage] },
-	{ config: LesserDrumsBattle, stats: [] },
-	{ config: LesserDrumsRestoration, stats: [Stat.StatMana] },
-	{ config: LesserDrumsWar, stats: [Stat.StatAttackPower, Stat.StatSpellDamage] },
+	{ config: DrumsBattle, stats: [] },
+	{ config: DrumsRestoration, stats: [Stat.StatMana] },
+	{ config: DrumsWar, stats: [Stat.StatAttackPower, Stat.StatSpellDamage] },
 ] as ConsumableStatOption<number>[];
 
 export const makeDrumsInput = makeConsumeInputFactory({
