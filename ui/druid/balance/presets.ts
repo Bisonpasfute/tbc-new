@@ -3,6 +3,7 @@ import {
 	Class,
 	ConsumesSpec,
 	Debuffs,
+	Drums,
 	IndividualBuffs,
 	PartyBuffs,
 	Profession,
@@ -88,7 +89,6 @@ export const DefaultDebuffs = Debuffs.create({
 	curseOfElements: TristateEffect.TristateEffectImproved,
 	curseOfRecklessness: true,
 	exposeArmor: TristateEffect.TristateEffectImproved,
-	faerieFire: TristateEffect.TristateEffectImproved,
 	giftOfArthas: true,
 	huntersMark: TristateEffect.TristateEffectImproved,
 	improvedSealOfTheCrusader: true,
@@ -100,7 +100,7 @@ export const DefaultDebuffs = Debuffs.create({
 
 export const DefaultConsumables = ConsumesSpec.create({
 	conjuredId: 12662, // Demonic Rune
-	drumsId: 351355, // Greater Drums of Battle
+	drumsId: Drums.LesserDrumsOfBattle,
 	flaskId: 22861, // Flask of Blinding Light
 	foodId: 27657, // Blackened Basilisk
 	mhImbueId: 25122, // Brilliant Wizard Oil
