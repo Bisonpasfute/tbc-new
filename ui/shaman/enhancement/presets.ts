@@ -4,6 +4,7 @@ import {
 	Class,
 	ConsumesSpec,
 	Debuffs,
+	Drums,
 	IndividualBuffs,
 	PartyBuffs,
 	Profession,
@@ -23,7 +24,9 @@ import P2Gear from './gear_sets/p2.gear.json';
 import P3Gear from './gear_sets/p3.gear.json';
 import P4Gear from './gear_sets/p4.gear.json';
 import P5Gear from './gear_sets/p5.gear.json';
-import P1ItemSwap from './gear_sets/p1.itemswap.json';
+import P1KhadgarsItemSwap from './gear_sets/p1.khadgars.itemswap.json';
+import P1TruncheonItemSwap from './gear_sets/p1.truncheon.itemswap.json';
+import P1BisItemSwap from './gear_sets/p1.bis.itemswap.json';
 import PreraidGear from './gear_sets/preraid.gear.json';
 import { Phase } from '../../core/constants/other';
 
@@ -39,7 +42,9 @@ export const P3_PRESET = PresetUtils.makePresetGear('P3 Preset', P3Gear);
 export const P4_PRESET = PresetUtils.makePresetGear('P4 Preset', P4Gear);
 export const P5_PRESET = PresetUtils.makePresetGear('P5 Preset', P5Gear);
 
-export const P1_ITEMSWAP_PRESET = PresetUtils.makePresetItemSwapGear('P1 ItemSwap Preset', P1ItemSwap);
+export const P1_BADGEOH_ITEMSWAP_PRESET = PresetUtils.makePresetItemSwapGear('P1 FireEle Swap (Badge OH)', P1KhadgarsItemSwap);
+export const P1_TRUNCHEON_ITEMSWAP_PRESET = PresetUtils.makePresetItemSwapGear('P1 FireEle Swap (Weapon OH)', P1TruncheonItemSwap);
+export const P1_BIS_ITEMSWAP_PRESET = PresetUtils.makePresetItemSwapGear('P1 FireEle Swap (BIS)', P1BisItemSwap);
 
 export const ROTATION_PRESET_DEFAULT = PresetUtils.makePresetAPLRotation('Default', DefaultApl);
 
@@ -49,17 +54,19 @@ export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
 	Stats.fromMap(
 		{
 			// calculated in p1 bis after building out new default APL
-			[Stat.StatIntellect]: 0.1,
-			[Stat.StatAgility]: 1.62,
 			[Stat.StatStrength]: 2.2,
+			[Stat.StatAgility]: 1.62,
+			[Stat.StatIntellect]: 0.08,
+			[Stat.StatSpellDamage]: 0.56,
+			[Stat.StatNatureDamage]: 0.4, // As simulated using Fire Ele Totem Only
+			[Stat.StatSpellHitRating]: 0.55,
+			[Stat.StatSpellCritRating]: 0.13,
 			[Stat.StatAttackPower]: 1.0,
-			[Stat.StatSpellDamage]: 0.53,
-			[Stat.StatNatureDamage]: 0.39, // As simulated using Fire Ele Totem Only
-			[Stat.StatMeleeHitRating]: 1.69,
-			[Stat.StatMeleeCritRating]: 1.66,
-			[Stat.StatMeleeHasteRating]: 1.35,
+			[Stat.StatMeleeHitRating]: 1.9,
+			[Stat.StatMeleeCritRating]: 1.73,
+			[Stat.StatMeleeHasteRating]: 1.37,
 			[Stat.StatArmorPenetration]: 0.3,
-			[Stat.StatExpertiseRating]: 2.28,
+			[Stat.StatExpertiseRating]: 2.49,
 		},
 		{
 			[PseudoStat.PseudoStatMainHandDps]: 8.19,
@@ -141,7 +148,7 @@ export const DefaultConsumables = ConsumesSpec.create({
 	potId: 22838, // Haste Potion
 	flaskId: 22854, // Flask of Relentless Assault
 	foodId: 27658, // Roasted Clefthoof
-	drumsId: 351355,
+	drumsId: Drums.LesserDrumsOfBattle,
 	conjuredId: 22788,
 	explosiveId: 30217,
 	superSapper: true,
