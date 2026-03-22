@@ -1,11 +1,12 @@
 {
 	"type": "TypeAPL",
 	"prepullActions": [
-		{ "action": { "castSpell": { "spellId": { "spellId": 25587, "rank": 5 } } }, "doAtValue": { "const": { "val": "-7s" } } },
+		{ "action": { "castSpell": { "spellId": { "spellId": 25587, "rank": 5 } } }, "doAtValue": { "const": { "val": "-8s" } } },
 		{ "action": { "castSpell": { "spellId": { "spellId": 25528, "rank": 6 } } }, "doAtValue": { "const": { "val": "-5s" } } },
 		{ "action": { "castSpell": { "spellId": { "spellId": 25570, "rank": 5 } } }, "doAtValue": { "const": { "val": "-4s" } } },
+		{ "action": { "castSpell": { "spellId": { "spellId": 25537, "rank": 7 } } }, "doAtValue": { "const": { "val": "-3s" } } },
 		{ "action": { "castSpell": { "spellId": { "spellId": 25359, "rank": 3 } } }, "doAtValue": { "const": { "val": "-2s" } } },
-		{ "action": { "castSpell": { "spellId": { "spellId": 25537, "rank": 7 } } }, "doAtValue": { "const": { "val": "-1s" } } }
+		{ "action": { "castSpell": { "spellId": { "spellId": 35476 } } }, "doAtValue": { "const": { "val": "-1s" } } }
 	],
 	"priorityList": [
 		{
@@ -157,6 +158,13 @@
 														"lhs": { "auraRemainingTime": { "auraId": { "spellId": 25359, "rank": 3 } } },
 														"rhs": { "const": { "val": "5s" } }
 													}
+												},
+												{
+													"cmp": {
+														"op": "OpGe",
+														"lhs": { "auraRemainingTime": { "auraId": { "spellId": 25580, "tag": 1, "rank": 5 } } },
+														"rhs": { "const": { "val": "5s" } }
+													}
 												}
 											]
 										}
@@ -219,7 +227,7 @@
 												{
 													"cmp": {
 														"op": "OpLe",
-														"lhs": { "totemRemainingTime": { "totemType": "Fire" } },
+														"lhs": { "totemRemainingTime": { "totemType": "Fire", "includeReactionTime": true } },
 														"rhs": { "const": { "val": "0s" } }
 													}
 												},
@@ -246,7 +254,13 @@
 						"condition": {
 							"and": {
 								"vals": [
-									{ "cmp": { "op": "OpLe", "lhs": { "totemRemainingTime": { "totemType": "Fire" } }, "rhs": { "const": { "val": "0s" } } } },
+									{
+										"cmp": {
+											"op": "OpLe",
+											"lhs": { "totemRemainingTime": { "totemType": "Fire", "includeReactionTime": true } },
+											"rhs": { "const": { "val": "0s" } }
+										}
+									},
 									{
 										"or": {
 											"vals": [
@@ -296,7 +310,8 @@
 											"auraId": { "spellId": 25457, "tag": 1, "rank": 7 },
 											"includeReactionTime": true
 										}
-									}
+									},
+									{ "cmp": { "op": "OpGe", "lhs": { "remainingTime": {} }, "rhs": { "const": { "val": "12s" } } } }
 								]
 							}
 						},

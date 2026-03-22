@@ -86,7 +86,7 @@ func (enh *EnhancementShaman) Initialize() {
 	enh.RegisterWindfuryImbue(enh.GetImbueProcMask(proto.ShamanImbue_WindfuryWeapon))
 
 	if enh.ItemSwap.IsEnabled() {
-		enh.RegisterItemSwapCallback(core.AllWeaponSlots(), func(_ *core.Simulation, slot proto.ItemSlot) {
+		enh.RegisterItemSwapCallback(core.AllMeleeWeaponSlots(), func(_ *core.Simulation, slot proto.ItemSlot) {
 			enh.ApplySyncType(proto.ShamanSyncType_Auto)
 		})
 	}
@@ -100,7 +100,7 @@ func (enh *EnhancementShaman) AutoSyncWeapons() proto.ShamanSyncType {
 	if mh, oh := enh.MainHand(), enh.OffHand(); mh.SwingSpeed != oh.SwingSpeed {
 		return proto.ShamanSyncType_NoSync
 	}
-	return proto.ShamanSyncType_SyncMainhandOffhandSwings
+	return proto.ShamanSyncType_DelayOffhandSwings
 }
 
 func (enh *EnhancementShaman) ApplySyncType(syncType proto.ShamanSyncType) {

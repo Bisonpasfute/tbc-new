@@ -131,10 +131,9 @@ export const DefaultOptions = EnhancementShamanOptions.create({
 	classOptions: {
 		shieldProcrate: 0,
 		imbueMh: ShamanImbue.WindfuryWeapon,
-		imbueMhSwap: ShamanImbue.WindfuryWeapon,
 	},
 	imbueOh: ShamanImbue.WindfuryWeapon,
-	syncType: ShamanSyncType.Auto,
+	syncType: ShamanSyncType.DelayOffhandSwings,
 });
 
 export const OtherDefaults = {
