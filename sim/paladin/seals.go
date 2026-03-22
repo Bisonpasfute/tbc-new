@@ -479,7 +479,8 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 			},
 		})
 	}
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return registerJoJDebuff(target) })
+
+	paladin.JudgementOfJusticeAuras = paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return registerJoJDebuff(target) })
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
@@ -490,7 +491,7 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
-			debuffs.Get(target).Activate(sim)
+			paladin.JudgementOfJusticeAuras.Get(target).Activate(sim)
 		},
 	})
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
