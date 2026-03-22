@@ -13,7 +13,7 @@ import (
 // Causes Forebearance, preventing the use of Divine Shield,
 // Divine Protection, Blessing of Protection again for 1 min.
 func (paladin *Paladin) registerAvengingWrath() {
-	
+
 	actionID := core.ActionID{SpellID: 31884}
 	paladin.AvengingWrathAura = paladin.RegisterAura(core.Aura{
 		Label:    "Avenging Wrath" + paladin.Label,
@@ -24,13 +24,16 @@ func (paladin *Paladin) registerAvengingWrath() {
 	)
 
 	paladin.AvengingWrath = paladin.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask: core.ProcMaskEmpty,
-		Flags: core.SpellFlagAPL,
+		ActionID:       actionID,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: SpellMaskAvengingWrath,
 
 		Cast: core.CastConfig{
+			DefaultCast: core.Cast{
+				NonEmpty: true,
+			},
 			CD: core.Cooldown{
 				Timer:    paladin.NewTimer(),
 				Duration: time.Minute * 3,

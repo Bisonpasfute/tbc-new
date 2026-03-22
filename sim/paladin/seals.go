@@ -281,11 +281,12 @@ func (paladin *Paladin) registerSealOfRighteousness(seal seal) {
 	aura.Tag = TwistTag
 
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: seal.spellID},
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       core.ActionID{SpellID: seal.spellID},
+		ClassSpellMask: SpellMaskSealOfRighteousness,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
@@ -335,10 +336,10 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask:   SpellMaskSealOfLight,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskSpellHealing,
 		Flags:            core.SpellFlagHelpful,
-		ClassSpellMask:   SpellMaskSealOfLight,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -360,11 +361,12 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 	})
 
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: seal.spellID},
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       core.ActionID{SpellID: seal.spellID},
+		ClassSpellMask: SpellMaskSealOfLight,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 		ManaCost: core.ManaCostOptions{
 			FlatCost: int32(seal.manaCost),
 		},
@@ -408,10 +410,10 @@ func (paladin *Paladin) registerSealOfWisdom(seal seal) {
 	sealManaMetrics := paladin.Unit.NewManaMetrics(core.ActionID{SpellID: seal.proc.spellID})
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask:   SpellMaskSealOfWisdom,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskEmpty,
 		Flags:            core.SpellFlagHelpful,
-		ClassSpellMask:   SpellMaskSealOfWisdom,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -433,11 +435,12 @@ func (paladin *Paladin) registerSealOfWisdom(seal seal) {
 		},
 	})
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: seal.spellID},
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       core.ActionID{SpellID: seal.spellID},
+		ClassSpellMask: SpellMaskSealOfWisdom,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 		ManaCost: core.ManaCostOptions{
 			FlatCost: int32(seal.manaCost),
 		},
@@ -465,7 +468,7 @@ func (paladin *Paladin) registerSealOfWisdom(seal seal) {
 func (paladin *Paladin) registerSealOfJustice(seal seal) {
 	registerJoJDebuff := func(target *core.Unit) *core.Aura {
 		return target.GetOrRegisterAura(core.Aura{
-			Label:    "Judgement of Justice" + paladin.Label + " " + seal.GetRankLabel(),
+			Label:    "Judgement of Justice",
 			ActionID: core.ActionID{SpellID: seal.judge.spellID},
 			Tag:      JudgementAuraTag,
 			Duration: time.Second * 20,
@@ -492,10 +495,10 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 	})
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask:   SpellMaskSealOfJustice,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskEmpty,
 		Flags:            core.SpellFlagMeleeMetrics,
-		ClassSpellMask:   SpellMaskSealOfJustice,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -512,13 +515,14 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 		},
 	})
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: seal.spellID},
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       core.ActionID{SpellID: seal.spellID},
+		ClassSpellMask: SpellMaskSealOfJustice,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 		ManaCost: core.ManaCostOptions{
-			BaseCostPercent: seal.manaCost,
+			FlatCost: int32(seal.manaCost),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{GCD: core.GCDDefault},
@@ -543,7 +547,9 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, increasing
 // Holy damage taken from all sources.
 func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return core.ImprovedSealOfTheCrusaderAura(target) })
+	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		return core.ImprovedSealOfTheCrusaderAura(target, paladin.Talents.ImprovedSealOfTheCrusader)
+	})
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
@@ -553,6 +559,7 @@ func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
 		ClassSpellMask:   SpellMaskJudgementOfTheCrusader,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
+		CritMultiplier:   1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
 			debuffs.Get(target).Activate(sim)
@@ -574,6 +581,7 @@ func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
 
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         aura.ActionID,
+		ClassSpellMask:   SpellMaskSealOfTheCrusader,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskEmpty,
 		Flags:            core.SpellFlagAPL,
@@ -581,7 +589,7 @@ func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ManaCost: core.ManaCostOptions{
-			BaseCostPercent: seal.manaCost,
+			FlatCost: int32(seal.manaCost),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{GCD: core.GCDDefault},
@@ -632,15 +640,15 @@ func (paladin *Paladin) registerSealOfBlood(seal seal) {
 	})
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask:   SpellMaskSealOfBlood,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskMeleeMHSpecial,
 		Flags:            core.SpellFlagMeleeMetrics,
-		ClassSpellMask:   SpellMaskSealOfBlood,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		CritMultiplier:   paladin.DefaultMeleeCritMultiplier(),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower()) * seal.proc.value
+			baseDamage := spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower(target)) * seal.proc.value
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 			action := core.NewDelayedAction(core.DelayedActionOptions{
 				DoAt:     sim.CurrentTime + core.SpellBatchWindow,
@@ -665,11 +673,12 @@ func (paladin *Paladin) registerSealOfBlood(seal seal) {
 		},
 	})
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: seal.spellID},
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       core.ActionID{SpellID: seal.spellID},
+		ClassSpellMask: SpellMaskSealOfBlood,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 		ManaCost: core.ManaCostOptions{
 			FlatCost: int32(seal.manaCost),
 		},
@@ -725,10 +734,10 @@ func (paladin *Paladin) registerSealOfVengeance(seal seal) {
 	})
 	holyVengeanceDot := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask:   SpellMaskSealOfVengeance,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskEmpty,
 		Flags:            core.SpellFlagPassiveSpell,
-		ClassSpellMask:   SpellMaskSealOfVengeance,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		Dot: core.DotConfig{
@@ -743,7 +752,7 @@ func (paladin *Paladin) registerSealOfVengeance(seal seal) {
 			TickLength:       time.Second * 3,
 			BonusCoefficient: seal.proc.coeff,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, seal.proc.value*float64(dot.GetStacks())+(float64(dot.GetStacks())*seal.proc.coeff*dot.Spell.SpellDamage()))
+				dot.Snapshot(target, seal.proc.value*float64(dot.GetStacks())+(float64(dot.GetStacks())*seal.proc.coeff*dot.Spell.SpellDamage(target)))
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
@@ -752,10 +761,10 @@ func (paladin *Paladin) registerSealOfVengeance(seal seal) {
 	})
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask: SpellMaskSealOfVengeance,
 		SpellSchool:    core.SpellSchoolHoly,
 		ProcMask:       core.ProcMaskEmpty,
 		Flags:          core.SpellFlagPassiveSpell,
-		ClassSpellMask: SpellMaskSealOfVengeance,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			if holyVengeanceDot.Dot(target).IsActive() {
 				holyVengeanceDot.Dot(target).AddStack(sim)
@@ -781,11 +790,12 @@ func (paladin *Paladin) registerSealOfVengeance(seal seal) {
 		},
 	})
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: seal.spellID},
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       core.ActionID{SpellID: seal.spellID},
+		ClassSpellMask: SpellMaskSealOfVengeance,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 		ManaCost: core.ManaCostOptions{
 			FlatCost: int32(seal.manaCost),
 		},
@@ -836,18 +846,19 @@ func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 			sim.AddPendingAction(action)
 		},
 	})
+
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask:   SpellMaskSealOfCommand,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskMeleeMHAuto | core.ProcMaskMeleeProc,
 		Flags:            core.SpellFlagMeleeMetrics,
-		ClassSpellMask:   SpellMaskSealOfCommand,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		CritMultiplier:   paladin.DefaultMeleeCritMultiplier(),
 		BonusCoefficient: seal.proc.coeff,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower()) * seal.proc.value
+			baseDamage := spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower(target)) * seal.proc.value
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 			action := core.NewDelayedAction(core.DelayedActionOptions{
 				DoAt:     sim.CurrentTime + core.SpellBatchWindow,
@@ -859,6 +870,7 @@ func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 			sim.AddPendingAction(action)
 		},
 	})
+
 	aura := paladin.RegisterAura(core.Aura{
 		Label:    "Seal of Command" + paladin.Label + " " + seal.GetRankLabel(),
 		ActionID: core.ActionID{SpellID: seal.spellID},
@@ -874,12 +886,14 @@ func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 			procSpell.Cast(sim, result.Target)
 		},
 	})
+
 	sealSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    aura.ActionID,
-		SpellSchool: core.SpellSchoolHoly,
-		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagAPL,
-		Rank:        seal.rank,
+		ActionID:       aura.ActionID,
+		ClassSpellMask: SpellMaskSealOfCommand,
+		SpellSchool:    core.SpellSchoolHoly,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL,
+		Rank:           seal.rank,
 		ManaCost: core.ManaCostOptions{
 			FlatCost: int32(seal.manaCost),
 		},

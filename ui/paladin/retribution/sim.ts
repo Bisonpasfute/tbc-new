@@ -1,3 +1,4 @@
+import { stat } from 'node:fs';
 import * as OtherInputs from '../../core/components/inputs/other_inputs.js';
 import { IndividualSimUI, registerSpecConfig } from '../../core/individual_sim_ui.js';
 import { Player } from '../../core/player.js';
@@ -5,7 +6,7 @@ import { PlayerClasses } from '../../core/player_classes';
 import { APLRotation, APLRotation_Type } from '../../core/proto/apl.js';
 import { Debuffs, Faction, IndividualBuffs, PartyBuffs, PseudoStat, Race, RaidBuffs, Spec, Stat, UnitStats } from '../../core/proto/common.js';
 import { Stats, UnitStat } from '../../core/proto_utils/stats.js';
-import { defaultRaidBuffMajorDamageCooldowns } from '../../core/proto_utils/utils';
+import { DefaultDebuffs, DefaultRaidBuffs, DefaultPartyBuffs, DefaultIndividualBuffs, DefaultConsumables } from './presets';
 import * as Presets from './presets.js';
 
 const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
@@ -33,7 +34,18 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 	epReferenceStat: Stat.StatStrength,
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
 	displayStats: UnitStat.createDisplayStatArray(
-		[Stat.StatStrength, Stat.StatAgility, Stat.StatIntellect, Stat.StatAttackPower, Stat.StatSpellDamage, Stat.StatMana, Stat.StatHealth, Stat.StatStamina],
+		[
+			Stat.StatStrength,
+			Stat.StatAgility,
+			Stat.StatIntellect,
+			Stat.StatAttackPower,
+			Stat.StatSpellDamage,
+			Stat.StatMana,
+			Stat.StatHealth,
+			Stat.StatStamina,
+			Stat.StatExpertiseRating,
+			Stat.StatHolyDamage,
+		],
 		[
 			PseudoStat.PseudoStatMeleeHitPercent,
 			PseudoStat.PseudoStatMeleeCritPercent,
@@ -50,26 +62,25 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 		// Default EP weights for sorting gear in the gear picker.
 		epWeights: Presets.P1_EP_PRESET.epWeights,
 		// Default consumes settings.
-		consumables: Presets.DefaultConsumables,
+		consumables: DefaultConsumables,
 		// Default talents.
 		talents: Presets.DefaultTalents.data,
 		// Default spec-specific settings.
 		specOptions: Presets.DefaultOptions,
 		other: Presets.OtherDefaults,
 		// Default raid/party buffs settings.
-		raidBuffs: RaidBuffs.create({
-			...defaultRaidBuffMajorDamageCooldowns(),
-		}),
-		partyBuffs: PartyBuffs.create({}),
-		individualBuffs: IndividualBuffs.create({}),
-		debuffs: Debuffs.create({}),
+		raidBuffs: DefaultRaidBuffs,
+		partyBuffs: DefaultPartyBuffs,
+		individualBuffs: DefaultIndividualBuffs,
+		debuffs: DefaultDebuffs,
+
 		rotationType: APLRotation_Type.TypeAuto,
 	},
 
 	// IconInputs to include in the 'Player' section on the settings tab.
 	playerIconInputs: [],
 	// Buff and Debuff inputs to include/exclude, overriding the EP-based defaults.
-	includeBuffDebuffInputs: [],
+	includeBuffDebuffInputs: [Stat.StatMP5],
 	excludeBuffDebuffInputs: [],
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
@@ -84,7 +95,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 		epWeights: [Presets.P1_EP_PRESET],
 		rotations: [Presets.APL_PRESET],
 		// Preset talents that the user can quickly select.
-		talents: [Presets.DefaultTalents],
+		talents: [Presets.DefaultTalents, Presets.NoKingsTalents, Presets.ImpMightTalents],
 		// Preset gear configurations that the user can quickly select.
 		gear: [Presets.PRERAID_GEAR_PRESET, Presets.P1_GEAR_PRESET],
 		builds: [],

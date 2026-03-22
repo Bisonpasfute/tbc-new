@@ -1,7 +1,11 @@
 package paladin
 
 import (
+	"slices"
+	"time"
+
 	"github.com/wowsims/tbc/sim/core"
+	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
@@ -220,9 +224,7 @@ func (paladin *Paladin) ApplyTalents() {
 	}
 
 	// Improved Seal of the Crusader (Tier 2) - Increases the melee attack power bonus of your Seal of the Crusader and increases the Holy damage bonus of Judgement of the Crusader by 5/10/15%
-	if paladin.Talents.ImprovedSealOfTheCrusader > 0 {
-		paladin.applyImprovedSealOfTheCrusader()
-	}
+	// Handled in seals.go -> registerSealOfTheCrusader -> judgeSpell
 
 	// Deflection (Tier 2) - Increases your Parry chance by 1/2/3/4/5%
 	if paladin.Talents.Deflection > 0 {
@@ -297,8 +299,7 @@ func (paladin *Paladin) ApplyTalents() {
 
 // Divine Strength - Increases your total Strength by 2/4/6/8/10%
 func (paladin *Paladin) applyDivineStrength() {
-	bonus := 1.0 + 0.02*float64(paladin.Talents.DivineStrength)
-	paladin.MultiplyStat(stats.Strength, bonus)
+	paladin.MultiplyStat(stats.Strength, 1+(float64(paladin.Talents.DivineStrength)*.02))
 }
 
 // Divine Intellect - Increases your total Intellect by 2/4/6/8/10%
@@ -358,11 +359,12 @@ func (paladin *Paladin) applyImprovedDevotionAura() {
 
 // Precision - Increases your chance to hit with melee weapons and spells by 1/2/3%
 func (paladin *Paladin) applyPrecision() {
-	paladin.AddStaticMod(core.SpellModConfig{
-		Kind:       core.SpellMod_BonusHit_Percent,
-		FloatValue: 1 * float64(paladin.Talents.Precision),
-		ProcMask:   core.ProcMaskDirect,
-	})
+	if float64(paladin.Talents.Precision) == 0 {
+		return
+	}
+
+	paladin.AddStat(stats.SpellHitPercent, float64(paladin.Talents.Precision))
+	paladin.AddStat(stats.PhysicalHitPercent, float64(paladin.Talents.Precision))
 }
 
 // Toughness - Increases your armor value from items by 2/4/6/8/10%
@@ -428,28 +430,30 @@ func (paladin *Paladin) applyImprovedBlessingOfMight() {
 
 // Benediction - Reduces the mana cost of your Judgement and Seal spells by 3/6/9/12/15%
 func (paladin *Paladin) applyBenediction() {
-	// TODO: Implement mana cost reduction
+	paladin.AddStaticMod(core.SpellModConfig{
+		ClassMask:  SpellMaskAllSeals | SpellMaskJudgement,
+		Kind:       core.SpellMod_PowerCost_Pct,
+		FloatValue: -.03 * float64(paladin.Talents.Benediction),
+	})
 }
 
 // Improved Judgement - Decreases the cooldown of your Judgement spell by 1/2 sec
 func (paladin *Paladin) applyImprovedJudgement() {
-	// TODO: Implement cooldown reduction
-}
-
-// Improved Seal of the Crusader - Increases the melee attack power bonus of your Seal of the Crusader and increases the Holy damage bonus of Judgement of the Crusader by 5/10/15%
-func (paladin *Paladin) applyImprovedSealOfTheCrusader() {
-	// TODO: Implement damage modifier
+	paladin.AddStaticMod(core.SpellModConfig{
+		ClassMask: SpellMaskJudgement,
+		Kind:      core.SpellMod_Cooldown_Flat,
+		TimeValue: time.Second * time.Duration(paladin.Talents.ImprovedJudgement),
+	})
 }
 
 // Deflection - Increases your Parry chance by 1/2/3/4/5%
 func (paladin *Paladin) applyDeflection() {
-	paladin.PseudoStats.BaseParryChance += 0.01*float64(paladin.Talents.Deflection)
+	paladin.PseudoStats.BaseParryChance += 0.01 * float64(paladin.Talents.Deflection)
 }
 
-// Conviction - Increases your chance to get a critical strike with all spells and attacks by 1/2/3/4/5%
+// Conviction - Increases your chance to get a critical strike with melee attacks by 1/2/3/4/5%
 func (paladin *Paladin) applyConviction() {
 	paladin.AddStat(stats.PhysicalCritPercent, float64(paladin.Talents.Conviction))
-	paladin.AddStat(stats.SpellCritPercent, float64(paladin.Talents.Conviction))
 }
 
 // Improved Retribution Aura - Increases the damage done by your Retribution Aura by 25/50%
@@ -459,27 +463,83 @@ func (paladin *Paladin) applyImprovedRetributionAura() {
 
 // Crusade - Increases all damage caused by 1/2/3% and all damage caused against Humanoids, Demons, Undead and Elementals by an additional 1/2/3%
 func (paladin *Paladin) applyCrusade() {
-	// TODO: Implement damage modifiers
+	paladin.Env.RegisterPostFinalizeEffect(func() {
+		for _, at := range paladin.AttackTables {
+			if slices.Contains([]proto.MobType{proto.MobType_MobTypeDemon, proto.MobType_MobTypeHumanoid, proto.MobType_MobTypeUndead, proto.MobType_MobTypeElemental}, at.Defender.MobType) {
+				at.DamageDealtMultiplier *= 1 + .01*float64(paladin.Talents.Crusade)
+			}
+		}
+	})
 }
 
 // Two-Handed Weapon Specialization - Increases the damage you deal with two-handed melee weapons by 2/4/6%
 func (paladin *Paladin) applyTwoHandedWeaponSpecialization() {
-	// TODO: Implement damage modifier for two-handed weapons
+	paladin.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_DamageDone_Pct,
+		ProcMask:   core.ProcMaskMelee,
+		FloatValue: 0.02 * float64(paladin.Talents.TwoHandedWeaponSpecialization),
+	})
 }
 
 // Improved Sanctity Aura - Increases the damage caused by all party members within 30 yards of the Paladin with Sanctity Aura active by 1/2%
 func (paladin *Paladin) applyImprovedSanctityAura() {
 	// TODO: Implement aura modifier (combined with Sanctity Aura registration)
+	// Assumed to be set in settings
 }
 
-// Vengeance - Gives you a 1/2/3/4/5% bonus to Physical and Holy damage you deal for 15 sec after dealing a critical strike from a weapon swing, spell, or ability
+// Vengeance - Gives you a 1/2/3/4/5% bonus to Physical and Holy damage you deal for 30 sec after dealing a critical strike from a weapon swing, spell, or ability
 func (paladin *Paladin) applyVengeance() {
-	// TODO: Implement vengeance proc
+	bonusMod := .01 * float64(paladin.Talents.Vengeance)
+
+	dmgMod := paladin.AddDynamicMod(core.SpellModConfig{
+		Kind:       core.SpellMod_DamageDone_Pct,
+		FloatValue: bonusMod,
+		School:     core.SpellSchoolHoly | core.SpellSchoolPhysical,
+	})
+
+	aura := paladin.RegisterAura(core.Aura{
+		Label:     "Vengeance",
+		ActionID:  core.ActionID{SpellID: 20055},
+		Duration:  time.Second * 30,
+		MaxStacks: 3,
+		OnGain: func(aura *core.Aura, sim *core.Simulation) {
+			dmgMod.Activate()
+		},
+		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+			dmgMod.Deactivate()
+		},
+		OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
+			stacks := float64(newStacks)
+			dmgMod.UpdateFloatValue(bonusMod * stacks)
+		},
+	})
+
+	paladin.MakeProcTriggerAura(core.ProcTrigger{
+		Name:       "Vengeance - Trigger",
+		Callback:   core.CallbackOnSpellHitDealt,
+		Outcome:    core.OutcomeCrit,
+		ProcChance: 1,
+		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			aura.Activate(sim)
+			aura.AddStack(sim)
+		},
+	})
 }
 
-// Sanctified Judgement - Gives your Judgement spell a 33/66/100% chance to return 50% of the mana cost of the Judgement
+// Sanctified Judgement - Gives your Judgement spell a 33/66/100% chance to return 80% of the mana cost of the Judgement
 func (paladin *Paladin) applySanctifiedJudgement() {
-	// TODO: Implement mana return
+	procChance := []float64{0, 0.33, 0.66, 1}[paladin.Talents.SanctifiedJudgement]
+	sancJudgementManaMetric := paladin.NewManaMetrics(core.ActionID{SpellID: 31878})
+
+	paladin.MakeProcTriggerAura(core.ProcTrigger{
+		Name:           "Sanctified Judgement - Trigger",
+		ClassSpellMask: SpellMaskAllJudgements,
+		Callback:       core.CallbackOnCastComplete,
+		ProcChance:     procChance,
+		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			paladin.AddMana(sim, paladin.Judgement.CurCast.Cost*.8, sancJudgementManaMetric)
+		},
+	})
 }
 
 // Sanctified Seals - Increases your chance to critically hit with all spells and attacks by 1/2/3% and reduces the chance your Seals will be dispelled by 33/67/100%
@@ -495,5 +555,18 @@ func (paladin *Paladin) applyDivinePurposeTalent() {
 
 // Fanaticism - Increases the critical strike chance of all Judgements capable of a critical hit by 5/10/15/18/25% and reduces threat caused by all actions by 6/12/18/24/30%
 func (paladin *Paladin) applyFanaticism() {
-	// TODO: Implement crit bonus and threat reduction
+	critChance := .03 * float64(paladin.Talents.Fanaticism)
+	threatReduc := -.06 * float64(paladin.Talents.Fanaticism)
+
+	paladin.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_BonusCrit_Percent,
+		FloatValue: critChance,
+		ClassMask:  SpellMaskAllJudgements,
+	})
+
+	paladin.AddStaticMod(core.SpellModConfig{
+		Kind:       core.SpellMod_ThreatMultiplier_Pct,
+		FloatValue: threatReduc,
+		ProcMask:   core.ProcMaskDirect,
+	})
 }

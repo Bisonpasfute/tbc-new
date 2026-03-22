@@ -20,7 +20,7 @@ func (paladin *Paladin) registerJudgement() {
 		ActionID:    core.ActionID{SpellID: 20271},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskEmpty,
-		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL | core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell,
+		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL | core.SpellFlagPassiveSpell | core.SpellFlagNoOnCastComplete,
 
 		ClassSpellMask: SpellMaskJudgement,
 
@@ -28,6 +28,9 @@ func (paladin *Paladin) registerJudgement() {
 		ThreatMultiplier: 1,
 
 		Cast: core.CastConfig{
+			DefaultCast: core.Cast{
+				NonEmpty: true,
+			},
 			CD: core.Cooldown{
 				Timer:    paladin.NewTimer(),
 				Duration: time.Second * 10,

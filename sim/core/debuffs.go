@@ -88,7 +88,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.ImprovedSealOfTheCrusader {
-		MakePermanent(ImprovedSealOfTheCrusaderAura(target))
+		MakePermanent(ImprovedSealOfTheCrusaderAura(target, 3))
 	}
 
 	if debuffs.InsectSwarm {
@@ -420,12 +420,40 @@ func ImprovedScorchAura(target *Unit) *Aura {
 	return aura
 }
 
-func ImprovedSealOfTheCrusaderAura(target *Unit) *Aura {
+func ImprovedSealOfTheCrusaderAura(target *Unit, points int32) *Aura {
+
+	dynamicMods := make(map[int32]*SpellMod, len(target.Env.AllUnits))
+
+	for _, unit := range target.Env.AllUnits {
+		if unit.Type == PlayerUnit || unit.Type == PetUnit {
+			dynamicMods[unit.UnitIndex] = unit.AddDynamicMod(SpellModConfig{
+				SpellFlag:  ^SpellFlagHelpful,
+				Kind:       SpellMod_BonusSpellDamage_Flat,
+				FloatValue: 219, //assumed max rank
+				School:     SpellSchoolHoly,
+			})
+		}
+	}
+
 	return target.GetOrRegisterAura(Aura{
 		Label:    "Improved Seal of the Crusader",
 		ActionID: ActionID{SpellID: 20337},
-		Duration: time.Second * 60,
-	}).AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedCritTakenChance, -3)
+		Duration: time.Second * 20,
+		OnGain: func(aura *Aura, sim *Simulation) {
+			for _, unit := range sim.AllUnits {
+				if unit.Type == PlayerUnit || unit.Type == PetUnit {
+					dynamicMods[unit.UnitIndex].Activate()
+				}
+			}
+		},
+		OnExpire: func(aura *Aura, sim *Simulation) {
+			for _, unit := range sim.AllUnits {
+				if unit.Type == PlayerUnit || unit.Type == PetUnit {
+					dynamicMods[unit.UnitIndex].Deactivate()
+				}
+			}
+		},
+	}).AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedCritTakenChance, float64(-1*points))
 }
 
 func ImprovedShadowBoltAura(target *Unit, uptime float64, points int32) *Aura {

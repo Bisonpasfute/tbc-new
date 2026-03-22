@@ -39,8 +39,25 @@ func (paladin *Paladin) registerCrusaderStrike() {
 		CritMultiplier:   paladin.DefaultMeleeCritMultiplier(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower())
-			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
+			baseDamage := spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
+			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
+			if result.Landed() {
+				if target.HasActiveAura("Judgement of Light") {
+					target.GetAura("Judgement of Light").Refresh(sim)
+				}
+
+				if target.HasActiveAura("Judgement of Wisdom") {
+					target.GetAura("Judgement of Wisdom").Refresh(sim)
+				}
+
+				if target.HasActiveAura("Judgement of Justice") {
+					target.GetAura("Judgement of Justice").Refresh(sim)
+				}
+
+				if target.HasActiveAura("Improved Seal of the Crusader") {
+					target.GetAura("Improved Seal of the Crusader").Refresh(sim)
+				}
+			}
 		},
 	})
 }
