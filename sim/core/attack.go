@@ -886,7 +886,10 @@ func (aa *AutoAttacks) RandomizeMeleeTiming(sim *Simulation) {
 		return
 	}
 
-	reactionTime := TernaryDuration(aa.character != nil, aa.character.ReactionTime, 100*time.Millisecond)
+	reactionTime := 100 * time.Millisecond
+	if aa.character != nil {
+		reactionTime = aa.character.ReactionTime
+	}
 
 	randomAutoOffset := time.Duration(sim.RandomFloat("Melee Timing")*float64(reactionTime.Milliseconds())) * time.Millisecond
 	aa.DelayMeleeBy(sim, randomAutoOffset)
