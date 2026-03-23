@@ -16,7 +16,7 @@ type Druid struct {
 
 	StartingForm DruidForm
 
-	Treants TreantAgents
+	Treants Treants
 
 	BleedsActive      map[*core.Unit]int32
 	AssumeBleedActive bool
@@ -71,6 +71,7 @@ const (
 	DruidSpellEntanglingRoots
 	DruidSpellFaerieFire
 	DruidSpellFaerieFireFeral
+	DruidSpellForceOfNature
 	DruidSpellHurricane
 	DruidSpellFerociousBite
 	DruidSpellFrenziedRegeneration
@@ -273,6 +274,10 @@ func New(char *core.Character, form DruidForm, selfBuffs SelfBuffs, talents stri
 	druid.AddStatDependency(stats.BonusArmor, stats.Armor, 1)
 	druid.AddStatDependency(stats.Agility, stats.PhysicalCritPercent, core.CritPerAgiMaxLevel[char.Class])
 	druid.AddStatDependency(stats.Agility, stats.DodgeRating, 1.0/14.7059*core.DodgeRatingPerDodgePercent)
+
+	if druid.Talents.ForceOfNature {
+		druid.registerTreants()
+	}
 
 	return druid
 }

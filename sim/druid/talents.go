@@ -45,6 +45,8 @@ func (druid *Druid) applyForceOfNature() {
 	if !druid.Talents.ForceOfNature {
 		return
 	}
+
+	druid.registerForceOfNatureCD()
 }
 
 func (druid *Druid) applyWrathOfCenarius() {

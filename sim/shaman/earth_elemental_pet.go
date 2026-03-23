@@ -54,7 +54,6 @@ func (earthElemental *EarthElemental) enable() func(*core.Simulation) {
 }
 
 func (earthElemental *EarthElemental) disable(sim *core.Simulation) {
-
 }
 
 func (earthElemental *EarthElemental) GetPet() *core.Pet {

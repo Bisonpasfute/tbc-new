@@ -42,6 +42,7 @@
 		},
 		{ "action": { "multidot": { "spellId": { "spellId": 26988, "rank": 12 }, "maxDots": 1, "maxOverlap": { "const": { "val": "0ms" } } } } },
 		{ "action": { "autocastOtherCooldowns": {} } },
+		{ "action": { "castSpell": { "spellId": { "spellId": 33831 } } } },
 		{
 			"action": {
 				"condition": { "cmp": { "op": "OpGe", "lhs": { "numberTargets": {} }, "rhs": { "const": { "val": "4" } } } },
