@@ -36,6 +36,34 @@ func init() {
 		character.ItemSwap.RegisterProc(27518, aura)
 	})
 
+	// Living Root of the Wildheart
+	core.NewItemEffect(30664, func(agent core.Agent) {
+		druid := agent.(DruidAgent).GetDruid()
+
+		buffAuras := map[DruidForm]*core.StatBuffAura{}
+		if druid.Talents.MoonkinForm {
+			buffAuras[Moonkin] = druid.NewTemporaryStatsAura("Living Root Moonkin Proc", core.ActionID{SpellID: 37343}, stats.Stats{stats.SpellDamage: 209}, time.Second*15)
+		}
+		buffAuras[Bear] = druid.NewTemporaryStatsAura("Living Root Bear Proc", core.ActionID{SpellID: 37340}, stats.Stats{stats.Armor: 4070}, time.Second*15)
+		buffAuras[Cat] = druid.NewTemporaryStatsAura("Living Root Cat Proc", core.ActionID{SpellID: 37341}, stats.Stats{stats.Strength: 64}, time.Second*15)
+
+		aura := core.MakePermanent(druid.RegisterAura(core.Aura{
+			Label: "Living Root of the Wildheart",
+		}).AttachProcTrigger(core.ProcTrigger{
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskDirect,
+			ProcChance: 0.03,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if druid.form.Matches(Humanoid) {
+					return
+				}
+
+				buffAuras[druid.form].Activate(sim)
+			},
+		}))
+		druid.ItemSwap.RegisterProc(30664, aura)
+	})
+
 	// Idol of the Avenger
 	core.NewItemEffect(31025, func(agent core.Agent) {
 		// Increases the damage dealt by Wrath by 25.

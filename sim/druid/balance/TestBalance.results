@@ -291,6 +291,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-LivingRootoftheWildheart-30664"
+ value: {
+  dps: 1075.23795
+  tps: 1082.16184
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-MalorneRegalia"
  value: {
   dps: 1016.8625

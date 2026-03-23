@@ -2052,12 +2052,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		30664, // Living Root of the Wildheart
-		[
-			"Your spells and attacks in each form have a chance to grant you a blessing for 15s.", // 0 - https://www.wowhead.com/tbc/spell=0
-		]
-	],
-	[
 		30720, // Serpent-Coil Braid
 		[
 			"You gain 25% more mana when you use a mana gem. In addition, using a mana gem grants you 225 spell damage for 15s.", // 37447 - https://www.wowhead.com/tbc/spell=37447
