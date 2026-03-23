@@ -30,10 +30,16 @@
 		{
 			"action": {
 				"condition": { "not": { "val": { "dotIsActive": { "spellId": { "spellId": 26988 } } } } },
-				"castSpell": { "spellId": { "spellId": 26988 } }
+				"multidot": { "spellId": { "spellId": 26988, "rank": 12 }, "maxDots": 1, "maxOverlap": { "const": { "val": "0ms" } } }
 			}
 		},
 		{ "action": { "autocastOtherCooldowns": {} } },
+		{
+			"action": {
+				"condition": { "cmp": { "op": "OpGe", "lhs": { "numberTargets": {} }, "rhs": { "const": { "val": "4" } } } },
+				"castSpell": { "spellId": { "spellId": 27012 } }
+			}
+		},
 		{ "action": { "castSpell": { "spellId": { "spellId": 26986 } } } }
 	]
 }

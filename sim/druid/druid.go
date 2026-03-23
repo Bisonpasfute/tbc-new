@@ -34,7 +34,6 @@ type Druid struct {
 	FrenziedRegeneration *DruidSpell
 	HealingTouch         *DruidSpell
 	Hurricane            *DruidSpell
-	HurricaneTickSpell   *DruidSpell
 	Innervate            *DruidSpell
 	InsectSwarm          *DruidSpell
 	Lacerate             *DruidSpell
@@ -205,7 +204,7 @@ func (druid *Druid) RegisterBaselineSpells() {
 	druid.registerWrathSpell()
 
 	// druid.registerHealingTouchSpell()
-	// druid.registerHurricaneSpell()
+	druid.registerHurricaneSpell()
 	// druid.registerNaturesSwiftness()
 	druid.registerFaerieFireSpell()
 	// druid.registerFaerieFireFeralSpell()
