@@ -263,6 +263,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-IdoloftheMoon-23197"
+ value: {
+  dps: 1105.90809
+  tps: 1112.7867
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-IdoloftheRavenGoddess-32387"
  value: {
   dps: 1107.91967
