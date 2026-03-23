@@ -131,7 +131,6 @@ message DpsWarrior {
 
 	message Options {
 		WarriorOptions class_options = 1;
-		bool use_item_swap_bonus_stats = 2;
 	}
 	Options options = 1;
 }
@@ -141,7 +140,6 @@ message ProtectionWarrior {
 
 	message Options {
 		WarriorOptions class_options = 1;
-		bool use_item_swap_bonus_stats = 2;
 	}
 	Options options = 1;
 }

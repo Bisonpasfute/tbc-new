@@ -7,22 +7,7 @@
 	],
 	"player": {
 		"name": "Player",
-		"race": "RaceOrc",
 		"class": "ClassWarrior",
-		"protectionWarrior": {
-			"options": {
-				"classOptions": {
-					"defaultShout": "WarriorShoutCommanding",
-					"defaultStance": "WarriorStanceDefensive",
-					"startingRage": 100,
-					"queueDelay": 250,
-					"stanceSnapshot": true,
-					"hasBsT2": true
-				}
-			}
-		},
-		"profession1": "Engineering",
-		"profession2": "Blacksmithing",
 		"inFrontOfTarget": true,
 		"healingModel": {
 			"hps": 2200,
