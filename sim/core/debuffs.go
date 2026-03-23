@@ -304,15 +304,26 @@ func ExposeWeaknessAura(target *Unit, agilityFunc ExposeWeaknessAgiFunc) *Aura {
 }
 
 func FaerieFireAura(target *Unit, improvedPoints float64) *Aura {
+	armorValue := 610.0
+	priority := armorValue + improvedPoints
+
+	var effect *ExclusiveEffect
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Faerie Fire",
 		ActionID: ActionID{SpellID: 26993},
 		Duration: time.Second * 40,
-	}).AttachStatBuff(stats.Armor, -610)
+		OnGain: func(aura *Aura, sim *Simulation) {
+			effect.SetPriority(sim, priority)
+		},
+	}).AttachStatBuff(stats.Armor, -armorValue)
 
 	if improvedPoints > 0 {
 		aura.AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedPhysicalHitTakenChance, -1*improvedPoints)
 	}
+
+	effect = aura.NewExclusiveEffect("FaerieFireAura", true, ExclusiveEffect{
+		Priority: priority,
+	})
 
 	return aura
 }

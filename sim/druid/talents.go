@@ -86,7 +86,8 @@ func (druid *Druid) applyBalanceOfPower() {
 	}
 
 	druid.AddStaticMod(core.SpellModConfig{
-		ClassMask:  DruidSpellWrath | DruidSpellStarfire | DruidSpellMoonfire | DruidSpellInsectSwarm, // all spells, use something else here
+		// See https://www.wowhead.com/tbc/spell=33596/balance-of-power
+		ClassMask:  DruidSpellWrath | DruidSpellStarfire | DruidSpellMoonfire,
 		Kind:       core.SpellMod_BonusHit_Percent,
 		FloatValue: 0.02 * float64(druid.Talents.BalanceOfPower),
 	})

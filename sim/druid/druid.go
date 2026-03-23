@@ -70,7 +70,7 @@ const (
 	DruidSpellFlagNone int64 = 0
 	DruidSpellBarkskin int64 = 1 << iota
 	DruidSpellEntanglingRoots
-	DruidSpellFearieFire
+	DruidSpellFaerieFire
 	DruidSpellFaerieFireFeral
 	DruidSpellHurricane
 	DruidSpellFerociousBite
@@ -108,7 +108,7 @@ const (
 	DruidSpellMoonfire           = DruidSpellMoonfireInitial | DruidSpellMoonfireDoT
 	DruidSpellDoT                = DruidSpellMoonfireDoT | DruidSpellInsectSwarm
 	DruidSpellHoT                = DruidSpellRejuvenation | DruidSpellLifebloom | DruidSpellRegrowth
-	DruidSpellInstant            = DruidSpellBarkskin | DruidSpellMoonfire | DruidSpellFearieFire | DruidSpellBarkskin
+	DruidSpellInstant            = DruidSpellBarkskin | DruidSpellMoonfire | DruidSpellFaerieFire | DruidSpellBarkskin
 	DruidSpellMangle             = DruidSpellMangleBear | DruidSpellMangleCat
 	DruidSpellBuilder            = DruidSpellMangleCat | DruidSpellShred | DruidSpellRake | DruidSpellRavage
 	DruidSpellFinisher           = DruidSpellFerociousBite | DruidSpellRip
@@ -138,6 +138,14 @@ func (druid *Druid) GetCharacter() *core.Character {
 
 // 	raidBuffs.MarkOfTheWild = true
 // }
+
+func (druid *Druid) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
+	if druid.InForm(Cat|Bear) && druid.Talents.LeaderOfThePack {
+		partyBuffs.LeaderOfThePack = core.Ternary(druid.HasItemEquipped(32387, []proto.ItemSlot{proto.ItemSlot_ItemSlotRanged}), proto.TristateEffect_TristateEffectImproved, proto.TristateEffect_TristateEffectRegular)
+	} else if druid.InForm(Moonkin) {
+		partyBuffs.MoonkinAura = core.Ternary(druid.HasItemEquipped(32387, []proto.ItemSlot{proto.ItemSlot_ItemSlotRanged}), proto.TristateEffect_TristateEffectImproved, proto.TristateEffect_TristateEffectRegular)
+	}
+}
 
 func (druid *Druid) RegisterSpell(formMask DruidForm, config core.SpellConfig) *DruidSpell {
 	prev := config.ExtraCastCondition

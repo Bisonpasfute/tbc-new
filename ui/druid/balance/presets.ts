@@ -7,6 +7,7 @@ import {
 	IndividualBuffs,
 	PartyBuffs,
 	Profession,
+	Race,
 	RaidBuffs,
 	Stat,
 	TristateEffect,
@@ -73,9 +74,11 @@ export const DefaultRaidBuffs = RaidBuffs.create({
 });
 
 export const DefaultPartyBuffs = PartyBuffs.create({
-	moonkinAura: TristateEffect.TristateEffectImproved,
 	chainOfTheTwilightOwl: true,
+	drums: Drums.LesserDrumsOfBattle,
 	eyeOfTheNight: true,
+	totemOfWrath: 1,
+	wrathOfAirTotem: TristateEffect.TristateEffectImproved,
 });
 
 export const DefaultIndividualBuffs = IndividualBuffs.create({
@@ -109,6 +112,7 @@ export const DefaultConsumables = ConsumesSpec.create({
 
 export const OtherDefaults = {
 	distanceFromTarget: 20,
-	profession1: Profession.Engineering,
+	profession1: Profession.Enchanting,
 	profession2: Profession.Tailoring,
+	race: Race.RaceNightElf,
 };

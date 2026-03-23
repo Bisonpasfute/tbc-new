@@ -1180,12 +1180,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		23197, // Idol of the Moon
-		[
-			"Increases the damage of your Moonfire spell by up to 33.", // 28854 - https://www.wowhead.com/tbc/spell=28854
-		]
-	],
-	[
 		23198, // Idol of Brutality
 		[
 			"Increases the damage dealt by your Maul ability by 50 and Swipe ability by 10.", // 28855 - https://www.wowhead.com/tbc/spell=28855
@@ -2409,12 +2403,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		32368, // Tome of the Lightbringer
 		[
 			"Your Judgement ability also increases your shield block value by 186 for 5s.", // 41042 - https://www.wowhead.com/tbc/spell=41042
-		]
-	],
-	[
-		32387, // Idol of the Raven Goddess
-		[
-			"Increases the healing granted by the Tree of Life form aura by 44, adds 20 critical strike rating to the Leader of the Pack aura, and adds 20 spell critical strike rating to the Moonkin form aura.", // 39926 - https://www.wowhead.com/tbc/spell=39926
 		]
 	],
 	[

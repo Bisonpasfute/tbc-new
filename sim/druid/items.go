@@ -8,6 +8,34 @@ import (
 )
 
 func init() {
+	// Idol of the Moon
+	core.NewItemEffect(23197, func(agent core.Agent) {
+		character := agent.GetCharacter()
+		aura := core.MakePermanent(character.RegisterAura(core.Aura{
+			Label: "Improved Moonfire",
+		}).AttachSpellMod(core.SpellModConfig{
+			ClassMask:  DruidSpellMoonfire,
+			Kind:       core.SpellMod_BaseDamage_Flat,
+			FloatValue: 33.0,
+		}))
+
+		character.ItemSwap.RegisterProc(32330, aura)
+	})
+
+	// Ivory Idol of the Moongoddess
+	core.NewItemEffect(27518, func(agent core.Agent) {
+		character := agent.GetCharacter()
+		aura := core.MakePermanent(character.RegisterAura(core.Aura{
+			Label: "Increased Starfire Damage",
+		}).AttachSpellMod(core.SpellModConfig{
+			ClassMask:  DruidSpellStarfire,
+			Kind:       core.SpellMod_BaseDamage_Flat,
+			FloatValue: 55.0,
+		}))
+
+		character.ItemSwap.RegisterProc(27518, aura)
+	})
+
 	// Idol of the Avenger
 	core.NewItemEffect(31025, func(agent core.Agent) {
 		// Increases the damage dealt by Wrath by 25.
@@ -20,26 +48,16 @@ func init() {
 			FloatValue: 25.0,
 		}))
 
-		character.ItemSwap.RegisterProc(32330, aura)
+		character.ItemSwap.RegisterProc(31025, aura)
 	})
 
-	// Ivory Idol of the Moongoddess
-	core.NewItemEffect(27518, func(agent core.Agent) {
-		// Increases the damage of your Starfire spell by up to 55.
-		character := agent.GetCharacter()
-		aura := core.MakePermanent(character.RegisterAura(core.Aura{
-			Label: "Increased Starfire Damage",
-		}).AttachSpellMod(core.SpellModConfig{
-			ClassMask:  DruidSpellStarfire,
-			Kind:       core.SpellMod_BaseDamage_Flat,
-			FloatValue: 55.0,
-		}))
-
-		character.ItemSwap.RegisterProc(32330, aura)
+	// Idol of the Raven Goddess
+	core.NewItemEffect(32387, func(agent core.Agent) {
+		// Implemented naively in druid.go
 	})
 
+	// Ashtongue Talisman of Equilibrium
 	core.NewItemEffect(32486, func(agent core.Agent) {
-		// Ashtongue Talisman of Equilibrium
 		// Mangle has a 40% chance to grant 140 Strength for 8 sec,
 		// Starfire has a 25% chance to grant up to 150 spell damage for 8 sec, and
 		// Rejuvenation has a 25% chance to grant up to 210 healing for 8 sec.
