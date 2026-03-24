@@ -33,6 +33,20 @@ func TestEnhancement(t *testing.T) {
 					},
 				},
 			}},
+			OtherSpecOptions: []core.SpecOptionsCombo{{Label: "Sync OH Swings", SpecOptions: &proto.Player_EnhancementShaman{
+				EnhancementShaman: &proto.EnhancementShaman{
+					Options: &proto.EnhancementShaman_Options{
+						SyncType:    proto.ShamanSyncType_SyncMainhandOffhandSwings,
+						ImbueOh:     proto.ShamanImbue_WindfuryWeapon,
+						ImbueOhSwap: proto.ShamanImbue_WindfuryWeapon,
+						ClassOptions: &proto.ShamanOptions{
+							ImbueMh:        proto.ShamanImbue_WindfuryWeapon,
+							ImbueMhSwap:    proto.ShamanImbue_WindfuryWeapon,
+							ShieldProcrate: 0.0,
+						},
+					},
+				},
+			}}},
 			GearSet: core.GetGearSet("../../../ui/shaman/enhancement/gear_sets", "p1"),
 			Talents: "03-500502210501133531151-50005301",
 			OtherTalentSets: []core.TalentsCombo{

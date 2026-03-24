@@ -665,7 +665,7 @@ var UnleashedRageCategory = "UnleashedRage"
 
 func UnleashedRageAura(char *Character, casterIdx int32, points int32) *Aura {
 	return makeStatBuff(char, BuffConfig{
-		Label:    "Unleashed Rage",
+		Label:    fmt.Sprintf("Unleashed Rage-%d", casterIdx),
 		Duration: time.Second * 10,
 		ActionID: ActionID{SpellID: 30809}.WithTag(casterIdx),
 		Stats: []StatConfig{
