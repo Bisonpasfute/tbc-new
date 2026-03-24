@@ -1180,12 +1180,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		23197, // Idol of the Moon
-		[
-			"Increases the damage of your Moonfire spell by up to 33.", // 28854 - https://www.wowhead.com/tbc/spell=28854
-		]
-	],
-	[
 		23198, // Idol of Brutality
 		[
 			"Increases the damage dealt by your Maul ability by 50 and Swipe ability by 10.", // 28855 - https://www.wowhead.com/tbc/spell=28855
@@ -1519,12 +1513,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		27470, // Gladiator's Mail Gauntlets
 		[
 			"Improves the range of all Shock spells by 5 yards.", // 32973 - https://www.wowhead.com/tbc/spell=32973
-		]
-	],
-	[
-		27518, // Ivory Idol of the Moongoddess
-		[
-			"Increases the damage of your Starfire spell by up to 55.", // 34292 - https://www.wowhead.com/tbc/spell=34292
 		]
 	],
 	[
@@ -2064,12 +2052,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		30664, // Living Root of the Wildheart
-		[
-			"Your spells and attacks in each form have a chance to grant you a blessing for 15s.", // 0 - https://www.wowhead.com/tbc/spell=0
-		]
-	],
-	[
 		30720, // Serpent-Coil Braid
 		[
 			"You gain 25% more mana when you use a mana gem. In addition, using a mana gem grants you 225 spell damage for 15s.", // 37447 - https://www.wowhead.com/tbc/spell=37447
@@ -2103,12 +2085,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		30847, // X-52 Rocket Helmet
 		[
 			"Launch yourself from Outland to the stars. For the safety of others, please clear the launching platform before use.", // 37896 - https://www.wowhead.com/tbc/spell=37896
-		]
-	],
-	[
-		31025, // Idol of the Avenger
-		[
-			"Increases the damage dealt by Wrath by 25.", // 37760 - https://www.wowhead.com/tbc/spell=37760
 		]
 	],
 	[
@@ -2424,12 +2400,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		32387, // Idol of the Raven Goddess
-		[
-			"Increases the healing granted by the Tree of Life form aura by 44, adds 20 critical strike rating to the Leader of the Pack aura, and adds 20 spell critical strike rating to the Moonkin form aura.", // 39926 - https://www.wowhead.com/tbc/spell=39926
-		]
-	],
-	[
 		32481, // Charm of Swift Flight
 		[
 			"Increases speed in Flight Form and Swift Flight Form by 10%.", // 48403 - https://www.wowhead.com/tbc/spell=48403
@@ -2439,12 +2409,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		32485, // Ashtongue Talisman of Valor
 		[
 			"Your Mortal Strike, Bloodthirst, and Shield Slam attacks have a 25% chance to heal you for 330 and grant 55 Strength for 12s.", // 40459 - https://www.wowhead.com/tbc/spell=40459
-		]
-	],
-	[
-		32486, // Ashtongue Talisman of Equilibrium
-		[
-			"Mangle has a 40% chance to grant 140 Strength for 8s, Starfire has a 25% chance to grant up to 150 spell damage for 8s, and Rejuvenation has a 25% chance to grant up to 210 healing for 8s.", // 40442 - https://www.wowhead.com/tbc/spell=40442
 		]
 	],
 	[

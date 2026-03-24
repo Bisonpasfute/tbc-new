@@ -1,0 +1,59 @@
+{
+	"type": "TypeAPL",
+	"prepullActions": [{ "action": { "activateAura": { "auraId": { "spellId": 24858 } } }, "doAtValue": { "const": { "val": "-10s" } } }],
+	"priorityList": [
+		{
+			"action": {
+				"condition": {
+					"and": {
+						"vals": [
+							{ "variableRef": { "name": "Use Self Innervate" } },
+							{ "cmp": { "op": "OpLe", "lhs": { "currentManaPercent": {} }, "rhs": { "const": { "val": "30%" } } } }
+						]
+					}
+				},
+				"castSpell": { "spellId": { "spellId": 29166 } }
+			}
+		},
+		{
+			"action": {
+				"condition": {
+					"and": {
+						"vals": [
+							{ "variableRef": { "name": "Use Faerie Fire" } },
+							{
+								"cmp": {
+									"op": "OpLe",
+									"lhs": { "auraRemainingTime": { "sourceUnit": { "type": "Target" }, "auraId": { "spellId": 26993, "rank": 5 } } },
+									"rhs": { "const": { "val": "5s" } }
+								}
+							}
+						]
+					}
+				},
+				"castSpell": { "spellId": { "spellId": 26993, "rank": 5 }, "target": { "type": "Target" } }
+			}
+		},
+		{
+			"action": {
+				"condition": { "variableRef": { "name": "Use Insect Swarm" } },
+				"multidot": { "spellId": { "spellId": 27013, "rank": 6 }, "maxDots": 1, "maxOverlap": { "const": { "val": "0ms" } } }
+			}
+		},
+		{ "action": { "multidot": { "spellId": { "spellId": 26988, "rank": 12 }, "maxDots": 1, "maxOverlap": { "const": { "val": "0ms" } } } } },
+		{ "action": { "autocastOtherCooldowns": {} } },
+		{ "action": { "castSpell": { "spellId": { "spellId": 33831 } } } },
+		{
+			"action": {
+				"condition": { "cmp": { "op": "OpGe", "lhs": { "numberTargets": {} }, "rhs": { "const": { "val": "4" } } } },
+				"castSpell": { "spellId": { "spellId": 27012 } }
+			}
+		},
+		{ "action": { "castSpell": { "spellId": { "spellId": 26986 } } } }
+	],
+	"valueVariables": [
+		{ "name": "Use Self Innervate", "value": { "const": { "val": "false" } } },
+		{ "name": "Use Faerie Fire", "value": { "const": { "val": "true" } } },
+		{ "name": "Use Insect Swarm", "value": { "const": { "val": "false" } } }
+	]
+}

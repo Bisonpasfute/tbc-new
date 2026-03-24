@@ -6,43 +6,24 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-const (
-	HurricaneBonusCoeff = 0.31
-	HurricaneCoeff      = 0.31
-)
-
 func (druid *Druid) registerHurricaneSpell() {
-	druid.HurricaneTickSpell = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 42231},
-		SpellSchool:    core.SpellSchoolNature,
-		ProcMask:       core.ProcMaskSpellProc,
-		Flags:          core.SpellFlagAoE,
-		ClassSpellMask: DruidSpellHurricane,
-
-		CritMultiplier:   druid.DefaultCritMultiplier(),
-		DamageMultiplier: 1,
-		ThreatMultiplier: 1,
-		BonusCoefficient: HurricaneBonusCoeff,
-
-		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-			damage := druid.CalcScalingSpellDmg(HurricaneCoeff)
-			spell.CalcAndDealAoeDamage(sim, damage, spell.OutcomeMagicHitAndCrit)
-		},
-	})
-
 	druid.Hurricane = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 16914},
+		ActionID:       core.ActionID{SpellID: 27012},
 		SpellSchool:    core.SpellSchoolNature,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagChanneled | core.SpellFlagAPL,
 		ClassSpellMask: DruidSpellHurricane,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCostPercent: 50.3,
+			FlatCost: 1905,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,
+			},
+			CD: core.Cooldown{
+				Timer:    druid.NewTimer(),
+				Duration: time.Second * 60,
 			},
 		},
 		Dot: core.DotConfig{
@@ -54,12 +35,28 @@ func (druid *Druid) registerHurricaneSpell() {
 			TickLength:          time.Second * 1,
 			AffectedByCastSpeed: true,
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				druid.HurricaneTickSpell.Cast(sim, target)
+				druid.Hurricane.RelatedDotSpell.Cast(sim, target)
 			},
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
 			spell.AOEDot().Apply(sim)
+		},
+	})
+
+	druid.Hurricane.RelatedDotSpell = druid.Unit.RegisterSpell(core.SpellConfig{
+		ActionID:       core.ActionID{SpellID: 42230},
+		SpellSchool:    core.SpellSchoolNature,
+		ProcMask:       core.ProcMaskSpellProc,
+		ClassSpellMask: DruidSpellHurricane,
+
+		CritMultiplier:   druid.DefaultSpellCritMultiplier(),
+		DamageMultiplier: 1,
+		ThreatMultiplier: 1,
+		BonusCoefficient: 0.129,
+
+		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
+			spell.CalcAndDealAoeDamage(sim, 206, spell.OutcomeMagicHitAndCrit)
 		},
 	})
 }

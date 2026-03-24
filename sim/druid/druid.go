@@ -16,7 +16,7 @@ type Druid struct {
 
 	StartingForm DruidForm
 
-	Treants TreantAgents
+	Treants Treants
 
 	BleedsActive      map[*core.Unit]int32
 	AssumeBleedActive bool
@@ -26,62 +26,41 @@ type Druid struct {
 
 	MHAutoSpell *core.Spell
 
-	Barkskin              *DruidSpell
-	Berserk               *DruidSpell
-	CatCharge             *DruidSpell
-	Dash                  *DruidSpell
-	DisplacerBeast        *DruidSpell
-	FaerieFire            *DruidSpell
-	FerociousBite         *DruidSpell
-	ForceOfNature         *DruidSpell
-	FrenziedRegeneration  *DruidSpell
-	HealingTouch          *DruidSpell
-	Hurricane             *DruidSpell
-	HurricaneTickSpell    *DruidSpell
-	Lacerate              *DruidSpell
-	MangleBear            *DruidSpell
-	MangleCat             *DruidSpell
-	Maul                  *DruidSpell
-	MightOfUrsoc          *DruidSpell
-	Moonfire              *DruidSpell
-	NaturesSwiftness      *DruidSpell
-	Prowl                 *DruidSpell
-	Rake                  *DruidSpell
-	Ravage                *DruidSpell
-	Rejuvenation          *DruidSpell
-	Rip                   *DruidSpell
-	SurvivalInstincts     *DruidSpell
-	SwipeBear             *DruidSpell
-	SwipeCat              *DruidSpell
-	ThrashBear            *DruidSpell
-	ThrashCat             *DruidSpell
-	Typhoon               *DruidSpell
-	Wrath                 *DruidSpell
-	WildMushrooms         *DruidSpell
-	WildMushroomsDetonate *DruidSpell
+	Barkskin             *DruidSpell
+	Dash                 *DruidSpell
+	FaerieFire           *DruidSpell
+	FerociousBite        *DruidSpell
+	ForceOfNature        *DruidSpell
+	FrenziedRegeneration *DruidSpell
+	HealingTouch         *DruidSpell
+	Hurricane            *DruidSpell
+	Innervate            *DruidSpell
+	InsectSwarm          *DruidSpell
+	Lacerate             *DruidSpell
+	MangleBear           *DruidSpell
+	MangleCat            *DruidSpell
+	Maul                 *DruidSpell
+	Moonfire             *DruidSpell
+	NaturesSwiftness     *DruidSpell
+	Prowl                *DruidSpell
+	Rake                 *DruidSpell
+	Ravage               *DruidSpell
+	Rejuvenation         *DruidSpell
+	Rip                  *DruidSpell
+	Starfire             *DruidSpell
+	Swipe                *DruidSpell
+	Wrath                *DruidSpell
 
 	CatForm     *DruidSpell
 	BearForm    *DruidSpell
 	MoonkinForm *DruidSpell
 
-	BarkskinAura             *core.Aura
 	BearFormAura             *core.Aura
-	BerserkBearAura          *core.Aura
-	BerserkCatAura           *core.Aura
 	CatFormAura              *core.Aura
 	DashAura                 *core.Aura
-	DisplacerBeastAura       *core.Aura
-	FaerieFireAuras          core.AuraArray
 	FrenziedRegenerationAura *core.Aura
-	LunarEclipseProcAura     *core.Aura
-	MightOfUrsocAura         *core.Aura
 	MoonkinFormAura          *core.Aura
 	ProwlAura                *core.Aura
-	StampedeAura             *core.Aura
-	StampedePendingAura      *core.Aura
-	TigersFury4PT15Aura      *core.Aura
-	SurvivalInstinctsAura    *core.Aura
-	WeakenedBlowsAuras       core.AuraArray
 
 	form DruidForm
 }
@@ -89,65 +68,53 @@ type Druid struct {
 const (
 	DruidSpellFlagNone int64 = 0
 	DruidSpellBarkskin int64 = 1 << iota
-	DruidSpellFearieFire
+	DruidSpellEntanglingRoots
+	DruidSpellFaerieFire
+	DruidSpellFaerieFireFeral
+	DruidSpellForceOfNature
 	DruidSpellHurricane
-	DruidSpellAstralStorm
-	DruidSpellAstralCommunion
 	DruidSpellFerociousBite
 	DruidSpellFrenziedRegeneration
 	DruidSpellInnervate
+	DruidSpellInsectSwarm
 	DruidSpellLacerate
 	DruidSpellMangleBear
 	DruidSpellMangleCat
 	DruidSpellMaul
-	DruidSpellMightOfUrsoc
-	DruidSpellMoonfire
+	DruidSpellMoonfireInitial
 	DruidSpellMoonfireDoT
 	DruidSpellRake
 	DruidSpellRavage
 	DruidSpellRip
-	DruidSpellSavageDefense
-	DruidSpellSavageRoar
 	DruidSpellShred
-	DruidSpellStarfall
 	DruidSpellStarfire
-	DruidSpellStarsurge
-	DruidSpellSunfire
-	DruidSpellSunfireDoT
-	DruidSpellSwipeBear
-	DruidSpellSwipeCat
-	DruidSpellThrashBear
-	DruidSpellThrashCat
+	DruidSpellSwipe
 	DruidSpellTigersFury
-	DruidSpellWildMushroom
-	DruidSpellWildMushroomDetonate
+	DruidSpellThorns
 	DruidSpellWrath
 
 	DruidSpellHealingTouch
 	DruidSpellRegrowth
 	DruidSpellLifebloom
 	DruidSpellRejuvenation
-	DruidSpellNourish
 	DruidSpellTranquility
 	DruidSpellMarkOfTheWild
 	DruidSpellSwiftmend
-	DruidSpellWildGrowth
 	DruidSpellCenarionWard
-	DruidSpellCelestialAlignment
 
 	DruidSpellLast
-	DruidSpellsAll               = DruidSpellLast<<1 - 1
-	DruidSpellDoT                = DruidSpellMoonfireDoT | DruidSpellSunfireDoT
-	DruidSpellHoT                = DruidSpellRejuvenation | DruidSpellLifebloom | DruidSpellRegrowth | DruidSpellWildGrowth
-	DruidSpellInstant            = DruidSpellBarkskin | DruidSpellMoonfire | DruidSpellStarfall | DruidSpellSunfire | DruidSpellFearieFire | DruidSpellBarkskin
+	DruidSpellsAll = DruidSpellLast<<1 - 1
+
+	DruidSpellMoonfire           = DruidSpellMoonfireInitial | DruidSpellMoonfireDoT
+	DruidSpellDoT                = DruidSpellMoonfireDoT | DruidSpellInsectSwarm
+	DruidSpellHoT                = DruidSpellRejuvenation | DruidSpellLifebloom | DruidSpellRegrowth
+	DruidSpellInstant            = DruidSpellBarkskin | DruidSpellMoonfire | DruidSpellFaerieFire | DruidSpellBarkskin
 	DruidSpellMangle             = DruidSpellMangleBear | DruidSpellMangleCat
-	DruidSpellThrash             = DruidSpellThrashBear | DruidSpellThrashCat
-	DruidSpellSwipe              = DruidSpellSwipeBear | DruidSpellSwipeCat
 	DruidSpellBuilder            = DruidSpellMangleCat | DruidSpellShred | DruidSpellRake | DruidSpellRavage
-	DruidSpellFinisher           = DruidSpellFerociousBite | DruidSpellRip | DruidSpellSavageRoar
-	DruidArcaneSpells            = DruidSpellMoonfire | DruidSpellMoonfireDoT | DruidSpellStarfire | DruidSpellStarsurge | DruidSpellStarfall
-	DruidNatureSpells            = DruidSpellWrath | DruidSpellStarsurge | DruidSpellSunfire | DruidSpellSunfireDoT | DruidSpellHurricane
-	DruidHealingNonInstantSpells = DruidSpellHealingTouch | DruidSpellRegrowth | DruidSpellNourish
+	DruidSpellFinisher           = DruidSpellFerociousBite | DruidSpellRip
+	DruidArcaneSpells            = DruidSpellMoonfire | DruidSpellMoonfireDoT | DruidSpellStarfire
+	DruidNatureSpells            = DruidSpellWrath | DruidSpellHurricane | DruidSpellInsectSwarm
+	DruidHealingNonInstantSpells = DruidSpellHealingTouch | DruidSpellRegrowth
 	DruidHealingSpells           = DruidHealingNonInstantSpells | DruidSpellRejuvenation | DruidSpellLifebloom | DruidSpellSwiftmend
 	DruidDamagingSpells          = DruidArcaneSpells | DruidNatureSpells
 )
@@ -160,17 +127,13 @@ func (druid *Druid) GetCharacter() *core.Character {
 	return &druid.Character
 }
 
-// func (druid *Druid) AddRaidBuffs(raidBuffs *proto.RaidBuffs) {
-// 	if druid.InForm(Cat|Bear) && druid.Talents.LeaderOfThePack {
-// 		raidBuffs.LeaderOfThePack = true
-// 	}
-
-// 	if druid.InForm(Moonkin) {
-// 		raidBuffs.MoonkinForm = true
-// 	}
-
-// 	raidBuffs.MarkOfTheWild = true
-// }
+func (druid *Druid) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
+	if druid.InForm(Cat|Bear) && druid.Talents.LeaderOfThePack {
+		partyBuffs.LeaderOfThePack = core.Ternary(druid.HasItemEquipped(32387, []proto.ItemSlot{proto.ItemSlot_ItemSlotRanged}), proto.TristateEffect_TristateEffectImproved, proto.TristateEffect_TristateEffectRegular)
+	} else if druid.InForm(Moonkin) && druid.Talents.MoonkinForm {
+		partyBuffs.MoonkinAura = core.Ternary(druid.HasItemEquipped(32387, []proto.ItemSlot{proto.ItemSlot_ItemSlotRanged}), proto.TristateEffect_TristateEffectImproved, proto.TristateEffect_TristateEffectRegular)
+	}
+}
 
 func (druid *Druid) RegisterSpell(formMask DruidForm, config core.SpellConfig) *DruidSpell {
 	prev := config.ExtraCastCondition
@@ -222,17 +185,23 @@ func (druid *Druid) Initialize() {
 }
 
 func (druid *Druid) RegisterBaselineSpells() {
-	// druid.registerMoonfireSpell()
-	// druid.registerWrathSpell()
+	// Balance
+	druid.registerBarkskin()
+
+	druid.registerStarfireSpell()
+	druid.registerMoonfireSpell()
+	druid.registerWrathSpell()
+
 	// druid.registerHealingTouchSpell()
-	// druid.registerHurricaneSpell()
+	druid.registerHurricaneSpell()
 	// druid.registerNaturesSwiftness()
-	// druid.registerFaerieFireSpell()
+	druid.registerFaerieFireSpell()
+	// druid.registerFaerieFireFeralSpell()
 	// druid.registerTranquilityCD()
 	// druid.registerRejuvenationSpell()
 
 	// druid.registerRebirthSpell()
-	// druid.registerInnervateCD()
+	druid.registerInnervateCD()
 }
 
 func (druid *Druid) RegisterFeralCatSpells() {
@@ -305,6 +274,10 @@ func New(char *core.Character, form DruidForm, selfBuffs SelfBuffs, talents stri
 	druid.AddStatDependency(stats.BonusArmor, stats.Armor, 1)
 	druid.AddStatDependency(stats.Agility, stats.PhysicalCritPercent, core.CritPerAgiMaxLevel[char.Class])
 	druid.AddStatDependency(stats.Agility, stats.DodgeRating, 1.0/14.7059*core.DodgeRatingPerDodgePercent)
+
+	if druid.Talents.ForceOfNature {
+		druid.registerTreants()
+	}
 
 	return druid
 }

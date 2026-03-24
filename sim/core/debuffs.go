@@ -41,7 +41,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.FaerieFire != proto.TristateEffect_TristateEffectMissing {
-		MakePermanent(FaerieFireAura(target, IsImproved(debuffs.FaerieFire)))
+		MakePermanent(FaerieFireAura(target, TernaryFloat64(IsImproved(debuffs.FaerieFire), 3, 0)))
 	}
 
 	if debuffs.HemorrhageUptime > 0.0 {
@@ -303,16 +303,27 @@ func ExposeWeaknessAura(target *Unit, agilityFunc ExposeWeaknessAgiFunc) *Aura {
 
 }
 
-func FaerieFireAura(target *Unit, improved bool) *Aura {
+func FaerieFireAura(target *Unit, improvedPoints float64) *Aura {
+	armorValue := 610.0
+	priority := armorValue + improvedPoints
+
+	var effect *ExclusiveEffect
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Faerie Fire",
 		ActionID: ActionID{SpellID: 26993},
 		Duration: time.Second * 40,
-	}).AttachStatBuff(stats.Armor, -610)
+		OnGain: func(aura *Aura, sim *Simulation) {
+			effect.SetPriority(sim, priority)
+		},
+	}).AttachStatBuff(stats.Armor, -armorValue)
 
-	if improved {
-		aura.AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedPhysicalHitTakenChance, -3)
+	if improvedPoints > 0 {
+		aura.AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedPhysicalHitTakenChance, -1*improvedPoints)
 	}
+
+	effect = aura.NewExclusiveEffect("FaerieFireAura", true, ExclusiveEffect{
+		Priority: priority,
+	})
 
 	return aura
 }
