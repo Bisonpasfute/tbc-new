@@ -5,13 +5,16 @@ import (
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
 	magtheridonslair "github.com/wowsims/tbc/sim/encounters/magtheridons_lair"
+	serpentshrinecavern "github.com/wowsims/tbc/sim/encounters/serpent_shrine_cavern"
 )
 
 func init() {
 	AddDefaultPresetEncounter()
 	addMovementAI()
 	addDynamicAddsAI()
+	addCustomBossAI()
 	magtheridonslair.Register()
+	serpentshrinecavern.Register()
 }
 
 func AddSingleTargetBossEncounter(presetTarget *core.PresetTarget) {

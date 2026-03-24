@@ -882,11 +882,16 @@ func (aa *AutoAttacks) NextAnyAttackAt() time.Duration {
 // Used to prevent artificial Haste breakpoints arising from APL evaluations after autos occurring at
 // locally optimal timings.
 func (aa *AutoAttacks) RandomizeMeleeTiming(sim *Simulation) {
-	if !aa.AutoSwingMelee || aa.character.DistanceFromTarget > MaxMeleeRange {
+	if !aa.AutoSwingMelee || (aa.character != nil && aa.character.DistanceFromTarget > MaxMeleeRange) {
 		return
 	}
 
-	randomAutoOffset := time.Duration(sim.RandomFloat("Melee Timing")*float64(aa.character.ReactionTime.Milliseconds())) * time.Millisecond
+	reactionTime := 100 * time.Millisecond
+	if aa.character != nil {
+		reactionTime = aa.character.ReactionTime
+	}
+
+	randomAutoOffset := time.Duration(sim.RandomFloat("Melee Timing")*float64(reactionTime.Milliseconds())) * time.Millisecond
 	aa.DelayMeleeBy(sim, randomAutoOffset)
 }
 

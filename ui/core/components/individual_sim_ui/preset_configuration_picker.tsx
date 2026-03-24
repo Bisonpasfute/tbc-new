@@ -257,7 +257,10 @@ export class PresetConfigurationPicker extends Component {
 		const hasItemSwap =
 			settings?.playerOptions?.itemSwap === undefined ||
 			ItemSwap.equals(stripItemSwapApiVersion(this.simUI.player.itemSwapSettings?.toProto()), stripItemSwapApiVersion(settings?.playerOptions?.itemSwap));
-		const hasSpecOptions = settings?.specOptions ? JSON.stringify(this.simUI.player.getSpecOptions()) == JSON.stringify(settings.specOptions) : true;
+		const hasSpecOptions =
+			settings?.specOptions && Object.keys(settings.specOptions).length
+				? JSON.stringify(this.simUI.player.getSpecOptions()) == JSON.stringify(settings.specOptions)
+				: true;
 		const hasConsumables = settings?.consumables ? ConsumesSpec.equals(this.simUI.player.getConsumes(), settings.consumables) : true;
 		const hasPartyBuffs = settings?.partyBuffs ? PartyBuffs.equals(this.simUI.player.getParty()?.getBuffs(), settings.partyBuffs) : true;
 		const hasRaidBuffs = settings?.raidBuffs ? RaidBuffs.equals(this.simUI.sim.raid.getBuffs(), settings.raidBuffs) : true;
