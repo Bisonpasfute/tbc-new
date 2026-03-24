@@ -217,14 +217,16 @@ func main() {
 	database.GenerateMissingEffectsFile()
 	database.GenerateItemEffectRandomPropPoints(instance, db)
 
-	for _, enchant := range db.Enchants {
-		if enchant.ItemId != 0 {
-			db.AddItemIcon(enchant.ItemId, enchant.Icon, enchant.Name)
-		}
-		if enchant.SpellId != 0 {
-			db.AddSpellIcon(enchant.SpellId, enchant.Icon, enchant.Name)
-		}
-	}
+	// Disbabled due to duplicate SpellIDs
+	// Our enchants already have the icon saved so this is redundant
+	// for _, enchant := range db.Enchants {
+	// 	if enchant.ItemId != 0 {
+	// 		db.AddItemIcon(enchant.ItemId, enchant.Icon, enchant.Name)
+	// 	}
+	// 	if enchant.SpellId != 0 {
+	// 		db.AddSpellIcon(enchant.SpellId, enchant.Icon, enchant.Name)
+	// 	}
+	// }
 
 	for _, consume := range db.Consumables {
 		if len(consume.EffectIds) > 0 {

@@ -1672,6 +1672,7 @@
 				"eclipse": "Eclipse",
 				"cooldowns": "Cooldowns",
 				"potions": "Potions",
+				"conjured_items": "Conjured Items",
 				"placeholders": "Placeholders"
 			},
 			"item_swap_sets": {
@@ -1877,28 +1878,57 @@
 					}
 				},
 				"melee_weave": {
-					"label": "Melee Weave",
-					"tooltip": "Moves in to melee weave at appropriate times."
+					"label": "Melee Weaving",
+					"tooltip": "Uses melee weaving in the rotation."
 				},
 				"weave_only_raptor": {
-					"label": "Only melee weave when Raptor Strike is ready",
-					"tooltip": "Enable to only weave when Raptor Strike is ready."
+					"label": "Only Raptor Strike (no white hits)",
+					"tooltip": "Only perform a melee weave if Raptor Strike is ready."
+				},
+				"time_to_weave": {
+					"label": "Time to weave (ms)",
+					"tooltip": "Amount of time, in milliseconds, between when you start moving towards the boss and when you re-engage your ranged autos. Capped at 100ms."
 				},
 				"use_multi": {
 					"label": "Use Multi-Shot",
-					"tooltip": "Enable to include Multi-Shot as a filler."
+					"tooltip": "Includes Multi-Shot as a filler in the rotation."
 				},
 				"use_arcane": {
 					"label": "Use Arcane Shot",
-					"tooltip": "Enable to include Arcane Shot as a filler."
+					"tooltip": "Include Arcane Shot as a filler in the rotation."
 				},
 				"viper_start_mana_percent": {
-					"label": "Aspect of the Viper swap threshold start",
-					"tooltip": "The percentage of mana to swap to Aspect of the Viper."
+					"label": "Viper start mana %",
+					"tooltip": "Switch to Aspect of the Viper when mana goes below this amount."
 				},
 				"viper_stop_mana_percent": {
-					"label": "Aspect of the Viper swap threshold end",
-					"tooltip": "The percentage of mana to swap back to Aspect of the Hawk."
+					"label": "Viper stop mana %",
+					"tooltip": "Switch back to Aspect of the Hawk when mana goes above this amount."
+				}
+			},
+			"warrior": {
+				"sunder_armor": {
+					"label": "Sunder Armor",
+					"none": "Never",
+					"help": "Help stack",
+					"maintain": "Maintain debuff"
+				},
+				"bloodlust_timing": {
+					"label": "Bloodlust timing (Seconds)",
+					"tooltip": "When, in seconds, to use Bloodlust/Heroism."
+				},
+				"dps": {
+					"spec": {
+						"label": "Rotation",
+						"fury": "Fury",
+						"arms": "Arms"
+					},
+					"use_recklessness": {
+						"label": "Use Recklessness"
+					},
+					"use_overpower": {
+						"label": "Use Overpower"
+					}
 				}
 			}
 		}

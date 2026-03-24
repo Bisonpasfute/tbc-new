@@ -1,4 +1,5 @@
 import { CHARACTER_LEVEL } from '../constants/mechanics';
+import { CURRENT_PHASE, Phase } from '../constants/other';
 import { APLActionItemSwap_SwapSet } from '../proto/apl';
 import { ActionID as ActionIdProto, ItemRandomSuffix, OtherAction } from '../proto/common';
 import { ResourceType } from '../proto/spell';
@@ -92,10 +93,18 @@ export class ActionId {
 					name += ' (Blinkstrike)';
 				} else if (this.tag == 17257) {
 					name += ' (Magtheridon)';
+				} else if (this.tag == 21213) {
+					name += ' (Morrogrim Tidewalker)';
+				} else if (this.tag == 21213 + 18943) {
+					name += ' (Morrogrim Tidewalker) - Thrash';
 				} else if (this.tag == 99999) {
 					name += ' (Boss)';
 				} else if (this.tag == 99998) {
 					name += ' (Add)';
+				} else if (this.tag == 100000) {
+					name += ' (Custom Boss)';
+				} else if (this.tag == 100000 + 1) {
+					name += ' (Custom Boss) - Thrash';
 				}
 				break;
 			case OtherAction.OtherActionShoot:
@@ -327,6 +336,7 @@ export class ActionId {
 			case 'Pain Suppression':
 			case 'Curse of the Elements':
 			case 'Curse of Recklessness':
+			case 'Unleashed Rage':
 				if (tag === -1) {
 					name += ' (External)';
 				} else {
@@ -597,6 +607,25 @@ export class ActionId {
 			case 'Raptor Strike':
 				if (tag == 2) {
 					name += ' (Cooldown)';
+				}
+				break;
+			case 'Drums of War':
+			case 'Drums of Battle':
+			case 'Drums of Restoration':
+				if (CURRENT_PHASE >= Phase.Phase4) {
+					name = 'Greater ' + name;
+				}
+				if (tag === -1) {
+					name += ' (External)';
+				}
+				break;
+			case 'Dummy Spell':
+				if (tag === 100000) {
+					['Arcane', 'Fire', 'Frost', 'Holy', 'Shadow', 'Nature'].forEach((school, index) => {
+						if (tag === 100000 + index) {
+							name += ` (${school})`;
+						}
+					});
 				}
 				break;
 			default:

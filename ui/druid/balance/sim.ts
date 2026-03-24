@@ -6,7 +6,6 @@ import { PlayerClasses } from '../../core/player_classes';
 import { APLRotation, APLRotation_Type } from '../../core/proto/apl';
 import { Faction, ItemSlot, PseudoStat, Race, Spec, Stat } from '../../core/proto/common';
 import { DEFAULT_HYBRID_CASTER_GEM_STATS, UnitStat } from '../../core/proto_utils/stats';
-import { formatToNumber } from '../../core/utils';
 import * as DruidInputs from '../inputs';
 import * as BalanceInputs from './inputs';
 import * as Presets from './presets';
@@ -15,18 +14,20 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 	cssClass: 'balance-druid-sim-ui',
 	cssScheme: PlayerClasses.getCssClass(PlayerClasses.Druid),
 	// List any known bugs / issues here, and they'll be shown on the site.
-	knownIssues: [],
+	knownIssues: ['We need assistance testing in-game Treant base damage and spell damage scaling. If interested please join our Discord!'],
 
 	// All stats for which EP should be calculated.
 	epStats: [
 		Stat.StatIntellect,
 		Stat.StatSpellDamage,
-		Stat.StatNatureDamage,
 		Stat.StatArcaneDamage,
+		Stat.StatNatureDamage,
 		Stat.StatSpellHitRating,
 		Stat.StatSpellCritRating,
 		Stat.StatSpellHasteRating,
+		Stat.StatMP5,
 	],
+	epPseudoStats: [],
 	// Reference stat against which to calculate EP. I think all classes use either spell power or attack power.
 	epReferenceStat: Stat.StatSpellDamage,
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
@@ -36,18 +37,18 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 			Stat.StatMana,
 			Stat.StatStamina,
 			Stat.StatIntellect,
-			Stat.StatSpirit,
 			Stat.StatSpellDamage,
-			Stat.StatNatureDamage,
 			Stat.StatArcaneDamage,
+			Stat.StatNatureDamage,
+			Stat.StatMP5,
 		],
-		[PseudoStat.PseudoStatSpellHitPercent, PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent],
+		[PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent, PseudoStat.PseudoStatSpellHitPercent],
 	),
 	gemStats: DEFAULT_HYBRID_CASTER_GEM_STATS,
 
 	defaults: {
 		// Default equipped gear.
-		gear: Presets.Phase1PresetGear.gear,
+		gear: Presets.Phase1AlliancePresetGear.gear,
 		// Default EP weights for sorting gear in the gear picker.
 		epWeights: Presets.StandardEPWeights.epWeights,
 		// Default consumes settings.
@@ -66,15 +67,15 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 	},
 
 	// IconInputs to include in the 'Player' section on the settings tab.
-	playerIconInputs: [DruidInputs.SelfInnervate()],
+	playerIconInputs: [],
 	// Buff and Debuff inputs to include/exclude, overriding the EP-based defaults.
 	includeBuffDebuffInputs: [],
 	excludeBuffDebuffInputs: [],
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
-		inputs: [BalanceInputs.OkfUptime, OtherInputs.TankAssignment, OtherInputs.InputDelay, OtherInputs.DistanceFromTarget],
+		inputs: [OtherInputs.InputDelay, OtherInputs.DistanceFromTarget, OtherInputs.TankAssignment],
 	},
-	itemSwapSlots: [ItemSlot.ItemSlotMainHand, ItemSlot.ItemSlotOffHand, ItemSlot.ItemSlotTrinket1, ItemSlot.ItemSlotTrinket2],
+	itemSwapSlots: [ItemSlot.ItemSlotMainHand, ItemSlot.ItemSlotOffHand],
 	encounterPicker: {
 		// Whether to include 'Execute Duration (%)' in the 'Encounter' section of the settings tab.
 		showExecuteProportion: false,
@@ -86,8 +87,15 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 		talents: [Presets.StandardTalents],
 		rotations: [Presets.StandardRotation],
 		// Preset gear configurations that the user can quickly select.
-		gear: [Presets.PreraidPresetGear, Presets.Phase1PresetGear],
-		builds: [Presets.PresetPreraidBuild, Presets.Phase1PresetBuild],
+		gear: [
+			Presets.PreraidPresetGear,
+			Presets.Phase1AlliancePresetGear,
+			Presets.Phase2AlliancePresetGear,
+			Presets.Phase3PresetGear,
+			Presets.Phase3_5PresetGear,
+			Presets.Phase4PresetGear,
+		],
+		builds: [],
 	},
 
 	autoRotation: (_player: Player<Spec.SpecBalanceDruid>): APLRotation => {
@@ -103,8 +111,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 			otherDefaults: Presets.OtherDefaults,
 			defaultFactionRaces: {
 				[Faction.Unknown]: Race.RaceUnknown,
-				[Faction.Alliance]: Race.RaceTauren,
-				[Faction.Horde]: Race.RaceTroll,
+				[Faction.Alliance]: Race.RaceNightElf,
+				[Faction.Horde]: Race.RaceTauren,
 			},
 			defaultGear: {
 				[Faction.Unknown]: {},

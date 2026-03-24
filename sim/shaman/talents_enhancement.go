@@ -46,13 +46,11 @@ func (shaman *Shaman) applyDualWieldSpecialization() {
 		return
 	}
 	DWaura := shaman.RegisterAura(core.Aura{
-		Label:    "Dual Wield Specialization",
-		ActionID: core.ActionID{SpellID: 30819},
-	}).AttachSpellMod(core.SpellModConfig{
-		ProcMask:   core.ProcMaskMeleeOrRanged,
-		Kind:       core.SpellMod_BonusHit_Percent,
-		FloatValue: 2 * float64(shaman.Talents.DualWieldSpecialization),
-	})
+		Label:      "Dual Wield Specialization",
+		ActionID:   core.ActionID{SpellID: 30819},
+		BuildPhase: core.CharacterBuildPhaseTalents,
+	}).AttachStatBuff(stats.PhysicalHitPercent, 2*float64(shaman.Talents.DualWieldSpecialization))
+
 	if shaman.AutoAttacks.IsDualWielding {
 		core.MakePermanent(DWaura)
 	}
@@ -142,6 +140,7 @@ func (shaman *Shaman) applyImprovedLightningShield() {
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		FloatValue: 0.05 * float64(shaman.Talents.ImprovedLightningShield),
+		ClassMask:  SpellMaskLightningShield,
 	})
 }
 
@@ -276,16 +275,10 @@ func (shaman *Shaman) applyUnleashedRage() {
 		return
 	}
 
-	value := 1 + 0.02*float64(shaman.Talents.UnleashedRage)
+	unleashBuffAura := core.UnleashedRageAura(&shaman.Character, 1, shaman.Talents.UnleashedRage)
 
-	unleashBuffAura := shaman.RegisterAura(core.Aura{
-		Label:    "Unleashed Rage (Self)",
-		ActionID: core.ActionID{SpellID: 30807},
-		Duration: time.Second * 10,
-	}).AttachStatDependency(shaman.NewDynamicMultiplyStat(stats.AttackPower, value))
-
-	unleashTriggerAura := shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:               "Unleashed Rage Trigger (Self)",
+	shaman.MakeProcTriggerAura(core.ProcTrigger{
+		Name:               "Unleashed Rage Trigger",
 		Callback:           core.CallbackOnSpellHitDealt,
 		ProcMask:           core.ProcMaskMeleeOrMeleeProc,
 		Outcome:            core.OutcomeCrit,
@@ -294,18 +287,6 @@ func (shaman *Shaman) applyUnleashedRage() {
 			unleashBuffAura.Activate(sim)
 		},
 	})
-
-	core.MakePermanent(shaman.RegisterAura(core.Aura{
-		Label: "Unleashed Rage Dummy (Self)",
-	}).NewExclusiveEffect(core.UnleashedRageCategory, false, core.ExclusiveEffect{
-		Priority: value,
-		OnGain: func(_ *core.ExclusiveEffect, sim *core.Simulation) {
-			unleashTriggerAura.Activate(sim)
-		},
-		OnExpire: func(_ *core.ExclusiveEffect, sim *core.Simulation) {
-			unleashTriggerAura.Deactivate(sim)
-		},
-	}).Aura)
 }
 
 func (shaman *Shaman) applyWeaponMastery() {

@@ -96,14 +96,15 @@ func makeStatBuff(char *Character, config BuffConfig) *Aura {
 		panic("Buff without ActionID")
 	}
 
+	if config.ActionID.Tag == 0 {
+		config.ActionID = config.ActionID.WithTag(-1)
+	}
+
 	baseAura := char.GetOrRegisterAura(Aura{
 		Label:      config.Label,
-		ActionID:   config.ActionID.WithTag(-1),
+		ActionID:   config.ActionID,
 		Duration:   TernaryDuration(config.Duration > 0, config.Duration, NeverExpires),
 		BuildPhase: CharacterBuildPhaseBuffs,
-		OnReset: func(aura *Aura, sim *Simulation) {
-			aura.Activate(sim)
-		},
 	})
 
 	if config.ExclusiveCategory != "" {
@@ -120,7 +121,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 
 	// Raid Buffs
 	if raidBuffs.ArcaneBrilliance {
-		ArcaneBrillianceAura(char)
+		MakePermanent(ArcaneBrillianceAura(char))
 	}
 
 	if raidBuffs.DivineSpirit != proto.TristateEffect_TristateEffectMissing {
@@ -128,15 +129,15 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if raidBuffs.GiftOfTheWild != proto.TristateEffect_TristateEffectMissing {
-		GiftOfTheWildAura(char, IsImproved(raidBuffs.GiftOfTheWild))
+		MakePermanent(GiftOfTheWildAura(char, IsImproved(raidBuffs.GiftOfTheWild)))
 	}
 
 	if raidBuffs.PowerWordFortitude != proto.TristateEffect_TristateEffectMissing {
-		PowerWordFortitudeAura(char, IsImproved(raidBuffs.PowerWordFortitude))
+		MakePermanent(PowerWordFortitudeAura(char, IsImproved(raidBuffs.PowerWordFortitude)))
 	}
 
 	if raidBuffs.ShadowProtection {
-		ShadowProtectionAura(char)
+		MakePermanent(ShadowProtectionAura(char))
 	}
 
 	if raidBuffs.Bloodlust {
@@ -145,19 +146,19 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 
 	// Party Buffs
 	if partyBuffs.AtieshDruid > 0 {
-		AtieshAura(char, proto.Class_ClassDruid, float64(partyBuffs.AtieshDruid))
+		MakePermanent(AtieshAura(char, proto.Class_ClassDruid, float64(partyBuffs.AtieshDruid)))
 	}
 
 	if partyBuffs.AtieshMage > 0 {
-		AtieshAura(char, proto.Class_ClassMage, float64(partyBuffs.AtieshMage))
+		MakePermanent(AtieshAura(char, proto.Class_ClassMage, float64(partyBuffs.AtieshMage)))
 	}
 
 	if partyBuffs.AtieshPriest > 0 {
-		AtieshAura(char, proto.Class_ClassPriest, float64(partyBuffs.AtieshPriest))
+		MakePermanent(AtieshAura(char, proto.Class_ClassPriest, float64(partyBuffs.AtieshPriest)))
 	}
 
 	if partyBuffs.AtieshWarlock > 0 {
-		AtieshAura(char, proto.Class_ClassWarlock, float64(partyBuffs.AtieshWarlock))
+		MakePermanent(AtieshAura(char, proto.Class_ClassWarlock, float64(partyBuffs.AtieshWarlock)))
 	}
 
 	if partyBuffs.BattleShout != proto.TristateEffect_TristateEffectMissing {
@@ -175,15 +176,15 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.BloodPact != proto.TristateEffect_TristateEffectMissing {
-		BloodPactAura(char, IsImproved(partyBuffs.BloodPact))
+		MakePermanent(BloodPactAura(char, IsImproved(partyBuffs.BloodPact)))
 	}
 
 	if partyBuffs.BraidedEterniumChain {
-		BraidedEterniumChainAura(char)
+		MakePermanent(BraidedEterniumChainAura(char))
 	}
 
 	if partyBuffs.ChainOfTheTwilightOwl {
-		ChainOfTheTwilightOwlAura(char)
+		MakePermanent(ChainOfTheTwilightOwlAura(char))
 	}
 
 	if partyBuffs.CommandingShout != proto.TristateEffect_TristateEffectMissing {
@@ -201,7 +202,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.DevotionAura != proto.TristateEffect_TristateEffectMissing {
-		DevotionAuraBuff(char, IsImproved(partyBuffs.DevotionAura))
+		MakePermanent(DevotionAuraBuff(char, IsImproved(partyBuffs.DevotionAura)))
 	}
 
 	if partyBuffs.DraeneiRacialCaster {
@@ -213,7 +214,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.EyeOfTheNight {
-		EyeOfTheNightAura(char)
+		MakePermanent(EyeOfTheNightAura(char))
 	}
 
 	if partyBuffs.FerociousInspiration > 0 {
@@ -225,11 +226,11 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.JadePendantOfBlasting {
-		JadePendantOfBlastingAura(char)
+		MakePermanent(JadePendantOfBlastingAura(char))
 	}
 
 	if partyBuffs.LeaderOfThePack != proto.TristateEffect_TristateEffectMissing {
-		LeaderOfThePackAura(char, IsImproved(partyBuffs.LeaderOfThePack))
+		MakePermanent(LeaderOfThePackAura(char, IsImproved(partyBuffs.LeaderOfThePack)))
 	}
 
 	if partyBuffs.ManaSpringTotem != proto.TristateEffect_TristateEffectMissing {
@@ -241,31 +242,31 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.MoonkinAura != proto.TristateEffect_TristateEffectMissing {
-		MoonkinAuraBuff(char, IsImproved(partyBuffs.MoonkinAura))
+		MakePermanent(MoonkinAuraBuff(char, IsImproved(partyBuffs.MoonkinAura)))
 	}
 
 	if partyBuffs.RetributionAura != proto.TristateEffect_TristateEffectMissing {
-		RetributionAuraBuff(char, IsImproved(partyBuffs.RetributionAura), 5)
+		MakePermanent(RetributionAuraBuff(char, IsImproved(partyBuffs.RetributionAura), 5))
 	}
 
 	if partyBuffs.SanctityAura != proto.TristateEffect_TristateEffectMissing {
-		SanctityAuraBuff(char, IsImproved(partyBuffs.SanctityAura))
+		MakePermanent(SanctityAuraBuff(char, IsImproved(partyBuffs.SanctityAura)))
 	}
 
 	if partyBuffs.StrengthOfEarthTotem != proto.TristateEffect_TristateEffectMissing {
-		StrengthOfEarthTotemAura(char, TernaryInt32(IsImproved(partyBuffs.StrengthOfEarthTotem), 2, 0), partyBuffs.SoeEnhancement_2Pt4)
+		MakePermanent(StrengthOfEarthTotemAura(char, TernaryInt32(IsImproved(partyBuffs.StrengthOfEarthTotem), 2, 0), partyBuffs.SoeEnhancement_2Pt4))
 	}
 
 	if partyBuffs.TotemOfWrath > 0 {
-		TotemOfWrathAura(char, partyBuffs.TotemOfWrath)
+		MakePermanent(TotemOfWrathAura(char, partyBuffs.TotemOfWrath))
 	}
 
 	if partyBuffs.TranquilAirTotem {
-		TranquilAirTotemAura(char)
+		MakePermanent(TranquilAirTotemAura(char))
 	}
 
 	if partyBuffs.TrueshotAura {
-		TrueShotAuraBuff(char)
+		MakePermanent(TrueShotAuraBuff(char))
 	}
 
 	if partyBuffs.WindfuryTotem != proto.TristateEffect_TristateEffectMissing {
@@ -273,20 +274,23 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.WrathOfAirTotem != proto.TristateEffect_TristateEffectMissing {
-		WrathOfAirTotemAura(char, IsImproved(partyBuffs.WrathOfAirTotem))
+		MakePermanent(WrathOfAirTotemAura(char, IsImproved(partyBuffs.WrathOfAirTotem)))
+	}
+	if partyBuffs.Drums > 0 {
+		DrumsBuff(char, partyBuffs.Drums)
 	}
 
 	// Individual Buffs
 	if individual.BlessingOfKings {
-		BlessingOfKingsAura(char)
+		MakePermanent(BlessingOfKingsAura(char))
 	}
 
 	if individual.BlessingOfMight != proto.TristateEffect_TristateEffectMissing {
-		BlessingOfMightAura(char, IsImproved(individual.BlessingOfMight))
+		MakePermanent(BlessingOfMightAura(char, IsImproved(individual.BlessingOfMight)))
 	}
 
 	if individual.BlessingOfSalvation {
-		BlessingOfSalvationAura(char)
+		MakePermanent(BlessingOfSalvationAura(char))
 	}
 
 	if individual.BlessingOfSanctuary {
@@ -294,7 +298,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if individual.BlessingOfWisdom != proto.TristateEffect_TristateEffectMissing {
-		BlessingOfWisdomAura(char, IsImproved(individual.BlessingOfWisdom))
+		MakePermanent(BlessingOfWisdomAura(char, IsImproved(individual.BlessingOfWisdom)))
 	}
 
 	if individual.Innervates > 0 {
@@ -306,11 +310,11 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if individual.ShadowPriestDps > 0 {
-		ShadowPriestDPSManaAura(char, float64(individual.ShadowPriestDps))
+		MakePermanent(ShadowPriestDPSManaAura(char, float64(individual.ShadowPriestDps)))
 	}
 
 	if individual.UnleashedRage {
-		UnleashedRageAura(char)
+		MakePermanent(UnleashedRageAura(char, -1, 5))
 	}
 
 }
@@ -659,12 +663,13 @@ func TrueShotAuraBuff(char *Character) *Aura {
 
 var UnleashedRageCategory = "UnleashedRage"
 
-func UnleashedRageAura(char *Character) *Aura {
+func UnleashedRageAura(char *Character, casterIdx int32, points int32) *Aura {
 	return makeStatBuff(char, BuffConfig{
-		Label:    "Unleashed Rage",
-		ActionID: ActionID{SpellID: 30809},
+		Label:    fmt.Sprintf("Unleashed Rage-%d", casterIdx),
+		Duration: time.Second * 10,
+		ActionID: ActionID{SpellID: 30809}.WithTag(casterIdx),
 		Stats: []StatConfig{
-			{stats.AttackPower, 1.1, true},
+			{stats.AttackPower, 1 + 0.02*float64(points), true},
 		},
 		ExclusiveCategory: UnleashedRageCategory,
 	})
@@ -705,6 +710,8 @@ func GraceOfAirTotemAura(char *Character, improved bool, wfActive bool) *Aura {
 					aura.Activate(sim)
 				},
 			})
+		} else {
+			aura.Activate(sim)
 		}
 	})
 }
@@ -958,9 +965,9 @@ func DraneiRacialAura(char *Character, caster bool) *Aura {
 	if !slices.Contains(alliance, char.Race) {
 		return nil
 	}
-
+	var aura *Aura
 	if caster {
-		return makeStatBuff(char, BuffConfig{
+		aura = makeStatBuff(char, BuffConfig{
 			Label:    "Inspiring Presence",
 			ActionID: ActionID{SpellID: 28878},
 			Stats: []StatConfig{
@@ -969,7 +976,7 @@ func DraneiRacialAura(char *Character, caster bool) *Aura {
 			ExclusiveCategory: "Inspiring Presence",
 		})
 	} else {
-		return makeStatBuff(char, BuffConfig{
+		aura = makeStatBuff(char, BuffConfig{
 			Label:    "Heroic Presence",
 			ActionID: ActionID{SpellID: 6562},
 			Stats: []StatConfig{
@@ -978,6 +985,8 @@ func DraneiRacialAura(char *Character, caster bool) *Aura {
 			ExclusiveCategory: "Heroic Presence",
 		})
 	}
+
+	return MakePermanent(aura)
 }
 
 func EyeOfTheNightAura(char *Character) *Aura {
@@ -999,6 +1008,87 @@ func JadePendantOfBlastingAura(char *Character) *Aura {
 		Stats: []StatConfig{
 			{stats.SpellDamage, 15, false},
 		},
+	})
+}
+
+const TinnitusAuraLabel = "Tinnitus"
+
+func drumsSpellConfig(character *Character, drum proto.Drums, isExternal bool) SpellConfig {
+	var drumLabel string
+	var drumStats stats.Stats
+	var duration time.Duration
+	var actionID ActionID
+	switch drum {
+	case proto.Drums_GreaterDrumsOfBattle, proto.Drums_LesserDrumsOfBattle:
+		drumLabel = "Drums of Battle"
+		drumStats = stats.Stats{stats.MeleeHasteRating: 80, stats.SpellHasteRating: 80}
+		duration = time.Second * 30
+		actionID = ActionID{SpellID: 35476}
+	case proto.Drums_GreaterDrumsOfWar, proto.Drums_LesserDrumsOfWar:
+		drumLabel = "Drums of War"
+		drumStats = stats.Stats{stats.AttackPower: 60, stats.RangedAttackPower: 60, stats.SpellDamage: 30}
+		duration = time.Second * 30
+		actionID = ActionID{SpellID: 35475}
+	case proto.Drums_GreaterDrumsOfRestoration, proto.Drums_LesserDrumsOfRestoration:
+		drumLabel = "Drums of Restoration"
+		drumStats = stats.Stats{stats.MP5: 200}
+		duration = time.Second * 15
+		actionID = ActionID{SpellID: 35478}
+	}
+
+	if isExternal {
+		actionID = actionID.WithTag(-1)
+		drumLabel = drumLabel + " (External)"
+	}
+
+	aura := character.NewTemporaryStatsAura(drumLabel, actionID, drumStats, duration)
+
+	tinnitus := character.GetOrRegisterAura(Aura{
+		Label:    TinnitusAuraLabel,
+		ActionID: ActionID{SpellID: 369770},
+		Duration: time.Minute * 2,
+	})
+
+	aura.ApplyOnGain(func(_ *Aura, sim *Simulation) {
+		tinnitus.Activate(sim)
+	})
+
+	spellConfig := SpellConfig{
+		ActionID: actionID,
+		Flags:    SpellFlagNoOnCastComplete,
+		ProcMask: ProcMaskEmpty,
+		ExtraCastCondition: func(sim *Simulation, target *Unit) bool {
+			if !character.HasActiveAura(TinnitusAuraLabel) {
+				return true
+			}
+			return false
+		},
+		ApplyEffects: func(sim *Simulation, target *Unit, spell *Spell) {
+			if !character.HasActiveAura(TinnitusAuraLabel) {
+				aura.Activate(sim)
+			}
+		},
+
+		RelatedSelfBuff: aura.Aura,
+	}
+
+	return spellConfig
+}
+
+func DrumsBuff(character *Character, drum proto.Drums) {
+	config := drumsSpellConfig(character, drum, true)
+	config.Cast = CastConfig{
+		CD: Cooldown{
+			Timer:    character.NewTimer(),
+			Duration: time.Minute * 2,
+		},
+	}
+	spell := character.RegisterSpell(config)
+
+	character.AddMajorCooldown(MajorCooldown{
+		Spell:    spell,
+		Type:     CooldownTypeDPS,
+		Priority: CooldownPriorityDrums,
 	})
 }
 

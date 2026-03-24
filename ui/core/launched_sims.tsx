@@ -33,7 +33,7 @@ export const simLaunchStatuses: Record<Spec, SimStatus> = {
 	// Druid
 	[Spec.SpecBalanceDruid]: {
 		phase: Phase.Phase1,
-		status: LaunchStatus.Unlaunched,
+		status: LaunchStatus.Alpha,
 		oldSimLink: 'https://wowsims.github.io/tbc/balance_druid/',
 	},
 	[Spec.SpecFeralCatDruid]: {
@@ -90,8 +90,7 @@ export const simLaunchStatuses: Record<Spec, SimStatus> = {
 	},
 	[Spec.SpecEnhancementShaman]: {
 		phase: Phase.Phase1,
-		status: LaunchStatus.Unlaunched,
-		oldSimLink: 'https://wowsims.github.io/tbc/enhancement_shaman/',
+		status: LaunchStatus.Alpha,
 	},
 	[Spec.SpecRestorationShaman]: {
 		phase: Phase.Phase1,

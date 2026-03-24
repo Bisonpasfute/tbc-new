@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/wowsims/tbc/sim/core"
+	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
@@ -28,13 +29,17 @@ func (shaman *Shaman) NewFireElemental() *FireElemental {
 		}),
 		shamanOwner: shaman,
 	}
-	baseMeleeDamage := 134.0
+
 	fireElemental.EnableManaBar()
+
+	fireElemental.AddStatDependency(stats.Strength, stats.AttackPower, 2)
+	fireElemental.AddStatDependency(stats.Agility, stats.PhysicalCritPercent, core.CritPerAgiMaxLevel[proto.Class_ClassWarrior])
 	fireElemental.AddStatDependency(stats.Intellect, stats.Mana, 15)
+
 	fireElemental.EnableAutoAttacks(fireElemental, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  baseMeleeDamage,
-			BaseDamageMax:  baseMeleeDamage,
+			BaseDamageMin:  134.0,
+			BaseDamageMax:  134.0,
 			SwingSpeed:     2.0,
 			CritMultiplier: fireElemental.DefaultMeleeCritMultiplier(),
 			SpellSchool:    core.SpellSchoolFire,
@@ -115,10 +120,14 @@ func (fireElemental *FireElemental) TryCast(sim *core.Simulation, target *core.U
 }
 
 func (shaman *Shaman) fireElementalBaseStats() stats.Stats {
-	return stats.Stats{
-		stats.Mana:    3130,
-		stats.Stamina: 323,
-	}
+	// Assuming warrior stats for now with 5% of each crit type.
+	// Logs suggest at least the crit chances are probably correct
+	// and damage value are looking reliable right now
+	return core.ClassBaseStats[proto.Class_ClassWarrior].Add(stats.Stats{
+		stats.Mana:                4910, // Confirmed in-game level 70
+		stats.PhysicalCritPercent: 5,
+		stats.SpellCritPercent:    5,
+	})
 }
 
 func (shaman *Shaman) fireElementalStatInheritance() core.PetStatInheritance {
