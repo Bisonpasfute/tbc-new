@@ -304,7 +304,7 @@ dps_results: {
  key: "TestHunter-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 3129.34858
-  tps: 2107.60993
+  tps: 2110.685
   dtps: 13.92516
  }
 }
