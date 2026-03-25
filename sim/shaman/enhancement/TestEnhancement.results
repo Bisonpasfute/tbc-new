@@ -244,8 +244,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 1950.66208
-  tps: 1859.51293
+  dps: 1892.30326
+  tps: 1803.6131
  }
 }
 dps_results: {
