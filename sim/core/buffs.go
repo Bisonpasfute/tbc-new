@@ -1732,7 +1732,7 @@ func registerManaTideTotemCD(char *Character, numManaTideTotems int32) {
 
 	char.Env.RegisterPostFinalizeEffect(func() {
 		// Use first MTT at 60s, or halfway through the fight, whichever comes first.
-		initialDelay = min(char.Env.BaseDuration/2, time.Second*60)
+		initialDelay = min(char.Env.BaseDuration/2, time.Second*40)
 	})
 
 	registerExternalConsecutiveCDApproximation(
@@ -1758,11 +1758,33 @@ func registerManaTideTotemCD(char *Character, numManaTideTotems int32) {
 
 func ManaTideTotemAura(character *Character, actionTag int32) *Aura {
 	actionID := ManaTideTotemActionID.WithTag(actionTag)
-	dep := character.NewDynamicMultiplyStat(stats.Spirit, 2)
+
+	metrics := make([]*ResourceMetrics, len(character.Party.Players))
+	for i, player := range character.Party.Players {
+		char := player.GetCharacter()
+		if char.HasManaBar() {
+			metrics[i] = char.NewManaMetrics(actionID)
+		}
+	}
+
 	return character.GetOrRegisterAura(Aura{
 		Label:    "ManaTideTotem-" + actionID.String(),
 		Tag:      ManaTideTotemAuraTag,
 		ActionID: actionID,
 		Duration: ManaTideTotemDuration,
-	}).AttachStatDependency(dep)
+		OnGain: func(aura *Aura, sim *Simulation) {
+			StartPeriodicAction(sim, PeriodicActionOptions{
+				Period:   ManaTideTotemDuration / 4,
+				NumTicks: 4,
+				OnAction: func(s *Simulation) {
+					for i, player := range character.Party.Players {
+						if metrics[i] != nil {
+							char := player.GetCharacter()
+							char.AddMana(sim, 0.06*char.MaxMana(), metrics[i])
+						}
+					}
+				},
+			})
+		},
+	})
 }
