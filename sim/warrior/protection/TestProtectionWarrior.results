@@ -271,9 +271,9 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 777.9892
-  tps: 1430.63111
-  dtps: 1437.94853
+  dps: 759.98629
+  tps: 1403.05247
+  dtps: 1437.91421
  }
 }
 dps_results: {
