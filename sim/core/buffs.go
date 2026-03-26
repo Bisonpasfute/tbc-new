@@ -1731,7 +1731,7 @@ func registerManaTideTotemCD(char *Character, numManaTideTotems int32) {
 	mttAura = ManaTideTotemAura(char, -1)
 
 	char.Env.RegisterPostFinalizeEffect(func() {
-		// Use first MTT at 60s, or halfway through the fight, whichever comes first.
+		// Use first MTT at 40s, or halfway through the fight, whichever comes first.
 		initialDelay = min(char.Env.BaseDuration/2, time.Second*40)
 	})
 
@@ -1758,14 +1758,7 @@ func registerManaTideTotemCD(char *Character, numManaTideTotems int32) {
 
 func ManaTideTotemAura(character *Character, actionTag int32) *Aura {
 	actionID := ManaTideTotemActionID.WithTag(actionTag)
-
-	metrics := make([]*ResourceMetrics, len(character.Party.Players))
-	for i, player := range character.Party.Players {
-		char := player.GetCharacter()
-		if char.HasManaBar() {
-			metrics[i] = char.NewManaMetrics(actionID)
-		}
-	}
+	manaTideManaMetrics := character.NewManaMetrics(actionID)
 
 	return character.GetOrRegisterAura(Aura{
 		Label:    "ManaTideTotem-" + actionID.String(),
@@ -1777,12 +1770,7 @@ func ManaTideTotemAura(character *Character, actionTag int32) *Aura {
 				Period:   ManaTideTotemDuration / 4,
 				NumTicks: 4,
 				OnAction: func(s *Simulation) {
-					for i, player := range character.Party.Players {
-						if metrics[i] != nil {
-							char := player.GetCharacter()
-							char.AddMana(sim, 0.06*char.MaxMana(), metrics[i])
-						}
-					}
+					character.AddMana(sim, 0.06*character.MaxMana(), manaTideManaMetrics)
 				},
 			})
 		},
