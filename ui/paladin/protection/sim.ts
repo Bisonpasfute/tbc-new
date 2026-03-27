@@ -40,6 +40,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	displayStats: UnitStat.createDisplayStatArray(
 		[
 			Stat.StatHealth,
+			Stat.StatMana,
 			Stat.StatArmor,
 			Stat.StatBonusArmor,
 			Stat.StatStamina,

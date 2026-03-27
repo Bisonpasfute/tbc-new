@@ -318,7 +318,7 @@ func (paladin *Paladin) registerSealOfRighteousness(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, granting
 // attacks against the judged enemy a chance to heal the attacker.
 func (paladin *Paladin) registerSealOfLight(seal seal) {
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return core.JudgementOfLightAura(target) })
+	debuffs := paladin.NewEnemyAuraArray(core.JudgementOfLightAura)
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
@@ -393,7 +393,7 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, granting
 // attacks against the judged enemy a chance to restore mana to the attacker.
 func (paladin *Paladin) registerSealOfWisdom(seal seal) {
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return core.JudgementOfWisdomAura(target) })
+	debuffs := paladin.NewEnemyAuraArray(core.JudgementOfWisdomAura)
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
@@ -480,7 +480,7 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 		})
 	}
 
-	paladin.JudgementOfJusticeAuras = paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura { return registerJoJDebuff(target) })
+	paladin.JudgementOfJusticeAuras = paladin.NewEnemyAuraArray(registerJoJDebuff)
 	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfJusticeAuras)
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
