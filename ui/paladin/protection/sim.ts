@@ -13,6 +13,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	cssScheme: PlayerClasses.getCssClass(PlayerClasses.Paladin),
 	// List any known bugs / issues here and they'll be shown on the site.
 	knownIssues: [],
+	consumableStats: [Stat.StatMana],
 
 	// All stats for which EP should be calculated.
 	epStats: [
