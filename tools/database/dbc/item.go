@@ -126,10 +126,10 @@ func (item *Item) GetStats(itemLevel int) *stats.Stats {
 	armor := item.GetArmorValue(itemLevel)
 	if armor > 0 {
 		stats[proto.Stat_StatArmor] = float64(armor)
+	}
 
-		if item.QualityModifier > 0 {
-			stats[proto.Stat_StatBonusArmor] = item.QualityModifier
-		}
+	if item.QualityModifier > 0 {
+		stats[proto.Stat_StatBonusArmor] = item.QualityModifier
 	}
 
 	blockValue := item.GetBlockValue(itemLevel)
