@@ -266,12 +266,12 @@ func (paladin *Paladin) ApplyTalents() {
 		paladin.applyImprovedSanctityAura()
 	}
 
-	// Vengeance (Tier 7) - Gives you a 1/2/3/4/5% bonus to Physical and Holy damage you deal for 15 sec after dealing a critical strike from a weapon swing, spell, or ability
+	// Vengeance (Tier 7) - Gives you a 1/2/3/4/5% bonus to Physical and Holy damage you deal for 30 sec after dealing a critical strike from a weapon swing, spell, or ability
 	if paladin.Talents.Vengeance > 0 {
 		paladin.applyVengeance()
 	}
 
-	// Sanctified Judgement (Tier 8) - Gives your Judgement spell a 33/66/100% chance to return 50% of the mana cost of the Judgement
+	// Sanctified Judgement (Tier 8) - Gives your Judgement spell a 33/66/100% chance to return 80% of the mana cost of the Judged Seal
 	if paladin.Talents.SanctifiedJudgement > 0 {
 		paladin.applySanctifiedJudgement()
 	}
@@ -535,7 +535,7 @@ func (paladin *Paladin) applyVengeance() {
 // Sanctified Judgement - Gives your Judgement spell a 33/66/100% chance to return 80% of the mana cost of the Judged Seal
 func (paladin *Paladin) applySanctifiedJudgement() {
 	procChance := []float64{0, 0.33, 0.66, 1}[paladin.Talents.SanctifiedJudgement]
-	sancJudgementManaMetric := paladin.NewManaMetrics(core.ActionID{SpellID: 31878})
+	sancJudgementManaMetric := paladin.NewManaMetrics(core.ActionID{SpellID: 31930})
 
 	paladin.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Sanctified Judgement - Trigger",
@@ -564,7 +564,7 @@ func (paladin *Paladin) applyDivinePurposeTalent() {
 	// TODO: Implement spell hit reduction
 }
 
-// Fanaticism - Increases the critical strike chance of all Judgements capable of a critical hit by 5/10/15/18/25% and reduces threat caused by all actions by 6/12/18/24/30%
+// Fanaticism - Increases the critical strike chance of all Judgements capable of a critical hit by 3/6/9/12/15% and reduces threat caused by all actions by 6/12/18/24/30%
 func (paladin *Paladin) applyFanaticism() {
 	critChance := .03 * float64(paladin.Talents.Fanaticism)
 	threatReduc := -.06 * float64(paladin.Talents.Fanaticism)
