@@ -433,13 +433,31 @@ func ImprovedScorchAura(target *Unit) *Aura {
 
 func ImprovedSealOfTheCrusaderAura(target *Unit, points int32) *Aura {
 	holySpellDamageBonus := 219.0 //assumed Max Rank Seal Of Crusader (Rank 7)
-	return target.GetOrRegisterAura(Aura{
+	priority := 1.0
+
+	var effect *ExclusiveEffect
+	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Improved Seal of the Crusader",
 		ActionID: ActionID{SpellID: 20337},
 		Duration: time.Second * 20,
-	}).
-		AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedCritTakenChance, float64(-1*points)).
-		AttachAdditivePseudoStatBuff(&target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly], holySpellDamageBonus)
+		OnGain: func(aura *Aura, sim *Simulation) {
+			effect.SetPriority(sim, priority)
+		},
+	})
+
+	effect = aura.NewExclusiveEffect("Improved Seal of the Crusader", true, ExclusiveEffect{
+		Priority: priority,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			target.PseudoStats.ReducedCritTakenChance += float64(-1 * points)
+			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] += holySpellDamageBonus
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			target.PseudoStats.ReducedCritTakenChance -= float64(-1.0 * points)
+			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] -= holySpellDamageBonus
+		},
+	})
+
+	return aura
 }
 
 func ImprovedShadowBoltAura(target *Unit, uptime float64, points int32) *Aura {

@@ -551,9 +551,7 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, increasing
 // Holy damage taken from all sources.
 func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
-	debuffs := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
-		return core.ImprovedSealOfTheCrusaderAura(target, paladin.Talents.ImprovedSealOfTheCrusader)
-	})
+	debuffs := paladin.JudgementOfTheCrusaderAuras
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
@@ -618,7 +616,7 @@ func (paladin *Paladin) registerSealOfBlood(seal seal) {
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
-		ProcMask:         core.ProcMaskEmpty,
+		ProcMask:         core.ProcMaskMeleeOrRangedSpecial,
 		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagBinary,
 		ClassSpellMask:   SpellMaskJudgementOfBlood,
 		DamageMultiplier: 1,
@@ -830,7 +828,7 @@ func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
-		ProcMask:         core.ProcMaskEmpty,
+		ProcMask:         core.ProcMaskMeleeOrRangedSpecial,
 		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagBinary,
 		ClassSpellMask:   SpellMaskJudgementOfCommand,
 		DamageMultiplier: 1,

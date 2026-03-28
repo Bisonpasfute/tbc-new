@@ -479,12 +479,6 @@ func (paladin *Paladin) applyTwoHandedWeaponSpecialization() {
 		ProcMask:   core.ProcMaskMelee,
 		FloatValue: 0.02 * float64(paladin.Talents.TwoHandedWeaponSpecialization),
 	})
-
-	// paladin.AddStaticMod(core.SpellModConfig{
-	// 	Kind:       core.SpellMod_DamageDone_Pct,
-	// 	ClassMask:  SpellMaskJudgementOfBlood | SpellMaskJudgementOfCommand,
-	// 	FloatValue: 0.02 * float64(paladin.Talents.TwoHandedWeaponSpecialization),
-	// })
 }
 
 // Improved Sanctity Aura - Increases the damage caused by all party members within 30 yards of the Paladin with Sanctity Aura active by 1/2%
