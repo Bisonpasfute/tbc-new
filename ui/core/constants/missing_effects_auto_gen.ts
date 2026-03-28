@@ -2052,12 +2052,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		30720, // Serpent-Coil Braid
-		[
-			"You gain 25% more mana when you use a mana gem. In addition, using a mana gem grants you 225 spell damage for 15s.", // 37447 - https://www.wowhead.com/tbc/spell=37447
-		]
-	],
-	[
 		30787, // Illidari-Bane Mageblade
 		[
 			"Increases damage done to Demons by magical spells and effects by up to 185.", // 37649 - https://www.wowhead.com/tbc/spell=37649

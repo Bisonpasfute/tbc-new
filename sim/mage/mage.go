@@ -180,6 +180,7 @@ const (
 	MageSpellPyroblastDot
 	MageSpellScorch
 	MageSpellSlow
+	MageSpellManaGem
 	MageSpellCombustion
 	MageWaterElementalSpellWaterBolt
 	MageSpellLast
