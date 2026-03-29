@@ -247,6 +247,10 @@ func init() {
 					Timer:    warlock.NewTimer(),
 					Duration: time.Minute * 3,
 				},
+				SharedCD: core.Cooldown{
+					Timer:    warlock.GetOffensiveTrinketCD(),
+					Duration: duration,
+				},
 			},
 
 			ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
