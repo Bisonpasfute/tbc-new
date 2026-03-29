@@ -93,6 +93,8 @@ type Paladin struct {
 	JudgementOfJusticeAuras     core.AuraArray
 	JudgementOfTheCrusaderAuras core.AuraArray
 	JudgementAuras              []core.AuraArray
+
+	JusticarBattlegear2PcAura *core.Aura
 }
 
 // Implemented by each Paladin spec.
@@ -115,16 +117,6 @@ func (paladin *Paladin) AddPartyBuffs(_ *proto.PartyBuffs) {
 }
 
 func (paladin *Paladin) Initialize() {
-	paladin.JudgementOfLightAuras = paladin.NewEnemyAuraArray(core.JudgementOfLightAura)
-	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfLightAuras)
-	paladin.JudgementOfWisdomAuras = paladin.NewEnemyAuraArray(core.JudgementOfWisdomAura)
-	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfWisdomAuras)
-	//JudgementOfJusticeAura has custom EnemyAura function in seals.go
-	paladin.JudgementOfTheCrusaderAuras = paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
-		return core.ImprovedSealOfTheCrusaderAura(target, paladin.Talents.ImprovedSealOfTheCrusader)
-	})
-	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfTheCrusaderAuras)
-
 	paladin.registerSpells()
 }
 

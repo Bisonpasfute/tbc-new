@@ -320,7 +320,8 @@ func (paladin *Paladin) registerSealOfRighteousness(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, granting
 // attacks against the judged enemy a chance to heal the attacker.
 func (paladin *Paladin) registerSealOfLight(seal seal) {
-	debuffs := paladin.NewEnemyAuraArray(core.JudgementOfLightAura)
+	paladin.JudgementOfLightAuras = paladin.NewEnemyAuraArray(core.JudgementOfLightAura)
+	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfLightAuras)
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
@@ -332,7 +333,7 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
-			debuffs.Get(target).Activate(sim)
+			paladin.JudgementOfLightAuras.Get(target).Activate(sim)
 		},
 	})
 
@@ -395,7 +396,9 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, granting
 // attacks against the judged enemy a chance to restore mana to the attacker.
 func (paladin *Paladin) registerSealOfWisdom(seal seal) {
-	debuffs := paladin.NewEnemyAuraArray(core.JudgementOfWisdomAura)
+	paladin.JudgementOfWisdomAuras = paladin.NewEnemyAuraArray(core.JudgementOfWisdomAura)
+	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfWisdomAuras)
+
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
@@ -406,7 +409,7 @@ func (paladin *Paladin) registerSealOfWisdom(seal seal) {
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
-			debuffs.Get(target).Activate(sim)
+			paladin.JudgementOfWisdomAuras.Get(target).Activate(sim)
 		},
 	})
 	sealManaMetrics := paladin.Unit.NewManaMetrics(core.ActionID{SpellID: seal.proc.spellID})
@@ -551,7 +554,20 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 // Unleashing this Seal's energy will judge an enemy for 20 sec, increasing
 // Holy damage taken from all sources.
 func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
-	debuffs := paladin.JudgementOfTheCrusaderAuras
+
+	percentBonus := core.Ternary(paladin.CouldHaveSetBonus(ItemSetJusticarBattlegear, 2), 1.15, 1.0)
+	flatBonus := 0.0
+	if paladin.Ranged().ID == 23203 {
+		flatBonus += 33.0
+	} else if paladin.Ranged().ID == 27949 {
+		flatBonus += 47.0
+	}
+
+	paladin.JudgementOfTheCrusaderAuras = paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		return core.ImprovedSealOfTheCrusaderAura(target, paladin.Talents.ImprovedSealOfTheCrusader, flatBonus, percentBonus)
+	})
+
+	paladin.JudgementAuras = append(paladin.JudgementAuras, paladin.JudgementOfTheCrusaderAuras)
 
 	judgeSpell := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
@@ -564,7 +580,7 @@ func (paladin *Paladin) registerSealOfTheCrusader(seal seal) {
 		CritMultiplier:   1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
-			debuffs.Get(target).Activate(sim)
+			paladin.JudgementOfTheCrusaderAuras.Get(target).Activate(sim)
 		},
 	})
 
