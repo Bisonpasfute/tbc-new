@@ -837,6 +837,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-Serpent-CoilBraid-30720"
+ value: {
+  dps: 1931.56692
+  tps: 1361.38444
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-SextantofUnstableCurrents-30626"
  value: {
   dps: 1926.29887

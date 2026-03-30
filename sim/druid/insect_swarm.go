@@ -15,10 +15,10 @@ const (
 func (druid *Druid) registerInsectSwarmSpell() {
 	druid.InsectSwarm = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: 27013},
-		SpellSchool:    core.SpellSchoolArcane | core.SpellSchoolNature,
+		SpellSchool:    core.SpellSchoolNature,
 		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: DruidSpellInsectSwarm,
-		Flags:          core.SpellFlagAPL,
+		Flags:          core.SpellFlagAPL | core.SpellFlagBinary,
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,

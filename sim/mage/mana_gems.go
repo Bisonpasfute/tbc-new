@@ -24,8 +24,10 @@ func (mage *Mage) registerManaGems() {
 	})
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL | core.SpellFlagHelpful,
+		ActionID:       actionID,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL | core.SpellFlagHelpful,
+		ClassSpellMask: MageSpellManaGem,
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
