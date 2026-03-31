@@ -632,7 +632,7 @@ func (paladin *Paladin) registerSealOfBlood(seal seal) {
 		ActionID:         core.ActionID{SpellID: seal.judge.spellID},
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskMeleeMHSpecial,
-		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagBinary,
+		Flags:            core.SpellFlagMeleeMetrics,
 		ClassSpellMask:   SpellMaskJudgementOfBlood,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,

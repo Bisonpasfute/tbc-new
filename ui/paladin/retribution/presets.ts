@@ -96,6 +96,7 @@ export const DefaultPartyBuffs = PartyBuffs.create({
 	windfuryTotem: 2,
 	graceOfAirTotem: 2,
 	drums: Drums.LesserDrumsOfBattle,
+	sanctityAura: 2,
 });
 
 export const DefaultIndividualBuffs = IndividualBuffs.create({

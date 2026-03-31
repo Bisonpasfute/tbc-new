@@ -442,7 +442,7 @@ func (paladin *Paladin) applyImprovedJudgement() {
 	paladin.AddStaticMod(core.SpellModConfig{
 		ClassMask: SpellMaskJudgement,
 		Kind:      core.SpellMod_Cooldown_Flat,
-		TimeValue: time.Second * time.Duration(paladin.Talents.ImprovedJudgement),
+		TimeValue: -time.Second * time.Duration(paladin.Talents.ImprovedJudgement),
 	})
 }
 

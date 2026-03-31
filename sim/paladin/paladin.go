@@ -143,6 +143,8 @@ func (paladin *Paladin) registerSpells() {
 }
 
 func (paladin *Paladin) Reset(sim *core.Simulation) {
+	paladin.CurrentSeal = nil
+	paladin.PreviousSeal = nil
 }
 
 func (paladin *Paladin) OnEncounterStart(sim *core.Simulation) {

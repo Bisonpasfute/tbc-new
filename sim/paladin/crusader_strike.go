@@ -20,6 +20,7 @@ func (paladin *Paladin) registerCrusaderStrike() {
 		ClassSpellMask: SpellMaskCrusaderStrike,
 
 		Cast: core.CastConfig{
+			IgnoreHaste: true,
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,
 			},
