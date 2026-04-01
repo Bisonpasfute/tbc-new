@@ -120,7 +120,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 	simpleRotation: (player, simple): APLRotation => {
 		const rotation = APLRotation.clone(Presets.APL_PRESET.rotation.rotation!);
 
-		const { useExorcism = false, useConsecrate = false, delayMajorCDs = 11 } = simple;
+		const { useExorcism = false, useConsecrate = false, delayMajorCDs = 11, prepullSotC = true } = simple;
 
 		const useExorcismBool = APLValueVariable.fromJson({
 			name: 'Use Exorcism',
@@ -137,9 +137,15 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 			value: { const: { val: String(delayMajorCDs) + 's' } },
 		});
 
+		const prepullSotCBool = APLValueVariable.fromJson({
+			name: 'Prepull Seal Of the Crusader',
+			value: { const: { val: String(prepullSotC) } },
+		});
+
 		rotation.valueVariables[2] = useExorcismBool;
 		rotation.valueVariables[3] = useConsecrateBool;
 		rotation.valueVariables[4] = delayMajorCDsString;
+		rotation.valueVariables[5] = prepullSotCBool;
 
 		return APLRotation.create({
 			simple: SimpleRotation.create({

@@ -16,6 +16,7 @@ export const DefaultSimpleRotation = PaladinRotation.create({
 	useExorcism: false,
 	useConsecrate: false,
 	delayMajorCDs: 11,
+	prepullSotC: true,
 });
 
 export const APL_PRESET = PresetUtils.makePresetAPLRotation('Default', DefaultApl);

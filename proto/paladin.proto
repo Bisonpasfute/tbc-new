@@ -107,6 +107,7 @@ message RetributionPaladin {
 		bool useExorcism = 1;
 		bool useConsecrate = 2;
 		int32 delayMajorCDs = 3;
+		bool prepullSotC = 4;
 	}
 
 	message Options {

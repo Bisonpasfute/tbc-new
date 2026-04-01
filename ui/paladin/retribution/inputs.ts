@@ -8,14 +8,14 @@ export const PaladinRotationConfig = {
 		InputHelpers.makeRotationBooleanInput<Spec.SpecRetributionPaladin>({
 			fieldName: 'useExorcism',
 			label: 'Use Exorcism',
-			labelTooltip: 'If true, will use Excorism in rotation if target is undead or demon.',
+			labelTooltip: 'If <b>true</b>, will use Excorism in rotation if target is undead or demon.',
 			changeEmitter: player => player.rotationChangeEmitter,
 			getValue: player => player.getSimpleRotation().useExorcism,
 		}),
 		InputHelpers.makeRotationBooleanInput<Spec.SpecRetributionPaladin>({
 			fieldName: 'useConsecrate',
 			label: 'Use Consecrate',
-			labelTooltip: 'If true, will use Consecrate in rotation. Exorcism is priority',
+			labelTooltip: 'If <b>true</b>, will use Consecrate in rotation. Exorcism is priority',
 			changeEmitter: player => player.rotationChangeEmitter,
 			getValue: player => player.getSimpleRotation().useConsecrate,
 		}),
@@ -26,6 +26,14 @@ export const PaladinRotationConfig = {
 			changeEmitter: player => player.rotationChangeEmitter,
 			getValue: player => player.getSimpleRotation().delayMajorCDs,
 			positive: true,
+		}),
+		InputHelpers.makeRotationBooleanInput<Spec.SpecRetributionPaladin>({
+			fieldName: 'prepullSotC',
+			label: 'Prepull Seal of the Crusader',
+			labelTooltip:
+				'If <b>true</b>, will use Seal of the Crusader on prepull for the target Debuff. Set this to true if you are the only paladin applying SotC. <br/><br/> If <b>false</b>, make sure to enable SotC in settings under debuffs.',
+			changeEmitter: player => player.rotationChangeEmitter,
+			getValue: player => player.getSimpleRotation().prepullSotC,
 		}),
 	],
 };
