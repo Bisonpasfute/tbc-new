@@ -88,7 +88,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.ImprovedSealOfTheCrusader {
-		MakePermanent(ImprovedSealOfTheCrusaderAura(target))
+		MakePermanent(ImprovedSealOfTheCrusaderAura(target, 3, 0.0, 1.0))
 	}
 
 	if debuffs.InsectSwarm {
@@ -431,12 +431,38 @@ func ImprovedScorchAura(target *Unit) *Aura {
 	return aura
 }
 
-func ImprovedSealOfTheCrusaderAura(target *Unit) *Aura {
-	return target.GetOrRegisterAura(Aura{
+// points is number of talent points in improved seal of the crusader
+//
+// flatBonus is used when the character has a flat bonus to the holy damage taken
+//
+// percentBonus is used when the character has a percent bonus to the holy damage taken
+func ImprovedSealOfTheCrusaderAura(target *Unit, points int32, flatBonus, percentBonus float64) *Aura {
+	holySpellDamageBonus := 219.0*percentBonus + flatBonus //assumed Max Rank Seal Of Crusader (Rank 7)
+	priority := 1.0
+
+	var effect *ExclusiveEffect
+	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Improved Seal of the Crusader",
 		ActionID: ActionID{SpellID: 20337},
-		Duration: time.Second * 60,
-	}).AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedCritTakenChance, -3)
+		Duration: time.Second * 20,
+		OnGain: func(aura *Aura, sim *Simulation) {
+			effect.SetPriority(sim, priority)
+		},
+	})
+
+	effect = aura.NewExclusiveEffect("Improved Seal of the Crusader", true, ExclusiveEffect{
+		Priority: priority,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			target.PseudoStats.ReducedCritTakenChance += float64(-1 * points)
+			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] += holySpellDamageBonus
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			target.PseudoStats.ReducedCritTakenChance -= float64(-1.0 * points)
+			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] -= holySpellDamageBonus
+		},
+	})
+
+	return aura
 }
 
 func ImprovedShadowBoltAura(target *Unit, uptime float64, points int32) *Aura {
