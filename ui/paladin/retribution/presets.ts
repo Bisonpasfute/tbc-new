@@ -125,6 +125,7 @@ export const DefaultDebuffs = Debuffs.create({
 	misery: true,
 	curseOfElements: 2,
 	improvedSealOfTheCrusader: TristateEffect.TristateEffectImproved,
+	jocRetribution2Pt4: true,
 	judgementOfWisdom: true,
 	bloodFrenzy: true,
 	huntersMark: 2,
