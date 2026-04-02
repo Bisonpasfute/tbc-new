@@ -87,8 +87,8 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 
 	}
 
-	if debuffs.ImprovedSealOfTheCrusader {
-		MakePermanent(ImprovedSealOfTheCrusaderAura(target, 3, 0.0, 1.0))
+	if debuffs.ImprovedSealOfTheCrusader != proto.TristateEffect_TristateEffectMissing {
+		MakePermanent(ImprovedSealOfTheCrusaderAura(target, -1, GetTristateValueInt32(debuffs.ImprovedSealOfTheCrusader, 0, 3), 0.0, Ternary(debuffs.JocRetribution_2Pt4, 1.15, 1.0)))
 	}
 
 	if debuffs.InsectSwarm {
@@ -436,30 +436,32 @@ func ImprovedScorchAura(target *Unit) *Aura {
 // flatBonus is used when the character has a flat bonus to the holy damage taken
 //
 // percentBonus is used when the character has a percent bonus to the holy damage taken
-func ImprovedSealOfTheCrusaderAura(target *Unit, points int32, flatBonus, percentBonus float64) *Aura {
+func ImprovedSealOfTheCrusaderAura(target *Unit, casterIndex, points int32, flatBonus, percentBonus float64) *Aura {
 	holySpellDamageBonus := 219.0*percentBonus + flatBonus //assumed Max Rank Seal Of Crusader (Rank 7)
-	priority := 1.0
 
-	var effect *ExclusiveEffect
+	auraLabel := fmt.Sprintf("Improved Seal of the Crusader (%s)", Ternary(casterIndex == -1, "External", "Self"))
+
+	actionID := ActionID{SpellID: 20337}
+	if casterIndex != 0 {
+		actionID = actionID.WithTag(casterIndex)
+	}
+
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "Improved Seal of the Crusader",
-		ActionID: ActionID{SpellID: 20337},
+		Label:    auraLabel,
+		ActionID: actionID,
 		Duration: time.Second * 20,
 		OnGain: func(aura *Aura, sim *Simulation) {
-			effect.SetPriority(sim, priority)
-		},
-	})
-
-	effect = aura.NewExclusiveEffect("Improved Seal of the Crusader", true, ExclusiveEffect{
-		Priority: priority,
-		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
 			target.PseudoStats.ReducedCritTakenChance += float64(-1 * points)
 			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] += holySpellDamageBonus
 		},
-		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+		OnExpire: func(aura *Aura, sim *Simulation) {
 			target.PseudoStats.ReducedCritTakenChance -= float64(-1.0 * points)
 			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] -= holySpellDamageBonus
 		},
+	})
+
+	aura.NewExclusiveEffect("Improved Seal of the Crusader", true, ExclusiveEffect{
+		Priority: holySpellDamageBonus,
 	})
 
 	return aura
