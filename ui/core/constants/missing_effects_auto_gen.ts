@@ -1438,12 +1438,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		25667, // Idol of the Beast
-		[
-			"Increases damage done by Ferocious Bite by 14 per combo point.", // 32410 - https://www.wowhead.com/tbc/spell=32410
-		]
-	],
-	[
 		25786, // Hypnotist's Watch
 		[
 			"Reduces your threat to enemy targets within 30 yards, making them less likely to attack you.", // 32599 - https://www.wowhead.com/tbc/spell=32599
@@ -1531,12 +1525,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		27707, // Gladiator's Satin Gloves
 		[
 			"Increases the duration of your Psychic Scream spell by 1.0 sec.", // 23044 - https://www.wowhead.com/tbc/spell=23044
-		]
-	],
-	[
-		27744, // Idol of Ursoc
-		[
-			"Increases initial and per application periodic damage done by Lacerate by 8.", // 34253 - https://www.wowhead.com/tbc/spell=34253
 		]
 	],
 	[
@@ -1632,12 +1620,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		28064, // Idol of the Wild
-		[
-			"Increases the damage dealt by Mangle (Cat) by 24 and the damage dealt by Mangle (Bear) by 52.", // 37736 - https://www.wowhead.com/tbc/spell=37736
-		]
-	],
-	[
 		28065, // Libram of Wracking
 		[
 			"Increases the damage done by your Exorcism and Holy Wrath spells by up to 120.", // 33695 - https://www.wowhead.com/tbc/spell=33695
@@ -1701,12 +1683,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		28370, // Bangle of Endless Blessings
 		[
 			"Your spell casts have a chance to allow 15% of your mana regeneration to continue while casting for 15s.", // 38346 - https://www.wowhead.com/tbc/spell=38346
-		]
-	],
-	[
-		28372, // Idol of Feral Shadows
-		[
-			"Increases periodic damage done by Rip by 7 per combo point.", // 34241 - https://www.wowhead.com/tbc/spell=34241
 		]
 	],
 	[
@@ -1932,12 +1908,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		29390, // Everbloom Idol
-		[
-			"Increases the damage dealt by Shred by 88.", // 33693 - https://www.wowhead.com/tbc/spell=33693
-		]
-	],
-	[
 		29398, // Circle of Banishing
 		[
 			"Increases attack power by 39 when fighting Demons.", // 35175 - https://www.wowhead.com/tbc/spell=35175
@@ -2097,12 +2067,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		31328, // Leggings of Beast Mastery
 		[
 			"Increases your pet's attack power by 70, armor by 490 and Stamina by 52.", // 38297 - https://www.wowhead.com/tbc/spell=38297
-		]
-	],
-	[
-		31334, // Staff of Natural Fury
-		[
-			"Reduces the base Mana cost of your shapeshifting spells by 200.", // 38314 - https://www.wowhead.com/tbc/spell=38314
 		]
 	],
 	[
