@@ -1,9 +1,8 @@
 package druid
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
+	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
@@ -57,7 +56,7 @@ func (druid *Druid) GetCatWeapon() core.Weapon {
 		BaseDamageMax:        unscaledWeapon.BaseDamageMax / unscaledWeapon.SwingSpeed,
 		SwingSpeed:           1.0,
 		NormalizedSwingSpeed: 1.0,
-		CritMultiplier:       druid.DefaultMeleeCritMultiplier(),
+		CritMultiplier:       druid.FeralCritMultiplier(),
 		AttackPowerPerDPS:    core.DefaultAttackPowerPerDPS,
 		MaxRange:             core.MaxMeleeRange,
 	}
@@ -70,7 +69,7 @@ func (druid *Druid) GetBearWeapon() core.Weapon {
 		BaseDamageMax:        unscaledWeapon.BaseDamageMax / unscaledWeapon.SwingSpeed * 2.5,
 		SwingSpeed:           2.5,
 		NormalizedSwingSpeed: 2.5,
-		CritMultiplier:       druid.DefaultMeleeCritMultiplier(),
+		CritMultiplier:       druid.FeralCritMultiplier(),
 		AttackPowerPerDPS:    core.DefaultAttackPowerPerDPS,
 		MaxRange:             core.MaxMeleeRange,
 	}
@@ -78,12 +77,18 @@ func (druid *Druid) GetBearWeapon() core.Weapon {
 
 func (druid *Druid) RegisterCatFormAura() {
 	actionID := core.ActionID{SpellID: 768}
+	energyMetrics := druid.NewEnergyMetrics(actionID)
 
-	statBonus := stats.Stats{
-		stats.AttackPower: -20, // This offset is needed because the first 10 points of Agility do not contribute any Attack Power.
-	}
+	furorProcChance := 0.2 * float64(druid.Talents.Furor)
+	wolfsheadEquipped := druid.HasItemEquipped(8345, []proto.ItemSlot{proto.ItemSlot_ItemSlotHead})
 
-	agiApDep := druid.NewDynamicStatDependency(stats.Agility, stats.AttackPower, 2)
+	// In Cat Form each point of Agility gives 1 AP.
+	agiApDep := druid.NewDynamicStatDependency(stats.Agility, stats.AttackPower, 1)
+	// In Cat Form each point of Strength gives 2 AP (vs 1 AP in humanoid form).
+	// The static dep in druid.go provides 1 AP/Str always; this dynamic dep adds the extra 1 AP/Str.
+	strApDep := druid.NewDynamicStatDependency(stats.Strength, stats.AttackPower, 1)
+	// Feral Attack Power (weapon/item feral-specific AP) converts 1:1 to AP in Cat Form.
+	feralApDep := druid.NewDynamicStatDependency(stats.FeralAttackPower, stats.AttackPower, 1)
 
 	clawWeapon := druid.GetCatWeapon()
 
@@ -102,15 +107,28 @@ func (druid *Druid) RegisterCatFormAura() {
 			druid.PseudoStats.ThreatMultiplier *= 0.71
 			druid.PseudoStats.SpiritRegenMultiplier *= AnimalSpiritRegenSuppression
 
-			druid.AddStatsDynamic(sim, statBonus)
 			druid.EnableBuildPhaseStatDep(sim, agiApDep)
+			druid.EnableBuildPhaseStatDep(sim, strApDep)
+			druid.EnableBuildPhaseStatDep(sim, feralApDep)
 
 			if !druid.Env.MeasuringStats {
 				druid.AutoAttacks.SetMH(clawWeapon)
 				druid.AutoAttacks.EnableAutoSwing(sim)
 				druid.UpdateManaRegenRates()
-				druid.MHAutoSpell.DamageMultiplier *= 2
-				druid.HealingTouch.DefaultCast.GCD -= time.Millisecond * 500
+
+				// On entering Cat Form, energy resets to 0 (game behavior).
+				if cur := druid.CurrentEnergy(); cur > 0 {
+					druid.SpendEnergy(sim, cur, energyMetrics)
+				}
+				// Wolfshead Helm: +20 energy on shift into Cat.
+				energyGain := core.TernaryFloat64(wolfsheadEquipped, 20.0, 0.0)
+				// Furor: 20% chance per rank (rank 5 = 100%) to gain 40 energy on shift.
+				if furorProcChance == 1 || (furorProcChance > 0 && sim.RandomFloat("Furor") < furorProcChance) {
+					energyGain += 40.0
+				}
+				if energyGain > 0 {
+					druid.AddEnergy(sim, energyGain, energyMetrics)
+				}
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
@@ -119,15 +137,14 @@ func (druid *Druid) RegisterCatFormAura() {
 			druid.PseudoStats.ThreatMultiplier /= 0.71
 			druid.PseudoStats.SpiritRegenMultiplier /= AnimalSpiritRegenSuppression
 
-			druid.AddStatsDynamic(sim, statBonus.Invert())
 			druid.DisableBuildPhaseStatDep(sim, agiApDep)
+			druid.DisableBuildPhaseStatDep(sim, strApDep)
+			druid.DisableBuildPhaseStatDep(sim, feralApDep)
 
 			if !druid.Env.MeasuringStats {
 				druid.AutoAttacks.SetMH(druid.WeaponFromMainHand(druid.DefaultMeleeCritMultiplier()))
 				druid.AutoAttacks.EnableAutoSwing(sim)
 				druid.UpdateManaRegenRates()
-				druid.MHAutoSpell.DamageMultiplier /= 2
-				druid.HealingTouch.DefaultCast.GCD += time.Millisecond * 500
 			}
 		},
 	})
@@ -137,11 +154,12 @@ func (druid *Druid) RegisterCatFormAura() {
 
 func (druid *Druid) registerCatFormSpell() {
 	druid.CatForm = druid.RegisterSpell(Any, core.SpellConfig{
-		ActionID: core.ActionID{SpellID: 768},
-		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
+		ActionID:       core.ActionID{SpellID: 768},
+		ClassSpellMask: DruidSpellCatForm,
+		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCostPercent: 3.7,
+			BaseCostPercent: 35,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -161,10 +179,11 @@ func (druid *Druid) RegisterBearFormAura() {
 	healthMetrics := druid.NewHealthMetrics(actionID)
 
 	statBonus := stats.Stats{
-		stats.AttackPower: -20, // This offset is needed because the first 10 points of Agility do not contribute any Attack Power.
+		stats.AttackPower: float64(core.CharacterLevel),
 	}
 
-	agiApDep := druid.NewDynamicStatDependency(stats.Agility, stats.AttackPower, 2)
+	strApDep := druid.NewDynamicStatDependency(stats.Strength, stats.AttackPower, 1)
+	feralApDep := druid.NewDynamicStatDependency(stats.FeralAttackPower, stats.AttackPower, 1)
 	stamDep := druid.NewDynamicMultiplyStat(stats.Stamina, 1.4)
 	critDep := druid.NewDynamicMultiplyStat(stats.MeleeCritRating, 1.5)
 	hasteDep := druid.NewDynamicMultiplyStat(stats.MeleeHasteRating, 1.5)
@@ -188,7 +207,8 @@ func (druid *Druid) RegisterBearFormAura() {
 
 			druid.AddStatsDynamic(sim, statBonus)
 			druid.ApplyDynamicEquipScaling(sim, stats.Armor, BaseBearArmorMulti)
-			druid.EnableBuildPhaseStatDep(sim, agiApDep)
+			druid.EnableBuildPhaseStatDep(sim, strApDep)
+			druid.EnableBuildPhaseStatDep(sim, feralApDep)
 			druid.EnableBuildPhaseStatDep(sim, critDep)
 			druid.EnableBuildPhaseStatDep(sim, hasteDep)
 
@@ -211,7 +231,8 @@ func (druid *Druid) RegisterBearFormAura() {
 
 			druid.AddStatsDynamic(sim, statBonus.Invert())
 			druid.RemoveDynamicEquipScaling(sim, stats.Armor, BaseBearArmorMulti)
-			druid.DisableBuildPhaseStatDep(sim, agiApDep)
+			druid.DisableBuildPhaseStatDep(sim, strApDep)
+			druid.DisableBuildPhaseStatDep(sim, feralApDep)
 			druid.DisableBuildPhaseStatDep(sim, critDep)
 			druid.DisableBuildPhaseStatDep(sim, hasteDep)
 
@@ -233,11 +254,12 @@ func (druid *Druid) registerBearFormSpell() {
 	rageMetrics := druid.NewRageMetrics(actionID)
 
 	druid.BearForm = druid.RegisterSpell(Any, core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
+		ActionID:       actionID,
+		ClassSpellMask: DruidSpellBearForm,
+		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCostPercent: 3.7,
+			BaseCostPercent: 35,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
