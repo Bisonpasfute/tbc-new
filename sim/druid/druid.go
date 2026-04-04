@@ -63,6 +63,8 @@ type Druid struct {
 	ProwlAura                *core.Aura
 
 	form DruidForm
+
+	IntensityEnrageRageBonus float64
 }
 
 const (
