@@ -173,6 +173,9 @@ func (druid *Druid) registerCatFormSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
+			if druid.CatFormAura.IsActive() {
+				druid.CatFormAura.Deactivate(sim)
+			}
 			druid.CatFormAura.Activate(sim)
 		},
 	})

@@ -146,7 +146,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralCatDruid, {
 		epWeights: [Presets.P1_EP_PRESET],
 		// Preset talents that the user can quickly select.
 		talents: [Presets.StandardTalents, Presets.MonocatTalents],
-		rotations: [Presets.SIMPLE_ROTATION_DEFAULT],
+		rotations: [Presets.SIMPLE, Presets.APL],
 		// Preset gear configurations that the user can quickly select.
 		gear: [Presets.P1_GEARSET, Presets.P2_GEARSET, Presets.P3_GEARSET, Presets.P4_GEARSET, Presets.P5_GEARSET],
 		itemSwaps: [],

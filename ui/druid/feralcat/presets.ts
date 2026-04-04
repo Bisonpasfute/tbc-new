@@ -7,6 +7,7 @@ import {
 } from '../../core/proto/druid';
 import { SavedTalents } from '../../core/proto/ui';
 import { Stats } from '../../core/proto_utils/stats';
+import DefaultApl from './apls/default.apl.json';
 import P1Gear from './gear_sets/p1.gear.json';
 import P2Gear from './gear_sets/p2.gear.json';
 import P3Gear from './gear_sets/p3.gear.json';
@@ -86,4 +87,6 @@ export const DefaultRotation = FeralCatDruidRotation.create({
 	maintainFaerieFire: false,
 });
 
-export const SIMPLE_ROTATION_DEFAULT = PresetUtils.makePresetSimpleRotation('Single Target Default', Spec.SpecFeralCatDruid, DefaultRotation);
+export const SIMPLE = PresetUtils.makePresetSimpleRotation('Simple', Spec.SpecFeralCatDruid, DefaultRotation);
+
+export const APL = PresetUtils.makePresetAPLRotation('APL', DefaultApl);
