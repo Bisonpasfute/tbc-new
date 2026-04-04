@@ -26,6 +26,9 @@ func (druid *Druid) ApplyTalents() {
 	druid.applyImprovedFaerieFire()
 	druid.applyWrathOfCenarius()
 	druid.applyForceOfNature()
+
+	// Restoration
+	druid.applyIntensity()
 	// Feral
 	// druid.registerFelineSwiftness()
 	// druid.registerDisplacerBeast()
@@ -235,6 +238,19 @@ func (druid *Druid) applyFocusedStarlight() {
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		FloatValue: 2 * float64(druid.Talents.FocusedStarlight),
 	})
+}
+
+func (druid *Druid) applyIntensity() {
+	if druid.Talents.Intensity == 0 {
+		return
+	}
+
+	// Allows 10% per rank of mana regeneration to continue while casting
+	druid.PseudoStats.SpiritRegenRateCasting += 0.10 * float64(druid.Talents.Intensity)
+	druid.UpdateManaRegenRates()
+
+	// Enrage instantly generates additional rage per rank (4/7/10)
+	druid.IntensityEnrageRageBonus = []float64{0, 4, 7, 10}[druid.Talents.Intensity]
 }
 
 func (druid *Druid) applyImprovedMoonfire() {
