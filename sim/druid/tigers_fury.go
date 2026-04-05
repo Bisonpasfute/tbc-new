@@ -33,9 +33,6 @@ func (druid *Druid) registerTigersFurySpell() {
 			Cost: 30,
 		},
 		Cast: core.CastConfig{
-			DefaultCast: core.Cast{
-				GCD: 0,
-			},
 			IgnoreHaste: true,
 			CD: core.Cooldown{
 				Timer:    druid.NewTimer(),
