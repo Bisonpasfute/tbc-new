@@ -242,6 +242,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1917.53688
+  tps: 1310.10664
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 1866.40586
@@ -363,8 +370,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-DarkmoonCard:Crusade-31856"
  value: {
-  dps: 1866.40586
-  tps: 1316.50823
+  dps: 1926.19885
+  tps: 1358.39143
  }
 }
 dps_results: {
@@ -916,13 +923,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestArcane-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1917.53688
-  tps: 1310.10664
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1917.53688
   tps: 1310.10664

@@ -450,18 +450,18 @@ func ImprovedSealOfTheCrusaderAura(target *Unit, casterIndex, points int32, flat
 		Label:    auraLabel,
 		ActionID: actionID,
 		Duration: time.Second * 20,
-		OnGain: func(aura *Aura, sim *Simulation) {
-			target.PseudoStats.ReducedCritTakenChance += float64(-1 * points)
-			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] += holySpellDamageBonus
-		},
-		OnExpire: func(aura *Aura, sim *Simulation) {
-			target.PseudoStats.ReducedCritTakenChance -= float64(-1.0 * points)
-			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] -= holySpellDamageBonus
-		},
 	})
 
 	aura.NewExclusiveEffect("Improved Seal of the Crusader", true, ExclusiveEffect{
 		Priority: holySpellDamageBonus + float64(casterIndex),
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			target.AddReducedCritTakenPercent(float64(-1 * points))
+			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] += holySpellDamageBonus
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			target.AddReducedCritTakenPercent(float64(1 * points))
+			target.PseudoStats.SchoolBonusSpellDamage[stats.SchoolIndexHoly] -= holySpellDamageBonus
+		},
 	})
 
 	return aura
