@@ -108,7 +108,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralCatDruid, {
 			bloodFrenzy: true,
 			exposeArmor: TristateEffect.TristateEffectImproved,
 			huntersMark: TristateEffect.TristateEffectImproved,
-			improvedSealOfTheCrusader: true,
+			improvedSealOfTheCrusader: TristateEffect.TristateEffectImproved,
 			judgementOfWisdom: true,
 			misery: true,
 			curseOfRecklessness: true,
