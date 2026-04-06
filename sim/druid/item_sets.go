@@ -174,7 +174,7 @@ var ItemSetThunderheartHarness = core.NewItemSet(core.ItemSet{
 		4: func(agent core.Agent, setBonusAura *core.Aura) {
 			setBonusAura.AttachSpellMod(core.SpellModConfig{
 				ClassMask:  DruidSpellRip | DruidSpellSwipe | DruidSpellFerociousBite,
-				Kind:       core.SpellMod_DamageDone_Pct,
+				Kind:       core.SpellMod_DamageDone_Flat,
 				FloatValue: 0.15,
 			})
 		},
