@@ -57,12 +57,13 @@ func (druid *Druid) registerRipSpell() {
 				var tickDamage float64
 				switch {
 				case cp <= 3:
-					tickDamage = (990+0.18*ap)/6 + idolBonus(cp)
+					tickDamage = 990 + 0.18*ap
 				case cp == 4:
-					tickDamage = (1272+0.24*ap)/6 + idolBonus(cp)
+					tickDamage = 1272 + 0.24*ap
 				default: // 5
-					tickDamage = (1554+0.24*ap)/6 + idolBonus(cp)
+					tickDamage = 1554 + 0.24*ap
 				}
+				tickDamage = tickDamage/6 + idolBonus(cp)
 
 				dot.SnapshotPhysical(target, tickDamage)
 				druid.UpdateBleedPower(druid.Rip, sim, target, true, true)
