@@ -8,6 +8,7 @@ import {
 import { SavedTalents } from '../../core/proto/ui';
 import { Stats } from '../../core/proto_utils/stats';
 import DefaultApl from './apls/default.apl.json';
+import PreRaidGear from './gear_sets/pre_raid.gear.json';
 import P1Gear from './gear_sets/p1.gear.json';
 import P2Gear from './gear_sets/p2.gear.json';
 import P3Gear from './gear_sets/p3.gear.json';
@@ -30,6 +31,7 @@ export const MonocatTalents = {
 	}),
 };
 
+export const PRE_RAID_GEARSET = PresetUtils.makePresetGear('Pre-Raid', PreRaidGear);
 export const P1_GEARSET = PresetUtils.makePresetGear('P1', P1Gear);
 export const P2_GEARSET = PresetUtils.makePresetGear('P2', P2Gear);
 export const P3_GEARSET = PresetUtils.makePresetGear('P3', P3Gear);
