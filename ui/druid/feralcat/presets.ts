@@ -86,7 +86,7 @@ export const DefaultRotation = FeralCatDruidRotation.create({
 	ripMinComboPoints: 5,
 	biteMinComboPoints: 5,
 	mangleTrick: true,
-	maintainFaerieFire: false,
+	maintainFaerieFire: true,
 });
 
 export const SIMPLE = PresetUtils.makePresetSimpleRotation('Simple', Spec.SpecFeralCatDruid, DefaultRotation);
