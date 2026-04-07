@@ -242,20 +242,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1851.02174
-  tps: 1765.42021
- }
-}
-dps_results: {
- key: "TestEnhancement-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1853.82176
-  tps: 1766.81992
- }
-}
-dps_results: {
  key: "TestEnhancement-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 1885.31177
@@ -370,8 +356,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-CycloneRegalia"
  value: {
-  dps: 1525.69317
-  tps: 1429.28097
+  dps: 1523.53352
+  tps: 1428.07051
  }
 }
 dps_results: {
@@ -1035,6 +1021,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestEnhancement-AllItems-StabilitzedEterniumScope-2724"
+ value: {
+  dps: 1851.02174
+  tps: 1765.42021
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1851.02174
   tps: 1765.42021

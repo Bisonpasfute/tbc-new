@@ -22,6 +22,7 @@ func TestFeralCat(t *testing.T) {
 
 			GearSet: core.GetGearSet("../../../ui/druid/feralcat/gear_sets", "p1"),
 			OtherGearSets: []core.GearSetCombo{
+				core.GetGearSet("../../../ui/druid/feralcat/gear_sets", "pre_raid"),
 				core.GetGearSet("../../../ui/druid/feralcat/gear_sets", "p2"),
 				core.GetGearSet("../../../ui/druid/feralcat/gear_sets", "p3"),
 				core.GetGearSet("../../../ui/druid/feralcat/gear_sets", "p4"),
