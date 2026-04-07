@@ -71,6 +71,7 @@ const INCLUDED_STATS: UnitStat[] = [
 	UnitStat.fromStat(Stat.StatSpellCritRating),
 	UnitStat.fromStat(Stat.StatSpellHasteRating),
 	UnitStat.fromStat(Stat.StatMeleeHitRating),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatMeleeHitPercent),
 	UnitStat.fromStat(Stat.StatMeleeCritRating),
 	UnitStat.fromStat(Stat.StatMeleeHasteRating),
 	UnitStat.fromStat(Stat.StatExpertiseRating),
@@ -1286,6 +1287,13 @@ export class ReforgeOptimizer {
 			const socketBonusAsCoeff = new Map<string, number>();
 
 			for (const [stat, value] of distributedSocketBonus.entries()) {
+				if (
+					this.undershootCaps.getStat(stat) !== 0 ||
+					UnitStat.getChildren(stat).some(childStat => this.undershootCaps.getPseudoStat(childStat) !== 0)
+				) {
+					continue;
+				}
+
 				this.applyReforgeStat(socketBonusAsCoeff, stat, value, preCapEPs);
 			}
 
