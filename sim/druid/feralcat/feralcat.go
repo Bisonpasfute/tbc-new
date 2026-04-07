@@ -34,10 +34,9 @@ func NewFeralCatDruid(character *core.Character, options *proto.Player) *FeralDr
 	cat.CannotShredTarget = feralOptions.Options.CannotShredTarget
 
 	cat.EnableEnergyBar(core.EnergyBarOptions{
-		MaxComboPoints:        5,
-		MaxEnergy:             100.0,
-		UnitClass:             proto.Class_ClassDruid,
-		HasHasteRatingScaling: true,
+		MaxComboPoints: 5,
+		MaxEnergy:      100.0,
+		UnitClass:      proto.Class_ClassDruid,
 	})
 	cat.EnableRageBar(core.RageBarOptions{BaseRageMultiplier: 2.5})
 
