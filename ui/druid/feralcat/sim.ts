@@ -56,8 +56,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralCatDruid, {
 		statCaps: (() => {
 			return new Stats()
 				.withPseudoStat(PseudoStat.PseudoStatMeleeHitPercent, 9)
-				.withStat(Stat.StatExpertiseRating, 6.5 * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION)
-				.withStat(Stat.StatArmorPenetration, 0);
+				.withStat(Stat.StatExpertiseRating, 6.5 * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
 		})(),
 		softCapBreakpoints: [
 			StatCap.fromPseudoStat(PseudoStat.PseudoStatMeleeHitPercent, {
