@@ -557,6 +557,9 @@
 						"block": {
 							"type": "string"
 						},
+						"reduced_crit_taken": {
+							"type": "string"
+						},
 						"melee_speed_multiplier": {
 							"type": "string"
 						},
@@ -727,6 +730,7 @@
 						"off_hand_dps",
 						"ranged_dps",
 						"block",
+						"reduced_crit_taken",
 						"melee_speed_multiplier",
 						"ranged_speed_multiplier",
 						"cast_speed_multiplier",
@@ -3350,6 +3354,34 @@
 							"additionalProperties": false,
 							"required": ["new", "reset"]
 						},
+						"nameModal": {
+							"type": "object",
+							"properties": {
+								"create": {
+									"type": "string"
+								},
+								"extract": {
+									"type": "string"
+								},
+								"nameConflict": {
+									"type": "string"
+								},
+								"rename": {
+									"type": "string"
+								},
+								"renameConfirm": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"create",
+								"extract",
+								"nameConflict",
+								"rename",
+								"renameConfirm"
+							]
+						},
 						"prePullActions": {
 							"type": "object",
 							"properties": {
@@ -3434,7 +3466,10 @@
 									"additionalProperties": false,
 									"required": ["name", "nameTooltip", "value", "valueTooltip"]
 								},
-								"copyName": {
+								"enterVariableName": {
+									"type": "string"
+								},
+								"extractToVariable": {
 									"type": "string"
 								},
 								"header": {
@@ -3464,7 +3499,22 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": ["attributes", "copyName", "header", "name", "newVariableName", "tooltips"]
+							"required": ["attributes", "enterVariableName", "extractToVariable", "header", "name", "newVariableName", "tooltips"]
+						},
+						"variablePlaceholder": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"nameLabel": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"name",
+								"nameLabel"
+							]
 						},
 						"prepull_actions": {
 							"type": "object",
@@ -6141,10 +6191,12 @@
 					"required": [
 						"actionGroups",
 						"floatingActionBar",
+						"nameModal",
 						"prePullActions",
 						"priorityList",
 						"tabs",
 						"variables",
+						"variablePlaceholder",
 						"prepull_actions",
 						"priority_list",
 						"actions",

@@ -28,7 +28,6 @@ import P1KhadgarsItemSwap from './gear_sets/p1.khadgars.itemswap.json';
 import P1TruncheonItemSwap from './gear_sets/p1.truncheon.itemswap.json';
 import P1BisItemSwap from './gear_sets/p1.bis.itemswap.json';
 import PreraidGear from './gear_sets/preraid.gear.json';
-import { Phase } from '../../core/constants/other';
 
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
@@ -171,8 +170,8 @@ export const DefaultRaidBuffs = RaidBuffs.create({
 });
 
 export const DefaultDebuffs = Debuffs.create({
-	...defaultExposeWeaknessSettings(Phase.Phase1),
-	improvedSealOfTheCrusader: true,
+	...defaultExposeWeaknessSettings(),
+	improvedSealOfTheCrusader: TristateEffect.TristateEffectImproved,
 	judgementOfWisdom: true,
 	screech: true,
 	misery: true,

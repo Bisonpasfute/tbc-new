@@ -1,5 +1,4 @@
 import * as OtherInputs from '../../core/components/inputs/other_inputs';
-import { Phase } from '../../core/constants/other';
 import { IndividualSimUI, registerSpecConfig } from '../../core/individual_sim_ui';
 import { Player } from '../../core/player';
 import { PlayerClasses } from '../../core/player_classes';
@@ -103,10 +102,10 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRogue, {
 			unleashedRage: true,
 		}),
 		debuffs: Debuffs.create({
-			...defaultExposeWeaknessSettings(Phase.Phase1),
+			...defaultExposeWeaknessSettings(),
 			bloodFrenzy: true,
 			huntersMark: TristateEffect.TristateEffectImproved,
-			improvedSealOfTheCrusader: true,
+			improvedSealOfTheCrusader: TristateEffect.TristateEffectImproved,
 			mangle: true,
 			misery: true,
 			curseOfRecklessness: true,

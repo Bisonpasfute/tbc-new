@@ -67,7 +67,7 @@ const (
 	// Stats in UnitStats proto messages, since they are not required in the
 	// database files. However, it is valuable to keep these as proper Stats
 	// in the back-end, since they are used in various stat dependencies.
-	// The units for all 5 of these are percentages (between 0 and 100).
+	// The units for all 7 of these are percentages (between 0 and 100).
 	PhysicalHitPercent
 	SpellHitPercent
 	PhysicalCritPercent
@@ -492,7 +492,8 @@ type PseudoStats struct {
 	BaseParryChance float64
 	BaseBlockChance float64
 
-	ReducedCritTakenChance float64 // Reduces chance to be crit.
+	BaseReducedCritTakenPercent float64 // Base crit reduction from talents/auras (before Defense/Resilience contributions).
+	ReducedCritTakenPercent     float64 // Total crit reduction including Defense and Resilience contributions.
 
 	BonusHealingTaken          float64 // Talisman of Troll Divinity
 	BonusSpellCritPercentTaken float64 // Imp Shadow Bolt / Imp Scorch / Winter's Chill debuff
@@ -501,6 +502,7 @@ type PseudoStats struct {
 
 	DamageTakenMultiplier       float64            // All damage
 	SchoolDamageTakenMultiplier [SchoolLen]float64 // For specific spell schools (arcane, fire, shadow, etc.)
+	SchoolBonusSpellDamage      [SchoolLen]float64 // Bonus SpellDamage against Target, ex: Judgement Of The Crusader + HolySpellDamage
 	SchoolBonusHitChance        [SchoolLen]float64 // Spell school-specific hit bonuses such as Arcane Focus or Elemental Precision - only applied to spells with a non-zero class spell mask
 
 	DiseaseDamageTakenMultiplier          float64
@@ -541,7 +543,9 @@ func NewPseudoStats() PseudoStats {
 		PeriodicHealingDealtMultiplier: 1,
 		CritDamageMultiplier:           1,
 
-		BlockValueMultiplier: 1,
+		BlockValueMultiplier:        1,
+		BaseReducedCritTakenPercent: 0,
+		ReducedCritTakenPercent:     0,
 
 		DamageSpread: 0.3333,
 

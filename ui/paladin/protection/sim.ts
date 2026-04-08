@@ -6,14 +6,16 @@ import { APLRotation, APLRotation_Type } from '../../core/proto/apl.js';
 import { Debuffs, Faction, IndividualBuffs, PartyBuffs, PseudoStat, Race, RaidBuffs, Spec, Stat, UnitStats } from '../../core/proto/common.js';
 import { Stats, UnitStat } from '../../core/proto_utils/stats.js';
 import { defaultRaidBuffMajorDamageCooldowns } from '../../core/proto_utils/utils';
-import * as PaladinInputs from '../inputs.js';
 import * as Presets from './presets.js';
+import * as Mechanics from '../../core/constants/mechanics';
+import { ReforgeOptimizer } from '../../core/components/suggest_reforges_action';
 
 const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	cssClass: 'protection-paladin-sim-ui',
 	cssScheme: PlayerClasses.getCssClass(PlayerClasses.Paladin),
 	// List any known bugs / issues here and they'll be shown on the site.
 	knownIssues: [],
+	consumableStats: [Stat.StatMana],
 
 	// All stats for which EP should be calculated.
 	epStats: [
@@ -41,6 +43,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	displayStats: UnitStat.createDisplayStatArray(
 		[
 			Stat.StatHealth,
+			Stat.StatMana,
 			Stat.StatArmor,
 			Stat.StatBonusArmor,
 			Stat.StatStamina,
@@ -72,6 +75,12 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	defaults: {
 		// Default equipped gear.
 		gear: Presets.P1_BALANCED_GEAR_PRESET.gear,
+		statCaps: (() => {
+			const hitCap = new Stats().withPseudoStat(PseudoStat.PseudoStatMeleeHitPercent, 9);
+			const expCap = new Stats().withStat(Stat.StatExpertiseRating, 6.5 * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
+
+			return hitCap.add(expCap);
+		})(),
 		// Default EP weights for sorting gear in the gear picker.
 		// Values for now are pre-Cata initial WAG
 		epWeights: Presets.P1_BALANCED_EP_PRESET.epWeights,
@@ -94,9 +103,9 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	},
 
 	// IconInputs to include in the 'Player' section on the settings tab.
-	playerIconInputs: [PaladinInputs.StartingSealSelection()],
+	playerIconInputs: [],
 	// Buff and Debuff inputs to include/exclude, overriding the EP-based defaults.
-	includeBuffDebuffInputs: [],
+	includeBuffDebuffInputs: [Stat.StatMP5],
 	excludeBuffDebuffInputs: [],
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
@@ -159,5 +168,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 export class ProtectionPaladinSimUI extends IndividualSimUI<Spec.SpecProtectionPaladin> {
 	constructor(parentElem: HTMLElement, player: Player<Spec.SpecProtectionPaladin>) {
 		super(parentElem, player, SPEC_CONFIG);
+		this.reforger = new ReforgeOptimizer(this);
 	}
 }

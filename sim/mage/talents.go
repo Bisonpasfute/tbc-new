@@ -310,9 +310,9 @@ func (mage *Mage) registerImprovedFireBlast() {
 	}
 
 	mage.AddStaticMod(core.SpellModConfig{
-		ClassMask:  MageSpellFireBlast,
-		FloatValue: -.05 * float64(mage.Talents.ImprovedFireBlast),
-		Kind:       core.SpellMod_Cooldown_Flat,
+		ClassMask: MageSpellFireBlast,
+		TimeValue: time.Millisecond * time.Duration(-500*float64(mage.Talents.ImprovedFireBlast)),
+		Kind:      core.SpellMod_Cooldown_Flat,
 	})
 }
 

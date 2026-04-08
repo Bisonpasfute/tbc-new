@@ -72,8 +72,7 @@ export const simLaunchStatuses: Record<Spec, SimStatus> = {
 	},
 	[Spec.SpecRetributionPaladin]: {
 		phase: Phase.Phase1,
-		status: LaunchStatus.Unlaunched,
-		oldSimLink: 'https://wowsims.github.io/tbc/retribution_paladin/',
+		status: LaunchStatus.Alpha,
 	},
 	// Priest
 	[Spec.SpecPriest]: {

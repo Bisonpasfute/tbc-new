@@ -24,8 +24,10 @@ func (mage *Mage) registerManaGems() {
 	})
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL | core.SpellFlagHelpful,
+		ActionID:       actionID,
+		ProcMask:       core.ProcMaskEmpty,
+		Flags:          core.SpellFlagAPL | core.SpellFlagHelpful,
+		ClassSpellMask: MageSpellManaGem,
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -45,6 +47,9 @@ func (mage *Mage) registerManaGems() {
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 			manaGemAura.RemoveStack(sim)
 			manaGain = sim.Roll(minManaGain, maxManaGain)
+			if mage.SerpentCoilBraid.IsActive() {
+				manaGain *= 1.25
+			}
 			mage.AddMana(sim, manaGain, manaMetrics)
 		},
 	})

@@ -91,7 +91,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecMage, {
 			return new Stats().withPseudoStat(PseudoStat.PseudoStatSchoolHitPercentArcane, 16);
 		})(),
 		// Default consumes settings.
-		consumables: Presets.DefaultConsumables,
+		consumables: DefaultConsumables,
 		// Default talents.
 		talents: Presets.ARCANE_TALENTS.data,
 		// Default spec-specific settings.

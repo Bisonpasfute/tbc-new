@@ -1,4 +1,3 @@
-import { Phase } from '../../core/constants/other';
 import * as PresetUtils from '../../core/preset_utils';
 import {
 	Class,
@@ -173,11 +172,11 @@ export const DefaultDebuffs = Debuffs.create({
 	bloodFrenzy: true,
 	curseOfRecklessness: true,
 	exposeArmor: TristateEffect.TristateEffectImproved,
-	...defaultExposeWeaknessSettings(Phase.Phase1),
+	...defaultExposeWeaknessSettings(),
 	faerieFire: TristateEffect.TristateEffectImproved,
 	giftOfArthas: true,
 	huntersMark: TristateEffect.TristateEffectImproved,
-	improvedSealOfTheCrusader: true,
+	improvedSealOfTheCrusader: TristateEffect.TristateEffectImproved,
 	insectSwarm: true,
 	judgementOfLight: true,
 	judgementOfWisdom: true,

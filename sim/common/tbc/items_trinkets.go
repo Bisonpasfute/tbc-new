@@ -457,7 +457,7 @@ func init() {
 			Outcome:  core.OutcomeLanded,
 			Callback: core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				aura := core.Ternary(spell.ProcMask.Matches(core.ProcMaskSpellDamageProc), casterAura, meleeAura)
+				aura := core.Ternary(spell.ProcMask.Matches(core.ProcMaskSpellDamage), casterAura, meleeAura)
 				aura.Activate(sim)
 				aura.AddStack(sim)
 			},
@@ -754,7 +754,8 @@ func init() {
 	// Use: Conjures a Power Circle lasting for 15 sec.  While standing in this circle, the caster gains up to 320 spell damage and healing.
 	core.NewItemEffect(34429, func(agent core.Agent) {
 		character := agent.GetCharacter()
-		aura := character.NewTemporaryStatsAura("Power Circle", core.ActionID{SpellID: 45042}, stats.Stats{stats.SpellDamage: 320, stats.HealingPower: 320}, time.Second*15)
+		duration := time.Second * 15
+		aura := character.NewTemporaryStatsAura("Power Circle", core.ActionID{SpellID: 45042}, stats.Stats{stats.SpellDamage: 320, stats.HealingPower: 320}, duration)
 
 		spell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{ItemID: 34429},
@@ -768,7 +769,7 @@ func init() {
 				},
 				SharedCD: core.Cooldown{
 					Timer:    character.GetOffensiveTrinketCD(),
-					Duration: time.Second * 30,
+					Duration: duration,
 				},
 			},
 

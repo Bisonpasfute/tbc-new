@@ -74,6 +74,7 @@ var ItemAllowList = map[int32]struct{}{
 	2505:   {},
 	11815:  {}, // Hand of Justice
 	18168:  {}, // Force Reactive Disk
+	19337:  {}, // The Black Book
 	186071: {}, // Communal Totem of Lightning
 	186073: {}, // Communal Totem of the Storm
 }
