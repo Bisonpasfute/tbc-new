@@ -76,6 +76,19 @@ func (bear *GuardianDruid) ApplyTalents() {
 // registers WF procs, while keeping TotemTwisting intact so that Grace of
 // Air receives the correct ~90% uptime when twisting is enabled.
 func (bear *GuardianDruid) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
+	if bear.Talents.LeaderOfThePack {
+		// Idol of the Raven Goddess (32387) upgrades the LotP party buff to Improved (+2% crit).
+		if bear.HasItemEquipped(32387, []proto.ItemSlot{proto.ItemSlot_ItemSlotRanged}) {
+			if partyBuffs.LeaderOfThePack < proto.TristateEffect_TristateEffectImproved {
+				partyBuffs.LeaderOfThePack = proto.TristateEffect_TristateEffectImproved
+			}
+		} else {
+			if partyBuffs.LeaderOfThePack < proto.TristateEffect_TristateEffectRegular {
+				partyBuffs.LeaderOfThePack = proto.TristateEffect_TristateEffectRegular
+			}
+		}
+	}
+
 	partyBuffs.WindfuryTotem = proto.TristateEffect_TristateEffectMissing
 }
 
