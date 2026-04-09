@@ -24,6 +24,7 @@ export class PresetGroupPicker extends Component {
 
 	private readonly phaseTabsContainer: HTMLElement;
 	private readonly sectionsContainer: HTMLElement;
+	private readonly onFilterCallbacks: Array<() => void> = [];
 
 	private filterState: FilterState;
 	private phases: number[] = [];
@@ -70,6 +71,13 @@ export class PresetGroupPicker extends Component {
 	}
 
 	/**
+	 * Register a callback to be invoked after each filter change.
+	 */
+	onFilter(callback: () => void) {
+		this.onFilterCallbacks.push(callback);
+	}
+
+	/**
 	 * Update the active phase, then re-render.
 	 */
 	setFilter(phase?: number) {
@@ -79,6 +87,7 @@ export class PresetGroupPicker extends Component {
 		this.saveFilterState();
 		this.renderPhaseTabs();
 		this.applyFilters();
+		this.onFilterCallbacks.forEach(cb => cb());
 	}
 
 	init() {
@@ -122,12 +131,7 @@ export class PresetGroupPicker extends Component {
 			const tab = (
 				<button
 					className={`preset-group-phase-tab${phase === this.filterState.phase ? ' active' : ''}`}
-					onclick={() => {
-						this.filterState.phase = phase;
-						this.saveFilterState();
-						this.renderPhaseTabs();
-						this.applyFilters();
-					}}>
+					onclick={() => this.setFilter(phase)}>
 					{`Phase ${phase}`}
 				</button>
 			);
