@@ -517,8 +517,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-Figurine-NightseyePanther-24128"
  value: {
-  dps: 1866.40586
-  tps: 1316.50823
+  dps: 1901.9919
+  tps: 1335.61466
  }
 }
 dps_results: {
@@ -643,8 +643,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-JomGabbar-23570"
  value: {
-  dps: 1866.40586
-  tps: 1316.50823
+  dps: 1901.9919
+  tps: 1335.61466
  }
 }
 dps_results: {
