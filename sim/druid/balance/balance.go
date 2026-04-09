@@ -61,7 +61,7 @@ func (moonkin *BalanceDruid) Initialize() {
 }
 
 func (moonkin *BalanceDruid) ApplyTalents() {
-	moonkin.Druid.ApplyBalanceTalents()
+	moonkin.Druid.ApplyTalents()
 }
 
 func (moonkin *BalanceDruid) Reset(sim *core.Simulation) {

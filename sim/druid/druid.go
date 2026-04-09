@@ -224,7 +224,6 @@ func (druid *Druid) RegisterFeralCatSpells() {
 	druid.registerFaerieFireFeralSpell()
 	druid.registerShredSpell()
 	druid.registerTigersFurySpell()
-	druid.applyOmenOfClarity()
 }
 
 func (druid *Druid) RegisterFeralTankSpells() {

@@ -13,8 +13,8 @@ func (druid *Druid) FeralCritMultiplier() float64 {
 	return druid.DefaultMeleeCritMultiplier() * (1 + 0.02*float64(druid.Talents.PredatoryInstincts))
 }
 
-// ApplyBalanceTalents applies all Balance tree talents. Call this from Balance spec only.
-func (druid *Druid) ApplyBalanceTalents() {
+func (druid *Druid) ApplyTalents() {
+	// Balance
 	druid.applyStarlightWrath()
 	druid.applyFocusedStarlight()
 	druid.applyImprovedMoonfire()
@@ -33,30 +33,31 @@ func (druid *Druid) ApplyBalanceTalents() {
 	druid.applyWrathOfCenarius()
 	druid.applyForceOfNature()
 
-	// Restoration
-	druid.applyIntensity()
-}
-
-// ApplyFeralTalents applies Feral tree talents and Restoration tree talents used by
-// feral specs (cat and bear). Call this from FeralCat and FeralBear specs.
-func (druid *Druid) ApplyFeralTalents() {
-	druid.applySharpenedClaws()
-	druid.applyFeralSwiftness()
-	druid.applyPredatoryStrikes()
+	// Feral
 	druid.applyFerocity()
 	druid.applyFeralAggression()
+	druid.applyFeralInstincts()
+	druid.applyFeralSwiftness()
+	druid.applySharpenedClaws()
 	druid.applyShreddingAttacks()
+	druid.applyPredatoryStrikes()
 	druid.applyPrimalFury()
 	druid.applySavageFury()
-	druid.applyLeaderOfThePack()
-	druid.applyImprovedLeaderOfThePack()
+	druid.applyNurturingInstincts()
 	druid.applyHeartOfTheWild()
 	druid.applySurvivalOfTheFittest()
+	druid.applyLeaderOfThePack()
+	druid.applyImprovedLeaderOfThePack()
 
 	// Restoration
-	druid.applyNaturalShapeshifter()
 	druid.applyNaturalist()
+	druid.applyNaturalShapeshifter()
 	druid.applyIntensity()
+	druid.applySubtlety()
+	druid.applyOmenOfClarity()
+	druid.applyNaturesSwiftness()
+	druid.applyLivingSpirit()
+	druid.applyNaturalPerfection()
 }
 
 func (druid *Druid) applyForceOfNature() {
@@ -265,6 +266,23 @@ func (druid *Druid) applyFocusedStarlight() {
 		ClassMask:  DruidSpellStarfire | DruidSpellWrath,
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		FloatValue: 2 * float64(druid.Talents.FocusedStarlight),
+	})
+}
+
+func (druid *Druid) applyNurturingInstincts() {
+	if druid.Talents.NurturingInstinct == 0 {
+		return
+	}
+
+	// Increases healing spell power by up to 50/100% of Agility.
+	druid.AddStatDependency(stats.Agility, stats.HealingPower, 0.5*float64(druid.Talents.NurturingInstinct))
+
+	// Increases healing received while in Cat Form by 10/20%.
+	bonus := 1 + 0.10*float64(druid.Talents.NurturingInstinct)
+	druid.CatFormAura.ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
+		druid.PseudoStats.HealingTakenMultiplier *= bonus
+	}).ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
+		druid.PseudoStats.HealingTakenMultiplier /= bonus
 	})
 }
 
@@ -530,5 +548,93 @@ func (druid *Druid) applyImprovedLeaderOfThePack() {
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			healingSpell.Cast(sim, &druid.Unit)
 		},
+	})
+}
+
+func (druid *Druid) applyFeralInstincts() {
+	if druid.Talents.FeralInstinct == 0 {
+		return
+	}
+
+	// Increases threat caused in Dire Bear Form by 5/10/15% per rank.
+	bonus := 1 + 0.05*float64(druid.Talents.FeralInstinct)
+	druid.BearFormAura.ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
+		druid.PseudoStats.ThreatMultiplier *= bonus
+	}).ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
+		druid.PseudoStats.ThreatMultiplier /= bonus
+	})
+}
+
+func (druid *Druid) applySubtlety() {
+	if druid.Talents.Subtlety == 0 {
+		return
+	}
+
+	// Reduces the threat caused by healing/damage spells by 4/8/12/16/20% per rank.
+	druid.AddStaticMod(core.SpellModConfig{
+		ClassMask:  DruidHealingSpells | DruidDamagingSpells,
+		Kind:       core.SpellMod_ThreatMultiplier_Pct,
+		FloatValue: -0.04 * float64(druid.Talents.Subtlety),
+	})
+}
+
+// SpellFlagInstant is used for off-GCD instant-cast activations (mirrors shaman pattern).
+const DruidSpellFlagInstant = core.SpellFlagAgentReserved3
+
+func (druid *Druid) applyNaturesSwiftness() {
+	if !druid.Talents.NaturesSwiftness {
+		return
+	}
+
+	nsAura := druid.RegisterAura(core.Aura{
+		ActionID: core.ActionID{SpellID: 17116},
+		Label:    "Nature's Swiftness",
+		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
+			if !spell.Matches(DruidSpellWrath) {
+				return
+			}
+			aura.Deactivate(sim)
+		},
+	}).AttachSpellMod(core.SpellModConfig{
+		Kind:       core.SpellMod_CastTime_Pct,
+		FloatValue: -100,
+		ClassMask:  DruidSpellWrath,
+	})
+
+	druid.NaturesSwiftness = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
+		ActionID:    core.ActionID{SpellID: 17116},
+		SpellSchool: core.SpellSchoolPhysical,
+		Flags:       core.SpellFlagAPL | core.SpellFlagNoOnCastComplete | DruidSpellFlagInstant,
+		Cast: core.CastConfig{
+			CD: core.Cooldown{
+				Timer:    druid.NewTimer(),
+				Duration: time.Second * 180,
+			},
+		},
+		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
+			nsAura.Activate(sim)
+		},
+	})
+}
+
+func (druid *Druid) applyLivingSpirit() {
+	if druid.Talents.LivingSpirit == 0 {
+		return
+	}
+
+	// Increases total Spirit by 5/10/15% per rank.
+	druid.MultiplyStat(stats.Spirit, 1+0.05*float64(druid.Talents.LivingSpirit))
+}
+
+func (druid *Druid) applyNaturalPerfection() {
+	if druid.Talents.NaturalPerfection == 0 {
+		return
+	}
+
+	// Increases spell critical strike chance by 1/2/3% per rank.
+	druid.AddStaticMod(core.SpellModConfig{
+		ClassMask:  DruidSpellsAll,
+		Kind:       core.SpellMod_BonusCrit_Percent,
+		FloatValue: float64(druid.Talents.NaturalPerfection),
 	})
 }

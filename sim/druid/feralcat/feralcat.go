@@ -98,7 +98,7 @@ func (cat *FeralDruid) Initialize() {
 }
 
 func (cat *FeralDruid) ApplyTalents() {
-	cat.Druid.ApplyFeralTalents()
+	cat.Druid.ApplyTalents()
 }
 
 func (cat *FeralDruid) Reset(sim *core.Simulation) {

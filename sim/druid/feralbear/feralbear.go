@@ -86,7 +86,7 @@ func (bear *GuardianDruid) AddRaidBuffs(raidBuffs *proto.RaidBuffs) {
 }
 
 func (bear *GuardianDruid) ApplyTalents() {
-	bear.Druid.ApplyFeralTalents()
+	bear.Druid.ApplyTalents()
 	bear.applySpecTalents()
 	//bear.applyMastery()
 	bear.applyThickHide()
