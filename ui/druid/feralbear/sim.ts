@@ -118,6 +118,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 			giftOfArthas: false,
 			huntersMark: TristateEffect.TristateEffectImproved,
 			improvedSealOfTheCrusader: TristateEffect.TristateEffectImproved,
+            curseOfRecklessness: true,
 			insectSwarm: true,
 			judgementOfWisdom: true,
 			misery: true,
@@ -156,7 +157,12 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 		talents: [Presets.StandardTalents, Presets.DemoRoarTalents],
 		rotations: [Presets.ROTATION_SIMPLE, Presets.ROTATION_DEFAULT],
 		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET],
-		builds: [],
+		builds: [
+				Presets.DEFAULT_PRESET_BUILD,
+				Presets.KARAZHAN_PRESET_BUILD,
+				Presets.MAGTHERIDON_PRESET_BUILD,
+				Presets.MOROGRIM_PRESET_BUILD,
+			],
 	},
 
 	autoRotation: (_player: Player<Spec.SpecFeralBearDruid>): APLRotation => {

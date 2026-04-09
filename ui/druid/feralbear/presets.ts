@@ -23,6 +23,15 @@ import DefaultApl from './apls/default.apl.json';
 export const ROTATION_SIMPLE = PresetUtils.makePresetSimpleRotation('Simple', Spec.SpecFeralBearDruid, DefaultSimpleRotation);
 export const ROTATION_DEFAULT = PresetUtils.makePresetAPLRotation('APL', DefaultApl);
 
+import DefaultBuild from './builds/default_encounter_only.build.json';
+import MagtheridonBuild from './builds/magtheridon_encounter_only.build.json';
+import KarazhanBuild from './builds/karazhan_encounter_only.build.json';
+import MorogrimBuild from './builds/morogrim_encounter_only.build.json';
+export const DEFAULT_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Default', Spec.SpecFeralBearDruid, DefaultBuild);
+export const MAGTHERIDON_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Magtheridon', Spec.SpecFeralBearDruid, MagtheridonBuild);
+export const KARAZHAN_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Karazhan (Boss Average)', Spec.SpecFeralBearDruid, KarazhanBuild);
+export const MOROGRIM_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Morogrim', Spec.SpecFeralBearDruid, MorogrimBuild);
+
 // Preset options for EP weights
 export const SURVIVAL_EP_PRESET = PresetUtils.makePresetEpWeights(
 	'Survival',
