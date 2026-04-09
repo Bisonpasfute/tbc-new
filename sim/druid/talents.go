@@ -43,7 +43,6 @@ func (druid *Druid) ApplyTalents() {
 	druid.applyPredatoryStrikes()
 	druid.applyPrimalFury()
 	druid.applySavageFury()
-	druid.applyNurturingInstincts()
 	druid.applyHeartOfTheWild()
 	druid.applySurvivalOfTheFittest()
 	druid.applyLeaderOfThePack()
@@ -55,7 +54,6 @@ func (druid *Druid) ApplyTalents() {
 	druid.applyIntensity()
 	druid.applySubtlety()
 	druid.applyOmenOfClarity()
-	druid.applyNaturesSwiftness()
 	druid.applyLivingSpirit()
 	druid.applyNaturalPerfection()
 }
@@ -266,23 +264,6 @@ func (druid *Druid) applyFocusedStarlight() {
 		ClassMask:  DruidSpellStarfire | DruidSpellWrath,
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		FloatValue: 2 * float64(druid.Talents.FocusedStarlight),
-	})
-}
-
-func (druid *Druid) applyNurturingInstincts() {
-	if druid.Talents.NurturingInstinct == 0 {
-		return
-	}
-
-	// Increases healing spell power by up to 50/100% of Agility.
-	druid.AddStatDependency(stats.Agility, stats.HealingPower, 0.5*float64(druid.Talents.NurturingInstinct))
-
-	// Increases healing received while in Cat Form by 10/20%.
-	bonus := 1 + 0.10*float64(druid.Talents.NurturingInstinct)
-	druid.CatFormAura.ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
-		druid.PseudoStats.HealingTakenMultiplier *= bonus
-	}).ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
-		druid.PseudoStats.HealingTakenMultiplier /= bonus
 	})
 }
 
@@ -557,12 +538,7 @@ func (druid *Druid) applyFeralInstincts() {
 	}
 
 	// Increases threat caused in Dire Bear Form by 5/10/15% per rank.
-	bonus := 1 + 0.05*float64(druid.Talents.FeralInstinct)
-	druid.BearFormAura.ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
-		druid.PseudoStats.ThreatMultiplier *= bonus
-	}).ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
-		druid.PseudoStats.ThreatMultiplier /= bonus
-	})
+	druid.BearFormAura.AttachMultiplicativePseudoStatBuff(&druid.PseudoStats.ThreatMultiplier, 1+0.05*float64(druid.Talents.FeralInstinct))
 }
 
 func (druid *Druid) applySubtlety() {
@@ -575,45 +551,6 @@ func (druid *Druid) applySubtlety() {
 		ClassMask:  DruidHealingSpells | DruidDamagingSpells,
 		Kind:       core.SpellMod_ThreatMultiplier_Pct,
 		FloatValue: -0.04 * float64(druid.Talents.Subtlety),
-	})
-}
-
-// SpellFlagInstant is used for off-GCD instant-cast activations (mirrors shaman pattern).
-const DruidSpellFlagInstant = core.SpellFlagAgentReserved3
-
-func (druid *Druid) applyNaturesSwiftness() {
-	if !druid.Talents.NaturesSwiftness {
-		return
-	}
-
-	nsAura := druid.RegisterAura(core.Aura{
-		ActionID: core.ActionID{SpellID: 17116},
-		Label:    "Nature's Swiftness",
-		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
-			if !spell.Matches(DruidSpellWrath) {
-				return
-			}
-			aura.Deactivate(sim)
-		},
-	}).AttachSpellMod(core.SpellModConfig{
-		Kind:       core.SpellMod_CastTime_Pct,
-		FloatValue: -100,
-		ClassMask:  DruidSpellWrath,
-	})
-
-	druid.NaturesSwiftness = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 17116},
-		SpellSchool: core.SpellSchoolPhysical,
-		Flags:       core.SpellFlagAPL | core.SpellFlagNoOnCastComplete | DruidSpellFlagInstant,
-		Cast: core.CastConfig{
-			CD: core.Cooldown{
-				Timer:    druid.NewTimer(),
-				Duration: time.Second * 180,
-			},
-		},
-		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
-			nsAura.Activate(sim)
-		},
 	})
 }
 
