@@ -161,7 +161,15 @@ export class PresetConfigurationPicker extends Component {
 			),
 		});
 
-		const checkActive = () => dataElemRef.value!.classList[this.isBuildActive(build) ? 'add' : 'remove']('active');
+		let rafId = 0;
+		const checkActive = () => {
+			cancelAnimationFrame(rafId);
+			rafId = requestAnimationFrame(() => {
+				const el = dataElemRef.value!;
+				if (!el.isConnected) return;
+				el.classList[this.isBuildActive(build) ? 'add' : 'remove']('active');
+			});
+		};
 
 		checkActive();
 		TypedEvent.onAny([
@@ -170,6 +178,7 @@ export class PresetConfigurationPicker extends Component {
 			this.simUI.sim.raid.changeEmitter,
 			this.simUI.sim.encounter.changeEmitter,
 		]).on(checkActive);
+		groupPicker?.onFilter(checkActive);
 
 		return chip as HTMLElement;
 	}
