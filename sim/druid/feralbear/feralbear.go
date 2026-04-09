@@ -92,10 +92,6 @@ func (bear *GuardianDruid) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
 	partyBuffs.WindfuryTotem = proto.TristateEffect_TristateEffectMissing
 }
 
-func (bear *GuardianDruid) ApplyTalents() {
-	bear.Druid.ApplyFeralTalents()
-}
-
 func (bear *GuardianDruid) Initialize() {
 	bear.Druid.Initialize()
 	bear.RegisterFeralTankSpells()
