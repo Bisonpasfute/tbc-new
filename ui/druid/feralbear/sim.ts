@@ -155,7 +155,10 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 	presets: {
 		epWeights: [Presets.SURVIVAL_EP_PRESET, Presets.BALANCED_EP_PRESET],
 		talents: [Presets.StandardTalents, Presets.DemoRoarTalents],
-		rotations: [Presets.ROTATION_SIMPLE, Presets.ROTATION_DEFAULT],
+		// ROTATION_SIMPLE is kept in presets.ts for reference but omitted here —
+		// the APL rotation is more user-friendly and handles CDs, re-shifting, and
+		// on-use items more easily.
+		rotations: [Presets.ROTATION_DEFAULT],
 		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET],
 		builds: [
 				Presets.DEFAULT_PRESET_BUILD,
