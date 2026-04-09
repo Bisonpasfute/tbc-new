@@ -79,7 +79,7 @@ export const DemoRoarTalents = {
 };
 
 export const DefaultOptions = DruidOptions.create({
-	startingRage: 25,
+	startingRage: 0,
 });
 
 export const DefaultConsumables = ConsumesSpec.create({

@@ -44,6 +44,8 @@ type Druid struct {
 	FaerieFireFeral      *DruidSpell
 	FerociousBite        *DruidSpell
 	ForceOfNature        *DruidSpell
+	Enrage               *DruidSpell
+	EnrageAura           *core.Aura
 	FrenziedRegeneration *DruidSpell
 	Hurricane            *DruidSpell
 	Innervate            *DruidSpell
@@ -117,6 +119,7 @@ const (
 	DruidSpellSwipe
 	DruidSpellThorns
 	DruidSpellWrath
+	DruidSpellEnrage
 	DruidSpellTigersFury
 	DruidSpellCatForm
 	DruidSpellBearForm
@@ -214,6 +217,29 @@ func (druid *Druid) Initialize() {
 
 func (druid *Druid) RegisterBaselineSpells() {
 	druid.registerInnervateCD()
+	druid.registerFormBreakingConsumes()
+}
+
+// registerFormBreakingConsumes patches ApplyEffects on potions, conjured items,
+// and engineering explosives to drop Bear/Cat form when used. These spells all
+// carry SpellFlagNoOnCastComplete, so OnCastComplete aura hooks never fire for
+// them — we must wrap ApplyEffects directly instead.
+func (druid *Druid) registerFormBreakingConsumes() {
+	druid.Env.RegisterPostFinalizeEffect(func() {
+		breakFlags := core.SpellFlagPotion | core.SpellFlagConjured | core.SpellFlagExplosive
+		for _, spell := range druid.Spellbook {
+			if !spell.Flags.Matches(breakFlags) {
+				continue
+			}
+			prev := spell.ApplyEffects
+			spell.ApplyEffects = func(sim *core.Simulation, target *core.Unit, sp *core.Spell) {
+				prev(sim, target, sp)
+				if druid.InForm(Bear) || druid.InForm(Cat) {
+					druid.ClearForm(sim)
+				}
+			}
+		}
+	})
 }
 
 func (druid *Druid) RegisterBalanceSpells() {
@@ -241,6 +267,7 @@ func (druid *Druid) RegisterFeralTankSpells() {
 	druid.registerBarkskin()
 	druid.registerDemoralizingRoarSpell()
 	druid.registerFaerieFireFeralSpell()
+	druid.registerEnrageSpell()
 	druid.registerFrenziedRegenerationSpell()
 	druid.registerLacerateSpell()
 	druid.registerMangleBearSpell()

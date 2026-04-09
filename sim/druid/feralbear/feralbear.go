@@ -109,8 +109,5 @@ func (bear *GuardianDruid) Reset(sim *core.Simulation) {
 }
 
 func (bear *GuardianDruid) OnEncounterStart(sim *core.Simulation) {
-	if bear.InForm(druid.Bear) {
-		bear.ResetRageBar(sim, 25)
-	}
 	bear.Druid.OnEncounterStart(sim)
 }

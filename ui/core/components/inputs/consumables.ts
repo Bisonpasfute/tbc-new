@@ -100,10 +100,16 @@ export const ChippedCrackedPowerCore = {
 	actionId: ActionId.fromItemId(23381),
 	value: 23381,
 };
+export const ConjuredNightmareSeed = {
+	actionId: ActionId.fromItemId(22797),
+	value: 22797,
+	showWhen: <SpecType extends Spec>(player: Player<SpecType>) => player.getPlayerSpec().isTankSpec,
+};
 
 export const CONJURED_CONFIG = [
 	{ config: ConjuredRogueThistleTea, stats: [] },
 	{ config: ConjuredHealthstone, stats: [Stat.StatStamina] },
+	{ config: ConjuredNightmareSeed, stats: [Stat.StatStamina] },
 	{ config: ConjuredDarkRune, stats: [Stat.StatIntellect] },
 	{ config: ConjuredFlameCap, stats: [] },
 	{ config: ConjuredCrackedPowerCore, stats: [Stat.StatSpellDamage] },

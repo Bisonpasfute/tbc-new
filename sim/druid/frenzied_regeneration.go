@@ -7,28 +7,29 @@ import (
 )
 
 func (druid *Druid) registerFrenziedRegenerationSpell() {
-	actionID := core.ActionID{SpellID: 22842}
-	healthMetrics := druid.NewHealthMetrics(actionID)
+	actionID := core.ActionID{SpellID: 26999}
 	rageMetrics := druid.NewRageMetrics(actionID)
 
 	druid.FrenziedRegenerationAura = druid.RegisterAura(core.Aura{
 		Label:    "Frenzied Regeneration",
 		ActionID: actionID,
-		Duration: time.Second * 10,
-		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			druid.PseudoStats.HealingTakenMultiplier *= 1.3
-		},
-		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			druid.PseudoStats.HealingTakenMultiplier /= 1.3
-		},
+		Duration: 10 * time.Second,
+	})
+
+	// Deactivate when leaving Bear Form.
+	druid.BearFormAura.ApplyOnExpire(func(_ *core.Aura, sim *core.Simulation) {
+		if !druid.Env.MeasuringStats {
+			druid.FrenziedRegenerationAura.Deactivate(sim)
+		}
 	})
 
 	druid.FrenziedRegeneration = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:       actionID,
-		SpellSchool:    core.SpellSchoolPhysical,
-		ProcMask:       core.ProcMaskEmpty,
-		ClassSpellMask: DruidSpellFrenziedRegeneration,
-		Flags:          core.SpellFlagAPL,
+		ActionID:         actionID,
+		SpellSchool:      core.SpellSchoolPhysical,
+		ProcMask:         core.ProcMaskEmpty,
+		ClassSpellMask:   DruidSpellFrenziedRegeneration,
+		Flags:            core.SpellFlagAPL,
+		DamageMultiplier: 1,
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -36,29 +37,23 @@ func (druid *Druid) registerFrenziedRegenerationSpell() {
 			},
 			CD: core.Cooldown{
 				Timer:    druid.NewTimer(),
-				Duration: time.Second * 180,
+				Duration: 3 * time.Minute,
 			},
 			IgnoreHaste: true,
 		},
 
-		ThreatMultiplier: 1,
-
-		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
+		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			druid.FrenziedRegenerationAura.Activate(sim)
-
-			// Each second, converts up to 10 rage into 10 HP per rage.
+			// Converts up to 10 rage per second into 25 health per rage, for 10 sec.
 			core.StartPeriodicAction(sim, core.PeriodicActionOptions{
-				Period:   time.Second * 1,
+				Period:   time.Second,
 				NumTicks: 10,
 				Priority: core.ActionPriorityDOT,
 				OnAction: func(sim *core.Simulation) {
-					if !druid.FrenziedRegenerationAura.IsActive() {
-						return
-					}
 					rage := min(druid.CurrentRage(), 10)
 					if rage > 0 {
 						druid.SpendRage(sim, rage, rageMetrics)
-						druid.GainHealth(sim, rage*10, healthMetrics)
+						spell.CalcAndDealPeriodicHealing(sim, &druid.Unit, rage*25, spell.OutcomeHealing)
 					}
 				},
 			})
