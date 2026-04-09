@@ -60,7 +60,7 @@ func (druid *Druid) ApplyTalents() {
 }
 
 // applyThickHide increases armor contribution from items by 4/7/10% (ranks 1/2/3).
-// Applies as a static equip scaling — works correctly in humanoid/cat (10%) and bear (5x * 1.1 = 5.5x total).
+// Applies to both Armor and BonusArmor equip stats
 func (druid *Druid) applyThickHide() {
 	if druid.Talents.ThickHide == 0 {
 		return
@@ -69,6 +69,7 @@ func (druid *Druid) applyThickHide() {
 	bonusByRank := [3]float64{0.04, 0.07, 0.10}
 	bonus := bonusByRank[druid.Talents.ThickHide-1]
 	druid.ApplyEquipScaling(stats.Armor, 1.0+bonus)
+	druid.ApplyEquipScaling(stats.BonusArmor, 1.0+bonus)
 }
 
 func (druid *Druid) applyForceOfNature() {
