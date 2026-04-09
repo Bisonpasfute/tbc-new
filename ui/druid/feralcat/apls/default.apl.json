@@ -4,7 +4,7 @@
         {"action":{"castSpell":{"spellId":{"spellId":768}}},"doAtValue":{"const":{"val":"-10s"}}}
       ],
       "priorityList": [
-        {"action":{"condition":{"not":{"val":{"auraIsActive":{"sourceUnit":{"type":"CurrentTarget"},"auraId":{"spellId":26993},"includeReactionTime":true}}}},"castSpell":{"spellId":{"spellId":27011}}}},
+        {"action":{"condition":{"auraIsInactive":{"sourceUnit":{"type":"CurrentTarget"},"auraId":{"spellId":26993,"rank":5},"includeReactionTime":true}},"castSpell":{"spellId":{"spellId":27011}}}},
         {"action":{"condition":{"and":{"vals":[{"cmp":{"op":"OpGe","lhs":{"currentComboPoints":{}},"rhs":{"const":{"val":"5"}}}},{"not":{"val":{"dotIsActive":{"spellId":{"spellId":27008}}}}},{"cmp":{"op":"OpGe","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"10s"}}}}]}},"castSpell":{"spellId":{"spellId":27008}}}},
         {"action":{"condition":{"and":{"vals":[{"cmp":{"op":"OpGe","lhs":{"currentComboPoints":{}},"rhs":{"const":{"val":"5"}}}},{"or":{"vals":[{"cmp":{"op":"OpLt","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"10s"}}}},{"dotIsActive":{"spellId":{"spellId":27008}}}]}}]}},"castSpell":{"spellId":{"spellId":24248}}}},
         {"action":{"condition":{"not":{"val":{"auraIsActive":{"sourceUnit":{"type":"CurrentTarget"},"auraId":{"spellId":33876},"includeReactionTime":true}}}},"castSpell":{"spellId":{"spellId":33983}}}},
@@ -24,4 +24,4 @@
       "valueVariables": [
         {"name":"Bloodlust time","value":{"const":{"val":"5s"}}}
       ]
-    }
+}
