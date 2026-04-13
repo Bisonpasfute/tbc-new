@@ -242,6 +242,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1862.40842
+  tps: 1628.95862
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 1818.01969
@@ -515,6 +522,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-Figurine-NightseyePanther-24128"
+ value: {
+  dps: 1818.01969
+  tps: 1587.17792
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 1818.01969
@@ -631,6 +645,13 @@ dps_results: {
  value: {
   dps: 1707.7479
   tps: 1488.2447
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-JomGabbar-23570"
+ value: {
+  dps: 1818.01969
+  tps: 1587.17792
  }
 }
 dps_results: {
@@ -923,13 +944,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestDestruction-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1862.40842
-  tps: 1628.95862
- }
-}
-dps_results: {
- key: "TestDestruction-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1862.40842
   tps: 1628.95862
