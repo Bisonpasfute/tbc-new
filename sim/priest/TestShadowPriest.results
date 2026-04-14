@@ -41,7 +41,7 @@ character_stats_results: {
   final_stats: 33.75
   final_stats: 33.75
   final_stats: 33.75
-  final_stats: 93.75
+  final_stats: 70
   final_stats: 0
   final_stats: 0
   final_stats: 9.18293
@@ -50,6 +50,20 @@ character_stats_results: {
   final_stats: 0
   final_stats: 0
   final_stats: 0
+ }
+}
+dps_results: {
+ key: "TestShadowPriest-AllItems--2681"
+ value: {
+  dps: 1760.12319
+  tps: 1291.08074
+ }
+}
+dps_results: {
+ key: "TestShadowPriest-AllItems--2682"
+ value: {
+  dps: 1760.12319
+  tps: 1291.08074
  }
 }
 dps_results: {
@@ -232,13 +246,6 @@ dps_results: {
  value: {
   dps: 1704.37623
   tps: 1251.04693
- }
-}
-dps_results: {
- key: "TestShadowPriest-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1760.12319
-  tps: 1291.08074
  }
 }
 dps_results: {
@@ -916,6 +923,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestShadowPriest-AllItems-StabilitzedEterniumScope-2724"
+ value: {
+  dps: 1760.12319
+  tps: 1291.08074
+ }
+}
+dps_results: {
+ key: "TestShadowPriest-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1760.12319
   tps: 1291.08074

@@ -41,7 +41,7 @@ character_stats_results: {
   final_stats: 33.75
   final_stats: 33.75
   final_stats: 43.75
-  final_stats: 103.75
+  final_stats: 80
   final_stats: 4
   final_stats: 6.89756
   final_stats: 4
@@ -104,6 +104,24 @@ stat_weights_results: {
   weights: 0
   weights: 0
   weights: 0
+ }
+}
+dps_results: {
+ key: "TestFeralBear-AllItems--2681"
+ value: {
+  dps: 445.39826
+  tps: 3701.59857
+  dtps: 1095.80799
+  hps: 72.24795
+ }
+}
+dps_results: {
+ key: "TestFeralBear-AllItems--2682"
+ value: {
+  dps: 445.39826
+  tps: 3701.59857
+  dtps: 1095.80799
+  hps: 72.24795
  }
 }
 dps_results: {
@@ -345,15 +363,6 @@ dps_results: {
  value: {
   dps: 447.17765
   tps: 3716.20905
-  dtps: 1095.80799
-  hps: 72.24795
- }
-}
-dps_results: {
- key: "TestFeralBear-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 445.39826
-  tps: 3701.59857
   dtps: 1095.80799
   hps: 72.24795
  }
@@ -1413,6 +1422,15 @@ dps_results: {
 }
 dps_results: {
  key: "TestFeralBear-AllItems-StabilitzedEterniumScope-2724"
+ value: {
+  dps: 445.39826
+  tps: 3701.59857
+  dtps: 1095.80799
+  hps: 72.24795
+ }
+}
+dps_results: {
+ key: "TestFeralBear-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 445.39826
   tps: 3701.59857

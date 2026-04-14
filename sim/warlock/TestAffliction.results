@@ -41,7 +41,7 @@ character_stats_results: {
   final_stats: 33.75
   final_stats: 33.75
   final_stats: 33.75
-  final_stats: 93.75
+  final_stats: 70
   final_stats: 0
   final_stats: 0
   final_stats: 16.07927
@@ -50,6 +50,20 @@ character_stats_results: {
   final_stats: 0
   final_stats: 0
   final_stats: 0
+ }
+}
+dps_results: {
+ key: "TestAffliction-AllItems--2681"
+ value: {
+  dps: 1946.53313
+  tps: 1214.25941
+ }
+}
+dps_results: {
+ key: "TestAffliction-AllItems--2682"
+ value: {
+  dps: 1946.53313
+  tps: 1214.25941
  }
 }
 dps_results: {
@@ -239,13 +253,6 @@ dps_results: {
  value: {
   dps: 1895.97463
   tps: 1174.27872
- }
-}
-dps_results: {
- key: "TestAffliction-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1946.53313
-  tps: 1214.25941
  }
 }
 dps_results: {
@@ -944,6 +951,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestAffliction-AllItems-StabilitzedEterniumScope-2724"
+ value: {
+  dps: 1946.53313
+  tps: 1214.25941
+ }
+}
+dps_results: {
+ key: "TestAffliction-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1946.53313
   tps: 1214.25941

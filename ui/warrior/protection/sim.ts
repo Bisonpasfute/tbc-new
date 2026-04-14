@@ -169,6 +169,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionWarrior, {
 			Presets.KARAZHAN_PRESET_BUILD,
 			Presets.MAGTHERIDON_PRESET_BUILD,
 			Presets.MOROGRIM_PRESET_BUILD,
+			Presets.HYDROSS_FROST_PRESET_BUILD,
+			Presets.HYDROSS_NATURE_PRESET_BUILD,
 			Presets.P1_PRESET_BUILD,
 		],
 	},

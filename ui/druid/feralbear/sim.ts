@@ -167,6 +167,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 				Presets.KARAZHAN_PRESET_BUILD,
 				Presets.MAGTHERIDON_PRESET_BUILD,
 				Presets.MOROGRIM_PRESET_BUILD,
+				Presets.HYDROSS_FROST_PRESET_BUILD,
+				Presets.HYDROSS_NATURE_PRESET_BUILD,
 			],
 	},
 

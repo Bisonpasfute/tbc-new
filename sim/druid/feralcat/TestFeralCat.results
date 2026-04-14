@@ -41,7 +41,7 @@ character_stats_results: {
   final_stats: 33.75
   final_stats: 33.75
   final_stats: 43.75
-  final_stats: 93.75
+  final_stats: 70
   final_stats: 4
   final_stats: 7.27805
   final_stats: 4
@@ -104,6 +104,22 @@ stat_weights_results: {
   weights: 0
   weights: 0
   weights: 0
+ }
+}
+dps_results: {
+ key: "TestFeralCat-AllItems--2681"
+ value: {
+  dps: 703.38848
+  tps: 499.40582
+  hps: 68.65497
+ }
+}
+dps_results: {
+ key: "TestFeralCat-AllItems--2682"
+ value: {
+  dps: 703.38848
+  tps: 499.40582
+  hps: 68.65497
  }
 }
 dps_results: {
@@ -319,14 +335,6 @@ dps_results: {
  value: {
   dps: 705.63696
   tps: 501.00224
-  hps: 68.65497
- }
-}
-dps_results: {
- key: "TestFeralCat-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 703.38848
-  tps: 499.40582
   hps: 68.65497
  }
 }
@@ -1276,6 +1284,14 @@ dps_results: {
 }
 dps_results: {
  key: "TestFeralCat-AllItems-StabilitzedEterniumScope-2724"
+ value: {
+  dps: 703.38848
+  tps: 499.40582
+  hps: 68.65497
+ }
+}
+dps_results: {
+ key: "TestFeralCat-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 703.38848
   tps: 499.40582
