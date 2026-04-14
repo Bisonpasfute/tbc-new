@@ -125,18 +125,20 @@ func (druid *Druid) RegisterCatFormAura() {
 				druid.AutoAttacks.EnableAutoSwing(sim)
 				druid.UpdateManaRegenRates()
 
-				// On entering Cat Form, energy resets to 0 (game behavior).
-				if cur := druid.CurrentEnergy(); cur > 0 {
-					druid.SpendEnergy(sim, cur, energyMetrics)
-				}
-				// Wolfshead Helm: +20 energy on shift into Cat.
-				energyGain := core.TernaryFloat64(wolfsheadEquipped, 20.0, 0.0)
-				// Furor: 20% chance per rank (rank 5 = 100%) to gain 40 energy on shift.
-				if furorProcChance == 1 || (furorProcChance > 0 && sim.RandomFloat("Furor") < furorProcChance) {
-					energyGain += 40.0
-				}
-				if energyGain > 0 {
-					druid.AddEnergy(sim, energyGain, energyMetrics)
+				if sim.CurrentTime > 0 {
+					if cur := druid.CurrentEnergy(); cur > 0 {
+						//Resets energy to 0 when entering cat form
+						druid.SpendEnergy(sim, cur, energyMetrics)
+					}
+					// Wolfshead Helm: +20 energy on shift into Cat.
+					energyGain := core.TernaryFloat64(wolfsheadEquipped, 20.0, 0.0)
+					// Furor: 20% chance per rank (rank 5 = 100%) to gain 40 energy on shift.
+					if furorProcChance == 1 || (furorProcChance > 0 && sim.RandomFloat("Furor") < furorProcChance) {
+						energyGain += 40.0
+					}
+					if energyGain > 0 {
+						druid.AddEnergy(sim, energyGain, energyMetrics)
+					}
 				}
 			}
 		},
