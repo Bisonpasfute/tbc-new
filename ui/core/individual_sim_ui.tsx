@@ -608,7 +608,9 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 			this.tankRefStat = this.individualConfig.tankRefStat;
 
 			if (this.isWithinRaidSim) {
+				this.sim.raid.setTargetDummies(eventID, 0);
 			} else {
+				this.sim.raid.setTargetDummies(eventID, healingSpec ? 9 : 0);
 				try {
 					if (!this.individualConfig.defaults.encounter) {
 						throw new Error('No default encounter specified');
@@ -672,6 +674,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				partyBuffs: this.player.getParty()?.getBuffs() || PartyBuffs.create(),
 				raidBuffs: this.sim.raid.getBuffs(),
 				debuffs: this.sim.raid.getDebuffs(),
+				targetDummies: this.sim.raid.getTargetDummies(),
 			});
 		}
 		if (exportCategory(SimSettingCategories.UISettings)) {
@@ -718,6 +721,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				if (party) {
 					party.setBuffs(eventID, settings.partyBuffs || PartyBuffs.create());
 				}
+				this.sim.raid.setTargetDummies(eventID, settings.targetDummies);
 			}
 			if (loadCategory(SimSettingCategories.Encounter)) {
 				this.sim.encounter.fromProto(eventID, settings.encounter || EncounterProto.create());

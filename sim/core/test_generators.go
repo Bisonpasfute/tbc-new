@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"math"
 	"slices"
 	"strings"
 
@@ -209,6 +210,9 @@ func (combos *SettingsCombos) GetTest(testIdx int) (string, *proto.ComputeStatsR
 			buffsCombo.Debuffs),
 		Encounter:  encounterCombo.Encounter,
 		SimOptions: combos.SimOptions,
+	}
+	if combos.IsHealer {
+		rsr.Raid.TargetDummies = 1
 	}
 	if combos.IsTank {
 		rsr.Raid.Tanks = append(rsr.Raid.Tanks, &proto.UnitReference{Type: proto.UnitReference_Player, Index: 0})
@@ -438,6 +442,9 @@ func (generator *ItemsTestGenerator) GetTest(testIdx int) (string, *proto.Comput
 		Encounter:  generator.Encounter,
 		SimOptions: generator.SimOptions,
 	}
+	if generator.IsHealer {
+		rsr.Raid.TargetDummies = 1
+	}
 	if generator.IsTank {
 		rsr.Raid.Tanks = append(rsr.Raid.Tanks, &proto.UnitReference{Type: proto.UnitReference_Player, Index: 0})
 	}
@@ -499,8 +506,9 @@ type CharacterSuiteConfig struct {
 	Debuffs         *proto.Debuffs
 	Cooldowns       *proto.Cooldowns
 
-	Tanks        []*proto.UnitReference
-	HealingModel *proto.HealingModel
+	TargetDummies int32
+	Tanks         []*proto.UnitReference
+	HealingModel  *proto.HealingModel
 
 	IsHealer        bool
 	IsTank          bool
@@ -574,9 +582,13 @@ func FullCharacterTestSuiteGenerator(configs []CharacterSuiteConfig) []TestGener
 				defaultRaid.Tanks = append(defaultRaid.Tanks, &proto.UnitReference{Type: proto.UnitReference_Player, Index: 0})
 			}
 		}
-		defaultRaid.NumActiveParties = 1
+		defaultRaid.TargetDummies = TernaryInt32(config.TargetDummies != 0, config.TargetDummies, 0)
+		defaultRaid.NumActiveParties = min(5, int32(math.Round(float64(defaultRaid.TargetDummies)/5)))
 		for range defaultRaid.NumActiveParties - 1 {
 			defaultRaid.Parties = append(defaultRaid.Parties, &proto.Party{})
+		}
+		if config.IsHealer && defaultRaid.TargetDummies == 0 {
+			defaultRaid.TargetDummies = 1
 		}
 
 		generator := &CombinedTestGenerator{}

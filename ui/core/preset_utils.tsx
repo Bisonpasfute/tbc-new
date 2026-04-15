@@ -77,6 +77,7 @@ export interface PresetEncounter extends PresetBase {
 	encounter?: EncounterProto;
 	healingModel?: HealingModel;
 	tanks?: UnitReference[];
+	targetDummies?: number;
 }
 export interface PresetEncounterOptions extends PresetOptionsBase {}
 
@@ -220,11 +221,13 @@ export const makePresetEncounter = (
 	encounter?: EncounterProto,
 	healingModel?: HealingModel,
 	tanks?: UnitReference[],
+	targetDummies?: number,
 	options?: PresetEncounterOptions,
 ): PresetEncounter => {
 	return {
 		name,
 		encounter,
+		targetDummies,
 		tanks,
 		healingModel,
 		...options,
@@ -338,6 +341,7 @@ export const makePresetBuildFromJSON = (
 			simSettings.encounter,
 			simSettings.player?.healingModel,
 			simSettings.tanks,
+			simSettings.targetDummies,
 			options,
 		);
 	}

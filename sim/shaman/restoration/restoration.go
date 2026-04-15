@@ -49,7 +49,13 @@ func (resto *RestorationShaman) Reset(sim *core.Simulation) {
 	resto.Shaman.Reset(sim)
 }
 func (resto *RestorationShaman) GetMainTarget() *core.Unit {
-	return &resto.Unit
+	// TODO: make this just grab first player that isn't self.
+	target := resto.Env.Raid.GetFirstTargetDummy()
+	if target == nil {
+		return &resto.Unit
+	} else {
+		return &target.Unit
+	}
 }
 
 func (resto *RestorationShaman) Initialize() {
