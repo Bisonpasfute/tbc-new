@@ -224,9 +224,7 @@ message APLValue {
 
         // Class or Spec-specific values
         APLValueTotemRemainingTime totem_remaining_time = 49;
-        APLValueCatExcessEnergy cat_excess_energy = 52;
-        APLValueCatNewSavageRoarDuration cat_new_savage_roar_duration = 61;
-		APLValueWarlockAssignedCurseIsActive warlock_assigned_curse_is_active = 59;
+APLValueWarlockAssignedCurseIsActive warlock_assigned_curse_is_active = 59;
 		APLValueWarlockIsAssignedCurse warlock_is_assigned_curse = 129;
         APLValueCurrentEclipsePhase druid_current_eclipse_phase = 70;
 		APLValueProtectionPaladinDamageTakenLastGlobal protection_paladin_damage_taken_last_global = 100;
@@ -760,8 +758,6 @@ message APLValueTotemRemainingTime {
     ShamanTotems.TotemType totem_type = 1;
 	bool include_reaction_time = 2;
 }
-message APLValueCatExcessEnergy {}
-message APLValueCatNewSavageRoarDuration {}
 message APLValueWarlockAssignedCurseIsActive {
 	UnitReference target_unit = 1;
 }

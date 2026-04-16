@@ -5405,32 +5405,6 @@
 									"additionalProperties": false,
 									"required": ["label", "tooltip"]
 								},
-								"cat_excess_energy": {
-									"type": "object",
-									"properties": {
-										"label": {
-											"type": "string"
-										},
-										"tooltip": {
-											"type": "string"
-										}
-									},
-									"additionalProperties": false,
-									"required": ["label", "tooltip"]
-								},
-								"cat_new_savage_roar_duration": {
-									"type": "object",
-									"properties": {
-										"label": {
-											"type": "string"
-										},
-										"tooltip": {
-											"type": "string"
-										}
-									},
-									"additionalProperties": false,
-									"required": ["label", "tooltip"]
-								},
 								"warlock_assigned_curse_is_active": {
 									"type": "object",
 									"properties": {
@@ -5676,8 +5650,6 @@
 								"sequence_is_ready",
 								"sequence_time_to_ready",
 								"totem_remaining_time",
-								"cat_excess_energy",
-								"cat_new_savage_roar_duration",
 								"warlock_assigned_curse_is_active",
 								"warlock_is_assigned_curse",
 								"protection_paladin_damage_taken_last_global",

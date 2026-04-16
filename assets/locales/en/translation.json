@@ -1571,14 +1571,6 @@
 					"label": "Totem Remaining Time",
 					"tooltip": "Returns the amount of time remaining until the totem will expire."
 				},
-				"cat_excess_energy": {
-					"label": "Excess Energy",
-					"tooltip": "Returns the amount of excess energy available, after subtracting energy that will be needed to maintain DoTs."
-				},
-				"cat_new_savage_roar_duration": {
-					"label": "New Savage Roar Duration",
-					"tooltip": "Returns duration of savage roar based on current combo points"
-				},
 				"warlock_assigned_curse_is_active": {
 					"label": "Assigned Curse Is Active",
 					"tooltip": "Returns true is assigned curse is active on target"
