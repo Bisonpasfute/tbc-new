@@ -72,8 +72,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 		statCaps: (() => {
 			const hitCap = new Stats().withPseudoStat(PseudoStat.PseudoStatMeleeHitPercent, 9);
 			const expCap = new Stats().withStat(Stat.StatExpertiseRating, 6.5 * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
-			// 5.6% total needed; 3/3 Survival of the Fittest provides 3%, so only 2.6% needed from gear.
-			const critImmunityCap = new Stats().withPseudoStat(PseudoStat.PseudoStatReducedCritTakenPercent, 2.6);
+			const critImmunityCap = new Stats().withPseudoStat(PseudoStat.PseudoStatReducedCritTakenPercent, 5.6);
 			return hitCap.add(expCap).add(critImmunityCap);
 		})(),
 		other: Presets.OtherDefaults,
@@ -161,7 +160,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 		// the APL rotation is more user-friendly and handles CDs, re-shifting, and
 		// on-use items more easily.
 		rotations: [Presets.ROTATION_DEFAULT],
-		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET],
+		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET, Presets.P2_HYDROSS_PRESET],
 		builds: [
 				Presets.DEFAULT_PRESET_BUILD,
 				Presets.KARAZHAN_PRESET_BUILD,

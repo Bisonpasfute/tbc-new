@@ -6,10 +6,12 @@ import { SavedTalents } from '../../core/proto/ui.js';
 import { Stats } from '../../core/proto_utils/stats';
 import PreraidGear from './gear_sets/preraid.gear.json';
 import P1Gear from './gear_sets/p1.gear.json';
+import P2HydrossGear from './gear_sets/p2_hydross.gear.json';
 
 // Preset options for this spec.
-export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-Raid', PreraidGear);
-export const P1_PRESET = PresetUtils.makePresetGear('P1', P1Gear);
+export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-Raid', PreraidGear, { group: 'Default' });
+export const P1_PRESET = PresetUtils.makePresetGear('P1', P1Gear, { group: 'Default' });
+export const P2_HYDROSS_PRESET = PresetUtils.makePresetGear('P2 - Hydross (Frost Resist)', P2HydrossGear, { group: 'Encounter specific' });
 
 export const DefaultSimpleRotation = DruidRotation.create({
 	maintainFaerieFire: true,
