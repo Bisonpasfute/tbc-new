@@ -53,20 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems--2681"
- value: {
-  dps: 1851.02174
-  tps: 1765.42021
- }
-}
-dps_results: {
- key: "TestEnhancement-AllItems--2682"
- value: {
-  dps: 1851.02174
-  tps: 1765.42021
- }
-}
-dps_results: {
  key: "TestEnhancement-AllItems-AbacusofViolentOdds-28288"
  value: {
   dps: 1825.32351
@@ -253,6 +239,13 @@ dps_results: {
  value: {
   dps: 1865.18739
   tps: 1779.09918
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1851.02174
+  tps: 1765.42021
  }
 }
 dps_results: {
@@ -704,6 +697,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-IceGuard-2682"
+ value: {
+  dps: 1851.02174
+  tps: 1765.42021
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-IconofUnyieldingCourage-28121"
  value: {
   dps: 1828.95987
@@ -928,6 +928,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-SavageGuard-2681"
+ value: {
+  dps: 1851.02174
+  tps: 1765.42021
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-ScarabofDisplacement-30629"
  value: {
   dps: 1786.40119
@@ -1049,13 +1056,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestEnhancement-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1851.02174
-  tps: 1765.42021
- }
-}
-dps_results: {
- key: "TestEnhancement-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1851.02174
   tps: 1765.42021

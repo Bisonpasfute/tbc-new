@@ -23,6 +23,8 @@ func TestFeralBear(t *testing.T) {
 			GearSet: core.GetGearSet("../../../ui/druid/feralbear/gear_sets", "p1"),
 			OtherGearSets: []core.GearSetCombo{
 				core.GetGearSet("../../../ui/druid/feralbear/gear_sets", "preraid"),
+				core.GetGearSet("../../../ui/druid/feralbear/gear_sets", "p2_hydross_frost"),
+				core.GetGearSet("../../../ui/druid/feralbear/gear_sets", "p2_hydross_nature"),
 			},
 
 			Talents: DefaultTalents,

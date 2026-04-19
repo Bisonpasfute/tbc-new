@@ -53,20 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestBalance-AllItems--2681"
- value: {
-  dps: 1412.39069
-  tps: 1339.58641
- }
-}
-dps_results: {
- key: "TestBalance-AllItems--2682"
- value: {
-  dps: 1412.39069
-  tps: 1339.58641
- }
-}
-dps_results: {
  key: "TestBalance-AllItems-AdamantiteScope-2722"
  value: {
   dps: 1412.39069
@@ -106,6 +92,13 @@ dps_results: {
  value: {
   dps: 1299.39045
   tps: 1225.01389
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1412.39069
+  tps: 1339.58641
  }
 }
 dps_results: {
@@ -281,6 +274,13 @@ dps_results: {
  value: {
   dps: 1386.60943
   tps: 1313.94968
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-IceGuard-2682"
+ value: {
+  dps: 1412.39069
+  tps: 1339.58641
  }
 }
 dps_results: {
@@ -480,6 +480,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-SavageGuard-2681"
+ value: {
+  dps: 1412.39069
+  tps: 1339.58641
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-SextantofUnstableCurrents-30626"
  value: {
   dps: 1431.74323
@@ -524,13 +531,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestBalance-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1412.39069
-  tps: 1339.58641
- }
-}
-dps_results: {
- key: "TestBalance-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1412.39069
   tps: 1339.58641

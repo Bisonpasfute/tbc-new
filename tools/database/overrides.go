@@ -425,9 +425,4 @@ var EnchantAllowList = []int32{
 
 // Note: EffectId is required for all enchants, because they are
 // used by various importers/exporters
-var EnchantOverrides = []*proto.UIEnchant{
-	// Savage Guard (+10 Nature Resistance) - spell 28162
-	{EffectId: 2681, Stats: stats.Stats{stats.NatureResistance: 10}.ToProtoArray()},
-	// Ice Guard (+10 Frost Resistance) - spell 28164
-	{EffectId: 2682, Stats: stats.Stats{stats.FrostResistance: 10}.ToProtoArray()},
-}
+var EnchantOverrides = []*proto.UIEnchant{}

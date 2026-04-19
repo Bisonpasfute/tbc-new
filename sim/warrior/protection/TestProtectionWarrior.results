@@ -53,22 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems--2681"
- value: {
-  dps: 763.03057
-  tps: 1410.77541
-  dtps: 1435.51508
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems--2682"
- value: {
-  dps: 763.03057
-  tps: 1410.77541
-  dtps: 1435.51508
- }
-}
-dps_results: {
  key: "TestProtectionWarrior-AllItems-AbacusofViolentOdds-28288"
  value: {
   dps: 752.18343
@@ -282,6 +266,14 @@ dps_results: {
   dps: 759.23976
   tps: 1398.21471
   dtps: 1428.01358
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 763.03057
+  tps: 1410.77541
+  dtps: 1435.51508
  }
 }
 dps_results: {
@@ -845,6 +837,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-IceGuard-2682"
+ value: {
+  dps: 759.74225
+  tps: 1405.74236
+  dtps: 1451.84785
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-IconoftheSilverCrescent-29370"
  value: {
   dps: 736.71754
@@ -1125,6 +1125,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-SavageGuard-2681"
+ value: {
+  dps: 759.74225
+  tps: 1405.74236
+  dtps: 1451.84785
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-ScarabofDisplacement-30629"
  value: {
   dps: 733.46603
@@ -1255,14 +1263,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 763.03057
-  tps: 1410.77541
-  dtps: 1435.51508
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 763.03057
   tps: 1410.77541

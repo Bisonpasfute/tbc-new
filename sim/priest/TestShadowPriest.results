@@ -53,20 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestShadowPriest-AllItems--2681"
- value: {
-  dps: 1760.12319
-  tps: 1291.08074
- }
-}
-dps_results: {
- key: "TestShadowPriest-AllItems--2682"
- value: {
-  dps: 1760.12319
-  tps: 1291.08074
- }
-}
-dps_results: {
  key: "TestShadowPriest-AllItems-AbacusofViolentOdds-28288"
  value: {
   dps: 1704.37623
@@ -260,6 +246,13 @@ dps_results: {
  value: {
   dps: 1704.37623
   tps: 1251.04693
+ }
+}
+dps_results: {
+ key: "TestShadowPriest-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1760.12319
+  tps: 1291.08074
  }
 }
 dps_results: {
@@ -641,6 +634,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestShadowPriest-AllItems-IceGuard-2682"
+ value: {
+  dps: 1745.27621
+  tps: 1280.48085
+ }
+}
+dps_results: {
  key: "TestShadowPriest-AllItems-IconofUnyieldingCourage-28121"
  value: {
   dps: 1704.37623
@@ -837,6 +837,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestShadowPriest-AllItems-SavageGuard-2681"
+ value: {
+  dps: 1745.27621
+  tps: 1280.48085
+ }
+}
+dps_results: {
  key: "TestShadowPriest-AllItems-ScarabofDisplacement-30629"
  value: {
   dps: 1704.37623
@@ -937,13 +944,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestShadowPriest-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1760.12319
-  tps: 1291.08074
- }
-}
-dps_results: {
- key: "TestShadowPriest-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1760.12319
   tps: 1291.08074

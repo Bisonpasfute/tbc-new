@@ -53,20 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestDestruction-AllItems--2681"
- value: {
-  dps: 1862.40842
-  tps: 1628.95862
- }
-}
-dps_results: {
- key: "TestDestruction-AllItems--2682"
- value: {
-  dps: 1862.40842
-  tps: 1628.95862
- }
-}
-dps_results: {
  key: "TestDestruction-AllItems-AbacusofViolentOdds-28288"
  value: {
   dps: 1818.01969
@@ -253,6 +239,13 @@ dps_results: {
  value: {
   dps: 1818.01969
   tps: 1587.17792
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1862.40842
+  tps: 1628.95862
  }
 }
 dps_results: {
@@ -641,6 +634,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-IceGuard-2682"
+ value: {
+  dps: 1822.56857
+  tps: 1592.59981
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-IconofUnyieldingCourage-28121"
  value: {
   dps: 1818.01969
@@ -851,6 +851,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-SavageGuard-2681"
+ value: {
+  dps: 1822.56857
+  tps: 1592.59981
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-ScarabofDisplacement-30629"
  value: {
   dps: 1818.01969
@@ -951,13 +958,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestDestruction-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1862.40842
-  tps: 1628.95862
- }
-}
-dps_results: {
- key: "TestDestruction-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1862.40842
   tps: 1628.95862

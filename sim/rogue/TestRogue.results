@@ -53,20 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestRogue-AllItems--2681"
- value: {
-  dps: 1829.15523
-  tps: 1298.70021
- }
-}
-dps_results: {
- key: "TestRogue-AllItems--2682"
- value: {
-  dps: 1829.15523
-  tps: 1298.70021
- }
-}
-dps_results: {
  key: "TestRogue-AllItems-AdamantineFigurine-27891"
  value: {
   dps: 1813.24487
@@ -246,6 +232,13 @@ dps_results: {
  value: {
   dps: 1878.68245
   tps: 1333.86454
+ }
+}
+dps_results: {
+ key: "TestRogue-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 1864.704
+  tps: 1323.93984
  }
 }
 dps_results: {
@@ -676,6 +669,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRogue-AllItems-IceGuard-2682"
+ value: {
+  dps: 1852.09989
+  tps: 1314.99092
+ }
+}
+dps_results: {
  key: "TestRogue-AllItems-IconofUnyieldingCourage-28121"
  value: {
   dps: 1829.74439
@@ -893,6 +893,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRogue-AllItems-SavageGuard-2681"
+ value: {
+  dps: 1852.09989
+  tps: 1314.99092
+ }
+}
+dps_results: {
  key: "TestRogue-AllItems-ScarabofDisplacement-30629"
  value: {
   dps: 1797.21467
@@ -1000,13 +1007,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRogue-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 1864.704
-  tps: 1323.93984
- }
-}
-dps_results: {
- key: "TestRogue-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1864.704
   tps: 1323.93984

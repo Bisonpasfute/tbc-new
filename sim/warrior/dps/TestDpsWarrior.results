@@ -53,22 +53,6 @@ character_stats_results: {
  }
 }
 dps_results: {
- key: "TestDpsWarrior-AllItems--2681"
- value: {
-  dps: 1953.82346
-  tps: 1476.33444
-  dtps: 7.2778
- }
-}
-dps_results: {
- key: "TestDpsWarrior-AllItems--2682"
- value: {
-  dps: 1953.82346
-  tps: 1476.33444
-  dtps: 7.2778
- }
-}
-dps_results: {
  key: "TestDpsWarrior-AllItems-AbacusofViolentOdds-28288"
  value: {
   dps: 1995.80938
@@ -273,6 +257,14 @@ dps_results: {
  value: {
   dps: 2024.47018
   tps: 1530.81858
+  dtps: 7.2778
+ }
+}
+dps_results: {
+ key: "TestDpsWarrior-AllItems-Biznicks247x128Accurascope-2523"
+ value: {
+  dps: 2005.73982
+  tps: 1516.10815
   dtps: 7.2778
  }
 }
@@ -749,6 +741,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDpsWarrior-AllItems-IceGuard-2682"
+ value: {
+  dps: 1993.89099
+  tps: 1509.67921
+  dtps: 7.2778
+ }
+}
+dps_results: {
  key: "TestDpsWarrior-AllItems-IconofUnyieldingCourage-28121"
  value: {
   dps: 1976.46258
@@ -1005,6 +1005,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDpsWarrior-AllItems-SavageGuard-2681"
+ value: {
+  dps: 1993.89099
+  tps: 1509.67921
+  dtps: 7.2778
+ }
+}
+dps_results: {
  key: "TestDpsWarrior-AllItems-ScarabofDisplacement-30629"
  value: {
   dps: 1955.47583
@@ -1126,14 +1134,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestDpsWarrior-AllItems-StabilitzedEterniumScope-2724"
- value: {
-  dps: 2005.73982
-  tps: 1516.10815
-  dtps: 7.2778
- }
-}
-dps_results: {
- key: "TestDpsWarrior-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 2005.73982
   tps: 1516.10815
