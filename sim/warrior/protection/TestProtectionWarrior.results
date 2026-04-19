@@ -1384,9 +1384,9 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-TheTwinBladesofAzzinoth"
  value: {
-  dps: 963.03602
-  tps: 1693.69823
-  dtps: 2276.16099
+  dps: 944.11844
+  tps: 1664.56739
+  dtps: 2270.27954
  }
 }
 dps_results: {
