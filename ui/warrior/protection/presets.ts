@@ -126,8 +126,12 @@ export const P1_PRESET_BUILD = PresetUtils.makePresetBuild('P1', {
 	rotation: ROTATION_DEFAULT,
 });
 
-export const DEFAULT_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Default', Spec.SpecProtectionWarrior, DefaultBuild);
-export const MAGTHERIDON_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Magtheridon', Spec.SpecProtectionWarrior, MagtheridonBuild);
-export const KARAZHAN_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Karazhan (Boss Average)', Spec.SpecProtectionWarrior, KarazhanBuild);
-export const MOROGRIM_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Morogrim', Spec.SpecProtectionWarrior, MorogrimBuild);
-export const HYDROSS_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Hydross', Spec.SpecProtectionWarrior, HydrossBuild);
+export const DEFAULT_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Default', Spec.SpecProtectionWarrior, DefaultBuild, { group: 'Encounters' });
+export const MAGTHERIDON_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Magtheridon', Spec.SpecProtectionWarrior, MagtheridonBuild, {
+	group: 'Encounters',
+});
+export const KARAZHAN_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Karazhan (Boss Average)', Spec.SpecProtectionWarrior, KarazhanBuild, {
+	group: 'Encounters',
+});
+export const MOROGRIM_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Morogrim', Spec.SpecProtectionWarrior, MorogrimBuild, { group: 'Encounters' });
+export const HYDROSS_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Hydross', Spec.SpecProtectionWarrior, HydrossBuild, { group: 'Encounters' });
