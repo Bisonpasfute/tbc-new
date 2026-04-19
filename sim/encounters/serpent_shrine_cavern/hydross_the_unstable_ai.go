@@ -89,9 +89,15 @@ type HydrossAI struct {
 	phaseShiftInterval time.Duration
 	inFrostPhase       bool
 
-	markDamageMod   *core.SpellMod
+	markDamageMod *core.SpellMod
+
+	frostMarkAuras  core.AuraArray
 	frostMarkSpell  *core.Spell
-	natureMarkSpell *core.Spell
+	frostMeleeSpell *core.Spell
+
+	natureMarkAuras  core.AuraArray
+	natureMarkSpell  *core.Spell
+	natureMeleeSpell *core.Spell
 
 	nextPhaseShift *core.PendingAction
 }
@@ -103,6 +109,14 @@ func (ai *HydrossAI) Initialize(target *core.Target, config *proto.Target) {
 	ai.MainTank = ai.BossUnit.CurrentTarget
 	ai.SecondTank = ai.BossUnit.SecondaryTarget
 
+	ai.frostMeleeSpell = ai.BossUnit.GetOrRegisterSpell(*ai.BossUnit.AutoAttacks.MHConfig())
+
+	natureMeleeSpellConfig := *ai.BossUnit.AutoAttacks.MHConfig()
+	natureMeleeSpellConfig.ActionID.Tag = hydrossTheUnstableID + 1
+	natureMeleeSpellConfig.SpellSchool = core.SpellSchoolNature
+
+	ai.natureMeleeSpell = ai.BossUnit.GetOrRegisterSpell(natureMeleeSpellConfig)
+
 	phaseShiftSeconds := hydrossDefaultPhaseShift
 	if len(config.TargetInputs) > 0 {
 		phaseShiftSeconds = config.TargetInputs[0].NumberValue
@@ -113,8 +127,6 @@ func (ai *HydrossAI) Initialize(target *core.Target, config *proto.Target) {
 }
 
 func (ai *HydrossAI) registerMarks() {
-	maxStacks := int32(len(hydrossMarkDamageBonuses))
-
 	// Build a stacking mark aura on a unit. OnStacksChange multiplies/divides
 	// boss damage dealt by the appropriate multiplier for the current stack count.
 	registerMarkAura := func(unit *core.Unit, spellID int32, spellSchool core.SpellSchool, label string) *core.Aura {
@@ -126,8 +138,8 @@ func (ai *HydrossAI) registerMarks() {
 		return unit.GetOrRegisterAura(core.Aura{
 			Label:     label,
 			ActionID:  core.ActionID{SpellID: spellID},
-			Duration:  core.NeverExpires,
-			MaxStacks: maxStacks,
+			Duration:  time.Second * 30,
+			MaxStacks: int32(len(hydrossMarkDamageBonuses)),
 			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
 				if newStacks == 0 {
 					markDamageMod.Deactivate()
@@ -139,34 +151,13 @@ func (ai *HydrossAI) registerMarks() {
 		})
 	}
 
-	frostMarkAuras := ai.BossUnit.NewAllyAuraArray(func(allyUnit *core.Unit) *core.Aura {
+	ai.frostMarkAuras = ai.BossUnit.NewAllyAuraArray(func(allyUnit *core.Unit) *core.Aura {
 		return registerMarkAura(allyUnit, hydrossFrostMarkSpellID, core.SpellSchoolFrost, "Mark of Hydross")
 	})
 
-	natureMarkAuras := ai.BossUnit.NewAllyAuraArray(func(allyUnit *core.Unit) *core.Aura {
+	ai.natureMarkAuras = ai.BossUnit.NewAllyAuraArray(func(allyUnit *core.Unit) *core.Aura {
 		return registerMarkAura(allyUnit, hydrossNatureMarkSpellID, core.SpellSchoolNature, "Mark of Corruption")
 	})
-
-	applyMarkStack := func(sim *core.Simulation, auras []*core.Aura) {
-		for _, aura := range auras {
-			if aura == nil {
-				continue
-			}
-			if aura.GetStacks() < maxStacks {
-				aura.Activate(sim)
-				aura.AddStack(sim)
-			}
-		}
-	}
-
-	dropMarks := func(sim *core.Simulation, auras []*core.Aura) {
-		for _, aura := range auras {
-			if aura == nil {
-				continue
-			}
-			aura.Deactivate(sim)
-		}
-	}
 
 	// Frost mark spell — cast every 15s while in Frost phase.
 	ai.frostMarkSpell = ai.BossUnit.RegisterSpell(core.SpellConfig{
@@ -183,7 +174,7 @@ func (ai *HydrossAI) registerMarks() {
 			IgnoreHaste: true,
 		},
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
-			applyMarkStack(sim, frostMarkAuras)
+			ai.applyMarkStack(sim)
 		},
 	})
 
@@ -202,18 +193,19 @@ func (ai *HydrossAI) registerMarks() {
 			IgnoreHaste: true,
 		},
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
-			applyMarkStack(sim, natureMarkAuras)
+			ai.applyMarkStack(sim)
 		},
 	})
 
 	ai.BossUnit.RegisterResetEffect(func(sim *core.Simulation) {
-		dropMarks(sim, frostMarkAuras)
-		dropMarks(sim, natureMarkAuras)
+		ai.frostMarkAuras.DeactivateAll(sim)
+		ai.natureMarkAuras.DeactivateAll(sim)
+
 		// Both mark CDs start at full so first stack lands 15s into the fight.
 		ai.frostMarkSpell.CD.Set(sim.CurrentTime + hydrossMarkInterval)
 		ai.natureMarkSpell.CD.Set(sim.CurrentTime + hydrossMarkInterval)
 		ai.inFrostPhase = true
-		ai.BossUnit.AutoAttacks.MHAuto().SpellSchool = core.SpellSchoolFrost
+		ai.BossUnit.AutoAttacks.SetMHSpell(ai.frostMeleeSpell)
 		ai.BossUnit.CurrentTarget = ai.MainTank
 		// If no main tank is assigned, suppress auto-attacks until a valid target exists.
 		if ai.MainTank == nil {
@@ -223,18 +215,13 @@ func (ai *HydrossAI) registerMarks() {
 			ai.nextPhaseShift.Cancel(sim)
 			ai.nextPhaseShift = nil
 		}
-	})
 
-	ai.BossUnit.RegisterResetEffect(func(sim *core.Simulation) {
-		ai.schedulePhaseShift(sim, frostMarkAuras, natureMarkAuras, dropMarks)
+		ai.schedulePhaseShift(sim)
 	})
 }
 
 func (ai *HydrossAI) schedulePhaseShift(
 	sim *core.Simulation,
-	frostMarkAuras []*core.Aura,
-	natureMarkAuras []*core.Aura,
-	dropMarks func(*core.Simulation, []*core.Aura),
 ) {
 	ai.nextPhaseShift = &core.PendingAction{
 		NextActionAt: sim.CurrentTime + ai.phaseShiftInterval,
@@ -243,8 +230,7 @@ func (ai *HydrossAI) schedulePhaseShift(
 			if ai.inFrostPhase {
 				// Shift to Nature: drop frost marks, switch to Nature attacks,
 				// point boss at the off-tank. First nature mark lands 15s later.
-				dropMarks(sim, frostMarkAuras)
-				ai.BossUnit.AutoAttacks.MHAuto().SpellSchool = core.SpellSchoolNature
+				ai.BossUnit.AutoAttacks.SetMHSpell(ai.natureMeleeSpell)
 				ai.BossUnit.CurrentTarget = ai.SecondTank
 				if ai.SecondTank != nil {
 					ai.BossUnit.AutoAttacks.EnableMeleeSwing(sim)
@@ -256,8 +242,7 @@ func (ai *HydrossAI) schedulePhaseShift(
 			} else {
 				// Shift to Frost: drop nature marks, switch to Frost attacks,
 				// point boss at the main tank. First frost mark lands 15s later.
-				dropMarks(sim, natureMarkAuras)
-				ai.BossUnit.AutoAttacks.MHAuto().SpellSchool = core.SpellSchoolFrost
+				ai.BossUnit.AutoAttacks.SetMHSpell(ai.frostMeleeSpell)
 				ai.BossUnit.CurrentTarget = ai.MainTank
 				if ai.MainTank != nil {
 					ai.BossUnit.AutoAttacks.EnableMeleeSwing(sim)
@@ -267,10 +252,23 @@ func (ai *HydrossAI) schedulePhaseShift(
 				ai.frostMarkSpell.CD.Set(sim.CurrentTime + hydrossMarkInterval)
 				ai.inFrostPhase = true
 			}
-			ai.schedulePhaseShift(sim, frostMarkAuras, natureMarkAuras, dropMarks)
+			ai.schedulePhaseShift(sim)
 		},
 	}
 	sim.AddPendingAction(ai.nextPhaseShift)
+}
+
+func (ai *HydrossAI) applyMarkStack(sim *core.Simulation) {
+	auras := core.Ternary(ai.inFrostPhase, ai.frostMarkAuras, ai.natureMarkAuras)
+	for _, aura := range auras {
+		if aura == nil {
+			continue
+		}
+		if aura.GetStacks() < aura.MaxStacks {
+			aura.Activate(sim)
+			aura.AddStack(sim)
+		}
+	}
 }
 
 func (ai *HydrossAI) Reset(sim *core.Simulation) {
