@@ -609,11 +609,7 @@ func MiseryAura(target *Unit, ranks int32) *Aura {
 }
 
 func ScorpidStingAura(target *Unit) *Aura {
-	return target.GetOrRegisterAura(Aura{
-		Label:    "Scorpid Sting",
-		ActionID: ActionID{SpellID: 3043},
-		Duration: time.Second * 20,
-	}).AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedPhysicalHitTakenChance, -5)
+	return statsDebuff(target, 0, "Scorpid Sting", 3043, stats.Stats{stats.PhysicalHitPercent: -5.0}, time.Second*20)
 }
 
 func ScreechAura(target *Unit) *Aura {
