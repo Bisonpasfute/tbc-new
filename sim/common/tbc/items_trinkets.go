@@ -898,24 +898,46 @@ func init() {
 	// Mark of the Champion (physical): +150 AP vs Undead and Demons.
 	core.NewItemEffect(23206, func(agent core.Agent) {
 		character := agent.GetCharacter()
-		character.Env.RegisterPostFinalizeEffect(func() {
-			for _, at := range character.AttackTables {
-				bonus := stats.Stats{stats.AttackPower: 150, stats.RangedAttackPower: 150}
-				at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Add(bonus)
-				at.MobTypeBonusStats[proto.MobType_MobTypeDemon] = at.MobTypeBonusStats[proto.MobType_MobTypeDemon].Add(bonus)
-			}
-		})
+		bonus := stats.Stats{stats.AttackPower: 150, stats.RangedAttackPower: 150}
+		aura := core.MakePermanent(character.RegisterAura(core.Aura{
+			Label:    "Mark of the Champion (Physical)",
+			ActionID: core.ActionID{ItemID: 23206},
+		})).
+			ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
+				for _, at := range character.AttackTables {
+					at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Add(bonus)
+					at.MobTypeBonusStats[proto.MobType_MobTypeDemon] = at.MobTypeBonusStats[proto.MobType_MobTypeDemon].Add(bonus)
+				}
+			}).
+			ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
+				for _, at := range character.AttackTables {
+					at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Subtract(bonus)
+					at.MobTypeBonusStats[proto.MobType_MobTypeDemon] = at.MobTypeBonusStats[proto.MobType_MobTypeDemon].Subtract(bonus)
+				}
+			})
+		character.ItemSwap.RegisterProc(23206, aura)
 	})
 
 	// Mark of the Champion (spell): +85 spell damage vs Undead and Demons.
 	core.NewItemEffect(23207, func(agent core.Agent) {
 		character := agent.GetCharacter()
-		character.Env.RegisterPostFinalizeEffect(func() {
-			for _, at := range character.AttackTables {
-				bonus := stats.Stats{stats.SpellDamage: 85}
-				at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Add(bonus)
-				at.MobTypeBonusStats[proto.MobType_MobTypeDemon] = at.MobTypeBonusStats[proto.MobType_MobTypeDemon].Add(bonus)
-			}
-		})
+		bonus := stats.Stats{stats.SpellDamage: 85}
+		aura := core.MakePermanent(character.RegisterAura(core.Aura{
+			Label:    "Mark of the Champion (Spell)",
+			ActionID: core.ActionID{ItemID: 23207},
+		})).
+			ApplyOnGain(func(_ *core.Aura, _ *core.Simulation) {
+				for _, at := range character.AttackTables {
+					at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Add(bonus)
+					at.MobTypeBonusStats[proto.MobType_MobTypeDemon] = at.MobTypeBonusStats[proto.MobType_MobTypeDemon].Add(bonus)
+				}
+			}).
+			ApplyOnExpire(func(_ *core.Aura, _ *core.Simulation) {
+				for _, at := range character.AttackTables {
+					at.MobTypeBonusStats[proto.MobType_MobTypeUndead] = at.MobTypeBonusStats[proto.MobType_MobTypeUndead].Subtract(bonus)
+					at.MobTypeBonusStats[proto.MobType_MobTypeDemon] = at.MobTypeBonusStats[proto.MobType_MobTypeDemon].Subtract(bonus)
+				}
+			})
+		character.ItemSwap.RegisterProc(23207, aura)
 	})
 }
