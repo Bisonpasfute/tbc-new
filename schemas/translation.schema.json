@@ -8509,6 +8509,9 @@
 								},
 								"can_raise_by": {
 									"type": "string"
+								},
+								"eWS": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
@@ -8527,7 +8530,8 @@
 								"to_exp_cap",
 								"spec_offsets",
 								"final_crit_cap",
-								"can_raise_by"
+								"can_raise_by",
+								"eWS"
 							]
 						},
 						"attack_table": {

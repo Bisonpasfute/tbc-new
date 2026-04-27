@@ -6,7 +6,7 @@ import i18n from '../../i18n/config.js';
 import * as Mechanics from '../constants/mechanics.js';
 import { IndividualSimUI } from '../individual_sim_ui';
 import { Player } from '../player.js';
-import { ItemSlot, PseudoStat, Race, Spec, Stat, TristateEffect, WeaponType } from '../proto/common.js';
+import { Class, ItemSlot, PseudoStat, Race, RangedWeaponType, Spec, Stat, TristateEffect, WeaponType } from '../proto/common.js';
 import { Stats, UnitStat } from '../proto_utils/stats.js';
 import { EventID, TypedEvent } from '../typed_event.js';
 import { Component } from './component.js';
@@ -196,6 +196,8 @@ export class CharacterStats extends Component {
 
 	private updateStats(player: Player<any>) {
 		const playerStats = player.getCurrentStats();
+		const gear = player.getGear();
+		const rangedWeapon = gear.getEquippedItem(ItemSlot.ItemSlotRanged);
 		const statMods = this.modifyDisplayStats ? this.modifyDisplayStats(this.player) : {};
 		this.hasRacialHitBonus = this.player.getRace() === Race.RaceDraenei;
 		this.activeRacialExpertiseBonuses = this.player.getActiveRacialExpertiseBonuses();
@@ -311,6 +313,23 @@ export class CharacterStats extends Component {
 					</div>
 				</div>
 			);
+
+			const hunterRangedTypes = [RangedWeaponType.RangedWeaponTypeBow, RangedWeaponType.RangedWeaponTypeCrossbow, RangedWeaponType.RangedWeaponTypeGun];
+			if (
+				player.getClass() === Class.ClassHunter &&
+				unitStat.isPseudoStat() &&
+				unitStat.getPseudoStat() === PseudoStat.PseudoStatRangedHastePercent &&
+				rangedWeapon &&
+				hunterRangedTypes.includes(rangedWeapon.item.rangedWeaponType)
+			) {
+				const speedStat = 1 + finalStats.getPseudoStat(PseudoStat.PseudoStatRangedHastePercent) / 100;
+				tooltipContent.appendChild(
+					<div className="character-stats-tooltip-row">
+						<span>{i18n.t('sidebar.character_stats.tooltip.eWS')}</span>
+						<span>{(rangedWeapon.item.weaponSpeed / speedStat).toFixed(2)}s</span>
+					</div>,
+				);
+			}
 
 			tippy(statLinkElem, {
 				content: tooltipContent,
