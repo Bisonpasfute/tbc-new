@@ -2438,7 +2438,8 @@
 				"to_exp_cap": "To Exp Cap:",
 				"spec_offsets": "Spec Offsets:",
 				"final_crit_cap": "Final Crit Cap:",
-				"can_raise_by": "Can Raise By:"
+				"can_raise_by": "Can Raise By:",
+				"eWS": "eWS:"
 			},
 			"attack_table": {
 				"glancing": "Glancing:",
