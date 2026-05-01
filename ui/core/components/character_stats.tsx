@@ -266,7 +266,7 @@ export class CharacterStats extends Component {
 			const valueElem = (
 				<div className="stat-value-link-container">
 					<button ref={statLinkElemRef} className={clsx('stat-value-link', contextualClass)}>
-						{`${this.statDisplayString(finalStats, unitStat, true)} `}
+						{`${this.statDisplayString(finalStats, unitStat, true, true)} `}
 					</button>
 				</div>
 			);
@@ -283,7 +283,7 @@ export class CharacterStats extends Component {
 					</div>
 					<div className="character-stats-tooltip-row">
 						<span>{i18n.t('sidebar.character_stats.tooltip.gear')}</span>
-						<span>{this.statDisplayString(gearDelta, unitStat)}</span>
+						<span>{this.statDisplayString(gearDelta, unitStat, false, true)}</span>
 					</div>
 					<div className="character-stats-tooltip-row">
 						<span>{i18n.t('sidebar.character_stats.tooltip.talents')}</span>
@@ -309,7 +309,7 @@ export class CharacterStats extends Component {
 					)}
 					<div className="character-stats-tooltip-row">
 						<span>{i18n.t('sidebar.character_stats.tooltip.total')}</span>
-						<span>{this.statDisplayString(finalStats, unitStat, true)}</span>
+						<span>{this.statDisplayString(finalStats, unitStat, true, true)}</span>
 					</div>
 				</div>
 			);
@@ -446,7 +446,7 @@ export class CharacterStats extends Component {
 		}
 	}
 
-	private statDisplayString(deltaStats: Stats, unitStat: UnitStat, includeBase?: boolean): string {
+	private statDisplayString(deltaStats: Stats, unitStat: UnitStat, includeBase?: boolean, includeGear?: boolean): string {
 		const rootStat = unitStat.hasRootStat() ? unitStat.getRootStat() : null;
 		let rootRatingValue = rootStat !== null ? deltaStats.getStat(rootStat) : null;
 		let percentDecimals = 2;
@@ -487,6 +487,14 @@ export class CharacterStats extends Component {
 				const ohPercentString = `${ohPercentValue.toFixed(percentDecimals)}` + displaySuffix;
 				const wrappedPercentString = hideRootRating ? `${mhPercentString} / ${ohPercentString}` : ` (${mhPercentString} / ${ohPercentString})`;
 				return rootRatingString + wrappedPercentString;
+			}
+		} else if (includeGear && rootRatingValue !== null && unitStat.equalsPseudoStat(PseudoStat.PseudoStatRangedHitPercent)) {
+			if (this.player.getEquippedItem(ItemSlot.ItemSlotRanged)?.enchant?.effectId === 2523) {
+				rootRatingValue += 30;
+			}
+		} else if (includeGear && rootRatingValue !== null && unitStat.equalsPseudoStat(PseudoStat.PseudoStatRangedCritPercent)) {
+			if (this.player.getEquippedItem(ItemSlot.ItemSlotRanged)?.enchant?.effectId === 2724) {
+				rootRatingValue += 28;
 			}
 		} else if (rootStat == Stat.StatBlockValue) {
 			if (rootRatingValue !== null && rootRatingValue > 0) {
