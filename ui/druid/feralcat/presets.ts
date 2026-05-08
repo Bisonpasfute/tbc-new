@@ -85,6 +85,7 @@ export const OtherDefaults = {
 	profession1: Profession.Engineering,
 	profession2: Profession.Enchanting,
 	race: Race.RaceNightElf,
+	reactionTime: 250,
 };
 
 

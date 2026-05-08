@@ -1,12 +1,15 @@
 import { OtherDefaults as SimUIOtherDefaults } from '../../core/individual_sim_ui';
 import * as PresetUtils from '../../core/preset_utils.js';
-import { ConsumesSpec, HealingModel, Profession, PseudoStat, Race, Spec, Stat } from '../../core/proto/common';
+import { ConsumesSpec, HealingModel, Profession, Race, Spec, Stat } from '../../core/proto/common';
 import { FeralBearDruid_Options as DruidOptions, FeralBearDruid_Rotation as DruidRotation, FeralBearDruid_Rotation_SwipeUsage as SwipeUsage } from '../../core/proto/druid.js';
 import { SavedTalents } from '../../core/proto/ui.js';
 import { Stats } from '../../core/proto_utils/stats';
 import PreraidGear from './gear_sets/preraid.gear.json';
 import P1Gear from './gear_sets/p1.gear.json';
 import P2Gear from './gear_sets/p2.gear.json';
+import P3Gear from './gear_sets/p3.gear.json';
+import P4Gear from './gear_sets/p4.gear.json';
+import P5Gear from './gear_sets/p5.gear.json';
 import P2HydrossFrostGear from './gear_sets/p2_hydross_frost.gear.json';
 import P2HydrossNatureGear from './gear_sets/p2_hydross_nature.gear.json';
 
@@ -14,6 +17,9 @@ import P2HydrossNatureGear from './gear_sets/p2_hydross_nature.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-Raid', PreraidGear, { group: 'Default' });
 export const P1_PRESET = PresetUtils.makePresetGear('P1', P1Gear, { group: 'Default' });
 export const P2_PRESET = PresetUtils.makePresetGear('P2', P2Gear, { group: 'Default' });
+export const P3_PRESET = PresetUtils.makePresetGear('P3', P3Gear, { group: 'Default' });
+export const P4_PRESET = PresetUtils.makePresetGear('P4', P4Gear, { group: 'Default' });
+export const P5_PRESET = PresetUtils.makePresetGear('P5', P5Gear, { group: 'Default' });
 export const P2_HYDROSS_FROST_PRESET = PresetUtils.makePresetGear('Hydross (Frost Resist)', P2HydrossFrostGear, { group: 'Encounter specific' });
 export const P2_HYDROSS_NATURE_PRESET = PresetUtils.makePresetGear('Hydross (Nature Resist)', P2HydrossNatureGear, { group: 'Encounter specific' });
 
@@ -41,42 +47,26 @@ export const MOROGRIM_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Morogr
 export const HYDROSS_PRESET_BUILD = PresetUtils.makePresetBuildFromJSON('Hydross', Spec.SpecFeralBearDruid, HydrossBuild);
 
 // Preset options for EP weights
-export const SURVIVAL_EP_PRESET = PresetUtils.makePresetEpWeights(
-	'Survival',
-	Stats.fromMap(
-		{
-			[Stat.StatHealth]: 0.17,
-			[Stat.StatStamina]: 3.93,
-			[Stat.StatAgility]: 1.0,
-			[Stat.StatArmor]: 4.81,
-			[Stat.StatBonusArmor]: 1.1,
-			[Stat.StatStrength]: 0.02,
-			[Stat.StatAttackPower]: 0.02,
-		},
-		{
-			[PseudoStat.PseudoStatMainHandDps]: 0.0,
-			[PseudoStat.PseudoStatMeleeHitPercent]: 1.07,
-		},
-	),
-);
-
-export const BALANCED_EP_PRESET = PresetUtils.makePresetEpWeights(
-	'Balanced',
-	Stats.fromMap(
-		{
-			[Stat.StatHealth]: 0.06,
-			[Stat.StatStamina]: 1.41,
-			[Stat.StatAgility]: 1.0,
-			[Stat.StatArmor]: 1.7,
-			[Stat.StatBonusArmor]: 0.39,
-			[Stat.StatStrength]: 0.18,
-			[Stat.StatAttackPower]: 0.18,
-		},
-		{
-			[PseudoStat.PseudoStatMainHandDps]: 0.84,
-			[PseudoStat.PseudoStatMeleeHitPercent]: 1.5,
-		},
-	),
+export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
+	'P1',
+	Stats.fromMap({
+		[Stat.StatStrength]: 0.452,
+		[Stat.StatAgility]: 0.763,
+		[Stat.StatStamina]: 1.025,
+		[Stat.StatAttackPower]: 0.200,
+		[Stat.StatFeralAttackPower]: 0.200,
+		[Stat.StatMeleeHitRating]: 0.941,
+		[Stat.StatMeleeCritRating]: 0.373,
+		[Stat.StatMeleeHasteRating]: 0.438,
+		[Stat.StatArmorPenetration]: 0.070,
+		[Stat.StatExpertiseRating]: 2.147,
+		[Stat.StatDefenseRating]: 0.326,
+		[Stat.StatDodgeRating]: 0.228,
+		[Stat.StatResilienceRating]: 0.388,
+		[Stat.StatArmor]: 0.135,
+		[Stat.StatBonusArmor]: 0.135,
+		[Stat.StatPhysicalDamage]: 1.203,
+	}),
 );
 
 // Default talents — Standard feral bear TBC build.
@@ -119,6 +109,7 @@ export const OtherDefaults: Partial<SimUIOtherDefaults> = {
 	profession2: Profession.Enchanting,
 	race: Race.RaceNightElf,
 	distanceFromTarget: 0,
+	reactionTime: 250,
 	healingModel: HealingModel.create({
 		hps: 2200,
 		cadenceSeconds: 0.4,

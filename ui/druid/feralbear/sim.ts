@@ -26,6 +26,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 		Stat.StatAgility,
 		Stat.StatStrength,
 		Stat.StatAttackPower,
+		Stat.StatFeralAttackPower,
 		Stat.StatArmor,
 		Stat.StatBonusArmor,
 		Stat.StatDodgeRating,
@@ -38,7 +39,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 		Stat.StatPhysicalDamage,
         Stat.StatArmorPenetration,
 	],
-	epPseudoStats: [PseudoStat.PseudoStatMainHandDps],
+	epPseudoStats: [],
 	epReferenceStat: Stat.StatAgility,
 	tankRefStat: Stat.StatStamina,
 	displayStats: UnitStat.createDisplayStatArray(
@@ -70,7 +71,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 
 	defaults: {
 		gear: Presets.PRERAID_PRESET.gear,
-		epWeights: Presets.BALANCED_EP_PRESET.epWeights,
+		epWeights: Presets.P1_EP_PRESET.epWeights,
 		statCaps: (() => {
 			const hitCap = new Stats().withPseudoStat(PseudoStat.PseudoStatMeleeHitPercent, 9);
 			const expCap = new Stats().withStat(Stat.StatExpertiseRating, 6.5 * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
@@ -156,13 +157,13 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralBearDruid, {
 	},
 
 	presets: {
-		epWeights: [Presets.SURVIVAL_EP_PRESET, Presets.BALANCED_EP_PRESET],
+		epWeights: [Presets.P1_EP_PRESET],
 		talents: [Presets.StandardTalents, Presets.DemoRoarTalents],
 		// ROTATION_SIMPLE is kept in presets.ts for reference but omitted here —
 		// the APL rotation is more user-friendly and handles CDs, re-shifting, and
 		// on-use items more easily.
 		rotations: [Presets.ROTATION_DEFAULT],
-		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET, Presets.P2_PRESET, Presets.P2_HYDROSS_FROST_PRESET, Presets.P2_HYDROSS_NATURE_PRESET],
+		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET, Presets.P2_PRESET, Presets.P3_PRESET, Presets.P4_PRESET, Presets.P5_PRESET, Presets.P2_HYDROSS_FROST_PRESET, Presets.P2_HYDROSS_NATURE_PRESET],
 		builds: [
 				Presets.DEFAULT_PRESET_BUILD,
 				Presets.KARAZHAN_PRESET_BUILD,
