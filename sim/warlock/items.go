@@ -297,7 +297,7 @@ func init() {
 			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 				applyPetStats(sim, resistanceStats.Invert())
 			},
-		}).AttachStatBuff(stats.SpellDamage, 48))
+		}))
 
 		warlock.ItemSwap.RegisterProc(30449, aura)
 	})
