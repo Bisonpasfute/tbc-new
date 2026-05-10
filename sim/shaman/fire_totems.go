@@ -36,7 +36,10 @@ func (shaman *Shaman) registerSearingTotemSpell() {
 				Label: "Searing Totem",
 			},
 			NumberOfTicks: searingTickCount(0),
-			TickLength:    time.Millisecond * (2200 + 20),
+			// Derived from analysing 100 logs - 1200+ events
+			// | Min ms | Avg ms | Median ms | Max ms | Total Delays |
+			// | 2001.0 | 2435.6 | 2430.0    | 2954.0 | 1223         |
+			TickLength: time.Millisecond * (2400 + 30),
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				baseDamage := shaman.CalcAndRollDamageRange(sim, 50, 66)
 				result := dot.Spell.CalcPeriodicDamage(sim, target, baseDamage, dot.Spell.OutcomeTickMagicHitAndCrit)
