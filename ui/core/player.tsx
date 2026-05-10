@@ -754,6 +754,48 @@ export class Player<SpecType extends Spec> {
 		return this.getCritImmunityInfo().delta;
 	}
 
+	getMissChanceInfo() {
+		const defense = this.currentStats.finalStats?.stats[Stat.StatDefenseRating] || 0;
+		const defenseContribution = Math.floor(defense / Mechanics.DEFENSE_RATING_PER_DEFENSE_LEVEL) * Mechanics.MISS_DODGE_PARRY_BLOCK_CRIT_CHANCE_PER_DEFENSE;
+		let debuffs = 0;
+		if (this.raid?.getDebuffs().scorpidSting) {
+			debuffs = 5;
+		} else if (this.raid?.getDebuffs().insectSwarm) {
+			debuffs = 2;
+		}
+
+		return {
+			base: 5,
+			defense: defenseContribution,
+			debuffs,
+			total: 5 + defenseContribution + debuffs,
+		};
+	}
+
+	getAvoidanceInfo() {
+		const miss = this.getMissChanceInfo().total;
+		const dodge = this.currentStats.finalStats?.pseudoStats[PseudoStat.PseudoStatDodgePercent] || 0;
+		const parry = this.currentStats.finalStats?.pseudoStats[PseudoStat.PseudoStatParryPercent] || 0;
+		let block = this.currentStats.finalStats?.pseudoStats[PseudoStat.PseudoStatBlockPercent] || 0;
+
+		if (this.isSpec(Spec.SpecProtectionPaladin)) {
+			block += 30;
+
+			if (this.getEquippedItem(ItemSlot.ItemSlotRanged)?.id === 29388) {
+				block += 42 / Mechanics.BLOCK_RATING_PER_BLOCK_PERCENT;
+			}
+		}
+
+		return {
+			miss: miss,
+			dodge: dodge,
+			parry: parry,
+			block: block,
+			total: miss + dodge + parry + block,
+			shear: dodge + parry + block,
+		};
+	}
+
 	getMeleeCritCapInfo(): MeleeCritCapInfo {
 		const debuffStats = CharacterStats.getDebuffStats(this);
 		const debuffHit = debuffStats.getPseudoStat(PseudoStat.PseudoStatMeleeHitPercent) || 0;
