@@ -34,7 +34,7 @@ func (paladin *Paladin) registerHolyWrath(rankConfig shared.SpellRankConfig) {
 	maxDamage := rankConfig.MaxDamage
 	coefficient := rankConfig.Coefficient
 
-	paladin.HolyWraths = append(paladin.HolyWraths, paladin.RegisterSpell(core.SpellConfig{
+	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: spellID},
 		SpellSchool:    core.SpellSchoolHoly,
 		ProcMask:       core.ProcMaskSpellDamage,
@@ -70,5 +70,5 @@ func (paladin *Paladin) registerHolyWrath(rankConfig shared.SpellRankConfig) {
 				}
 			}
 		},
-	}))
+	})
 }

@@ -261,14 +261,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRetribution-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1918.17376
-  tps: 1511.6183
-  dtps: 14.53862
- }
-}
-dps_results: {
  key: "TestRetribution-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 1917.42884
@@ -961,7 +953,7 @@ dps_results: {
  key: "TestRetribution-AllItems-LightbringerArmor"
  value: {
   dps: 1355.20278
-  tps: 1071.44688
+  tps: 1071.49394
   dtps: 14.69308
  }
 }
@@ -1376,6 +1368,14 @@ dps_results: {
 }
 dps_results: {
  key: "TestRetribution-AllItems-StabilitzedEterniumScope-2724"
+ value: {
+  dps: 1918.17376
+  tps: 1511.6183
+  dtps: 14.53862
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-StabilizedEterniumScope-2523"
  value: {
   dps: 1918.17376
   tps: 1511.6183

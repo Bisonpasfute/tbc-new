@@ -26,7 +26,7 @@ var AvengersShieldRankMap = shared.SpellRankMap{
 // Hurls a holy shield at the enemy, dealing Holy damage, dazing them and
 // then jumping to additional nearby enemies. Affects 3 total targets.
 func (paladin *Paladin) registerAvengersShield(rankConfig shared.SpellRankConfig) {
-	paladin.AvengersShields = append(paladin.AvengersShields, paladin.RegisterSpell(core.SpellConfig{
+	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
 		SpellSchool:    core.SpellSchoolHoly,
 		ProcMask:       core.ProcMaskSpellDamage,
@@ -61,5 +61,5 @@ func (paladin *Paladin) registerAvengersShield(rankConfig shared.SpellRankConfig
 			damage := sim.Roll(rankConfig.MinDamage, rankConfig.MaxDamage)
 			spell.CalcAndDealCleaveDamage(sim, target, 3, damage, spell.OutcomeMagicHitAndCrit)
 		},
-	}))
+	})
 }

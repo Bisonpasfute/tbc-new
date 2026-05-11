@@ -71,7 +71,7 @@ func (paladin *Paladin) registerHolyShield(rankConfig shared.SpellRankConfig) {
 		},
 	}).AttachStatBuff(stats.BlockPercent, 0.3)
 
-	holyShieldSpell := paladin.RegisterSpell(core.SpellConfig{
+	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       actionID,
 		SpellSchool:    core.SpellSchoolHoly,
 		ProcMask:       core.ProcMaskEmpty,
@@ -102,7 +102,4 @@ func (paladin *Paladin) registerHolyShield(rankConfig shared.SpellRankConfig) {
 
 		RelatedSelfBuff: holyShieldAura,
 	})
-
-	paladin.HolyShieldAuras = append(paladin.HolyShieldAuras, holyShieldAura)
-	paladin.HolyShields = append(paladin.HolyShields, holyShieldSpell)
 }

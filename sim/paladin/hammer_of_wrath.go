@@ -33,7 +33,7 @@ func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRankConfig)
 	maxDamage := rankConfig.MaxDamage
 	coefficient := rankConfig.Coefficient
 
-	hammerOfWrath := paladin.RegisterSpell(core.SpellConfig{
+	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: spellID},
 		SpellSchool:    core.SpellSchoolHoly,
 		ProcMask:       core.ProcMaskRangedSpecial,
@@ -71,6 +71,4 @@ func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRankConfig)
 			spell.CalcAndDealDamage(sim, target, sim.Roll(minDamage, maxDamage), spell.OutcomeMeleeSpecialHitAndCrit)
 		},
 	})
-
-	paladin.HammerOfWraths = append(paladin.HammerOfWraths, hammerOfWrath)
 }

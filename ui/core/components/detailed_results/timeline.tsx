@@ -1351,7 +1351,8 @@ const idToCategoryMap: Record<number, number> = {
 	[25735]: MELEE_ACTION_CATEGORY + 0.0036, // Seal of Righteousness proc (Rank 7)
 	[25713]: MELEE_ACTION_CATEGORY + 0.0037, // Seal of Righteousness proc (Rank 8)
 	[27156]: MELEE_ACTION_CATEGORY + 0.0038, // Seal of Righteousness proc (Rank 9)
-	[31803]: MELEE_ACTION_CATEGORY + 0.004, // Seal of Vengeance proc
+	[42463]: MELEE_ACTION_CATEGORY + 0.004, // Seal of Vengeance proc
+	[31803]: MELEE_ACTION_CATEGORY + 0.0041, // Holy Vengeance
 	[20167]: MELEE_ACTION_CATEGORY + 0.005, // Seal of Light proc (Rank 1)
 	[20333]: MELEE_ACTION_CATEGORY + 0.0051, // Seal of Light proc (Rank 2)
 	[20334]: MELEE_ACTION_CATEGORY + 0.0052, // Seal of Light proc (Rank 3)

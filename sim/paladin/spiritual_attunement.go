@@ -6,11 +6,6 @@ import "github.com/wowsims/tbc/sim/core"
 // you regain 10% of the amount healed as mana.
 // In the sim, this is modeled as mana return from damage taken (since the healing model offsets damage).
 func (paladin *Paladin) RegisterSpiritualAttunement() {
-	coeff := 0.1
-	if paladin.GetAuraByID(core.ActionID{SpellID: 38426}).IsActive() {
-		coeff *= 1.1 // Lightbringer Armor 2pc: +10% mana from Spiritual Attunement
-	}
-
 	manaMetrics := paladin.NewManaMetrics(core.ActionID{SpellID: 33776})
 
 	paladin.MakeProcTriggerAura(core.ProcTrigger{
@@ -19,6 +14,11 @@ func (paladin *Paladin) RegisterSpiritualAttunement() {
 		Callback:           core.CallbackOnSpellHitTaken,
 		RequireDamageDealt: true,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			coeff := 0.1
+			// Lightbringer Armor 2pc: +10% mana from Spiritual Attunement
+			if paladin.T6_4pcAura.IsActive() {
+				coeff *= 1.1
+			}
 			paladin.AddMana(sim, result.Damage*coeff, manaMetrics)
 		},
 	})

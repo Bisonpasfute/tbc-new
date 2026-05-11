@@ -24,7 +24,7 @@ func (paladin *Paladin) registerRighteousFury() {
 		FloatValue: threatBonus,
 	})
 
-	paladin.RighteousFury = paladin.RegisterSpell(core.SpellConfig{
+	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       actionID,
 		SpellSchool:    core.SpellSchoolHoly,
 		ProcMask:       core.ProcMaskEmpty,
@@ -38,7 +38,7 @@ func (paladin *Paladin) registerRighteousFury() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-			rfAura.Activate(sim)
+			spell.RelatedSelfBuff.Activate(sim)
 		},
 
 		RelatedSelfBuff: rfAura,

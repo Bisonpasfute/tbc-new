@@ -12165,6 +12165,7 @@
 {"id":41415,"name":"The Black Pearl","icon":"inv_misc_gem_01"},
 {"id":41418,"name":"Crown of the Sea Witch","icon":"inv_misc_gem_01"},
 {"id":42230,"name":"Hurricane","icon":"spell_nature_cyclone","rank":4},
+{"id":42463,"name":"Seal of Vengeance","icon":"spell_holy_sealofvengeance","rank":1},
 {"id":42546,"name":"Cloak of Darkness","icon":"trade_leatherworking"},
 {"id":42662,"name":"Ragesteel Shoulders","icon":"spell_shadow_sealofkings"},
 {"id":42731,"name":"Shadowprowler's Chestguard","icon":"trade_leatherworking"},
