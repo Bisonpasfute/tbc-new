@@ -44,7 +44,7 @@ func TestProtection(t *testing.T) {
 			Class:            proto.Class_ClassPaladin,
 			Race:             proto.Race_RaceBloodElf,
 			OtherRaces:       []proto.Race{proto.Race_RaceHuman},
-			GearSet:          core.GetGearSet("../../../ui/paladin/protection/gear_sets", "p1"),
+			GearSet:          core.GetGearSet("../../../ui/paladin/protection/gear_sets", "p2"),
 			Talents:          DefaultProtectionTalents,
 			Consumables:      DefaultConsumables,
 			SpecOptions:      core.SpecOptionsCombo{Label: "Protection", SpecOptions: DefaultOptions},
