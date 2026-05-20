@@ -29,7 +29,7 @@ const PREPULL_AURA_INDEX = 1; // Devotion Aura at -18.5s
 const PREPULL_SEAL_INDEX = 2; // Seal of Righteousness at -3s (shifted to -4s when precastAvengersShield is on)
 const PREPULL_HOLY_SHIELD_INDEX = 3; // Holy Shield at -1.5s (shifted to -2.5s when precastAvengersShield is on)
 const PREPULL_AVENGERS_SHIELD_INDEX = 4; // Avenger's Shield at -0.99s (hidden by default)
-const PRIORITY_JUDGE_ON_SEAL_INDEX = 0; // When maintenance seal is up, judge it
+const PRIORITY_JUDGE_ON_SEAL_INDEX = 1; // First-global judge, and maintenance-seal judge once SoR is consumed
 const PRIORITY_SWAP_SEAL_INDEX = 4; // When maintenance seal is down, JoX is down, and Judgement is ready, swap to maintenance seal
 const PRIORITY_RIGHTEOUSNESS_JUDGE_INDEX = 7; // Judge -> Re-seal Righteousness
 const PRIORITY_CONSECRATION_INDEX = 6; // Consecration rank 6
@@ -258,31 +258,25 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 		}
 
 		// For Light/Wisdom we activate the two maintenance actions that are
-		// dormant in the default APL:
-		//   - Judge-on-seal (action 0): [Const:false AND SoW active] -> Cast
-		//     Judgement. Drop the Const:false so the action fires whenever the
-		//     maintenance seal is up, consuming it to apply the Judgement
-		//     debuff ASAP (before Holy Shield/Consecration).
-		//   - Swap-seal (action 2): [Const:false AND SoW inactive AND JoW
-		//     missing AND Judgement ready] -> Cast SoW. Drop the Const:false
-		//     so the action prepares the maintenance seal whenever it's time
-		//     to refresh the debuff.
-		// Both actions also need the Seal of Wisdom / Judgement of Wisdom
-		// references rewritten when the user picked Judgement of Light. The
-		// prepull seal (SoR by default) is also swapped so combat starts with
-		// the maintenance seal up and a free Judgement applies the debuff.
+		// dormant in the default APL (their "Maintain Judgement" variableRef
+		// evaluates false, short-circuiting the AND):
+		//   - Judge-on-seal: also doubles as the first-global judge via an OR
+		//     with currentTime <= 0.5s, so we only need to swap the
+		//     maintenance-seal aura inside the AND branch.
+		//   - Swap-seal: fires once the maintenance seal is down, JoX is
+		//     missing, and Judgement is ready, preparing the seal for the
+		//     next refresh of the debuff.
+		// Both also need the Seal of Wisdom / Judgement of Wisdom references
+		// rewritten when the user picked Judgement of Light.
 		//
-		// For JudgementNone the Const:false keeps both actions dormant; no
-		// mutation is needed.
+		// The prepull seal stays SoR — starting combat in SoR gives a stronger
+		// opening threat block (Judge SoR via the first-global branch) and
+		// then the maintenance cycle takes over for the rest of the fight.
 		if (judgementConfig) {
-			const prepullSealCast = (rotation.prepullActions[PREPULL_SEAL_INDEX].action!.action as any).castSpell;
-			prepullSealCast.spellId.rawId = { oneofKind: 'spellId', spellId: judgementConfig.sealSpellId };
-			prepullSealCast.spellId.rank = judgementConfig.sealRank;
-
-			// Judge-on-seal: unwrap the AND keeping only the auraIsActive(SoW) clause, then swap its aura to the chosen seal.
+			// Judge-on-seal: swap the auraIsActive(SoW) check inside the AND branch of the OR.
 			const judgeEntry = rotation.priorityList[PRIORITY_JUDGE_ON_SEAL_INDEX];
-			const judgeCondition = (judgeEntry.action!.condition!.value as any).and;
-			const sealActiveCheck = judgeCondition.vals[1];
+			const judgeAndCondition = ((judgeEntry.action!.condition!.value as any).or.vals[0].value as any).and;
+			const sealActiveCheck = judgeAndCondition.vals[1];
 			const sealActiveAuraId = (sealActiveCheck.value as any).auraIsActive.auraId;
 			sealActiveAuraId.rawId = { oneofKind: 'spellId', spellId: judgementConfig.sealSpellId };
 			sealActiveAuraId.rank = judgementConfig.sealRank;
