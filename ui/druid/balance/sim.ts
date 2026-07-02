@@ -28,7 +28,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 		Stat.StatSpellHasteRating,
 		Stat.StatMP5,
 		Stat.StatSpirit,
-		Stat.StatMana,
 	],
 	epPseudoStats: [],
 	// Reference stat against which to calculate EP. I think all classes use either spell power or attack power.
@@ -57,7 +56,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 		epWeights: Presets.DefaultEPWeights.epWeights,
 		// Default stat caps for stat weights tab. (also needed for reforging since we don't want to reforge above stat caps)
 		statCaps: (() => {
-			return new Stats().withPseudoStat(PseudoStat.PseudoStatSpellHitPercent, 16).withStat(Stat.StatSpellHitRating, 16 * 12);
+			return new Stats().withPseudoStat(PseudoStat.PseudoStatSpellHitPercent, 16);
 		})(),
 		// Default consumes settings.
 		consumables: Presets.DefaultConsumables,
@@ -133,10 +132,10 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecBalanceDruid, {
 			defaultGear: {
 				[Faction.Unknown]: {},
 				[Faction.Alliance]: {
-					1: Presets.PreraidPresetGear.gear,
+					1: Presets.Phase2AlliancePresetGear.gear,
 				},
 				[Faction.Horde]: {
-					1: Presets.PreraidPresetGear.gear,
+					1: Presets.Phase2AlliancePresetGear.gear,
 				},
 			},
 		},
