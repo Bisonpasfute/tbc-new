@@ -203,6 +203,7 @@ export class Encounter {
 			swingSpeed: 2,
 			suppressDodge: false,
 			parryHaste: true,
+			canCrush: true,
 			dualWield: false,
 			dualWieldPenalty: false,
 			spellSchool: SpellSchool.SpellSchoolPhysical,
@@ -213,6 +214,13 @@ export class Encounter {
 	static updateProtoVersion(proto: EncounterProto) {
 		if (!(proto.apiVersion < CURRENT_API_VERSION)) {
 			return;
+		}
+		// v14: can_crush became an explicit Target field. Reproduce the previous
+		// implicit behavior (crushing blows enabled only for level 73 targets).
+		if (proto.apiVersion < 14) {
+			proto.targets.forEach(target => {
+				target.canCrush = target.level === 73;
+			});
 		}
 	}
 }
