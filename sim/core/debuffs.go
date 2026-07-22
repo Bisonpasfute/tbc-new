@@ -306,27 +306,27 @@ func ExposeWeaknessAura(target *Unit, agilityFunc ExposeWeaknessAgiFunc) *Aura {
 func FaerieFireAura(target *Unit, improvedPoints float64) *Aura {
 	armorValue := 610.0
 
-	var effect *ExclusiveEffect
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Faerie Fire",
 		ActionID: ActionID{SpellID: 26993},
 		Duration: time.Second * 40,
-		OnGain: func(aura *Aura, sim *Simulation) {
-			effect.SetPriority(sim, armorValue+improvedPoints)
-		},
 	})
 
-	effect = aura.NewExclusiveEffect("FaerieFire", true, ExclusiveEffect{
-		Priority: 0,
+	effect := aura.NewExclusiveEffect("FaerieFireAura", true, ExclusiveEffect{
+		Priority: improvedPoints,
 		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
 			ee.Aura.Unit.AddStatDynamic(sim, stats.Armor, -armorValue)
-			ee.Aura.Unit.PseudoStats.ReducedPhysicalHitTakenChance -= (ee.Priority - armorValue)
+			ee.Aura.Unit.PseudoStats.ReducedPhysicalHitTakenChance -= ee.Priority
 		},
 		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
 			ee.Aura.Unit.AddStatDynamic(sim, stats.Armor, armorValue)
-			ee.Aura.Unit.PseudoStats.ReducedPhysicalHitTakenChance += (ee.Priority - armorValue)
+			ee.Aura.Unit.PseudoStats.ReducedPhysicalHitTakenChance += ee.Priority
 		},
 	})
+
+	if effect.Priority < improvedPoints {
+		effect.Priority = improvedPoints
+	}
 
 	return aura
 }
