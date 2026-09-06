@@ -123,6 +123,11 @@ func applyConsumeEffects(agent Agent, partyBuffs *proto.PartyBuffs) {
 		character.AddStat(stats.HealingPower, 10)
 	}
 
+	// Bogling Root: +1 physical damage for 10 min (item 5206, spell 5665).
+	if consumables.BoglingRoot {
+		character.AddStat(stats.PhysicalDamage, 1)
+	}
+
 	// Pet Consumes
 	for _, pet := range character.Pets {
 		if pet.isGuardian {

@@ -589,6 +589,7 @@ message ConsumesSpec {
 	bool superSapper = 8;
 	bool goblinSapper = 9;
 	bool bloodthistle = 24;
+	bool bogling_root = 25;
 	int32 mhImbue_id = 10;
 	int32 ohImbue_id = 11;
 	Drums drums_id = 12;
