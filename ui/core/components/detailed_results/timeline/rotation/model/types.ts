@@ -1,5 +1,5 @@
 import type { ActionId } from '../../../../../proto_utils/action_id';
-import type { AuraUptimeLog, CastLog, DamageDealtLog, ResourceChangedLogGroup } from '../../../../../proto_utils/logs_parser';
+import type { AuraUptimeLog, CastLog, DamageLog, ResourceGroupLog } from '../../../../../proto_utils/combat_log';
 import type { UnitMetrics } from '../../../../../proto_utils/sim_result';
 
 export const ROW_HEIGHTS = { cast: 32, aura: 32, resource: 32, gcd: 32, header: 32, separator: 17 } as const;
@@ -59,7 +59,7 @@ export interface TickItem {
 	kind: 'tick';
 	start: number;
 	end: number;
-	log: DamageDealtLog;
+	log: DamageLog;
 }
 
 export interface AuraStackSegment {
@@ -87,7 +87,7 @@ export interface ResourceItem {
 	display: ResourceDisplay;
 	fillPercent: number;
 	text: string;
-	log: ResourceChangedLogGroup;
+	log: ResourceGroupLog;
 }
 
 export type RowItem = CastItem | DelayItem | GcdExtensionItem | GcdSegmentItem | TickItem | AuraItem | ResourceItem;
