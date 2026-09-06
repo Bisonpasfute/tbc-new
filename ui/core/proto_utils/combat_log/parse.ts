@@ -268,8 +268,8 @@ const LOG_MATCHERS: Array<LogMatcher> = [
 	{
 		guard: ['Miss', 'Hit', 'Crit', 'Crush', 'Glance', 'Dodge', 'Parry', 'Block'],
 		// SuppressedCrit is a token the sim prints (flags.go:146) that the old pattern lacked, so
-		// those lines fell through as plain text; it has to be listed before Crit, which it ends
-		// in. The resist group is match[15], amount match[17] and effect match[18].
+		// those lines fell through as plain text. The resist group is match[15], amount match[17]
+		// and effect match[18].
 		regex: /] (.*?) (tick )?((Miss)|(Hit)|(BlockedCrit)|(Crit)|(SuppressedCrit)|(Crush)|(Glance)|(Dodge)|(Parry)|(Block))( \((\d+)% Resist\))?( for (\d+\.\d+) ((damage)|(healing)|(shielding)))?/,
 		idString: match => match[1],
 		build: (log, match) => buildDamageLog(log, match),
