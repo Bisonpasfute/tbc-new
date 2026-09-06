@@ -536,6 +536,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestAffliction-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 1914.13294
+  tps: 850.83053
+ }
+}
+dps_results: {
  key: "TestAffliction-AllItems-FieryRetributer-19968"
  value: {
   dps: 1956.77494

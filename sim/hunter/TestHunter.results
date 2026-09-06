@@ -717,6 +717,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHunter-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 3521.11485
+  tps: 1741.53774
+  dtps: 13.31642
+ }
+}
+dps_results: {
  key: "TestHunter-AllItems-FieryRetributer-19968"
  value: {
   dps: 3517.93987

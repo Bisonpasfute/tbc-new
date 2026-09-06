@@ -3,12 +3,34 @@ package tbc
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
 func init() {
+
+	// Felsteel Shield Spike
+	// EffectID: 2714, Proc SpellID: 29455
+	// Permanently attaches a felsteel spike to your shield that deals 26 to 38 damage to attackers whose melee attacks you block.
+	// https://www.wowhead.com/tbc/spell=29455
+	shared.NewProcDamageEffect(shared.ProcDamageEffect{
+		EnchantID: 2714,
+		SpellID:   29455,
+		School:    core.SpellSchoolPhysical,
+		MinDmg:    26,
+		MaxDmg:    38,
+		IsMelee:   true,
+		Flags:     core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+		Trigger: core.ProcTrigger{
+			Name:       "Felsteel Shield Spike",
+			Callback:   core.CallbackOnSpellHitTaken,
+			ProcMask:   core.ProcMaskMelee,
+			Outcome:    core.OutcomeBlock,
+			ProcChance: 1,
+		},
+	})
 
 	// Mongoose
 	// EffectID: 2673, Proc SpellID: 28093

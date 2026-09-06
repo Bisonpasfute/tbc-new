@@ -746,6 +746,15 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralCat-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 2489.65394
+  tps: 1267.50179
+  dtps: 11.58774
+  hps: 68.66347
+ }
+}
+dps_results: {
  key: "TestFeralCat-AllItems-Figurine-DawnstoneCrab-24125"
  value: {
   dps: 2487.06822
