@@ -181,10 +181,23 @@ var ItemSetGronnstalkersArmor = core.NewItemSet(core.ItemSet{
 	},
 })
 
+// The bows and the mail shoulders below can be equipped by other classes, whose agents are not
+// HunterAgents. Their hunter-specific effects simply do not apply to them.
+func hunterFromAgent(agent core.Agent) (*Hunter, bool) {
+	hunterAgent, ok := agent.(HunterAgent)
+	if !ok {
+		return nil, false
+	}
+	return hunterAgent.GetHunter(), true
+}
+
 func init() {
 	// Thori'dal, the Star's Fury
 	core.NewItemEffect(ThoridalTheStarsFuryItemID, func(agent core.Agent) {
-		hunter := agent.(HunterAgent).GetHunter()
+		hunter, ok := hunterFromAgent(agent)
+		if !ok {
+			return
+		}
 
 		isEquipped := hunter.HasItemEquipped(ThoridalTheStarsFuryItemID, []proto.ItemSlot{proto.ItemSlot_ItemSlotRanged})
 		buildPhase := core.Ternary(isEquipped, core.CharacterBuildPhaseGear, core.CharacterBuildPhaseNone)
@@ -241,7 +254,10 @@ func init() {
 
 	// Beast-tamer's Shoulders
 	core.NewItemEffect(30892, func(agent core.Agent) {
-		hunter := agent.(HunterAgent).GetHunter()
+		hunter, ok := hunterFromAgent(agent)
+		if !ok {
+			return
+		}
 
 		hunter.Pet.PseudoStats.DamageDealtMultiplier *= 1.03
 		hunter.Pet.AddStat(stats.PhysicalCritPercent, 3)
@@ -250,7 +266,10 @@ func init() {
 	// Black Bow of the Betrayer
 	const BlackBowOfTheBetrayerItemID = 32336
 	core.NewItemEffect(BlackBowOfTheBetrayerItemID, func(agent core.Agent) {
-		hunter := agent.(HunterAgent).GetHunter()
+		hunter, ok := hunterFromAgent(agent)
+		if !ok {
+			return
+		}
 
 		manaMetrics := hunter.NewManaMetrics(core.ActionID{SpellID: 29471})
 
