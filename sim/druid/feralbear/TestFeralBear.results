@@ -755,6 +755,15 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralBear-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 412.50432
+  tps: 637.21975
+  dtps: 1158.31844
+  hps: 72.22756
+ }
+}
+dps_results: {
  key: "TestFeralBear-AllItems-Figurine-DawnstoneCrab-24125"
  value: {
   dps: 418.2812

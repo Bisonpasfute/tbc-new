@@ -536,6 +536,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 1949.06877
+  tps: 932.41569
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-FieryRetributer-19968"
  value: {
   dps: 1977.12945

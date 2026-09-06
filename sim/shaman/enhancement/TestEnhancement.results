@@ -606,6 +606,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 1938.34904
+  tps: 1230.82283
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-Figurine-DawnstoneCrab-24125"
  value: {
   dps: 1886.35861

@@ -734,6 +734,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 901.59901
+  tps: 1607.2161
+  dtps: 1290.87258
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-FieryRetributer-19968"
  value: {
   dps: 912.65573

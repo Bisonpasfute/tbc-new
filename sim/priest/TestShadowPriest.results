@@ -536,6 +536,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestShadowPriest-AllItems-FelsteelShieldSpike-2714"
+ value: {
+  dps: 1725.53108
+  tps: 892.12156
+ }
+}
+dps_results: {
  key: "TestShadowPriest-AllItems-Figurine-DawnstoneCrab-24125"
  value: {
   dps: 1706.12173
