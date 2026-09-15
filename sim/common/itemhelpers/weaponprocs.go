@@ -5,107 +5,164 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-// Registers a weapon proc whose handler runs on every landed hit that passes the weapon's PPM
-// roll. The handler generator runs once per character and may return nil to opt out. The other
-// helpers build on this one.
-func CreateWeaponProcTrigger(itemID int32, itemName string, ppm float64, spellFlagExclude core.SpellFlag, triggerImmediately bool,
-	handlerGenerator func(character *core.Character) core.ProcHandler) {
+// Weapon proc helpers, ported from the SoD sim. Every helper rolls the proc on the weapon's own
+// PPM manager, which follows the item through item swaps, and registers the trigger aura with
+// ItemSwap so the proc toggles with the weapon.
 
-	core.NewItemEffect(itemID, func(agent core.Agent) {
+type WeaponProcTrigger struct {
+	ItemID int32
+	Name   string
+	PPM    float64
+
+	// Triggering spells carrying any of these flags cannot proc the effect: "Chance on hit"
+	// procs exclude SpellFlagSuppressWeaponProcs, "Equip" procs SpellFlagSuppressEquipProcs.
+	// Left unset it means a "Chance on hit" proc.
+	SpellFlagsExclude  core.SpellFlag
+	TriggerImmediately bool
+
+	// Runs once per character and returns the proc handler, or nil to opt the character out.
+	Handler func(character *core.Character) core.ProcHandler
+}
+
+// Registers a weapon proc whose handler runs on every landed hit that passes the weapon's PPM
+// roll. The other helpers build on this one.
+func CreateWeaponProcTrigger(config WeaponProcTrigger) {
+	if config.SpellFlagsExclude == 0 {
+		config.SpellFlagsExclude = core.SpellFlagSuppressWeaponProcs
+	}
+
+	core.NewItemEffect(config.ItemID, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		handler := handlerGenerator(character)
+		handler := config.Handler(character)
 		if handler == nil {
 			return
 		}
 
 		aura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:               itemName + " Proc",
+			Name:               config.Name + " Proc",
 			Callback:           core.CallbackOnSpellHitDealt,
 			Outcome:            core.OutcomeLanded,
-			DPM:                character.NewDynamicLegacyProcForWeapon(itemID, ppm, 0),
-			SpellFlagsExclude:  spellFlagExclude,
-			TriggerImmediately: triggerImmediately,
+			DPM:                character.NewDynamicLegacyProcForWeapon(config.ItemID, config.PPM, 0),
+			SpellFlagsExclude:  config.SpellFlagsExclude,
+			TriggerImmediately: config.TriggerImmediately,
 			Handler:            handler,
 		})
 
-		character.ItemSwap.RegisterProc(itemID, aura)
+		character.ItemSwap.RegisterProc(config.ItemID, aura)
 	})
 }
 
-// Registers a weapon proc that deals flat damage. The DefenseType (from SpellCategories) picks the
-// hit table and crit multiplier; dmgRange is added on top of dmgMin, so a 60-70 proc is (60, 10).
-func CreateWeaponProcDamage(itemID int32, itemName string, ppm float64, spellID int32, school core.SpellSchool,
-	dmgMin float64, dmgRange float64, bonusCoef float64, defType core.DefenseType, spellFlagExclude core.SpellFlag) {
+type WeaponProcDamage struct {
+	ItemID int32
+	Name   string
+	PPM    float64
 
+	SpellID int32
+	School  core.SpellSchool
+	// From SpellCategories. Picks the hit table and crit multiplier.
+	DefenseType      core.DefenseType
+	MinDmg           float64
+	MaxDmg           float64
+	BonusCoefficient float64
+
+	// See WeaponProcTrigger. CreateWeaponCoHProcDamage and CreateWeaponEquipProcDamage set it.
+	SpellFlagsExclude core.SpellFlag
+}
+
+// Registers a weapon proc that deals flat damage.
+func CreateWeaponProcDamage(config WeaponProcDamage) {
 	shared.NewProcDamageEffect(shared.ProcDamageEffect{
-		ItemID:           itemID,
-		SpellID:          spellID,
-		School:           school,
-		DefenseType:      defType,
-		MinDmg:           dmgMin,
-		MaxDmg:           dmgMin + dmgRange,
-		BonusCoefficient: bonusCoef,
+		ItemID:           config.ItemID,
+		SpellID:          config.SpellID,
+		School:           config.School,
+		DefenseType:      config.DefenseType,
+		MinDmg:           config.MinDmg,
+		MaxDmg:           config.MaxDmg,
+		BonusCoefficient: config.BonusCoefficient,
 		Flags:            core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell,
 		Trigger: core.ProcTrigger{
-			Name:              itemName + " Proc",
+			Name:              config.Name + " Proc",
 			Callback:          core.CallbackOnSpellHitDealt,
 			Outcome:           core.OutcomeLanded,
-			SpellFlagsExclude: spellFlagExclude,
+			SpellFlagsExclude: config.SpellFlagsExclude,
 		},
 		TriggerDPM: func(character *core.Character) *core.DynamicProcManager {
-			return character.NewDynamicLegacyProcForWeapon(itemID, ppm, 0)
+			return character.NewDynamicLegacyProcForWeapon(config.ItemID, config.PPM, 0)
 		},
 	})
 }
 
 // Registers a "Chance on hit" weapon damage proc.
-func CreateWeaponCoHProcDamage(itemID int32, itemName string, ppm float64, spellID int32, school core.SpellSchool,
-	dmgMin float64, dmgRange float64, bonusCoef float64, defType core.DefenseType) {
-
-	CreateWeaponProcDamage(itemID, itemName, ppm, spellID, school, dmgMin, dmgRange, bonusCoef, defType, core.SpellFlagSuppressWeaponProcs)
+func CreateWeaponCoHProcDamage(config WeaponProcDamage) {
+	config.SpellFlagsExclude = core.SpellFlagSuppressWeaponProcs
+	CreateWeaponProcDamage(config)
 }
 
 // Registers an "Equip" weapon damage proc.
-func CreateWeaponEquipProcDamage(itemID int32, itemName string, ppm float64, spellID int32, school core.SpellSchool,
-	dmgMin float64, dmgRange float64, bonusCoef float64, defType core.DefenseType) {
-
-	CreateWeaponProcDamage(itemID, itemName, ppm, spellID, school, dmgMin, dmgRange, bonusCoef, defType, core.SpellFlagSuppressEquipProcs)
+func CreateWeaponEquipProcDamage(config WeaponProcDamage) {
+	config.SpellFlagsExclude = core.SpellFlagSuppressEquipProcs
+	CreateWeaponProcDamage(config)
 }
 
-// Registers a weapon proc that casts a custom spell on the target that was hit. The generator may
-// return nil to opt the character out (e.g. a resource proc on a class without that resource).
-func CreateWeaponProcSpell(itemID int32, itemName string, ppm float64, procSpellGenerator func(character *core.Character) *core.Spell) {
-	CreateWeaponProcTrigger(itemID, itemName, ppm, core.SpellFlagSuppressWeaponProcs, true, func(character *core.Character) core.ProcHandler {
-		procSpell := procSpellGenerator(character)
-		if procSpell == nil {
-			return nil
-		}
-		procSpell.Flags |= core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell
+type WeaponProcSpell struct {
+	ItemID int32
+	Name   string
+	PPM    float64
 
-		return func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			procSpell.Cast(sim, result.Target)
-		}
+	// Runs once per character and returns the spell to cast at the hit target, or nil to opt
+	// the character out (e.g. a resource proc on a class without that resource).
+	Spell func(character *core.Character) *core.Spell
+}
+
+// Registers a "Chance on hit" weapon proc that casts a custom spell on the target that was hit.
+func CreateWeaponProcSpell(config WeaponProcSpell) {
+	CreateWeaponProcTrigger(WeaponProcTrigger{
+		ItemID:             config.ItemID,
+		Name:               config.Name,
+		PPM:                config.PPM,
+		SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
+		TriggerImmediately: true,
+		Handler: func(character *core.Character) core.ProcHandler {
+			procSpell := config.Spell(character)
+			if procSpell == nil {
+				return nil
+			}
+			procSpell.Flags |= core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell
+
+			return func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procSpell.Cast(sim, result.Target)
+			}
+		},
 	})
 }
 
-// Registers a weapon proc that activates a custom aura on the wearer.
-func CreateWeaponProcAura(itemID int32, itemName string, ppm float64, procAuraGenerator func(character *core.Character) *core.Aura) {
-	core.NewItemEffect(itemID, func(agent core.Agent) {
-		AddWeaponProcAura(agent.GetCharacter(), itemID, itemName, ppm, procAuraGenerator)
+type WeaponProcAura struct {
+	ItemID int32
+	Name   string
+	PPM    float64
+
+	// Runs once per character and returns the aura the proc activates on the wearer. A stacking
+	// aura is filled to its maximum on every proc.
+	Aura func(character *core.Character) *core.Aura
+}
+
+// Registers a "Chance on hit" weapon proc that activates a custom aura on the wearer.
+func CreateWeaponProcAura(config WeaponProcAura) {
+	core.NewItemEffect(config.ItemID, func(agent core.Agent) {
+		AddWeaponProcAura(agent.GetCharacter(), config)
 	})
 }
 
-// Adds a weapon proc for a custom aura to an existing item effect. A stacking aura is filled to its
-// maximum on every proc.
-func AddWeaponProcAura(character *core.Character, itemID int32, itemName string, ppm float64, procAuraGenerator func(character *core.Character) *core.Aura) {
-	procAura := procAuraGenerator(character)
+// Adds a "Chance on hit" weapon proc for a custom aura to an existing item effect.
+func AddWeaponProcAura(character *core.Character, config WeaponProcAura) {
+	procAura := config.Aura(character)
 
 	aura := character.MakeProcTriggerAura(core.ProcTrigger{
-		Name:              itemName + " Proc",
+		Name:              config.Name + " Proc",
 		Callback:          core.CallbackOnSpellHitDealt,
 		Outcome:           core.OutcomeLanded,
-		DPM:               character.NewDynamicLegacyProcForWeapon(itemID, ppm, 0),
+		DPM:               character.NewDynamicLegacyProcForWeapon(config.ItemID, config.PPM, 0),
 		SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			procAura.Activate(sim)
@@ -115,5 +172,5 @@ func AddWeaponProcAura(character *core.Character, itemID int32, itemName string,
 		},
 	})
 
-	character.ItemSwap.RegisterProc(itemID, aura)
+	character.ItemSwap.RegisterProc(config.ItemID, aura)
 }
