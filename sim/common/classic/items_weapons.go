@@ -3,15 +3,14 @@ package tbc
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/itemhelpers"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
 func init() {
 	// Thunderfury, Blessed Blade of the Windseeker
-	core.NewItemEffect(19019, func(agent core.Agent) {
-		character := agent.GetCharacter()
-
+	itemhelpers.CreateWeaponProcTrigger(19019, "Thunderfury", 6, core.SpellFlagSuppressWeaponProcs, false, func(character *core.Character) core.ProcHandler {
 		procActionID := core.ActionID{SpellID: 21992}
 
 		attackSpeedDebuffAura := character.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
@@ -78,18 +77,10 @@ func init() {
 			},
 		})
 
-		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:     "Thunderfury",
-			Callback: core.CallbackOnSpellHitDealt,
-			Outcome:  core.OutcomeLanded,
-			DPM:      character.NewDynamicLegacyProcForWeapon(19019, 6, 0),
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				singleTargetSpell.Cast(sim, result.Target)
-				bounceSpell.Cast(sim, result.Target)
-			},
-		})
-
-		character.ItemSwap.RegisterProc(19019, procAura)
+		return func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			singleTargetSpell.Cast(sim, result.Target)
+			bounceSpell.Cast(sim, result.Target)
+		}
 	})
 
 }

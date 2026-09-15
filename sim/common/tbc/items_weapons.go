@@ -3,6 +3,7 @@ package tbc
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/itemhelpers"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
@@ -10,10 +11,8 @@ import (
 
 func init() {
 	// Despair
-	core.NewItemEffect(28573, func(agent core.Agent) {
-		character := agent.GetCharacter()
-
-		spell := character.GetOrRegisterSpell(core.SpellConfig{
+	itemhelpers.CreateWeaponProcSpell(28573, "Despair", 1, func(character *core.Character) *core.Spell {
+		return character.GetOrRegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{SpellID: 34580},
 			ProcMask:    core.ProcMaskEmpty,
 			SpellSchool: core.SpellSchoolPhysical,
@@ -27,39 +26,10 @@ func init() {
 				spell.CalcAndDealDamage(sim, target, 600, spell.OutcomeMeleeSpecialNoBlockDodgeParry)
 			},
 		})
-
-		getDpm := func() *core.DynamicProcManager {
-			return character.NewStaticLegacyPPMManager(
-				1,
-				*character.GetDynamicProcMaskForWeaponEffect(28573),
-			)
-		}
-
-		dpm := getDpm()
-
-		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:               "Despair",
-			SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
-			DPM:                dpm,
-			TriggerImmediately: true,
-			Outcome:            core.OutcomeLanded,
-			Callback:           core.CallbackOnSpellHitDealt,
-			Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
-				spell.Cast(sim, result.Target)
-			},
-		})
-
-		character.RegisterItemSwapCallback([]proto.ItemSlot{proto.ItemSlot_ItemSlotMainHand}, func(sim *core.Simulation, slot proto.ItemSlot) {
-			dpm = getDpm()
-		})
-
-		character.ItemSwap.RegisterProc(28573, procTrigger)
 	})
 
 	// Bonereaver's Edge
-	core.NewItemEffect(17076, func(agent core.Agent) {
-		character := agent.GetCharacter()
-
+	itemhelpers.CreateWeaponProcTrigger(17076, "Bonereaver's Edge", 2, core.SpellFlagSuppressWeaponProcs, false, func(character *core.Character) core.ProcHandler {
 		arpAura := core.MakeStackingAura(
 			character,
 			core.StackingStatAura{
@@ -75,39 +45,14 @@ func init() {
 			},
 		)
 
-		getDpm := func() *core.DynamicProcManager {
-			return character.NewStaticLegacyPPMManager(
-				2,
-				*character.GetDynamicProcMaskForWeaponEffect(17076),
-			)
+		return func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			arpAura.Activate(sim)
+			arpAura.AddStack(sim)
 		}
-
-		dpm := getDpm()
-
-		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:     "Bonereaver's Edge Trigger",
-			DPM:      dpm,
-			Outcome:  core.OutcomeLanded,
-			Callback: core.CallbackOnSpellHitDealt,
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				arpAura.Activate(sim)
-				arpAura.AddStack(sim)
-			},
-		})
-
-		character.RegisterItemSwapCallback(
-			[]proto.ItemSlot{proto.ItemSlot_ItemSlotMainHand},
-			func(sim *core.Simulation, slot proto.ItemSlot) {
-				dpm = getDpm()
-			},
-		)
-
-		character.ItemSwap.RegisterProc(17076, procTrigger)
 	})
 
 	// Rod of the Sun King
-	core.NewItemEffect(29996, func(agent core.Agent) {
-		character := agent.GetCharacter()
+	itemhelpers.CreateWeaponProcSpell(29996, "Rod of the Sun King", 1, func(character *core.Character) *core.Spell {
 		actionID := core.ActionID{SpellID: 36070}
 		var resourceMetrics *core.ResourceMetrics = nil
 		if character.HasEnergyBar() {
@@ -115,10 +60,10 @@ func init() {
 		} else if character.HasRageBar() {
 			resourceMetrics = character.NewRageMetrics(actionID)
 		} else {
-			return
+			return nil
 		}
 
-		spell := character.GetOrRegisterSpell(core.SpellConfig{
+		return character.GetOrRegisterSpell(core.SpellConfig{
 			ActionID: actionID,
 			ProcMask: core.ProcMaskEmpty,
 			Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagNoMetrics,
@@ -131,38 +76,10 @@ func init() {
 				}
 			},
 		})
-
-		resourceGainDpm := func() *core.DynamicProcManager {
-			return character.NewStaticLegacyPPMManager(
-				1,
-				*character.GetDynamicProcMaskForWeaponEffect(29996),
-			)
-		}
-
-		dpm := resourceGainDpm()
-
-		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:               "Power of the Sun King",
-			SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
-			DPM:                dpm,
-			TriggerImmediately: true,
-			Outcome:            core.OutcomeLanded,
-			Callback:           core.CallbackOnSpellHitDealt,
-			Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
-				spell.Cast(sim, result.Target)
-			},
-		})
-
-		character.RegisterItemSwapCallback(core.AllMeleeWeaponSlots(), func(sim *core.Simulation, slot proto.ItemSlot) {
-			dpm = resourceGainDpm()
-		})
-
-		character.ItemSwap.RegisterProc(29996, procTrigger)
 	})
 
 	// World Breaker
-	core.NewItemEffect(30090, func(agent core.Agent) {
-		character := agent.GetCharacter()
+	itemhelpers.CreateWeaponProcTrigger(30090, "World Breaker", 1, core.SpellFlagSuppressWeaponProcs, true, func(character *core.Character) core.ProcHandler {
 		var aura *core.Aura
 		aura = character.RegisterAura(core.Aura{
 			Label:     "World Breaker",
@@ -184,48 +101,14 @@ func init() {
 				},
 			})
 
-		getDpm := func() *core.DynamicProcManager {
-			return character.NewStaticLegacyPPMManager(
-				1,
-				*character.GetDynamicProcMaskForWeaponEffect(30090),
-			)
+		return func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			aura.Activate(sim)
+			aura.AddStack(sim)
 		}
-
-		dpm := getDpm()
-
-		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:               "World Breaker - Trigger",
-			SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
-			DPM:                dpm,
-			Outcome:            core.OutcomeLanded,
-			Callback:           core.CallbackOnSpellHitDealt,
-			TriggerImmediately: true,
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				aura.Activate(sim)
-				aura.AddStack(sim)
-			},
-		})
-
-		character.RegisterItemSwapCallback([]proto.ItemSlot{proto.ItemSlot_ItemSlotMainHand}, func(sim *core.Simulation, slot proto.ItemSlot) {
-			dpm = getDpm()
-		})
-
-		character.ItemSwap.RegisterProc(30090, procTrigger)
 	})
 
 	newSpeedInfusionWeaponEffect := func(itemID int32, itemName string) {
-		core.NewItemEffect(itemID, func(agent core.Agent) {
-			character := agent.GetCharacter()
-
-			getDpm := func() *core.DynamicProcManager {
-				return character.NewStaticLegacyPPMManager(
-					2,
-					*character.GetDynamicProcMaskForWeaponEffect(itemID),
-				)
-			}
-
-			dpm := getDpm()
-
+		itemhelpers.CreateWeaponProcAura(itemID, itemName, 2, func(character *core.Character) *core.Aura {
 			aura := character.RegisterAura(core.Aura{
 				Label:    "Speed Infusion",
 				ActionID: core.ActionID{SpellID: 36479},
@@ -234,21 +117,7 @@ func init() {
 
 			aura.NewActiveMovementSpeedEffect(0.5)
 
-			procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-				Name:     itemName,
-				DPM:      dpm,
-				Outcome:  core.OutcomeLanded,
-				Callback: core.CallbackOnSpellHitDealt,
-				Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
-					aura.Activate(sim)
-				},
-			})
-
-			character.RegisterItemSwapCallback(core.AllMeleeWeaponSlots(), func(sim *core.Simulation, slot proto.ItemSlot) {
-				dpm = getDpm()
-			})
-
-			character.ItemSwap.RegisterProc(itemID, procTrigger)
+			return aura
 		})
 	}
 
@@ -256,21 +125,11 @@ func init() {
 	newSpeedInfusionWeaponEffect(30316, "Devastation")
 
 	// Infinity Blade
-	core.NewItemEffect(30312, func(agent core.Agent) {
-		character := agent.GetCharacter()
+	itemhelpers.CreateWeaponProcTrigger(30312, "Infinity Blade", 2, core.SpellFlagSuppressWeaponProcs, false, func(character *core.Character) core.ProcHandler {
 		schools := []stats.SchoolIndex{
 			stats.SchoolIndexArcane, stats.SchoolIndexFire, stats.SchoolIndexFrost,
 			stats.SchoolIndexHoly, stats.SchoolIndexNature, stats.SchoolIndexShadow,
 		}
-
-		getDpm := func() *core.DynamicProcManager {
-			return character.NewStaticLegacyPPMManager(
-				2,
-				*character.GetDynamicProcMaskForWeaponEffect(30312),
-			)
-		}
-
-		dpm := getDpm()
 
 		auras := character.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
 			return target.GetOrRegisterAura(core.Aura{
@@ -286,23 +145,11 @@ func init() {
 			})
 		})
 
-		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:     "Infinity Blade",
-			DPM:      dpm,
-			Outcome:  core.OutcomeLanded,
-			Callback: core.CallbackOnSpellHitDealt,
-			Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
-				aura := auras.Get(result.Target)
-				aura.Activate(sim)
-				aura.AddStack(sim)
-			},
-		})
-
-		character.RegisterItemSwapCallback(core.AllMeleeWeaponSlots(), func(sim *core.Simulation, slot proto.ItemSlot) {
-			dpm = getDpm()
-		})
-
-		character.ItemSwap.RegisterProc(30312, procTrigger)
+		return func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
+			aura := auras.Get(result.Target)
+			aura.Activate(sim)
+			aura.AddStack(sim)
+		}
 	})
 
 	// Blinkstrike
@@ -346,8 +193,7 @@ func init() {
 	})
 
 	// Syphon of the Nathrezim
-	core.NewItemEffect(32262, func(agent core.Agent) {
-		character := agent.GetCharacter()
+	itemhelpers.CreateWeaponProcAura(32262, "Syphon of the Nathrezim", 1, func(character *core.Character) *core.Aura {
 		spell := character.GetOrRegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{SpellID: 40293},
 			SpellSchool: core.SpellSchoolShadow,
@@ -361,7 +207,7 @@ func init() {
 			},
 		})
 
-		aura := character.MakeProcTriggerAura(core.ProcTrigger{
+		return character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:              "Siphon Essence",
 			MetricsActionID:   core.ActionID{SpellID: 40293},
 			Duration:          time.Second * 6,
@@ -372,21 +218,6 @@ func init() {
 				spell.Cast(sim, result.Target)
 			},
 		})
-
-		dpm := character.NewDynamicLegacyProcForWeapon(32262, 1, 0)
-
-		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Syphon of the Nathrezim - Trigger",
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               dpm,
-			Outcome:           core.OutcomeLanded,
-			Callback:          core.CallbackOnSpellHitDealt,
-			Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
-				aura.Activate(sim)
-			},
-		})
-
-		character.ItemSwap.RegisterProc(32262, procTrigger)
 	})
 
 	// Warglaives of Azzinoth

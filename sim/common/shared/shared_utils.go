@@ -673,12 +673,13 @@ type ProcDamageEffect struct {
 	TriggerDPM func(*core.Character) *core.DynamicProcManager
 	School     core.SpellSchool
 	// From SpellCategories. Left unset, it is inferred from School and IsMelee.
-	DefenseType core.DefenseType
-	MinDmg      float64
-	MaxDmg      float64
-	IsMelee     bool
-	Flags       core.SpellFlag
-	Outcome     OutcomeType
+	DefenseType      core.DefenseType
+	MinDmg           float64
+	MaxDmg           float64
+	BonusCoefficient float64
+	IsMelee          bool
+	Flags            core.SpellFlag
+	Outcome          OutcomeType
 	// Set when the client bars the damage spell from critting, which the sim has no way to know:
 	// it is a spell attribute, so only the database generator can see it.
 	CannotCrit bool
@@ -757,6 +758,7 @@ func NewProcDamageEffect(config ProcDamageEffect) {
 
 			DamageMultiplier: 1,
 			ThreatMultiplier: 1,
+			BonusCoefficient: config.BonusCoefficient,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				spell.CalcAndDealDamage(sim, target, sim.Roll(minDmg, maxDmg), GetOutcome(spell, damageOutcome(defenseType, config.CannotCrit, config.Outcome)))
