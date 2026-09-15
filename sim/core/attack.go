@@ -20,7 +20,6 @@ type Weapon struct {
 	AttackPowerPerDPS    float64
 	SwingSpeed           float64
 	NormalizedSwingSpeed float64
-	CritMultiplier       float64
 	SpellSchool          SpellSchool
 	MinRange             float64
 	MaxRange             float64
@@ -33,14 +32,13 @@ func (weapon *Weapon) DPS() float64 {
 	return (weapon.BaseDamageMin + weapon.BaseDamageMax) / 2.0 / weapon.SwingSpeed
 }
 
-func newWeaponFromUnarmed(critMultiplier float64) Weapon {
+func newWeaponFromUnarmed() Weapon {
 	// These numbers are probably wrong but nobody cares.
 	return Weapon{
 		BaseDamageMin:        0,
 		BaseDamageMax:        0,
 		SwingSpeed:           1,
 		NormalizedSwingSpeed: 1,
-		CritMultiplier:       critMultiplier,
 		AttackPowerPerDPS:    DefaultAttackPowerPerDPS,
 		MaxRange:             MaxMeleeRange,
 	}
@@ -73,7 +71,7 @@ func getWeaponMinRange(item *Item) float64 {
 	return 0
 }
 
-func newWeaponFromItem(item *Item, critMultiplier float64, bonusDps float64) Weapon {
+func newWeaponFromItem(item *Item, bonusDps float64) Weapon {
 	normalizedWeaponSpeed := 2.4
 	if item.WeaponType == proto.WeaponType_WeaponTypeDagger {
 		normalizedWeaponSpeed = 1.7
@@ -88,7 +86,6 @@ func newWeaponFromItem(item *Item, critMultiplier float64, bonusDps float64) Wea
 		BaseDamageMax:        item.WeaponDamageMax + bonusDps*item.SwingSpeed,
 		SwingSpeed:           item.SwingSpeed,
 		NormalizedSwingSpeed: normalizedWeaponSpeed,
-		CritMultiplier:       critMultiplier,
 		AttackPowerPerDPS:    DefaultAttackPowerPerDPS,
 		MinRange:             getWeaponMinRange(item),
 		MaxRange:             getWeaponMaxRange(item),
@@ -96,27 +93,27 @@ func newWeaponFromItem(item *Item, critMultiplier float64, bonusDps float64) Wea
 }
 
 // Returns weapon stats using the main hand equipped weapon.
-func (character *Character) WeaponFromMainHand(critMultiplier float64) Weapon {
+func (character *Character) WeaponFromMainHand() Weapon {
 	if weapon := character.GetMHWeapon(); weapon != nil {
-		return newWeaponFromItem(weapon, critMultiplier, character.PseudoStats.BonusMHDps)
+		return newWeaponFromItem(weapon, character.PseudoStats.BonusMHDps)
 	} else {
-		return newWeaponFromUnarmed(critMultiplier)
+		return newWeaponFromUnarmed()
 	}
 }
 
 // Returns weapon stats using the off-hand equipped weapon.
-func (character *Character) WeaponFromOffHand(critMultiplier float64) Weapon {
+func (character *Character) WeaponFromOffHand() Weapon {
 	if weapon := character.GetOHWeapon(); weapon != nil {
-		return newWeaponFromItem(weapon, critMultiplier, character.PseudoStats.BonusOHDps)
+		return newWeaponFromItem(weapon, character.PseudoStats.BonusOHDps)
 	} else {
 		return Weapon{}
 	}
 }
 
 // Returns weapon stats using the ranged equipped weapon.
-func (character *Character) WeaponFromRanged(critMultiplier float64) Weapon {
+func (character *Character) WeaponFromRanged() Weapon {
 	if weapon := character.GetRangedWeapon(); weapon != nil {
-		return newWeaponFromItem(weapon, critMultiplier, character.PseudoStats.BonusRangedDps)
+		return newWeaponFromItem(weapon, character.PseudoStats.BonusRangedDps)
 	} else {
 		return Weapon{}
 	}
@@ -335,7 +332,6 @@ func (wa *WeaponAttack) getWeapon() *Weapon {
 
 func (wa *WeaponAttack) setWeapon(weapon Weapon) {
 	wa.Weapon = weapon
-	wa.spell.CritMultiplier = weapon.CritMultiplier
 	wa.updateSwingDuration(wa.curSwingSpeed)
 }
 
@@ -463,12 +459,12 @@ func (unit *Unit) EnableAutoAttacks(agent Agent, options AutoAttackOptions) {
 	unit.AutoAttacks.mh.config = SpellConfig{
 		ActionID:    ActionID{OtherID: proto.OtherAction_OtherActionAttack, Tag: 1},
 		SpellSchool: options.MainHand.GetSpellSchool(),
+		DefenseType: DefenseTypeMelee,
 		ProcMask:    Ternary(options.ProcMask == ProcMaskUnknown, ProcMaskMeleeMHAuto, options.ProcMask),
 		Flags:       SpellFlagMeleeMetrics | SpellFlagIncludeTargetBonusDamage | SpellFlagNoOnCastComplete,
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
-		CritMultiplier:           options.MainHand.CritMultiplier,
 		ThreatMultiplier:         1,
 
 		BonusCoefficient: 1,
@@ -488,12 +484,12 @@ func (unit *Unit) EnableAutoAttacks(agent Agent, options AutoAttackOptions) {
 	unit.AutoAttacks.oh.config = SpellConfig{
 		ActionID:    ActionID{OtherID: proto.OtherAction_OtherActionAttack, Tag: 2},
 		SpellSchool: options.OffHand.GetSpellSchool(),
+		DefenseType: DefenseTypeMelee,
 		ProcMask:    Ternary(options.ProcMask == ProcMaskUnknown, ProcMaskMeleeOHAuto, options.ProcMask),
 		Flags:       SpellFlagMeleeMetrics | SpellFlagIncludeTargetBonusDamage | SpellFlagNoOnCastComplete,
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
-		CritMultiplier:           options.OffHand.CritMultiplier,
 		ThreatMultiplier:         1,
 
 		BonusCoefficient: 1,
@@ -508,6 +504,7 @@ func (unit *Unit) EnableAutoAttacks(agent Agent, options AutoAttackOptions) {
 	unit.AutoAttacks.ranged.config = SpellConfig{
 		ActionID:     ActionID{OtherID: proto.OtherAction_OtherActionShoot},
 		SpellSchool:  options.Ranged.GetSpellSchool(),
+		DefenseType:  DefenseTypeRanged,
 		ProcMask:     Ternary(options.ProcMask == ProcMaskUnknown, ProcMaskRangedAuto, options.ProcMask),
 		Flags:        SpellFlagMeleeMetrics | SpellFlagIncludeTargetBonusDamage,
 		MissileSpeed: 40,
@@ -539,7 +536,6 @@ func (unit *Unit) EnableAutoAttacks(agent Agent, options AutoAttackOptions) {
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
-		CritMultiplier:           options.Ranged.CritMultiplier,
 		ThreatMultiplier:         1,
 		BonusCoefficient:         1,
 
