@@ -29,11 +29,11 @@ func init() {
 		singleTargetSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    procActionID.WithTag(1),
 			SpellSchool: core.SpellSchoolNature,
+			DefenseType: core.DefenseTypeMagic,
 			ProcMask:    core.ProcMaskSpellProc | core.ProcMaskSpellDamageProc,
 			Flags:       core.SpellFlagSuppressWeaponProcs,
 
 			DamageMultiplier: 1,
-			CritMultiplier:   character.DefaultSpellCritMultiplier(),
 			ThreatMultiplier: 0.5,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -61,6 +61,7 @@ func init() {
 		bounceSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    procActionID.WithTag(2),
 			SpellSchool: core.SpellSchoolNature,
+			DefenseType: core.DefenseTypeMagic,
 			ProcMask:    core.ProcMaskEmpty,
 
 			ThreatMultiplier: 1,

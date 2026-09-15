@@ -17,10 +17,10 @@ func init() {
 			ActionID:    core.ActionID{SpellID: 34580},
 			ProcMask:    core.ProcMaskEmpty,
 			SpellSchool: core.SpellSchoolPhysical,
+			DefenseType: core.DefenseTypeMelee,
 			Flags:       core.SpellFlagPassiveSpell | core.SpellFlagIgnoreResists,
 
 			DamageMultiplier: 1,
-			CritMultiplier:   character.DefaultMeleeCritMultiplier(),
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -355,7 +355,6 @@ func init() {
 			Flags:       core.SpellFlagPassiveSpell,
 
 			DamageMultiplier: 1,
-			CritMultiplier:   character.DefaultSpellCritMultiplier(),
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				spell.CalcAndDealDamage(sim, target, 20, spell.OutcomeAlwaysHit)
