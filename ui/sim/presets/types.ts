@@ -16,6 +16,7 @@ import {
 } from '@generated/proto/common';
 import { SavedRotation, SavedTalents } from '@generated/proto/ui';
 
+import type { Phase } from '../constants/other';
 import type { Player } from '../player/player';
 import type { SpecOptions } from '../proto/spec_types';
 import type { Stats } from '../proto/stats';
@@ -25,10 +26,16 @@ export interface PresetBase {
 	tooltip?: string;
 	enableWhen?: (obj: Player<any>) => boolean;
 	onLoad?: (player: Player<any>) => void;
+	// TBC-only grouping, read by ui/app's preset group picker: which content phase a
+	// preset belongs to, and an optional named section within that phase.
+	phase?: Phase;
+	group?: string;
 }
 
 export interface PresetOptionsBase extends Pick<PresetBase, 'onLoad'> {
 	customCondition?: (player: Player<any>) => boolean;
+	phase?: Phase;
+	group?: string;
 }
 
 export interface PresetGear extends PresetBase {
@@ -92,6 +99,8 @@ export interface PresetSettings extends PresetBase {
 
 export interface PresetBuild {
 	name: string;
+	phase?: Phase;
+	group?: string;
 	gear?: PresetGear;
 	itemSwap?: PresetItemSwap;
 	talents?: PresetTalents;
