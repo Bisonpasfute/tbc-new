@@ -72,32 +72,6 @@
 		},
 		{
 			"files": [
-				"ui/features/**/*.{ts,tsx}"
-			],
-			"rules": {
-				"no-restricted-imports": [
-					"error",
-					{
-						"patterns": [
-							{
-								"group": [
-									"**/state/sim_store*"
-								],
-								"importNames": [
-									"patchSlice",
-									"patchKeyed",
-									"seedKeyed",
-									"deleteKeyed"
-								],
-								"message": "Features must not write the store directly — go through a facade (e.g. ui/sim/bulk_settings.ts)."
-							}
-						]
-					}
-				]
-			}
-		},
-		{
-			"files": [
 				"ui/i18n/**/*.{ts,tsx}"
 			],
 			"rules": {
@@ -227,6 +201,48 @@
 									"react-dom/client"
 								],
 								"message": "Only the shell creates React roots (see ui/README.md dependency direction). A feature or ui-kit component that needs one is the createRoot-per-leaf model this migration rejected."
+							},
+							{
+								"group": [
+									"**/state/sim_store*"
+								],
+								"importNames": [
+									"patchSlice",
+									"patchKeyed",
+									"seedKeyed",
+									"deleteKeyed"
+								],
+								"message": "Features must not write the store directly \u2014 go through a facade (e.g. ui/sim/bulk_settings.ts)."
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"files": [
+				"ui/features/**/*.test.ts",
+				"ui/features/**/*.test.tsx"
+			],
+			"rules": {
+				"no-restricted-imports": [
+					"error",
+					{
+						"patterns": [
+							{
+								"group": [
+									"@app",
+									"@app/**",
+									"@specs",
+									"@specs/**"
+								],
+								"message": "ui/features must not depend on app/specs (see ui/README.md dependency direction)."
+							},
+							{
+								"group": [
+									"react-dom/client"
+								],
+								"message": "Only the shell creates React roots (see ui/README.md dependency direction). A feature or ui-kit component that needs one is the createRoot-per-leaf model this migration rejected."
 							}
 						]
 					}
@@ -258,7 +274,7 @@
 									"react/**",
 									"react-dom/**"
 								],
-								"message": "A feature's model layer is framework-free — keep React out of it (see ui/README.md dependency direction)."
+								"message": "A feature's model layer is framework-free \u2014 keep React out of it (see ui/README.md dependency direction)."
 							}
 						]
 					}
