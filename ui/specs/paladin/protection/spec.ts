@@ -68,6 +68,7 @@ const JUDGEMENT_CONFIG: Record<PaladinJudgement, JudgementSpec | null> = {
 
 export default defineSpec<Spec.SpecProtectionPaladin>({
 	spec: Spec.SpecProtectionPaladin,
+	enableHealing: true,
 
 	className: 'protection-paladin-sim-ui',
 	cssScheme: PlayerClasses.getCssScheme(PlayerClasses.Paladin),

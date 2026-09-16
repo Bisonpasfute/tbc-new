@@ -1043,8 +1043,9 @@ export class Sim {
 			const filters = proto.filters || this.defaultFilters();
 			if (filters.armorTypes.length == 0) {
 				if (this.type == SimType.SimTypeIndividual) {
-					// For Individual sims, by default only show the class's default armor type because of armor specialization
-					filters.armorTypes = [this.raid.getActivePlayers()[0].getPlayerClass().armorTypes[0]];
+					// TBC has no armor specialization, so a class can wear every armor type it
+					// is proficient in -- a druid leather and cloth, a shaman mail down to cloth.
+					filters.armorTypes = this.raid.getActivePlayers()[0].getPlayerClass().armorTypes.slice();
 				} else {
 					filters.armorTypes = Sim.ALL_ARMOR_TYPES.slice();
 				}

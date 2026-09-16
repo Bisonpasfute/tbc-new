@@ -14,6 +14,7 @@ import * as Presets from './presets';
 
 export default defineSpec<Spec.SpecFeralBearDruid>({
 	spec: Spec.SpecFeralBearDruid,
+	enableHealing: true,
 
 	className: 'feral-bear-druid-sim-ui',
 	cssScheme: PlayerClasses.getCssScheme(PlayerClasses.Druid),

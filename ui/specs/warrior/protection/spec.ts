@@ -13,6 +13,7 @@ import * as Presets from './presets';
 
 export default defineSpec<Spec.SpecProtectionWarrior>({
 	spec: Spec.SpecProtectionWarrior,
+	enableHealing: true,
 
 	className: 'protection-warrior-sim-ui',
 	cssScheme: PlayerClasses.getCssScheme(PlayerClasses.Warrior),

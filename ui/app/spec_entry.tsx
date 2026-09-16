@@ -43,7 +43,12 @@ void (async () => {
 	sim.runs.setFlush(flushSync);
 	const playerSpec = PlayerSpecs.fromProto(def.spec);
 	const player = new Player(playerSpec, sim);
-	if (def.enableHealing ?? (playerSpec.isTankSpec || playerSpec.isHealingSpec)) player.enableHealing();
+	// Opt-in per spec, not inferred. Upstream derives this from isTankSpec ||
+	// isHealingSpec; in TBC exactly four specs enable it -- feralbear, holy and
+	// protection paladin, and protection warrior -- and notably neither restoration
+	// spec does, so the heuristic would hand them a computed healing model the
+	// pre-port UI never gave them.
+	if (def.enableHealing) player.enableHealing();
 
 	sim.raid.setPlayer(0, player);
 
