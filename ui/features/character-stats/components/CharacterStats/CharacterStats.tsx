@@ -124,7 +124,7 @@ export const CharacterStats = () => {
 								case 'crit-immunity':
 									return critImmunity && <CritImmunityRow key={row.id} info={critImmunity.info} text={critImmunity.text} />;
 								case 'melee-crit-cap':
-									return critCap && <CritCapRow key={row.id} info={critCap.info} text={critCap.text} />;
+									return critCap && <CritCapRow key={row.id} info={critCap.info} text={critCap.text} pending={pending} />;
 							}
 						})}
 					</tbody>
