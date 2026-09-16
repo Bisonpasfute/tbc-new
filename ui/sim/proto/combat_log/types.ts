@@ -1,5 +1,5 @@
 import type { SpellSchool } from '@generated/proto/common';
-import type { ResourceType, SecondaryResourceType } from '@generated/proto/spell';
+import type { ResourceType } from '@generated/proto/spell';
 
 import type { ActionId } from '../action_id';
 
@@ -140,7 +140,6 @@ export interface ResourceLog extends BaseLog {
 	readonly valueAfter: number;
 	readonly isSpend: boolean;
 	readonly total: number;
-	readonly secondaryResourceType: SecondaryResourceType | undefined;
 }
 
 export interface AuraLog extends BaseLog {

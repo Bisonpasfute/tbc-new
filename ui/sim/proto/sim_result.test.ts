@@ -6,11 +6,6 @@ vi.mock('@i18n/localization', () => ({
 	translatePseudoStat: (pseudoStat: unknown) => String(pseudoStat),
 }));
 
-// `sim_result` pulls in the combat-log parser, which builds a resource-name table at module scope
-// from a proto enum `ui/sim/proto/names.ts` has not been ported to TBC for yet. Only the lookup is
-// needed here.
-vi.mock('./names', () => ({ stringToResourceType: () => undefined }));
-
 import { TargetedActionMetrics } from './sim_result';
 
 // TBC calls a blocked critical hit `blockedCrit*` where MoP renamed the same three fields to

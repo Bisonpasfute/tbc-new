@@ -89,7 +89,7 @@ function buildDamageLog(log: PendingLog, match: RegExpExecArray): DamageLog {
 }
 
 function buildResourceLog(log: PendingLog, match: RegExpExecArray): ResourceLog {
-	const [resourceType, secondaryResourceType] = stringToResourceType(match[3]);
+	const resourceType = stringToResourceType(match[3]);
 	const out = log as Mutable<ResourceLog>;
 	out.kind = 'resource';
 	out.resourceType = resourceType;
@@ -99,7 +99,6 @@ function buildResourceLog(log: PendingLog, match: RegExpExecArray): ResourceLog 
 	out.total = match[8] !== undefined ? parseFloat(match[8]) : 0;
 	// Always assigned, including when undefined: the parity dump discovers fields with
 	// Object.keys, and the old constructor's assignment created the key either way.
-	out.secondaryResourceType = secondaryResourceType;
 	return out;
 }
 

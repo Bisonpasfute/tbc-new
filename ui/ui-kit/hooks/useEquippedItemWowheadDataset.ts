@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 import { useWowheadDataset } from './useWowheadDataset';
 
-export const useEquippedItemWowheadDataset = (player: Player<any>, item: EquippedItem | null | undefined, isBlacksmithing: boolean) => {
-	const resolve = useMemo(() => (item ? () => equippedItemWowheadTooltipData(player, item, isBlacksmithing) : null), [player, item, isBlacksmithing]);
+export const useEquippedItemWowheadDataset = (player: Player<any>, item: EquippedItem | null | undefined) => {
+	const resolve = useMemo(() => (item ? () => equippedItemWowheadTooltipData(player, item) : null), [player, item]);
 	return useWowheadDataset(resolve);
 };

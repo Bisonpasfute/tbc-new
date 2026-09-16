@@ -15,7 +15,7 @@ import {
 } from '@generated/proto/common';
 import { ResourceType } from '@generated/proto/spell';
 import { RaidFilterOption, SourceFilterOption } from '@generated/proto/ui';
-import { BulkSimItemSlot } from '@sim/bulk/utils';
+import { BulkSimItemSlot } from '@sim/bulk/constants_auto_gen';
 import { LaunchStatus } from '@sim/constants/other';
 import { PresetConfigurationCategory } from '@sim/constants/preset_categories';
 

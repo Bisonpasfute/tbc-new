@@ -1,6 +1,6 @@
 import { StatCapType } from '@generated/proto/api';
 import { ArmorType, Class, Profession, Race, Spec, Stat } from '@generated/proto/common';
-import { ResourceType, SecondaryResourceType } from '@generated/proto/spell';
+import { ResourceType } from '@generated/proto/spell';
 import { DungeonDifficulty, RepFaction, RepLevel } from '@generated/proto/ui';
 
 export const armorTypeNames: Map<ArmorType, string> = new Map([
@@ -171,22 +171,17 @@ export const resourceColors: Map<ResourceType, string> = new Map([
 	[ResourceType.ResourceTypeGenericResource, '#ffffff'],
 ]);
 
-// Built once. This is called for every resource line the combat log parser sees, and it
-// used to walk resourceNames and rebuild Object.keys(SecondaryResourceType) on each call.
-// Resource names win over secondary resource names on a tie, as the sequential lookups did.
+// Built once. This is called for every resource line the combat log parser sees.
 const resourceTypesByLowerName = (() => {
-	const byName = new Map<string, [ResourceType, SecondaryResourceType | undefined]>();
-	for (const val of Object.keys(SecondaryResourceType).filter(key => isNaN(Number(key)))) {
-		byName.set(val.toLowerCase(), [ResourceType.ResourceTypeGenericResource, (<any>SecondaryResourceType)[val]]);
-	}
+	const byName = new Map<string, ResourceType>();
 	for (const [key, val] of resourceNames) {
-		byName.set(val.toLowerCase(), [key, undefined]);
+		byName.set(val.toLowerCase(), key);
 	}
 	return byName;
 })();
 
-export function stringToResourceType(str: string): [ResourceType, SecondaryResourceType | undefined] {
-	return resourceTypesByLowerName.get(str.toLowerCase()) ?? [ResourceType.ResourceTypeNone, undefined];
+export function stringToResourceType(str: string): ResourceType {
+	return resourceTypesByLowerName.get(str.toLowerCase()) ?? ResourceType.ResourceTypeNone;
 }
 
 export const difficultyNames: Map<DungeonDifficulty, string> = new Map([
