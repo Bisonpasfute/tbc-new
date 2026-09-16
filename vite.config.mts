@@ -8,7 +8,6 @@ import { ConfigEnv, defineConfig, PluginOption, UserConfigExport } from 'vite';
 import { watchAndRun } from 'vite-plugin-watch-and-run';
 import { checker } from 'vite-plugin-checker';
 import i18nextLoader from 'vite-plugin-i18next-loader';
-import stylelint from 'vite-plugin-stylelint';
 
 import { specPages } from './tools/vite/spec_pages.mjs';
 
@@ -157,12 +156,6 @@ export default defineConfig(({ command, mode }) => {
 				typescript: { root: __dirname, tsconfigPath: 'tsconfig.json' },
 				// Type-checking during build is redundant: the makefile runs `tsc --noEmit` right before `vite build`.
 				enableBuild: false,
-			}),
-			stylelint({
-				build: true,
-				lintInWorker: process.env.NODE_ENV === 'production',
-				include: ['ui/**/*.scss'],
-				configFile: path.resolve(__dirname, 'stylelint.config.mjs'),
 			}),
 		],
 		oxc: {
