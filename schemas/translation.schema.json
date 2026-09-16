@@ -3678,6 +3678,9 @@
 				"title": {
 					"type": "string"
 				},
+				"title_badge": {
+					"type": "string"
+				},
 				"description": {
 					"type": "string"
 				},
