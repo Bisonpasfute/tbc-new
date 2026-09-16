@@ -69,7 +69,10 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					<IconEnumPicker modObject={player} config={configs.ohImbue} />
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="drums" configs={[configs.drums]}>
+			{/* Ungated on purpose, the way vanilla's drums row was: the picker has to stay mounted while
+			    it is hidden so that it zeroes a drums selection the player can no longer make, and restores
+			    it if Leatherworking comes back. */}
+			<ConsumeRow name="drums">
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-drums">
 					<IconEnumPicker modObject={player} config={configs.drums} />
 				</PickerGroup>
