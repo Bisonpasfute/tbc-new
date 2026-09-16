@@ -54,17 +54,17 @@ const offered = (values: Array<{ value: number }>) => values.slice(1).map(entry 
 
 describe('consumeConfigs', () => {
 	it('drops the Mighty Rage Potion for anyone but a warrior or a feral bear druid', () => {
-		const mage = build(playerOf(Class.ClassMage, Spec.SpecFireMage));
+		const mage = build(playerOf(Class.ClassMage, Spec.SpecMage));
 		expect(offered(mage.potion.values)).toEqual([76089]);
 	});
 
 	it('keeps it for a warrior and for a feral bear druid', () => {
-		expect(offered(build(playerOf(Class.ClassWarrior, Spec.SpecArmsWarrior)).potion.values)).toEqual([76089, MIGHTY_RAGE]);
+		expect(offered(build(playerOf(Class.ClassWarrior, Spec.SpecDpsWarrior)).potion.values)).toEqual([76089, MIGHTY_RAGE]);
 		expect(offered(build(playerOf(Class.ClassDruid, Spec.SpecFeralBearDruid)).potion.values)).toEqual([76089, MIGHTY_RAGE]);
 	});
 
 	it('binds each picker to its own consumables field', () => {
-		const player = playerOf(Class.ClassMage, Spec.SpecFireMage);
+		const player = playerOf(Class.ClassMage, Spec.SpecMage);
 		const configs = build(player);
 		expect({
 			potion: configs.potion.getValue(player),
@@ -94,7 +94,7 @@ describe('consumeConfigs', () => {
 	});
 
 	it('takes each list from its own consumable type, and the stat-option lists from their arguments', () => {
-		const configs = build(playerOf(Class.ClassMage, Spec.SpecFireMage));
+		const configs = build(playerOf(Class.ClassMage, Spec.SpecMage));
 		expect(offered(configs.flask.values)).toEqual([76085]);
 		expect(offered(configs.battleElixir.values)).toEqual([58148]);
 		expect(offered(configs.guardianElixir.values)).toEqual([58090]);

@@ -47,7 +47,7 @@ func TestEnhancement(t *testing.T) {
 					},
 				},
 			}}},
-			GearSet: core.GetGearSet("../../../ui/shaman/enhancement/gear_sets", "p1"),
+			GearSet: core.GetGearSet("../../../ui/specs/shaman/enhancement/gear_sets", "p1"),
 			Talents: "03-500502210501133531151-50005301",
 			OtherTalentSets: []core.TalentsCombo{
 				{
@@ -59,7 +59,7 @@ func TestEnhancement(t *testing.T) {
 					Talents: "250031501-500503210500133531151",
 				},
 			},
-			Rotation: core.GetAplRotation("../../../ui/shaman/enhancement/apls", "default"),
+			Rotation: core.GetAplRotation("../../../ui/specs/shaman/enhancement/apls", "default"),
 			ItemFilter: core.ItemFilter{
 				WeaponTypes: []proto.WeaponType{
 					proto.WeaponType_WeaponTypeAxe,

@@ -186,7 +186,9 @@ interface QuadStateInputConfig<T> {
 	impId: ActionId;
 	impId2: ActionId;
 	fieldName: keyof T;
+	fieldNameImp2: keyof T;
 	faction?: Faction;
+	label?: string;
 }
 
 export const makeQuadstateDebuffInput = <SpecType extends Spec>(
@@ -203,6 +205,8 @@ export const makeQuadstateDebuffInput = <SpecType extends Spec>(
 		config.impId,
 		config.impId2,
 		config.fieldName,
+		config.fieldNameImp2,
+		config.label,
 	);
 };
 
@@ -220,6 +224,8 @@ export const makeQuadstatePartyBuffInput = <SpecType extends Spec>(
 		config.impId,
 		config.impId2,
 		config.fieldName,
+		config.fieldNameImp2,
+		config.label,
 	);
 };
 
@@ -270,10 +276,7 @@ export const makeMultistateIndividualBuffInput = <SpecType extends Spec>(
 };
 
 export const makeMultistatePartyBuffInput = <SpecType extends Spec>(
-	actionId: ActionId,
-	numStates: number,
-	fieldName: keyof PartyBuffs,
-	label?: string,
+	config: MultiStateInputConfig<PartyBuffs>,
 ): InputHelpers.TypedIconPickerConfig<Player<SpecType>, number> => {
 	return InputHelpers.makeMultistateIconInput<any, PartyBuffs, Party>(
 		{
@@ -282,11 +285,11 @@ export const makeMultistatePartyBuffInput = <SpecType extends Spec>(
 			setValue: (party: Party, newVal: PartyBuffs) => party.setBuffs(newVal),
 			storeField: 'raid:partyBuffs',
 		},
-		actionId,
-		numStates,
-		fieldName,
-		undefined,
-		label,
+		config.actionId,
+		config.numStates,
+		config.fieldName,
+		config.multiplier,
+		config.label,
 	);
 };
 

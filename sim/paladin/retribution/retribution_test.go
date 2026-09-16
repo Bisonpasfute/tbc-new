@@ -29,9 +29,9 @@ func TestRetribution(t *testing.T) {
 			Consumables: DefaultConsumables,
 			Profession1: proto.Profession_Engineering,
 			Profession2: proto.Profession_Blacksmithing,
-			GearSet:     core.GetGearSet("../../../ui/paladin/retribution/gear_sets", "p1"),
+			GearSet:     core.GetGearSet("../../../ui/specs/paladin/retribution/gear_sets", "p1"),
 			Talents:     "5-053201-0523005120033125331051",
-			Rotation:    core.GetAplRotation("../../../ui/paladin/retribution/apls", "default"),
+			Rotation:    core.GetAplRotation("../../../ui/specs/paladin/retribution/apls", "default"),
 			ItemFilter: core.ItemFilter{
 				WeaponTypes: []proto.WeaponType{
 					proto.WeaponType_WeaponTypePolearm,

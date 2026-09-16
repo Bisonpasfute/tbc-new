@@ -1,4 +1,4 @@
-import { PartyBuffs, Spec } from '@generated/proto/common';
+import { PartyBuffs, Spec, TristateEffect } from '@generated/proto/common';
 import type { StoreField } from '@sim/hooks/useStoreField';
 import { Player } from '@sim/player/player';
 import { ActionId } from '@sim/proto/action_id';
@@ -583,29 +583,47 @@ const makeNumberIconInput = <SpecType extends Spec, Message, ModObject>(
 	config: WrappedTypedInputConfig<Message, ModObject, number>,
 	actionId: ActionId,
 	fieldName: keyof Message,
+	fieldNameImp2?: keyof Message,
 	multiplier?: number,
 	label?: string,
 ): TypedIconPickerConfig<Player<SpecType>, number> => {
-	return makeWrappedIconInput<SpecType, ModObject, number>({
+	const input = makeWrappedIconInput<SpecType, ModObject, number>({
 		getModObject: config.getModObject,
 		actionId,
 		label,
 		states: 0, // Must be assigned externally.
 		...mapStoreBinding(config, (modObj: ModObject) => modObj),
-		getValue: (modObj: ModObject) => config.getValue(modObj)[fieldName] as unknown as number,
+		getValue: (modObj: ModObject) => {
+			const value = config.getValue(modObj);
+			const fieldValue = value[fieldName] as unknown as number;
+			// A quadstate input keeps its fourth state in a second, boolean field, so it reads as improved + 1.
+			if (fieldNameImp2 && fieldValue === TristateEffect.TristateEffectImproved) {
+				return fieldValue + Number(value[fieldNameImp2]);
+			}
+			return fieldValue;
+		},
 		setValue: (modObj: ModObject, newValue: number) => {
 			const newMessage = config.getValue(modObj);
-			if (multiplier) {
-				const sign = newValue - (newMessage[fieldName] as unknown as number);
-				newValue += (multiplier - 1) * sign;
+			if (fieldNameImp2 && input.states >= 4) {
+				if (newValue < 0) {
+					newValue = 0;
+				}
+				(newMessage[fieldName] as unknown as number) = Math.min(TristateEffect.TristateEffectImproved, newValue);
+				(newMessage[fieldNameImp2] as unknown as boolean) = newValue === 3;
+			} else {
+				if (multiplier) {
+					const sign = newValue - (newMessage[fieldName] as unknown as number);
+					newValue += (multiplier - 1) * sign;
+				}
+				if (newValue < 0) {
+					newValue = 0;
+				}
+				(newMessage[fieldName] as unknown as number) = newValue;
 			}
-			if (newValue < 0) {
-				newValue = 0;
-			}
-			(newMessage[fieldName] as unknown as number) = newValue;
 			config.setValue(modObj, newMessage);
 		},
 	});
+	return input;
 };
 export const makeTristateIconInput = <SpecType extends Spec, Message, ModObject>(
 	config: WrappedTypedInputConfig<Message, ModObject, number>,
@@ -614,7 +632,7 @@ export const makeTristateIconInput = <SpecType extends Spec, Message, ModObject>
 	fieldName: keyof Message,
 	label?: string,
 ): TypedIconPickerConfig<Player<SpecType>, number> => {
-	const input = makeNumberIconInput<SpecType, Message, ModObject>(config, id, fieldName, undefined, label);
+	const input = makeNumberIconInput<SpecType, Message, ModObject>(config, id, fieldName, undefined, undefined, label);
 	input.states = 3;
 	input.improvedId = impId;
 	return input;
@@ -625,8 +643,10 @@ export const makeQuadstateIconInput = <SpecType extends Spec, Message, ModObject
 	impId: ActionId,
 	impId2: ActionId,
 	fieldName: keyof Message,
+	fieldNameImp2: keyof Message,
+	label?: string,
 ): TypedIconPickerConfig<Player<SpecType>, number> => {
-	const input = makeNumberIconInput<SpecType, Message, ModObject>(config, id, fieldName);
+	const input = makeNumberIconInput<SpecType, Message, ModObject>(config, id, fieldName, fieldNameImp2, undefined, label);
 	input.states = 4;
 	input.improvedId = impId;
 	input.improvedId2 = impId2;
@@ -640,7 +660,7 @@ export const makeMultistateIconInput = <SpecType extends Spec, Message, ModObjec
 	multiplier?: number,
 	label?: string,
 ): TypedIconPickerConfig<Player<SpecType>, number> => {
-	const input = makeNumberIconInput<SpecType, Message, ModObject>(config, id, fieldName, multiplier, label);
+	const input = makeNumberIconInput<SpecType, Message, ModObject>(config, id, fieldName, undefined, multiplier, label);
 	input.states = numStates;
 	return input;
 };

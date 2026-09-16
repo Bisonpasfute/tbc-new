@@ -43,8 +43,8 @@ func getTestPlayerMM() *proto.Player {
 	return &proto.Player{
 		Race:           proto.Race_RaceOrc,
 		Class:          proto.Class_ClassHunter,
-		Equipment:      core.GetGearSet("../../ui/hunter/marksmanship/gear_sets", "preraid_mm").GearSet,
-		Rotation:       core.GetAplRotation("../../ui/hunter/marksmanship/apls", "mm").Rotation,
+		Equipment:      core.GetGearSet("../../ui/specs/hunter/marksmanship/gear_sets", "preraid_mm").GearSet,
+		Rotation:       core.GetAplRotation("../../ui/specs/hunter/marksmanship/apls", "mm").Rotation,
 		Spec:           PlayerOptionsBasic,
 		TalentsString:  MMTalents,
 		Buffs:          core.FullIndividualBuffs,
@@ -75,8 +75,8 @@ func getTestPlayerFeralCat() *proto.Player {
 	return &proto.Player{
 		Race:           proto.Race_RaceTauren,
 		Class:          proto.Class_ClassDruid,
-		Equipment:      core.GetGearSet("../../ui/druid/feral/gear_sets", "preraid").GearSet,
-		Rotation:       core.GetAplRotation("../../ui/druid/feral/apls", "default").Rotation,
+		Equipment:      core.GetGearSet("../../ui/specs/druid/feral/gear_sets", "preraid").GearSet,
+		Rotation:       core.GetAplRotation("../../ui/specs/druid/feral/apls", "default").Rotation,
 		Consumes:       FullConsumes,
 		Spec:           PlayerOptionsMonoCat,
 		TalentsString:  StandardTalents,

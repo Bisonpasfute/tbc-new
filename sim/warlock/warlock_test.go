@@ -31,9 +31,9 @@ func TestAffliction(t *testing.T) {
 					},
 				},
 			}},
-			GearSet:  core.GetGearSet("../../ui/warlock/dps/gear_sets", "preraid"),
+			GearSet:  core.GetGearSet("../../ui/specs/warlock/dps/gear_sets", "preraid"),
 			Talents:  "05022221112351055003--50500051220001",
-			Rotation: core.GetAplRotation("../../ui/warlock/dps/apls", "affliction"),
+			Rotation: core.GetAplRotation("../../ui/specs/warlock/dps/apls", "affliction"),
 			ItemFilter: core.ItemFilter{
 				WeaponTypes: []proto.WeaponType{
 					proto.WeaponType_WeaponTypeDagger,
@@ -69,9 +69,9 @@ func TestDestruction(t *testing.T) {
 					},
 				},
 			}},
-			GearSet:  core.GetGearSet("../../ui/warlock/dps/gear_sets", "preraid"),
+			GearSet:  core.GetGearSet("../../ui/specs/warlock/dps/gear_sets", "preraid"),
 			Talents:  "-20500301332101-50500051220051053105",
-			Rotation: core.GetAplRotation("../../ui/warlock/dps/apls", "destruction"),
+			Rotation: core.GetAplRotation("../../ui/specs/warlock/dps/apls", "destruction"),
 			ItemFilter: core.ItemFilter{
 				WeaponTypes: []proto.WeaponType{
 					proto.WeaponType_WeaponTypeDagger,
