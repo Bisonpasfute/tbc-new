@@ -158,7 +158,7 @@ describe('Toast', () => {
 	});
 
 	// The viewport is portaled outside the component subtree, so React unmounting the area is what has
-	// to take the toasts with it — `ImportWarning` relies on exactly this in its ref-callback cleanup.
+	// to take the toasts with it, for any caller whose cleanup runs from a ref callback.
 	it('removes its toasts from the document when the area unmounts', () => {
 		const manager = createToastManager();
 		const host = document.createElement('div');
