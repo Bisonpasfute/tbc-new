@@ -95,6 +95,8 @@ export interface IndividualSimUIConfig<SpecType extends Spec> extends PlayerConf
 	epStats: Array<Stat>;
 	epPseudoStats?: Array<PseudoStat>;
 	epReferenceStat: Stat;
+	// Per-spec override for the default EP ratios; must be exactly Player.numEpRatios long.
+	epRatios?: Array<number>;
 	displayStats: Array<UnitStat>;
 	modifyDisplayStats?: (player: Player<SpecType>) => StatMods;
 	overwriteDisplayStats?: (player: Player<SpecType>) => StatWrites;

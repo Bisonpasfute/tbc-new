@@ -1,9 +1,10 @@
 import { APLActionItemSwap_SwapSet } from '@generated/proto/apl';
-import { ActionID as ActionIdProto, ItemLevelState, ItemRandomSuffix, OtherAction, ReforgeStat } from '@generated/proto/common';
+import { ActionID as ActionIdProto, ItemRandomSuffix, OtherAction } from '@generated/proto/common';
 import { ResourceType } from '@generated/proto/spell';
 import { IconData, UIItem as Item } from '@generated/proto/ui';
 
-import { CHARACTER_LEVEL, MAX_CHALLENGE_MODE_ILVL } from '../../constants/mechanics';
+import { CHARACTER_LEVEL } from '../../constants/mechanics';
+import { CURRENT_PHASE, Phase } from '../../constants/other';
 import { Database } from '../database';
 import { buildWowheadTooltipDataset, wowheadEntityUrl, wowheadIconUrl, WowheadTooltipItemParams, WowheadTooltipSpellParams } from '../wowhead';
 
@@ -16,8 +17,7 @@ type ActionIdOptions = {
 	name?: string;
 	iconUrl?: string;
 	randomSuffixId?: number;
-	reforgeId?: number;
-	upgradeStep?: number;
+	rank?: number;
 	isEmptyPlaceholder?: boolean;
 };
 
@@ -25,11 +25,10 @@ type ActionIdOptions = {
 export class ActionId {
 	readonly itemId: number;
 	readonly randomSuffixId: number;
-	readonly reforgeId: number;
-	readonly upgradeStep: ItemLevelState;
 	readonly spellId: number;
 	readonly otherId: OtherAction;
 	readonly tag: number;
+	readonly rank: number;
 
 	readonly baseName: string; // The name without any tag additions.
 	readonly name: string;
@@ -40,26 +39,13 @@ export class ActionId {
 	// "Empty action id!" error logged by toStringIgnoringTag() for accidental empties.
 	private readonly isEmptyPlaceholder: boolean;
 
-	private constructor({
-		itemId,
-		spellId,
-		otherId,
-		tag,
-		baseName,
-		name,
-		iconUrl,
-		randomSuffixId,
-		reforgeId,
-		upgradeStep,
-		isEmptyPlaceholder,
-	}: ActionIdOptions = {}) {
+	private constructor({ itemId, spellId, otherId, tag, baseName, name, iconUrl, randomSuffixId, rank, isEmptyPlaceholder }: ActionIdOptions = {}) {
 		this.itemId = itemId ?? 0;
 		this.randomSuffixId = randomSuffixId ?? 0;
-		this.reforgeId = reforgeId ?? 0;
-		this.upgradeStep = upgradeStep ?? 0;
 		this.spellId = spellId ?? 0;
 		this.otherId = otherId ?? OtherAction.OtherActionNone;
 		this.tag = tag ?? 0;
+		this.rank = rank ?? 0;
 		this.isEmptyPlaceholder = isEmptyPlaceholder ?? false;
 
 		switch (otherId) {
@@ -73,9 +59,9 @@ export class ActionId {
 				name = 'Mana Tick';
 				iconUrl = resourceTypeToIcon[ResourceType.ResourceTypeMana];
 				if (tag == 1) {
-					name += ' (In Combat)';
+					name += ' (Casting)';
 				} else if (tag == 2) {
-					name += ' (Out of Combat)';
+					name += ' (Not Casting)';
 				}
 				break;
 			case OtherAction.OtherActionEnergyRegen:
@@ -101,18 +87,36 @@ export class ActionId {
 					name += ' (Main Hand)';
 				} else if (this.tag == 2) {
 					name += ' (Off Hand)';
-				} else if (this.tag == 68476) {
-					name += ' (Horridon)';
-				} else if (this.tag == 69374) {
-					name += ' (War-God Jalak)';
+				} else if (this.tag == 11815) {
+					name += ' (Hand of Justice)';
+				} else if (this.tag == 12281) {
+					name += ' (Sword Specialization)';
+				} else if (this.tag == 25584) {
+					name += ' (Windfury)';
+				} else if (this.tag == 20182) {
+					name += ' (Reckoning)';
+				} else if (this.tag == 31332) {
+					name += ' (Blinkstrike)';
+				} else if (this.tag == 17257) {
+					name += ' (Magtheridon)';
+				} else if (this.tag == 21213) {
+					name += ' (Morrogrim Tidewalker)';
+				} else if (this.tag == 21213 + 18943) {
+					name += ' (Morrogrim Tidewalker) - Thrash';
+				} else if (this.tag == 21216) {
+					name += ' (Hydross the Unstable) - Frost';
+				} else if (this.tag == 21216 + 1) {
+					name += ' (Hydross the Unstable) - Nature';
+				} else if (this.tag == 17968) {
+					name += ' (Archimonde)';
 				} else if (this.tag == 99999) {
 					name += ' (Boss)';
 				} else if (this.tag == 99998) {
 					name += ' (Add)';
-				} else if (this.tag > 6445300) {
-					name += ` (Set'thik Windblade ${(this.tag - 6445300).toFixed(0)})`;
-				} else if (this.tag > 4191800) {
-					name += ` (Animated Bone Warrior ${(this.tag - 4191800).toFixed(0)})`;
+				} else if (this.tag == 100000) {
+					name += ' (Custom Boss)';
+				} else if (this.tag == 100000 + 1) {
+					name += ' (Custom Boss) - Thrash';
 				}
 				break;
 			case OtherAction.OtherActionShoot:
@@ -133,22 +137,6 @@ export class ActionId {
 				baseName = 'Incoming HPS';
 				iconUrl = 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_renew.jpg';
 				break;
-			case OtherAction.OtherActionBloodRuneGain:
-				baseName = 'Blood Rune Gain';
-				iconUrl = 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_deathstrike.jpg';
-				break;
-			case OtherAction.OtherActionFrostRuneGain:
-				baseName = 'Frost Rune Gain';
-				iconUrl = 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_deathstrike2.jpg';
-				break;
-			case OtherAction.OtherActionUnholyRuneGain:
-				baseName = 'Unholy Rune Gain';
-				iconUrl = 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_empowerruneblade.jpg';
-				break;
-			case OtherAction.OtherActionDeathRuneGain:
-				baseName = 'Death Rune Gain';
-				iconUrl = 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_empowerruneblade.jpg';
-				break;
 			case OtherAction.OtherActionPotion:
 				baseName = 'Potion';
 				iconUrl = 'https://wow.zamimg.com/images/wow/icons/large/inv_alchemy_elixir_04.jpg';
@@ -165,21 +153,6 @@ export class ActionId {
 				baseName = 'Encounter Start';
 				iconUrl = 'https://wow.zamimg.com/images/wow/icons/medium/achievement_faction_elders.jpg';
 				break;
-			case OtherAction.OtherActionDamageAmplifier:
-				baseName = 'Damage Done %';
-				switch (this.tag) {
-					case 1:
-						baseName += ' (Environment Buff)';
-						break;
-					case 2:
-						baseName += ' (Target Debuff)';
-						break;
-					default:
-						baseName += ' (Caster Buff)';
-						break;
-				}
-				iconUrl = 'https://wow.zamimg.com/images/wow/icons/medium/spell_nature_abolishmagic.jpg';
-				break;
 			case OtherAction.OtherActionItemSwap:
 				baseName = 'Item Swap: ';
 				if (this.tag == APLActionItemSwap_SwapSet.Main) {
@@ -193,6 +166,7 @@ export class ActionId {
 		this.baseName = baseName ?? '';
 		this.name = (name || baseName) ?? '';
 		this.iconUrl = iconUrl ?? '';
+		if (this.name) this.name += this.rank ? ` (Rank ${this.rank})` : '';
 		this.spellIdTooltipOverride = this.spellTooltipOverride?.spellId || null;
 	}
 
@@ -208,38 +182,26 @@ export class ActionId {
 	private cachedEqualityKey?: string;
 	private cachedEqualityKeyIgnoringTag?: string;
 
-	// A string form of exactly what equals() compares, for use as a Map/Set key. toString()
-	// is not a substitute: it reports only the first non-zero of itemId/spellId/otherId and
-	// drops randomSuffixId and upgradeStep. Keep in step with equalsIgnoringTag below.
+	// A string form of exactly what equals() compares, for use as a Map/Set key. Keep in step
+	// with equalsIgnoringTag below; toString() is not a substitute, as it reports only the
+	// first non-zero of itemId/spellId/otherId and drops randomSuffixId.
 	equalityKey(): string {
 		return (this.cachedEqualityKey ??= `${this.equalityKeyIgnoringTag()}|${this.tag}`);
 	}
 
 	// equalityKey() without the tag, matching equalsIgnoringTag below.
 	equalityKeyIgnoringTag(): string {
-		return (this.cachedEqualityKeyIgnoringTag ??= `${this.itemId}|${this.randomSuffixId}|${this.spellId}|${this.otherId}|${this.upgradeStep}`);
+		return (this.cachedEqualityKeyIgnoringTag ??= `${this.itemId}|${this.randomSuffixId}|${this.spellId}|${this.otherId}`);
 	}
 
 	equalsIgnoringTag(other: ActionId): boolean {
-		return (
-			this.itemId == other.itemId &&
-			this.randomSuffixId == other.randomSuffixId &&
-			this.spellId == other.spellId &&
-			this.otherId == other.otherId &&
-			this.upgradeStep === other.upgradeStep
-		);
+		return this.itemId == other.itemId && this.randomSuffixId == other.randomSuffixId && this.spellId == other.spellId && this.otherId == other.otherId;
 	}
 
-	static makeItemUrl(id: number, randomSuffixId?: number, reforgeId?: number, upgradeStep?: ItemLevelState): string {
+	static makeItemUrl(id: number, randomSuffixId?: number): string {
 		const url = new URL(wowheadEntityUrl('item', id));
 		url.searchParams.set('level', String(CHARACTER_LEVEL));
 		url.searchParams.set('rand', String(randomSuffixId || 0));
-		if (reforgeId) url.searchParams.set('forg', String(reforgeId));
-		if (upgradeStep === ItemLevelState.ChallengeMode) {
-			url.searchParams.set('ilvl', String(MAX_CHALLENGE_MODE_ILVL));
-		} else if (upgradeStep) {
-			url.searchParams.set('upgd', String(upgradeStep));
-		}
 		return url.toString();
 	}
 	static makeSpellUrl(id: number): string {
@@ -277,15 +239,6 @@ export class ActionId {
 		let name = baseName;
 
 		let tag = this.tag;
-		// Handle Monk's Storm, Earth and Fire
-		if (tag >= 138228) {
-			tag -= 138228;
-		}
-		// Handle DTR
-		else if (tag >= 71086 && tag <= 71096) {
-			name = 'Dragonwrath - ' + name;
-			tag -= 71086;
-		}
 
 		switch (baseName) {
 			case 'Minor Speed':
@@ -313,15 +266,6 @@ export class ActionId {
 			case 'Combustion':
 				if (tag) name += ' (DoT)';
 				break;
-			case 'Frost Bomb':
-			case 'Living Bomb':
-				if (tag == 1) name += ' (DoT)';
-				else if (tag == 2) name += ' (Explosion)';
-				break;
-			case 'Nether Tempest':
-				if (tag == 1) name += ' (DoT)';
-				if (tag == 2) name += ' (Cleave)';
-				break;
 			case 'Evocation':
 				if (tag == 1) {
 					name += ' (1 Tick)';
@@ -336,25 +280,12 @@ export class ActionId {
 				}
 				break;
 			case 'Mind Flay':
-				if (this.spellId === 15407) {
-					if (tag == 1) {
-						name += ' (1 Tick)';
-					} else if (tag == 2) {
-						name += ' (2 Tick)';
-					} else if (tag == 3) {
-						name += ' (3 Tick)';
-					} else if (tag == 77486) {
-						name += ' (Mastery)';
-					}
-				} else {
-					// Gurthalak, Voice of the Deeps
-					if (tag === 0) {
-						name += ' (LFR)';
-					} else if (tag === 1) {
-						name += ' (Normal)';
-					} else if (tag === 2) {
-						name += ' (Heroic)';
-					}
+				if (tag == 1) {
+					name += ' (1 Tick)';
+				} else if (tag == 2) {
+					name += ' (2 Tick)';
+				} else if (tag == 3) {
+					name += ' (3 Tick)';
 				}
 				break;
 			case 'Mind Sear':
@@ -370,22 +301,22 @@ export class ActionId {
 
 				break;
 			case 'Devotion Aura':
-			case 'Shattering Throw':
-			case 'Skull Banner':
-			case 'Stormlash':
-			case 'Vigilance':
 			case 'Pain Suppression':
-			case 'Rallying Cry':
+			case 'Curse of the Elements':
+			case 'Curse of Recklessness':
+			case 'Improved Seal of the Crusader':
+			case 'Unleashed Rage':
 				if (tag === -1) {
-					name += ' (raid)';
+					name += ' (External)';
 				} else {
-					name += ` (self)`;
+					name += ` (Self)`;
 				}
 				break;
 			case 'Envenom':
 			case 'Eviscerate':
 			case 'Rupture':
 			case 'Slice and Dice':
+			case 'Expose Armor':
 				if (tag) name += ` (${tag} CP)`;
 				break;
 			case 'Crimson Tempest':
@@ -395,11 +326,11 @@ export class ActionId {
 					name += ` (${tag} CP)`;
 				}
 				break;
-			case 'Deadly Poison':
+			case 'Deadly Poison VII':
+			case 'Wound Poison':
+			case 'Instant Poison VII':
 				if (tag == 1) {
-					name += ' (DoT)';
-				} else {
-					name += ' (Hit)';
+					name += ' (Shiv)';
 				}
 				break;
 			case 'Shadow Blades':
@@ -431,13 +362,6 @@ export class ActionId {
 					name += ' (Off Hand)';
 				}
 				break;
-			case 'Hemorrhage':
-				if (tag == 1) {
-					name += ' (Hit)';
-				} else {
-					name += ' (DoT)';
-				}
-				break;
 			case 'Wind Lash':
 			case 'Stormstrike':
 			case 'Stormblast':
@@ -449,13 +373,9 @@ export class ActionId {
 					name += ' (Off Hand)';
 				}
 				break;
-			case 'Elemental Blast':
 			case 'Chain Lightning':
 			case 'Lightning Bolt':
-			case 'Lava Beam':
 			case 'Lava Burst':
-			case 'Unleash Flame':
-			case 'Unleash Frost':
 				if (tag == 6) {
 					name += ' (Overload)';
 				} else if (tag == 7) {
@@ -492,75 +412,15 @@ export class ActionId {
 					name += ' (Wasted)';
 				}
 				break;
-			case 'Crescendo of Suffering':
+			case 'Windfury Totem Effect':
 				if (tag == 1) {
-					name += ' (Pre-Pull)';
+					name += ' (Party Weapon Buff)';
 				}
 				break;
-			case 'Soul Fire':
-				if (this.spellId == 104027) {
-					name += ' (Demon form)';
-				}
-				break;
-			case "Hand of Gul'dan":
-				if (this.spellId == 86040) {
-					name += ' (T16 4P)';
-				}
-				break;
-			case 'Chaos Wave':
-				if (this.spellId == 124915) {
-					name += ' (T16 4P)';
-				}
-				break;
-			case 'Shadowflame':
 			case 'Moonfire':
 			case 'Sunfire':
 				if (tag == 1) {
 					name += ' (DoT)';
-				}
-				break;
-			case 'Sacred Shield':
-				if (this.spellId === 65148) {
-					name += ' (Absorb)';
-				}
-				break;
-			case 'Censure':
-				if (tag == 2) {
-					name += ' (DoT)';
-				}
-				break;
-			case 'Hammer of the Righteous':
-				if (this.spellId === 88263) {
-					name += ' (Holy)';
-				} else {
-					name += ' (Physical)';
-				}
-				break;
-			case 'Seal of Righteousness':
-				if (tag === 1) {
-					name += ' (DS)';
-				}
-				break;
-			case 'Harsh Word':
-				name = 'Word of Glory (Damage';
-				if (tag > 0) {
-					name += `, ${tag} HP`;
-				}
-				name += ')';
-				break;
-			case 'Word of Glory':
-				if (tag > 0) {
-					name += `(${tag} HP)`;
-				}
-				break;
-			case 'Eternal Flame':
-				if (tag > 0) {
-					name += `(${tag} HP)`;
-				}
-				break;
-			case "Templar's Verdict":
-				if (tag === 2) {
-					name += ' (T15 4P)';
 				}
 				break;
 			// For targetted buffs, tag is the source player's raid index or -1 if none.
@@ -582,6 +442,11 @@ export class ActionId {
 					name += ' (raid)';
 				}
 				break;
+			case 'Berserking':
+				if (tag > 0) {
+					name += ` (${10 + (tag - 1) * 5}%)`;
+				}
+				break;
 			case 'Elemental Mastery':
 				if (this.spellId === 64701) {
 					name = `${name} (Buff)`;
@@ -589,53 +454,20 @@ export class ActionId {
 					name = `${name} (Instant)`;
 				}
 				break;
-			case 'Heart Strike':
-				if (tag == 2) {
-					name += ' (Off-target)';
-				}
-				break;
-			case 'Raging Blow':
-				if (tag == 2) {
-					name += ' (Main Hand)';
-				} else if (tag == 3) {
-					name += ' (Off Hand)';
-				}
-				break;
-			case 'Soul Reaper':
-				if (tag === 0) {
-					name += ' (Tick)';
-				}
-				break;
 			case 'Whirlwind':
-			case 'Storm Bolt':
-			case 'Frost Strike':
-			case 'Plague Strike':
-			case 'Blood Strike':
-			case 'Obliterate':
-			case 'Rune of Razorice':
-			case 'Blood-Caked Strike':
-			case 'Festering Strike':
-			case 'Razor Frost':
-			case 'Lightning Speed':
 			case 'Windfury Weapon':
-			case 'Berserk':
+			case 'Enchant Weapon - Crusader':
 				if (tag == 1) {
 					name += ' (Main Hand)';
 				} else if (tag == 2) {
 					name += ' (Off Hand)';
-				}
-				break;
-			case 'Death Strike':
-				if (tag == 1) {
-					name += ' (Main Hand)';
-				} else if (tag == 2) {
-					name += ' (Off Hand)';
-				} else if (this.spellId === 45470) {
-					name += ' (Heal)';
 				}
 				break;
 			case 'Battle Shout':
+			case 'Commanding Shout':
 				if (tag == 1) {
+					name += ' (External)';
+				} else if (tag == 3) {
 					name += ' (Snapshot)';
 				}
 				break;
@@ -646,11 +478,39 @@ export class ActionId {
 					name += ' (Queue)';
 				}
 				break;
+			case 'Sweeping Strikes':
+				if (tag == 1) {
+					name += ' (Normalized)';
+				}
+				break;
+			case 'Sunder Armor':
+				if (tag == 1) {
+					name += ' (Devastate)';
+				}
+				break;
+			case 'Improved Berserker Rage':
+			case 'Improved Overpower':
+				name += ` (${tag}/2)`;
+				break;
 			case 'Seed of Corruption':
 				if (tag == 0) {
 					name += ' (DoT)';
 				} else if (tag == 1) {
+					name += ' (Instant)';
+				} else if (tag == 2) {
 					name += ' (Explosion)';
+				}
+				break;
+			case 'Improved Corruption and Immolate':
+				if (this.spellId === 37380) {
+					name = 'T4 4PC';
+				} else if (this.spellId === 37384) {
+					name = 'T5 4PC';
+				}
+				break;
+			case 'Improved Shadow Bolt and Incinerate':
+				if (this.spellId === 38393) {
+					name = 'T6 4PC';
 				}
 				break;
 			case 'Thunderfury':
@@ -676,184 +536,27 @@ export class ActionId {
 				if (tag == 1) {
 					name += ' (No Orb)';
 				}
+			case 'Shadowfiend':
+				if (tag == 1) {
+					name += ' (Mana Restore)';
+				}
 			case 'Steady Focus':
 				if (tag == 2) {
 					name += ' (pre)';
 				}
 				break;
 			case 'Immolate':
-			case 'Chaos Bolt':
 				if (tag == 1) {
 					name += ' (DoT)';
 				}
 				break;
-			case 'Immolation Aura':
-				if (tag == 2) {
-					name += ' (Tick)';
-				}
-				break;
-			case 'Frozen Blows':
-			case 'Opportunity Strike':
-				break;
-			case 'Slam':
-				if (tag == 1) {
-					name += ' (Sweeping Strikes)';
-				}
-				break;
-			// Souldrinker - Drain Life
-			case 'Drain Life':
-				if (this.spellId === 109828) {
-					name += ' 1.3%';
-				} else if (this.spellId === 108022) {
-					name += ' 1.5%';
-				} else if (this.spellId === 109831) {
-					name += ' 1.7%';
-				}
-
-				if (tag === 2) {
-					name += ' (Heal)';
-				}
-				break;
-			// No'Kaled
-			case 'Flameblast':
-			case 'Iceblast':
-			case 'Shadowblast':
-				if (this.spellId === 109871 || this.spellId === 109869 || this.spellId === 109867) {
-					name += ' (LFR)';
-				} else if (this.spellId === 107785 || this.spellId === 107789 || this.spellId === 107787) {
-					name += ' (Normal)';
-				} else if (this.spellId === 109872 || this.spellId === 109870 || this.spellId === 109868) {
-					name += ' (Heroic)';
-				}
-				break;
-			case 'Item - Paladin T14 Retribution 2P Bonus':
-				name = 'White Tiger Battlegear - T14 2pc';
-				break;
-			case 'Item - Paladin T10 Retribution 4P Bonus':
-				name = 'White Tiger Battlegear - T14 4pc';
-				break;
-			case 'Item - Paladin T14 Protection 2P Bonus':
-				name = 'White Tiger Plate - T14 2pc';
-				break;
-			case 'Item - Paladin T14 Protection 4P Bonus':
-				name = 'White Tiger Plate - T14 4pc';
-				break;
-			case 'Item - Paladin T15 Retribution 2P Bonus':
-				name = 'Battlegear of the Lightning Emperor - T15 2pc';
-				break;
-			case 'Item - Paladin T15 Retribution 4P Bonus':
-				name = 'Battlegear of the Lightning Emperor - T15 4pc';
-				break;
-			case 'Item - Paladin T15 Protection 2P Bonus':
-				name = 'Plate of the Lightning Emperor - T15 2pc';
-				break;
-			case 'Item - Paladin T15 Protection 4P Bonus':
-				name = 'Plate of the Lightning Emperor - T15 4pc';
-				break;
-			case 'Item - Paladin T16 Retribution 2P Bonus':
-				name = 'Battlegear of Winged Triumph - T16 2pc';
-				break;
-			case 'Item - Paladin T16 Retribution 4P Bonus':
-				name = 'Battlegear of Winged Triumph - T16 4pc';
-				break;
-			case 'Item - Paladin T16 Protection 2P Bonus':
-				name = 'Plate of Winged Triumph - T16 2pc';
-				break;
-			case 'Item - Paladin T16 Protection 4P Bonus':
-				name = 'Plate of Winged Triumph - T16 4pc';
-				break;
-			case 'Hurricane':
-			case 'Dancing Steel':
-			case 'Bloody Dancing Steel':
+			case 'Enchant Weapon - Mongoose':
 				if (tag == 1) {
 					name += ' (Main Hand)';
 				} else if (tag == 2) {
 					name += ' (Off Hand)';
 				} else if (tag == 3) {
 					name += ' (Spell)';
-				}
-				break;
-			case 'Landslide':
-				if (tag == 1) {
-					name += ' (Main Hand)';
-				} else if (tag == 2) {
-					name += ' (Off Hand)';
-				}
-				break;
-			case 'Jade Spirit':
-				if (tag == 1) {
-					name += ' (Intellect)';
-				} else if (tag == 2) {
-					name += ' (Spirit)';
-				}
-				break;
-
-			// Monk
-			case 'Tiger Strikes':
-				if (this.spellId === 120274) {
-					name += ' (Main Hand)';
-				} else {
-					name += ' (Off Hand)';
-				}
-				break;
-			case 'Blackout Kick':
-				if (tag === 2) {
-					name += ' (DoT)';
-				}
-				break;
-			case 'Expel Harm':
-				if (this.spellId === 115072) {
-					name += ' (Heal)';
-				} else {
-					name += ' (Damage)';
-				}
-				break;
-			case 'Chi Wave':
-				if (this.spellId === 132463) {
-					name += ' (Heal)';
-				} else if (this.spellId === 132467) {
-					name += ' (Damage)';
-				}
-				break;
-			case 'Zen Sphere':
-			case 'Zen Sphere: Detonate':
-				if (this.spellId === 124081) {
-					if ([4, 5].includes(this.tag)) {
-						name += ': Detonate';
-					}
-					if (this.tag === 1) {
-						name += ' (# of Spheres)';
-					} else if ([0, 2, 4].includes(this.tag)) {
-						name += ' (Heal)';
-					} else if ([3, 5].includes(this.tag)) {
-						name += ' (Damage)';
-					}
-				}
-				break;
-			case 'Chi Burst':
-				if (this.spellId === 130654) {
-					name += ' (Heal)';
-				} else if (this.spellId === 148135) {
-					name += ' (Damage)';
-				}
-				break;
-			case 'Stagger':
-				if (this.tag === 1) {
-					name += ' (Dot)';
-				}
-				break;
-			case 'Dampen Harm':
-				break;
-			case 'Healing Sphere':
-				if (this.spellId === 115460) {
-					if (tag === 1) {
-						name += ' (Stacks)';
-					} else {
-						name += ' (Cast)';
-					}
-				}
-				if (this.spellId === 115464) {
-					name += ' (Heal)';
 				}
 				break;
 			case 'Vampiric Touch':
@@ -863,81 +566,47 @@ export class ActionId {
 				}
 
 				break;
-			case 'Cascade':
+			case 'Agony':
+			case 'Unstable Affliction':
+			case 'Corruption':
 				if (tag == 1) {
-					name += ' (Bounce)';
-				}
-
-				break;
-			case 'Malefic Grasp':
-			case 'Drain Soul':
-				if (tag == 980) {
-					name += ' (Agony)';
-				}
-				if (tag == 30108) {
-					name += ' (Unstable Affliction)';
-				}
-				if (tag == 172) {
-					name += ' (Corruption)';
+					name += ' (Malefic)';
 				}
 				break;
-			case 'Metamorphosis':
-				if (tag == 1) {
-					name += ' (Cancel)';
+			case 'Raptor Strike':
+				if (tag == 2) {
+					name += ' (Cooldown)';
 				}
 				break;
-			case 'Holy Prism':
-				if (this.spellId === 114852) {
-					if (tag === 1) {
-						name += ' (Damage)';
-					} else if (tag === 2) {
-						name += ' (Aoe heal)';
-					}
-				} else if (this.spellId === 114871) {
-					if (tag === 1) {
-						name += ' (Heal)';
-					} else if (tag === 2) {
-						name += ' (Aoe damage)';
-					}
+			case 'Drums of War':
+			case 'Drums of Battle':
+			case 'Drums of Restoration':
+				if (CURRENT_PHASE >= Phase.Phase4) {
+					name = 'Greater ' + name;
+				}
+				if (tag === -1) {
+					name += ' (External)';
 				}
 				break;
-			case 'Alter Time':
-				if (tag == 1) {
-					name += ' (Restore)';
+			case 'Retribution Aura':
+			case 'Holy Shield':
+				if (tag == 2) {
+					name += ' (Hit)';
 				}
 				break;
-			case 'Glaive Toss':
-				if (tag == 1) {
-					name += ' (Glaive 1)';
-				} else if (tag == 2) {
-					name += ' (Glaive 2)';
-				}
-				break;
-			case 'Serpent Sting':
-				if (tag == 1) {
-					name += ' (Improved)';
-				}
-				break;
-			case 'Soul Swap':
-				if (tag == 1) {
-					name += ': Inhale';
-				} else if (tag == 2) {
-					name += ': Soulburn';
-				}
-				break;
-			// Iron Juggernaut
-			case 'Ignite Armor':
-				if (tag == 1) {
-					name += ' (DoT)';
-				}
-				break;
-			case 'Frenzied Regeneration':
-				if (tag == 1) {
-					name += ' - Druid T16 Guardian 2P Bonus';
+			case 'Dummy Spell':
+				if (tag === 100000) {
+					['Arcane', 'Fire', 'Frost', 'Holy', 'Shadow', 'Nature'].forEach((school, index) => {
+						if (tag === 100000 + index) {
+							name += ` (${school})`;
+						}
+					});
 				}
 				break;
 			default:
-				if (tag) {
+				if (tag === -1) {
+					name += ' (External)';
+				} else if (tag) {
 					name += ' (??)';
 				}
 				break;
@@ -960,8 +629,7 @@ export class ActionId {
 			name,
 			iconUrl,
 			randomSuffixId: this.randomSuffixId,
-			reforgeId: this.reforgeId,
-			upgradeStep: this.upgradeStep,
+			rank: this.rank || tooltipData['rank'],
 		});
 	}
 
@@ -999,6 +667,7 @@ export class ActionId {
 				oneofKind: 'spellId',
 				spellId: this.spellId,
 			};
+			protoId.rank = this.rank;
 		} else if (this.otherId) {
 			protoId.rawId = {
 				oneofKind: 'otherId',
@@ -1021,8 +690,7 @@ export class ActionId {
 			baseName: this.baseName,
 			iconUrl: this.iconUrl,
 			randomSuffixId: this.randomSuffixId,
-			reforgeId: this.reforgeId,
-			upgradeStep: this.upgradeStep,
+			rank: this.rank,
 		});
 	}
 
@@ -1041,18 +709,16 @@ export class ActionId {
 		});
 	}
 
-	static fromItemId(itemId: number, tag?: number, randomSuffixId?: number, reforgeId?: number, upgradeStep?: ItemLevelState): ActionId {
+	static fromItemId(itemId: number, tag?: number, randomSuffixId?: number): ActionId {
 		return new ActionId({
 			itemId,
 			tag,
 			randomSuffixId,
-			reforgeId,
-			upgradeStep,
 		});
 	}
 
-	static fromSpellId(spellId: number, tag?: number): ActionId {
-		return new ActionId({ spellId, tag });
+	static fromSpellId(spellId: number, rank = 0, tag?: number): ActionId {
+		return new ActionId({ spellId, rank, tag });
 	}
 
 	static fromOtherId(otherId: OtherAction, tag?: number): ActionId {
@@ -1077,13 +743,9 @@ export class ActionId {
 		return ActionId.fromItemId(item.id, 0, randomSuffix.id);
 	}
 
-	static fromReforge(item: Item, reforge: ReforgeStat): ActionId {
-		return ActionId.fromItemId(item.id, 0, 0, reforge.id);
-	}
-
 	static fromProto(protoId: ActionIdProto): ActionId {
 		if (protoId.rawId.oneofKind == 'spellId') {
-			return ActionId.fromSpellId(protoId.rawId.spellId, protoId.tag);
+			return ActionId.fromSpellId(protoId.rawId.spellId, protoId.rank, protoId.tag);
 		} else if (protoId.rawId.oneofKind == 'itemId') {
 			return ActionId.fromItemId(protoId.rawId.itemId, protoId.tag);
 		} else if (protoId.rawId.oneofKind == 'otherId') {
@@ -1161,88 +823,35 @@ export class ActionId {
 		if (!override) return null;
 		return override.itemId ? ActionId.fromItemId(override.itemId) : ActionId.fromSpellId(override.spellId!);
 	}
+
+	get nameWithoutRank(): string {
+		return this.name.replace(/ \(Rank \d+\)/g, '');
+	}
+
+	get hasRank(): boolean {
+		return this.rank > 0;
+	}
 }
 
 type ActionIdOverride = { itemId?: number; spellId?: number };
 
 // Some items/spells have weird icons, so use this to show a different icon instead.
 const spellIdIconOverrides: Map<string, ActionIdOverride> = new Map([
-	[JSON.stringify({ spellId: 123077 }), { itemId: 85338 }], // Battlegear of the Lost Catacomb (2pc bonus)
-	[JSON.stringify({ spellId: 123078 }), { itemId: 85334 }], // Battlegear of the Lost Catacomb (4pc bonus)
-	[JSON.stringify({ spellId: 123079 }), { itemId: 85338 }], // Plate of the Lost Catacomb (2pc bonus)
-	[JSON.stringify({ spellId: 123080 }), { itemId: 85334 }], // Plate of the Lost Catacomb (4pc bonus)
-	[JSON.stringify({ spellId: 138343 }), { itemId: 95225 }], // Battleplate of the All-Consuming Maw (2pc bonus)
-	[JSON.stringify({ spellId: 138347 }), { itemId: 95229 }], // Battleplate of the All-Consuming Maw (4pc bonus)
-	[JSON.stringify({ spellId: 138195 }), { itemId: 95225 }], // Plate of the All-Consuming Maw (2pc bonus)
-	[JSON.stringify({ spellId: 138197 }), { itemId: 95229 }], // Plate of the All-Consuming Maw (4pc bonus)
-	[JSON.stringify({ spellId: 144899 }), { itemId: 99188 }], // Battleplate of Cyclopean Dread (2pc bonus)
-	[JSON.stringify({ spellId: 144907 }), { itemId: 99179 }], // Battleplate of Cyclopean Dread (4pc bonus)
-	[JSON.stringify({ spellId: 144934 }), { itemId: 99188 }], // Plate of Cyclopean Dread (2pc bonus)
-	[JSON.stringify({ spellId: 144950 }), { itemId: 99179 }], // Plate of Cyclopean Dread (4pc bonus)
-	[JSON.stringify({ spellId: 70762 }), { itemId: 85339 }], // White Tiger Battlegear  (4pc bonus)
-	[JSON.stringify({ spellId: 123104 }), { itemId: 85343 }], // White Tiger Plate (2pc bonus)
-	[JSON.stringify({ spellId: 123107 }), { itemId: 85339 }], // White Tiger Plate (4pc bonus)
-	[JSON.stringify({ spellId: 138159 }), { itemId: 95280 }], // Battlegear of the Lightning Emperor (2pc bonus)
-	[JSON.stringify({ spellId: 138164 }), { itemId: 95284 }], // Battlegear of the Lightning Emperor (4pc bonus)
-	[JSON.stringify({ spellId: 138238 }), { itemId: 95280 }], // Plate of the Lightning Emperor (2pc bonus)
-	[JSON.stringify({ spellId: 138244 }), { itemId: 95284 }], // Plate of the Lightning Emperor (4pc bonus)
-	[JSON.stringify({ spellId: 144586 }), { itemId: 99136 }], // Battlegear of Winged Triumph (2pc bonus)
-	[JSON.stringify({ spellId: 144593 }), { itemId: 99132 }], // Battlegear of Winged Triumph (4pc bonus)
-	[JSON.stringify({ spellId: 144580 }), { itemId: 99136 }], // Plate of Winged Triumph (2pc bonus)
-	[JSON.stringify({ spellId: 144566 }), { itemId: 99132 }], // Plate of Winged Triumph (4pc bonus)
-	[JSON.stringify({ spellId: 13889 }), { spellId: 109709 }], // Minor Run Speed
-	[JSON.stringify({ spellId: 65658 }), { spellId: 48721 }], // Blood Boil RP regen
+	[JSON.stringify({ spellId: 37212 }), { itemId: 29035 }], // Improved Wrath of Air Totem
+	[JSON.stringify({ spellId: 37223 }), { itemId: 29040 }], // Improved Strength of Earth Totem
+	[JSON.stringify({ spellId: 37447 }), { itemId: 30720 }], // Serpent-Coil Braid
 ]);
 
 const spellIdTooltipOverrides: Map<string, ActionIdOverride> = new Map([
-	[JSON.stringify({ spellId: 55090, tag: 2 }), { spellId: 70890 }], // Death Knight - Scourge Strike (Shadow)
-	[JSON.stringify({ spellId: 114867, tag: 1 }), { spellId: 114866 }], // Death Knight - Soul Reaper (Blood)
-	[JSON.stringify({ spellId: 114867, tag: 2 }), { spellId: 130735 }], // Death Knight - Soul Reaper (Frost)
-	[JSON.stringify({ spellId: 114867, tag: 3 }), { spellId: 130736 }], // Death Knight - Soul Reaper (Unholy)
-	[JSON.stringify({ spellId: 85256, tag: 2 }), { spellId: 138165 }], // Paladin - T15 4P Ret Templar's Verdict
 	[JSON.stringify({ spellId: 2818, tag: 2 }), { spellId: 113780 }], // Rogue - Deadly Poison - Hit
-	[JSON.stringify({ spellId: 121411, tag: 7 }), { spellId: 122233 }], // Rogue - Crimson Tempest - DoT
-	[JSON.stringify({ spellId: 121471, tag: 1 }), { spellId: 121473 }], // Rogue - Shadow Blade
-	[JSON.stringify({ spellId: 117050, tag: 1 }), { spellId: 120755 }], // Hunter - Glaive Toss (Glaive 1)
-	[JSON.stringify({ spellId: 117050, tag: 2 }), { spellId: 120756 }], // Hunter - Glaive Toss (Glaive 2)
-	[JSON.stringify({ spellId: 1978, tag: 1 }), { spellId: 82834 }], // Hunter - Serpent Sting
 
 	// Off-Hand attacks
-	[JSON.stringify({ spellId: 49998, tag: 2 }), { spellId: 66188 }], // Death Knight - Death Strike Off-Hand
-	[JSON.stringify({ spellId: 49143, tag: 2 }), { spellId: 66196 }], // Death Knight - Frost Strike Off-Hand
-	[JSON.stringify({ spellId: 49020, tag: 2 }), { spellId: 66198 }], // Death Knight - Obliterate Off-Hand
-	[JSON.stringify({ spellId: 45462, tag: 2 }), { spellId: 66216 }], // Death Knight - Plague Strike Off-Hand
 	[JSON.stringify({ spellId: 1329, tag: 2 }), { spellId: 27576 }], // Rogue - Mutilate Off-Hand
-	[JSON.stringify({ spellId: 121471, tag: 2 }), { spellId: 121474 }], // Rogue - Shadow Blade Off-Hand
 	[JSON.stringify({ spellId: 17364, tag: 2 }), { spellId: 32176 }], // Shaman - Stormstrike Off-Hand
-	[JSON.stringify({ spellId: 85288, tag: 2 }), { spellId: 96103 }], // Warrior - Raging Blow Main-Hand
-	[JSON.stringify({ spellId: 85288, tag: 3 }), { spellId: 85384 }], // Warrior - Raging Blow Off-Hand
 	[JSON.stringify({ spellId: 1680, tag: 2 }), { spellId: 44949 }], // Warrior - Whirlwind Off-Hand
-	[JSON.stringify({ spellId: 107570, tag: 2 }), { spellId: 145585 }], // Warrior - Storm Bolt Off-Hand
 
-	// Shadow
-	[JSON.stringify({ spellId: 2944, tag: 2 }), { spellId: 127626 }], // Devouring Plague (Heal)
-
-	// Monk - Zen Sphere
-	[JSON.stringify({ spellId: 124081, tag: 3 }), { spellId: 124098 }],
-	[JSON.stringify({ spellId: 124081, tag: 4 }), { spellId: 124101 }],
-	[JSON.stringify({ spellId: 124081, tag: 5 }), { spellId: 125033 }],
-
-	// Mage - Living Bomb
-	[JSON.stringify({ spellId: 44457, tag: 2 }), { spellId: 44461 }], // Living Bomb Explosion
-	[JSON.stringify({ spellId: 114923, tag: 2 }), { spellId: 114954 }], // Nether Tempest (Cleave)
-
-	// Warlock - Immolation Aura
-	[JSON.stringify({ spellId: 104025, tag: 2 }), { spellId: 129476 }],
-	[JSON.stringify({ spellId: 47897, tag: 1 }), { spellId: 47960 }], // Shadowflame Dot
-
-	[JSON.stringify({ spellId: 103103, tag: 172 }), { spellId: 172 }], // Malefic Grasp - Corruption
-	[JSON.stringify({ spellId: 103103, tag: 980 }), { spellId: 980 }], // Malefic Grasp - Agony
-	[JSON.stringify({ spellId: 103103, tag: 30108 }), { spellId: 30108 }], // Malefic Grasp - Unstable Affliction
-
-	[JSON.stringify({ spellId: 1120, tag: 172 }), { spellId: 172 }], // Drain Soul - Corruption
-	[JSON.stringify({ spellId: 1120, tag: 980 }), { spellId: 980 }], // Drain Soul - Agony
-	[JSON.stringify({ spellId: 1120, tag: 30108 }), { spellId: 30108 }], // Drain Soul - Unstable Affliction
+	// Warrior
+	[JSON.stringify({ spellId: 12723, tag: 1 }), { spellId: 26654 }], // Sweeping Strikes (Normalized)
 ]);
 
 export const defaultTargetIcon = 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg';
@@ -1264,7 +873,6 @@ const petNameToActionId: Record<string, ActionId> = {
 	'Primal Earth Elemental': ActionId.fromSpellId(2062),
 	'Primal Fire Elemental': ActionId.fromSpellId(2894),
 	'Mirror Image': ActionId.fromSpellId(55342),
-	'Rune Weapon': ActionId.fromSpellId(49028),
 	Shadowfiend: ActionId.fromSpellId(34433),
 	Mindbender: ActionId.fromSpellId(123040),
 	'Spirit Wolf 1': ActionId.fromSpellId(51533),
@@ -1299,7 +907,7 @@ const petNameToActionId: Record<string, ActionId> = {
 	'Fire Spirit': ActionId.fromSpellId(138123),
 };
 
-// https://wowhead.com/mop-classic/hunter-pets
+// https://wowhead.com/tbc/hunter-pets
 const petNameToIcon: Record<string, string> = {
 	Bat: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_bat.jpg',
 	Bear: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_bear.jpg',
@@ -1347,7 +955,6 @@ const petNameToIcon: Record<string, string> = {
 	Wolf: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_wolf.jpg',
 	Worm: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_worm.jpg',
 	Fox: 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_monstertail_07.jpg',
-	'Lightning Elemental': 'https://wow.zamimg.com/images/wow/icons/large/spell_shaman_ancestralawakening.jpg',
 };
 
 export function getPetIconFromName(name: string): string | ActionId | undefined {
@@ -1360,22 +967,13 @@ export const resourceTypeToIcon: Record<ResourceType, string> = {
 	[ResourceType.ResourceTypeMana]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_elemental_mote_mana.jpg',
 	[ResourceType.ResourceTypeEnergy]: 'https://wow.zamimg.com/images/wow/icons/medium/spell_shadow_shadowworddominate.jpg',
 	[ResourceType.ResourceTypeRage]: 'https://wow.zamimg.com/images/wow/icons/medium/spell_misc_emotionangry.jpg',
-	[ResourceType.ResourceTypeChi]: 'https://wow.zamimg.com/images/wow/icons/medium/ability_monk_healthsphere.jpg',
 	[ResourceType.ResourceTypeComboPoints]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_mace_2h_pvp410_c_01.jpg',
 	[ResourceType.ResourceTypeFocus]: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_focusfire.jpg',
-	[ResourceType.ResourceTypeRunicPower]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_sword_62.jpg',
-	[ResourceType.ResourceTypeBloodRune]: 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_bloodpresence.jpg',
-	[ResourceType.ResourceTypeFrostRune]: 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_frostpresence.jpg',
-	[ResourceType.ResourceTypeUnholyRune]: 'https://wow.zamimg.com/images/wow/icons/medium/spell_deathknight_unholypresence.jpg',
-	[ResourceType.ResourceTypeSolarEnergy]: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipseorange.jpg',
-	[ResourceType.ResourceTypeLunarEnergy]: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg',
 	[ResourceType.ResourceTypeGenericResource]: 'https://wow.zamimg.com/images/wow/icons/medium/spell_holy_holybolt.jpg',
 };
 
 // Use this to connect a buff row to a cast row in the timeline view
 export const buffAuraToSpellIdMap: Record<number, ActionId> = {
-	132403: ActionId.fromSpellId(53600), // Shield of the Righteous
-	138169: ActionId.fromSpellId(85256), // Paladin T15 Ret 4P Templar's Verdict
-
-	131900: ActionId.fromSpellId(131894), // A Murder of Crows
+	34471: ActionId.fromSpellId(19574), // Bestial Wrath -> The Beast Within
+	37198: ActionId.fromItemId(30447), // Blessing of Righteousness -> Tome of Fiery Redemption
 };

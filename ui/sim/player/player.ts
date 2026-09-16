@@ -1472,15 +1472,9 @@ export class Player<SpecType extends Spec> {
 				return false;
 			}
 
-			// This is not exactly a player selected filter, just a general filter to remove any gems with stats that is not in use for the player.
-			// i.e dead gems.
-			// TBC keeps every gem that carries any positive stat, plus every meta (whose effect is
-			// not in its stat block at all). MoP's per-spec stat allowlist is deliberately not
-			// applied here.
-			const positiveStatIds = gem.stats.map((value, statId) => (value > 0 ? statId : -1)).filter(statId => statId >= 0);
-			if (!positiveStatIds.length) {
-				return gem.color === GemColor.GemColorMeta;
-			}
+			// MoP drops gems whose positive stats are all outside the spec's EP/gem stat list. TBC
+			// does not: a meta's effect is not in its stat block at all, and the per-spec
+			// allowlist was found to hide gems people wanted. Every gem that reaches here is kept.
 			return true;
 		});
 	}

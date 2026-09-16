@@ -12,21 +12,18 @@ export function actionIdWowheadTooltipData(
 		: ActionId.makeSpellTooltipData(actionId.spellIdTooltipOverride || actionId.spellId, params);
 }
 
-export function equippedItemWowheadTooltipData(player: Player<any>, equippedItem: EquippedItem, isBlacksmithing: boolean): Promise<string> {
-	const gemIds = equippedItem.gems.length ? equippedItem.curGems(isBlacksmithing).map(gem => (gem ? gem.id : 0)) : [];
-	const enchantIds = [equippedItem.enchant?.effectId, equippedItem.tinker?.effectId].filter((id): id is number => id !== undefined);
+export function equippedItemWowheadTooltipData(player: Player<any>, equippedItem: EquippedItem): Promise<string> {
+	const gemIds = equippedItem.gems.length ? equippedItem.curGems().map(gem => (gem ? gem.id : 0)) : [];
+	const enchantIds = [equippedItem.enchant?.effectId].filter((id): id is number => id !== undefined);
 	return actionIdWowheadTooltipData(equippedItem.asActionId(), {
 		gemIds,
 		itemLevel: Number(equippedItem.ilvl),
 		enchantIds: enchantIds,
-		reforgeId: equippedItem.reforge?.id,
 		randomEnchantmentId: equippedItem.randomSuffix?.id,
 		setPieceIds: player
 			.getGear()
 			.asArray()
 			.filter(ei => ei != null)
 			.map(ei => ei!.item.id),
-		hasExtraSocket: equippedItem.hasExtraSocket(isBlacksmithing),
-		upgradeStep: equippedItem.upgrade,
 	});
 }
