@@ -18,6 +18,17 @@ const __dirname = path.dirname(__filename);
 export const BASE_PATH = path.resolve(__dirname, 'ui');
 export const OUT_DIR = path.join(__dirname, 'dist', 'tbc');
 
+export const UI_ALIASES: Record<string, string> = {
+	'@sim': path.resolve(BASE_PATH, 'sim'),
+	'@generated': path.resolve(BASE_PATH, 'generated'),
+	'@worker': path.resolve(BASE_PATH, 'worker'),
+	'@ui-kit': path.resolve(BASE_PATH, 'ui-kit'),
+	'@features': path.resolve(BASE_PATH, 'features'),
+	'@app': path.resolve(BASE_PATH, 'app'),
+	'@specs': path.resolve(BASE_PATH, 'specs'),
+	'@i18n': path.resolve(BASE_PATH, 'i18n'),
+};
+
 function serveExternalAssets() {
 	const simWorker = process.env.WASM_WORKER ? '/tbc/sim_worker.js' : '/tbc/local_worker.js';
 	const workerMappings = {

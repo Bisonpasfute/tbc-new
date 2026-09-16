@@ -57,6 +57,10 @@ jobs:
               run: |
                   make dist/tbc/.dirstamp
 
+            - name: Unit Tests 🧪
+              run: |
+                  npm run test:unit
+
     test:
         runs-on: ubuntu-latest
         timeout-minutes: 30

@@ -1,9 +1,7 @@
 # nodejs modules
 node_modules
 
-ui/core/index.ts
-ui/core/**/*_auto_gen.ts
-ui/*/*/index.html
+ui/**/*_auto_gen.ts
 .dirstamp
 
 # IDE folders

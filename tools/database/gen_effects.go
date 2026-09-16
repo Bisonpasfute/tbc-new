@@ -202,7 +202,7 @@ func jsString(s string) string {
 	return s
 }
 
-const missingEffectsFileName = "ui/core/constants/missing_effects_auto_gen.ts"
+const missingEffectsFileName = "ui/sim/constants/missing_effects_auto_gen.ts"
 
 func GenerateMissingEffectsFile() error {
 	if _, err := os.Stat(missingEffectsFileName); err != nil && !os.IsNotExist(err) {
