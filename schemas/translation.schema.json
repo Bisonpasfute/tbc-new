@@ -10452,6 +10452,62 @@
 								"under_by"
 							]
 						},
+						"tank_caps": {
+							"type": "object",
+							"properties": {
+								"miss_label": {
+									"type": "string"
+								},
+								"avoidance_label": {
+									"type": "string"
+								},
+								"crit_immunity_label": {
+									"type": "string"
+								},
+								"miss": {
+									"type": "string"
+								},
+								"dodge": {
+									"type": "string"
+								},
+								"parry": {
+									"type": "string"
+								},
+								"block": {
+									"type": "string"
+								},
+								"defense": {
+									"type": "string"
+								},
+								"resilience": {
+									"type": "string"
+								},
+								"crush": {
+									"type": "string"
+								},
+								"shear": {
+									"type": "string"
+								},
+								"with_holy_shield": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"miss_label",
+								"avoidance_label",
+								"crit_immunity_label",
+								"miss",
+								"dodge",
+								"parry",
+								"block",
+								"defense",
+								"resilience",
+								"crush",
+								"shear",
+								"with_holy_shield"
+							]
+						},
 						"bonus_prefix": {
 							"type": "string"
 						},
@@ -10469,6 +10525,7 @@
 						"tooltip",
 						"attack_table",
 						"crit_cap",
+						"tank_caps",
 						"bonus_prefix",
 						"points_suffix",
 						"percent_suffix"

@@ -2501,6 +2501,20 @@
 				"over_by": "Over by",
 				"under_by": "Under by"
 			},
+			"tank_caps": {
+				"miss_label": "Miss",
+				"avoidance_label": "Total avoidance",
+				"crit_immunity_label": "Crit Immunity",
+				"miss": "Miss:",
+				"dodge": "Dodge:",
+				"parry": "Parry:",
+				"block": "Block:",
+				"defense": "Defense:",
+				"resilience": "Resilience:",
+				"crush": "Crush (102.4%):",
+				"shear": "Shear (101.8%):",
+				"with_holy_shield": " (with HS)"
+			},
 			"bonus_prefix": "Bonus",
 			"points_suffix": "Points",
 			"percent_suffix": "%"
