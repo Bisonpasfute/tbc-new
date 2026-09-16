@@ -28,6 +28,7 @@ import {
 	EquipmentSpec,
 	Faction,
 	GemColor,
+	ItemSlot,
 	PseudoStat,
 	RangedWeaponType,
 	Spec,
@@ -106,6 +107,17 @@ export type RunSimOptions = {
 };
 
 // Core Sim module which deals only with api types, no UI-related stuff.
+// The backend cannot tell an inactive meta gem from an active one, so an unmet
+// meta requirement would still grant its stats. Mirrors ui/core/sim.ts.
+const gearAsBackendSpec = (gear: Gear): EquipmentSpec => {
+	const spec = gear.asSpec();
+	const headIdx = gear.getItemSlots().indexOf(ItemSlot.ItemSlotHead);
+	if (headIdx >= 0 && gear.hasInactiveMetaGem()) {
+		spec.items[headIdx].metaGemDisabled = true;
+	}
+	return spec;
+};
+
 export class Sim {
 	private readonly workerPool: WorkerPool;
 
@@ -270,7 +282,7 @@ export class Sim {
 				}
 
 				if (gearChanged) {
-					player.equipment = gear.asSpec();
+					player.equipment = gearAsBackendSpec(gear);
 				}
 
 				extendPlayerProtoWithMissingEffects(player, this.db);
@@ -322,7 +334,8 @@ export class Sim {
 			if (options.gear) {
 				const gear = Sim.prepareGear(options.gear, hasBlacksmithing(player));
 				player.database = gear.toDatabase(this.db);
-				player.equipment = gear.asSpec();
+				player.equipment = gearAsBackendSpec(gear);
+				if (player.consumables) player.consumables = gear.adjustImbues(player.consumables);
 			}
 
 			const onProgress = options.onProgress ?? noop;
@@ -660,7 +673,7 @@ export class Sim {
 		const raidProto = this.getModifiedRaidProto();
 		const player = raidProto.parties[0].players[0];
 		player.database = gear.toDatabase(this.db);
-		player.equipment = gear.asSpec();
+		player.equipment = gearAsBackendSpec(gear);
 		extendPlayerProtoWithMissingEffects(player, this.db);
 		raidProto.parties[0].players[0] = player;
 
