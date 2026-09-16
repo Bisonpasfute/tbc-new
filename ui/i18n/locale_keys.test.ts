@@ -5,17 +5,12 @@ import { describe, expect, it } from 'vitest';
 
 const ROOT = join(import.meta.dirname, '..', '..');
 const UI = join(ROOT, 'ui');
-// ui/core is the pre-rewrite tree a later lane deletes; it carries known content gaps
-// (missing keys, even a literal source typo) that are not this layer's to fix. Drop this
-// exclusion once ui/core is gone.
-const CORE = join(UI, 'core');
 const LOCALES = ['en'];
 const DEFAULT_NAMESPACE = 'translation';
 
 const sourceFiles = (dir: string): Array<string> =>
 	readdirSync(dir).flatMap(entry => {
 		const path = join(dir, entry);
-		if (path === CORE) return [];
 		if (statSync(path).isDirectory()) return entry === 'node_modules' ? [] : sourceFiles(path);
 		return /\.tsx?$/.test(entry) && !/\.test\.tsx?$/.test(entry) ? [path] : [];
 	});
@@ -53,8 +48,8 @@ describe('locale keys', () => {
 	});
 
 	it('asks for a non-trivial number of keys, so a broken scan cannot pass', () => {
-		// 900 in the tailwind tree reflects a fully-ported ui/features TBC doesn't have yet
-		// (and that tree has no ui/core to exclude); ui/sim + ui/generated here yield ~120.
-		expect(requests().length).toBeGreaterThan(50);
+		// The ported tree asks for ~1060 distinct keys; the floor only guards against a scan
+		// that silently stops finding files.
+		expect(requests().length).toBeGreaterThan(500);
 	});
 });
