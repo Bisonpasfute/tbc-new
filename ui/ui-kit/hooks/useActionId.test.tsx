@@ -78,15 +78,18 @@ describe('useActionId', () => {
 		expect(anchor(container).dataset.icon).toBe('');
 	});
 
-	it('knows the href without filling, and re-derives it when the reforge changes', () => {
+	// Upstream varied the reforge id here; TBC has no item reforging, and its
+	// ActionId.fromItemId is (itemId, tag?, randomSuffixId?). The random suffix is
+	// the equivalent url-bearing field, so the case still covers what it is for:
+	// the href is derived before any fill, and re-derived when the id changes.
+	it('knows the href without filling, and re-derives it when the random suffix changes', () => {
 		deferFill();
-		const { container, rerender } = render(<Probe actionId={ActionId.fromItemId(7, 0, 0, 111)} />);
-		const withReforge = anchor(container).href;
-		expect(withReforge).toContain('forg=111');
+		const { container, rerender } = render(<Probe actionId={ActionId.fromItemId(7, 0, 111)} />);
+		expect(anchor(container).href).toContain('rand=111');
 
-		rerender(<Probe actionId={ActionId.fromItemId(7, 0, 0, 222)} />);
+		rerender(<Probe actionId={ActionId.fromItemId(7, 0, 222)} />);
 
-		expect(anchor(container).href).toContain('forg=222');
+		expect(anchor(container).href).toContain('rand=222');
 	});
 
 	it('resolves an absent id to empty fields without a fill', () => {
