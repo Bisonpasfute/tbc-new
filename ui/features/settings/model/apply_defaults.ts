@@ -13,6 +13,14 @@ export type DefaultsHost<SpecType extends Spec> = IndividualSimHost<SpecType> & 
 export function applyDefaultRotation<SpecType extends Spec>(player: Player<SpecType>, config: IndividualSimUIConfig<SpecType>) {
 	batch(() => {
 		const defaultRotationType = config.defaults.rotationType || APLRotationType.TypeAuto;
+
+		// A TypeAPL spec ships its own priority list. Setting only the type would load
+		// it with an empty APL, and nothing backfills it afterwards.
+		if (defaultRotationType === APLRotationType.TypeAPL && config.defaults.aplRotation) {
+			player.setAplRotation(APLRotation.create(config.defaults.aplRotation));
+			return;
+		}
+
 		player.setAplRotation(
 			APLRotation.create({
 				type: defaultRotationType,
@@ -63,6 +71,9 @@ export function applyIndividualDefaults<SpecType extends Spec>(host: DefaultsHos
 		player.getParty()!.setBuffs(config.defaults.partyBuffs);
 		player.getRaid()!.setBuffs(config.defaults.raidBuffs);
 		player.setEpWeights(config.defaults.epWeights);
+		// Tank specs can name their own EP reference stat; without this the dialog
+		// falls back to StatArmor for every one of them.
+		player.setRefStat('tankRefStat', config.tankRefStat);
 		if (config.defaults.itemSwap) {
 			player.itemSwapSettings.setItemSwapSettings(true, sim.db.lookupItemSwap(config.defaults.itemSwap || ItemSwap.create()));
 		}

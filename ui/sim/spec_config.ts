@@ -1,5 +1,5 @@
 import type { ReforgeOptimizerOptions } from '@features/reforge/model/reforge_optimizer';
-import { APLRotation_Type as APLRotationType } from '@generated/proto/apl';
+import { APLRotation, APLRotation_Type as APLRotationType } from '@generated/proto/apl';
 import {
 	ConsumesSpec,
 	Debuffs,
@@ -98,6 +98,8 @@ export interface IndividualSimUIConfig<SpecType extends Spec> extends PlayerConf
 	epStats: Array<Stat>;
 	epPseudoStats?: Array<PseudoStat>;
 	epReferenceStat: Stat;
+	// Reference stat for tank specs' EP; falls back to StatArmor when unset.
+	tankRefStat?: Stat;
 	// Per-spec override for the default EP ratios; must be exactly Player.numEpRatios long.
 	epRatios?: Array<number>;
 	displayStats: Array<UnitStat>;
@@ -142,6 +144,8 @@ export interface IndividualSimUIConfig<SpecType extends Spec> extends PlayerConf
 		debuffs: Debuffs;
 
 		rotationType?: APLRotationType;
+		// The APL a TypeAPL spec loads with. Without it the priority list starts empty.
+		aplRotation?: APLRotation;
 		simpleRotation?: SpecRotation<SpecType>;
 
 		// Encounter applied by "Reset to Defaults" and on first load. Falls back to

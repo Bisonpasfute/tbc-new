@@ -43,6 +43,7 @@ export default defineSpec<Spec.SpecFeralBearDruid>({
 	],
 	epPseudoStats: [],
 	epReferenceStat: Stat.StatAgility,
+	tankRefStat: Stat.StatStamina,
 	displayStats: UnitStat.createDisplayStatArray(
 		[
 			Stat.StatHealth,
@@ -82,6 +83,7 @@ export default defineSpec<Spec.SpecFeralBearDruid>({
 		other: Presets.OtherDefaults,
 		consumables: Presets.DefaultConsumables,
 		rotationType: APLRotationType.TypeAPL,
+		aplRotation: Presets.ROTATION_DEFAULT.rotation.rotation!,
 		talents: Presets.StandardTalents.data,
 		specOptions: Presets.DefaultOptions,
 		raidBuffs: RaidBuffs.create({
