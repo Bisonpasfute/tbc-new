@@ -77,19 +77,24 @@ describe('ConsumeRow', () => {
 		expect(caption.id).not.toBe('');
 	});
 
-	it('unmounts the row when every picker in it is hidden, and mounts it again', () => {
+	// Vanilla's updateRow toggled a `hide` class and nothing more, so the pickers inside a hidden
+	// row stayed mounted and kept zeroing and restoring the field they are bound to. Unmounting
+	// instead would strand a selection the player can no longer use.
+	it('hides the row when every picker in it is hidden, without unmounting it, and shows it again', () => {
 		const options = new Options();
 		row(options, [configFor(opts => opts.engineer), configFor(opts => opts.engineer)]);
-		expect(document.querySelector('[data-testid="consumes-row"]')).toBeTruthy();
+		const rowElem = document.querySelector('[data-testid="consumes-row"]')!;
+		expect(rowElem.hasAttribute('hidden')).toBe(false);
 
 		options.engineer = false;
 		act(() => options.changeProfession(1));
-		expect(document.querySelector('[data-testid="consumes-row"]')).toBeNull();
-		expect(document.querySelector('.consumes-engi')).toBeNull();
+		expect(document.querySelector('[data-testid="consumes-row"]')).toBe(rowElem);
+		expect(rowElem.hasAttribute('hidden')).toBe(true);
+		expect(document.querySelector('.consumes-engi')).not.toBeNull();
 
 		options.engineer = true;
 		act(() => options.changeProfession(2));
-		expect(document.querySelector('[data-testid="consumes-row"]')).toBeTruthy();
+		expect(rowElem.hasAttribute('hidden')).toBe(false);
 	});
 
 	it('keeps the row shown while any one of its pickers is', () => {
@@ -101,7 +106,7 @@ describe('ConsumeRow', () => {
 		expect(document.body.contains(element)).toBe(true);
 	});
 
-	it('never unmounts a row that names no pickers', () => {
+	it('never hides a row that names no pickers', () => {
 		const options = new Options();
 		const element = row(options);
 		expect(document.body.contains(element)).toBe(true);
@@ -119,7 +124,7 @@ describe('ConsumeRow', () => {
 
 		options.engineer = false;
 		act(() => options.changeSomethingElse());
-		expect(document.querySelector('[data-testid="consumes-row"]')).toBeNull();
+		expect(document.querySelector('[data-testid="consumes-row"]')!.hasAttribute('hidden')).toBe(true);
 
 		options.engineer = true;
 		act(() => options.changeProfession(1));

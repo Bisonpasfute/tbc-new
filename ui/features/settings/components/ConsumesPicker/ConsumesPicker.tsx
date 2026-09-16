@@ -63,7 +63,7 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					<IconPicker modObject={player} config={ConsumablesInputs.SuperSapper} />
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="imbue" configs={[configs.mhImbue, configs.ohImbue]}>
+			<ConsumeRow name="imbue">
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-imbue">
 					<IconEnumPicker modObject={player} config={configs.mhImbue} />
 					<IconEnumPicker modObject={player} config={configs.ohImbue} />
@@ -77,7 +77,15 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					<IconEnumPicker modObject={player} config={configs.drums} />
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="scrolls">
+			<ConsumeRow
+				name="scrolls"
+				configs={[
+					ConsumablesInputs.ScrollAgi,
+					ConsumablesInputs.ScrollStr,
+					ConsumablesInputs.ScrollInt,
+					ConsumablesInputs.ScrollSpi,
+					ConsumablesInputs.ScrollArm,
+				]}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-scrolls">
 					<IconPicker modObject={player} config={ConsumablesInputs.ScrollAgi} />
 					<IconPicker modObject={player} config={ConsumablesInputs.ScrollStr} />
@@ -93,7 +101,7 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					<IconPicker modObject={player} config={ConsumablesInputs.BoglingRoot} />
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="pet" configs={[configs.petFood, ConsumablesInputs.PetScrollAgi, ConsumablesInputs.PetScrollStr]}>
+			<ConsumeRow name="pet">
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-pet">
 					<IconEnumPicker modObject={player} config={configs.petFood} />
 					<IconPicker modObject={player} config={ConsumablesInputs.PetScrollAgi} />

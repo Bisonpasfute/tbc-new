@@ -25,10 +25,12 @@ export const ConsumeRow = ({ name, configs, children }: ConsumeRowProps) => {
 	const labelId = useId();
 	const shown = useStoreSubscribe(subscribePlayerChange(player), () => !configs || configs.some(config => rowConfigShown(config, player)));
 
-	if (!shown) return null;
-
+	// Hide, never unmount. Vanilla's updateRow only toggled a `hide` class, which kept every
+	// picker in the row alive: a hidden IconEnumPicker is what zeroes the field it is bound to
+	// when the player can no longer use it, and restores the value if they can again. Returning
+	// null here skips that effect entirely, so a stale selection survives in the proto.
 	return (
-		<div className="ui-field" data-testid="consumes-row" data-input-root="" data-layout="inline" role="group" aria-labelledby={labelId}>
+		<div className="ui-field" data-testid="consumes-row" data-input-root="" data-layout="inline" role="group" aria-labelledby={labelId} hidden={!shown}>
 			<FieldLabel as="span" id={labelId}>
 				{i18n.t(`settings_tab.consumables.${name}.title`)}
 			</FieldLabel>
