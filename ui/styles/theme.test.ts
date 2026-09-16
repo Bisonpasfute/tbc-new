@@ -43,9 +43,9 @@ const expectedForeground = (color: [number, number, number]) => {
 };
 
 describe('theme.css class foregrounds', () => {
-	it('finds exactly eleven class colour/foreground pairs', () => {
-		expect(classColors.size).toBe(11);
-		expect(foregrounds.size).toBe(11);
+	it('finds exactly nine class colour/foreground pairs, one per TBC class', () => {
+		expect(classColors.size).toBe(9);
+		expect(foregrounds.size).toBe(9);
 	});
 
 	it.each([...classColors.entries()])('%s foreground matches WCAG contrast-based choice', (name, color) => {
