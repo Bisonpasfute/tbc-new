@@ -4,7 +4,7 @@
 const STORAGE_KEY = 'lang';
 
 export const supportedLanguages: Record<string, string> = {
-	'en': 'English',
+	en: 'English',
 	//'fr': 'Français',
 };
 

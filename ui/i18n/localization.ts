@@ -1,52 +1,51 @@
-import { PlayerClass } from '../core/player_class';
-import { PlayerSpec } from '../core/player_spec';
 import {
 	ArmorType,
+	ItemQuality,
+	ItemSlot,
 	MobType,
+	Profession,
 	PseudoStat,
 	Race,
-	Profession,
+	RangedWeaponType,
 	SpellSchool,
 	Stat,
 	WeaponType,
-	RangedWeaponType,
-	Spec,
-	ItemSlot,
-	ItemQuality,
-} from '../core/proto/common';
-import { ResourceType } from '../core/proto/spell';
-import { RaidFilterOption, SourceFilterOption } from '../core/proto/ui';
-import { LaunchStatus } from '../core/launched_sims';
-import { BulkSimItemSlot } from '../core/components/individual_sim_ui/bulk/constants_auto_gen';
-import { PresetConfigurationCategory } from '../core/components/individual_sim_ui/preset_configuration_picker';
+} from '@generated/proto/common';
+import { ResourceType } from '@generated/proto/spell';
+import { RaidFilterOption, SourceFilterOption } from '@generated/proto/ui';
+import { BulkSimItemSlot } from '@sim/bulk/utils';
+import { LaunchStatus } from '@sim/constants/other';
+import { PresetConfigurationCategory } from '@sim/constants/preset_categories';
+import { PlayerClass } from '@sim/player/player_class';
+import { PlayerSpec } from '@sim/player/player_spec';
+
 import i18n from './config';
 import {
+	aplItemLabelI18nKeys,
+	classNameToClassKey,
+	getArmorTypeI18nKey,
+	getBulkSlotI18nKey,
 	getClassI18nKey,
 	getMobTypeI18nKey,
-	getRaceI18nKey,
+	getPresetConfigurationCategoryI18nKey,
 	getProfessionI18nKey,
+	getRaceI18nKey,
+	getRaidFilterI18nKey,
+	getRangedWeaponTypeI18nKey,
+	getSlotNameI18nKey,
+	getSourceFilterI18nKey,
 	getSpecI18nKey,
+	getStatusI18nKey,
 	getTargetInputI18nKey,
+	getWeaponTypeI18nKey,
+	itemQualityI18nKeys,
+	protoStatNameI18nKeys,
 	pseudoStatI18nKeys,
+	resourceTypeI18nKeys,
 	spellSchoolI18nKeys,
 	statI18nKeys,
-	getSourceFilterI18nKey,
-	getRaidFilterI18nKey,
-	getArmorTypeI18nKey,
-	getWeaponTypeI18nKey,
-	getRangedWeaponTypeI18nKey,
-	aplItemLabelI18nKeys,
-	backendMetricI18nKeys as resultMetricI18nKeys,
-	resourceTypeI18nKeys,
-	getStatusI18nKey,
-	getSlotNameI18nKey,
-	protoStatNameI18nKeys,
-	getBulkSlotI18nKey,
-	getPresetConfigurationCategoryI18nKey,
-	classNameToClassKey,
-	itemQualityI18nKeys,
 } from './entity_mapping';
-import { getLang, setLang, supportedLanguages } from './locale_service';
+import { getLang } from './locale_service';
 
 /**
  * Entity translation functions
@@ -179,72 +178,49 @@ export const translatePlayerSpec = (playerSpec: PlayerSpec<any>): string => {
  * Component Translation Helpers
  */
 
-export const extractClassAndSpecFromLink = (link: HTMLAnchorElement): { className?: string; specName?: string } => {
-	const parts = link.pathname.split('/').filter(Boolean);
-	if (parts.length >= 2) {
-		return {
-			className: parts[1],
-			specName: parts[2],
-		};
-	}
-	return {};
-};
-
+// The spec page template is identical for every spec (see ui/index_template.html),
+// so class/spec are no longer baked in as data-class/data-spec attributes; derive
+// them from the URL the same way ui/app/spec_entry.ts derives its spec module key
+// ('/tbc/warrior/arms/' -> ['warrior', 'arms']). Data attributes are kept as a
+// fallback for any caller that isn't served from a real spec URL.
 export const extractClassAndSpecFromDataAttributes = (): { className: string; specName: string } | null => {
+	const base = import.meta.env.BASE_URL || '/';
+	const rel = (location.pathname.startsWith(base) ? location.pathname.slice(base.length) : location.pathname)
+		.replace(/^\/+/, '')
+		.replace(/index\.html$/, '')
+		.replace(/\/+$/, '');
+	const [className, specName] = rel.split('/');
+	if (className && specName) {
+		return { className, specName };
+	}
+
 	const titleElement = document.querySelector('title');
 	if (titleElement) {
-		const className = titleElement.getAttribute('data-class');
-		const specName = titleElement.getAttribute('data-spec');
-		if (className && specName) {
-			return { className, specName };
+		const attrClassName = titleElement.getAttribute('data-class');
+		const attrSpecName = titleElement.getAttribute('data-spec');
+		if (attrClassName && attrSpecName) {
+			return { className: attrClassName, specName: attrSpecName };
 		}
 	}
 
 	const metaDescription = document.querySelector('meta[name="description"]') as HTMLMetaElement;
 	if (metaDescription) {
-		const className = metaDescription.getAttribute('data-class');
-		const specName = metaDescription.getAttribute('data-spec');
-		if (className && specName) {
-			return { className, specName };
+		const attrClassName = metaDescription.getAttribute('data-class');
+		const attrSpecName = metaDescription.getAttribute('data-spec');
+		if (attrClassName && attrSpecName) {
+			return { className: attrClassName, specName: attrSpecName };
 		}
 	}
 	return null;
 };
 
-export const updateLanguageDropdown = (): void => {
-	const dropdownMenu = document.querySelector('.dropdown-menu[aria-labelledby="languageDropdown"]');
-	if (!dropdownMenu) return;
+// A <meta>'s text is its `content` attribute; `textContent` on it is invisible to crawlers.
+const setMetaDescription = (text: string): void => document.querySelector('meta[name="description"]')?.setAttribute('content', text);
 
-	const currentLang = getLang();
-	dropdownMenu.innerHTML = '';
-
-	Object.entries(supportedLanguages).forEach(([code, name]) => {
-		const handleClick = (e: Event) => {
-			e.preventDefault();
-			setLang(code);
-			window.location.reload();
-		};
-
-		const languageItem = (
-			<li>
-				<a className={`dropdown-item ${code === currentLang ? 'active' : ''}`} href="#" data-lang={code} onclick={handleClick}>
-					{name}
-				</a>
-			</li>
-		);
-
-		dropdownMenu.appendChild(languageItem);
-	});
-};
-
-export const updateDataI18nElements = (): void => {
-	document.querySelectorAll('[data-i18n]').forEach(element => {
-		const key = element.getAttribute('data-i18n');
-		const ns = element.getAttribute('data-i18n-ns');
-		if (key) {
-			element.textContent = i18n.t(key, { ns: ns || undefined });
-		}
-	});
+export const updateLandingPageMetadata = (): void => {
+	document.documentElement.lang = getLang();
+	document.title = i18n.t('landing.home.title');
+	setMetaDescription(i18n.t('landing.home.description'));
 };
 
 export const updateSimPageMetadata = (): void => {
@@ -258,29 +234,8 @@ export const updateSimPageMetadata = (): void => {
 		spec: translateSpec(className, specName),
 	};
 
-	document.querySelector('title')!.textContent = i18n.t('sim.title', translationData);
-	document.querySelector('meta[name="description"]')!.textContent = i18n.t('sim.description', translationData);
-};
-
-export const updateSimLinks = (): void => {
-	document.querySelectorAll('.sim-link-content').forEach(content => {
-		const classLabel = content.querySelector('.sim-link-label');
-		const specTitle = content.querySelector('.sim-link-title');
-		const link = content.closest('a');
-
-		if (classLabel && specTitle && link instanceof HTMLAnchorElement) {
-			const info = extractClassAndSpecFromLink(link);
-			if (info && info.className && info.specName) {
-				classLabel.textContent = translateClass(info.className);
-				specTitle.textContent = translateSpec(info.className, info.specName);
-			}
-		} else if (specTitle && link instanceof HTMLAnchorElement) {
-			const info = extractClassAndSpecFromLink(link);
-			if (info && info.className) {
-				specTitle.textContent = translateClass(info.className);
-			}
-		}
-	});
+	document.title = i18n.t('sim.title', translationData);
+	setMetaDescription(i18n.t('sim.description', translationData));
 };
 
 export const translateItemLabel = (itemLabel: string): string => {
@@ -297,27 +252,6 @@ export const translateItemLabel = (itemLabel: string): string => {
 	} catch {
 		return itemLabel;
 	}
-};
-
-export const translateResultMetricLabel = (metricName: string): string => {
-	const cleanName = metricName.replace(/[O0]$/, '');
-	const key = resultMetricI18nKeys[cleanName] || resultMetricI18nKeys[metricName];
-	if (!key) return metricName;
-
-	return i18n.t(`sidebar.results.metrics.${key}.label`, {
-		defaultValue: metricName,
-	});
-};
-
-export const translateResultMetricTooltip = (metricName: string): string => {
-	const cleanName = metricName.replace(/[O0]$/, '');
-	const key = resultMetricI18nKeys[cleanName] || resultMetricI18nKeys[metricName];
-	if (!key) return metricName;
-
-	const tooltipKey = key === 'tmi' || key === 'cod' ? `${key}.tooltip.title` : `${key}.tooltip`;
-	return i18n.t(`sidebar.results.metrics.${tooltipKey}`, {
-		defaultValue: metricName,
-	});
 };
 
 export const translateSlotName = (slot: ItemSlot): string => {
@@ -340,46 +274,20 @@ export const translatePresetConfigurationCategory = (category: PresetConfigurati
  * Localization Initialization
  */
 
-export interface LocalizationOptions {
-	updateSimMetadata?: boolean;
-	updateSimLinks?: boolean;
-	updateLanguageDropdown?: boolean;
-}
-
-export const updateTranslations = (options: LocalizationOptions = {}): void => {
+export const updateTranslations = (): void => {
 	document.documentElement.lang = getLang();
-	updateDataI18nElements();
-
-	if (options.updateSimMetadata) {
-		updateSimPageMetadata();
-	}
-
-	if (options.updateSimLinks) {
-		updateSimLinks();
-	}
-
-	if (options.updateLanguageDropdown) {
-		updateLanguageDropdown();
-	}
+	updateSimPageMetadata();
 };
 
-export const initLocalization = (options?: LocalizationOptions): void => {
-	const finalOptions =
-		options ||
-		(document.querySelector('title[data-class]') || document.querySelector('meta[data-class]')
-			? { updateSimMetadata: true }
-			: { updateSimLinks: true, updateLanguageDropdown: true });
-
+export const initLocalization = (): void => {
 	const initialize = () => {
 		if (!i18n.isInitialized) {
 			i18n.init();
 		}
 
-		i18n.on('languageChanged', () => {
-			updateTranslations(finalOptions);
-		});
+		i18n.on('languageChanged', updateTranslations);
 
-		updateTranslations(finalOptions);
+		updateTranslations();
 	};
 
 	if (document.readyState === 'loading') {
