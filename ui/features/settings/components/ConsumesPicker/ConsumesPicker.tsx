@@ -1,0 +1,102 @@
+import type { ConsumableStatOption } from '@features/settings/model/consumables';
+import * as ConsumablesInputs from '@features/settings/model/consumables';
+import type { Stat } from '@generated/proto/common';
+import i18n from '@i18n/config';
+import { usePlayer } from '@sim/context/SimHostContext';
+import type { Player } from '@sim/player/player';
+import { Database } from '@sim/proto/database';
+import { IconEnumPicker } from '@ui-kit/IconEnumPicker';
+import { IconPicker } from '@ui-kit/IconPicker';
+import { PickerGroup } from '@ui-kit/PickerGroup';
+import { useMemo } from 'react';
+
+import { ConsumeRow } from './ConsumeRow';
+import { consumeConfigs } from './utils';
+
+export interface ConsumesPickerProps {
+	consumableStats: ReadonlyArray<Stat>;
+	conjuredOptions: ReadonlyArray<ConsumableStatOption<number>>;
+	explosiveOptions: ReadonlyArray<ConsumableStatOption<number>>;
+	imbueMHOptions: ReadonlyArray<ConsumableStatOption<number>>;
+	imbueOHOptions: ReadonlyArray<ConsumableStatOption<number>>;
+	drumsOptions: ReadonlyArray<ConsumableStatOption<number>>;
+}
+
+export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOptions, imbueMHOptions, imbueOHOptions, drumsOptions }: ConsumesPickerProps) => {
+	const player = usePlayer() as Player<any>;
+	const configs = useMemo(
+		() => consumeConfigs(player, Database.getSync(), consumableStats, conjuredOptions, explosiveOptions, imbueMHOptions, imbueOHOptions, drumsOptions),
+		[player, consumableStats, conjuredOptions, explosiveOptions, imbueMHOptions, imbueOHOptions, drumsOptions],
+	);
+
+	return (
+		<div className="grid gap-3 max-lg:grid-cols-3 max-md:grid-cols-1">
+			<ConsumeRow name="potions" configs={[configs.potion, configs.conjured]}>
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-potions">
+					<IconEnumPicker modObject={player} config={configs.potion} />
+					<IconEnumPicker modObject={player} config={configs.conjured} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="elixirs">
+				<PickerGroup variant="icons" className="justify-end">
+					<div data-testid="consumes-flasks">
+						<IconEnumPicker modObject={player} config={configs.flask} />
+					</div>
+					<span className="flex w-6 items-center justify-center">{i18n.t('settings_tab.consumables.elixirs.separator')}</span>
+					<div className="empty:hidden" data-testid="consumes-battle-elixirs">
+						<IconEnumPicker modObject={player} config={configs.battleElixir} />
+					</div>
+					<div className="empty:hidden" data-testid="consumes-guardian-elixirs">
+						<IconEnumPicker modObject={player} config={configs.guardianElixir} />
+					</div>
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="food">
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-food">
+					<IconEnumPicker modObject={player} config={configs.food} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="engineering" configs={[configs.explosive, ConsumablesInputs.GoblinSapper, ConsumablesInputs.SuperSapper]}>
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-engi">
+					<IconEnumPicker modObject={player} config={configs.explosive} />
+					<IconPicker modObject={player} config={ConsumablesInputs.GoblinSapper} />
+					<IconPicker modObject={player} config={ConsumablesInputs.SuperSapper} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="imbue" configs={[configs.mhImbue, configs.ohImbue]}>
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-imbue">
+					<IconEnumPicker modObject={player} config={configs.mhImbue} />
+					<IconEnumPicker modObject={player} config={configs.ohImbue} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="drums" configs={[configs.drums]}>
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-drums">
+					<IconEnumPicker modObject={player} config={configs.drums} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="scrolls">
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-scrolls">
+					<IconPicker modObject={player} config={ConsumablesInputs.ScrollAgi} />
+					<IconPicker modObject={player} config={ConsumablesInputs.ScrollStr} />
+					<IconPicker modObject={player} config={ConsumablesInputs.ScrollInt} />
+					<IconPicker modObject={player} config={ConsumablesInputs.ScrollSpi} />
+					<IconPicker modObject={player} config={ConsumablesInputs.ScrollArm} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="miscellaneous" configs={[ConsumablesInputs.NightmareSeed, ConsumablesInputs.Bloodthistle, ConsumablesInputs.BoglingRoot]}>
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-misc">
+					<IconPicker modObject={player} config={ConsumablesInputs.NightmareSeed} />
+					<IconPicker modObject={player} config={ConsumablesInputs.Bloodthistle} />
+					<IconPicker modObject={player} config={ConsumablesInputs.BoglingRoot} />
+				</PickerGroup>
+			</ConsumeRow>
+			<ConsumeRow name="pet" configs={[configs.petFood, ConsumablesInputs.PetScrollAgi, ConsumablesInputs.PetScrollStr]}>
+				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-pet">
+					<IconEnumPicker modObject={player} config={configs.petFood} />
+					<IconPicker modObject={player} config={ConsumablesInputs.PetScrollAgi} />
+					<IconPicker modObject={player} config={ConsumablesInputs.PetScrollStr} />
+				</PickerGroup>
+			</ConsumeRow>
+		</div>
+	);
+};

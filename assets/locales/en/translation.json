@@ -502,6 +502,30 @@
 				"label": "HP % for Defensive CDs",
 				"tooltip": "% of Maximum Health, below which defensive cooldowns are allowed to be used. If set to 0, this restriction is disabled."
 			},
+			"isb_uptime": {
+				"label": "ISB Uptime",
+				"tooltip": "Amount of uptime for ISB"
+			},
+			"hemo_uptime": {
+				"label": "Hemorrhage Uptime",
+				"tooltip": "Amount of time hemorrhage is on the boss from a subtely rogue"
+			},
+			"shadow_priest_dps": {
+				"label": "Shadow Priest DPS",
+				"tooltip": "Shadow Priest DPS for Mana Battery purposes. 1000 DPS = 50 mana/sec(250 MP5)."
+			},
+			"expose_weakness_uptime": {
+				"label": "Expose Weakness Uptime",
+				"tooltip": "Uptime of Expose Weakness in %."
+			},
+			"expose_weakness_hunter_agility": {
+				"label": "Expose Weakness Hunter Agility",
+				"tooltip": "The amount of Agility provided by your Hunter. Used for calculating the value of Expose Weakness."
+			},
+			"totem_twisting": {
+				"label": "Totem Twisting",
+				"tooltip": "If both Windfury and Grace of Air are active will alternate between them to keep up both buffs."
+			},
 			"pet_uptime": {
 				"label": "Pet Uptime (%)",
 				"tooltip": "Percent of the fight duration for which your pet will be alive."
@@ -649,7 +673,8 @@
 				"combat": "Combat Potion"
 			},
 			"elixirs": {
-				"title": "Elixirs"
+				"title": "Elixirs",
+				"separator": "or"
 			},
 			"food": {
 				"title": "Food"
@@ -1508,7 +1533,8 @@
 				},
 				"aura_duration": {
 					"label": "Aura Duration",
-					"tooltip": "The full cooldown duration of the aura"
+					"tooltip": "The full cooldown duration of the aura",
+					"full_description": "<p>Returns the full duration the aura is set to when it is (re)applied, not the time remaining on the current application.</p>"
 				},
 				"all_item_stat_procs_active": {
 					"label": "All Item Proc Buffs Active",
@@ -1548,7 +1574,8 @@
 				},
 				"any_stat_buff_cooldowns_min_duration": {
 					"label": "Any Stat Buff Cooldowns Min Remaining Time",
-					"tooltip": "Shortest remaining duration on any registered Major Cooldown that buff the specified stat type(s), or infinity if none are currently active."
+					"tooltip": "Shortest remaining duration on any registered Major Cooldown that buff the specified stat type(s), or infinity if none are currently active.",
+					"full_description": "<p>Both manually casted cooldowns as well as cooldowns controlled by \"Cast All Stat Buff Cooldowns\" and \"Autocast Other Cooldowns\" actions are checked.</p>"
 				},
 				"dot_is_active": {
 					"label": "Dot Is Active",
@@ -2288,6 +2315,7 @@
 					"title": "Calculate Stat Weights",
 					"ep": "EP",
 					"weights": "Weights",
+					"stats_type": "Stat display type",
 					"show_all_stats": "Show All Stats",
 					"dps_tps_reference": "DPS/TPS reference:",
 					"healing_reference": "Healing reference:",

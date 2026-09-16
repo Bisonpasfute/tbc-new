@@ -2049,6 +2049,102 @@
 								"tooltip"
 							]
 						},
+						"isb_uptime": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"label",
+								"tooltip"
+							]
+						},
+						"hemo_uptime": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"label",
+								"tooltip"
+							]
+						},
+						"shadow_priest_dps": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"label",
+								"tooltip"
+							]
+						},
+						"expose_weakness_uptime": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"label",
+								"tooltip"
+							]
+						},
+						"expose_weakness_hunter_agility": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"label",
+								"tooltip"
+							]
+						},
+						"totem_twisting": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"label",
+								"tooltip"
+							]
+						},
 						"pet_uptime": {
 							"type": "object",
 							"properties": {
@@ -2618,6 +2714,12 @@
 						"absorb_frac",
 						"burst_window",
 						"hp_percent_for_defensives",
+						"isb_uptime",
+						"hemo_uptime",
+						"shadow_priest_dps",
+						"expose_weakness_uptime",
+						"expose_weakness_hunter_agility",
+						"totem_twisting",
 						"pet_uptime",
 						"pet_single_ability",
 						"pet_type",
@@ -2678,11 +2780,15 @@
 							"properties": {
 								"title": {
 									"type": "string"
+								},
+								"separator": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
 							"required": [
-								"title"
+								"title",
+								"separator"
 							]
 						},
 						"food": {
@@ -6224,12 +6330,16 @@
 										},
 										"tooltip": {
 											"type": "string"
+										},
+										"full_description": {
+											"type": "string"
 										}
 									},
 									"additionalProperties": false,
 									"required": [
 										"label",
-										"tooltip"
+										"tooltip",
+										"full_description"
 									]
 								},
 								"all_item_stat_procs_active": {
@@ -6384,12 +6494,16 @@
 										},
 										"tooltip": {
 											"type": "string"
+										},
+										"full_description": {
+											"type": "string"
 										}
 									},
 									"additionalProperties": false,
 									"required": [
 										"label",
-										"tooltip"
+										"tooltip",
+										"full_description"
 									]
 								},
 								"dot_is_active": {
