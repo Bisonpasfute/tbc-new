@@ -90,7 +90,8 @@ export class FeralCatDruid extends PlayerSpec<Spec.SpecFeralCatDruid> {
 }
 
 export class FeralBearDruid extends PlayerSpec<Spec.SpecFeralBearDruid> {
-	static specIndex = 2;
+	// Shares the Feral Combat tree with the cat spec, hence the repeated index.
+	static specIndex = 1;
 	static specID = Spec.SpecFeralBearDruid as Spec.SpecFeralBearDruid;
 	static classID = Class.ClassDruid as Class.ClassDruid;
 	static friendlyName = 'Feral Bear';
@@ -133,7 +134,7 @@ export class FeralBearDruid extends PlayerSpec<Spec.SpecFeralBearDruid> {
 }
 
 export class RestorationDruid extends PlayerSpec<Spec.SpecRestorationDruid> {
-	static specIndex = 3;
+	static specIndex = 2;
 	static specID = Spec.SpecRestorationDruid as Spec.SpecRestorationDruid;
 	static classID = Class.ClassDruid as Class.ClassDruid;
 	static friendlyName = 'Restoration';

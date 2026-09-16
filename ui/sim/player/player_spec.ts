@@ -20,6 +20,12 @@ export abstract class PlayerSpec<SpecType extends Spec> {
 	static rangedWeaponTypes: RangedWeaponType[];
 	static launch: SimStatus;
 
+	/**
+	 * Index of this spec's talent tree within its class's `ui/sim/talents/trees/<class>.json`,
+	 * NOT an ordinal over the class's specs. Two specs that share a tree share an index --
+	 * druid's cat and bear both point at Feral Combat -- and an index is skipped where a tree
+	 * has no spec of its own, as with warrior's Fury. `spec_index.test.ts` pins the mapping.
+	 */
 	abstract readonly specIndex: number;
 	abstract readonly specID: SpecType;
 	abstract readonly classID: SpecClasses<SpecType>;
