@@ -879,6 +879,11 @@
 				"choose_name": "Choose a label for your saved talents!",
 				"name_exists": "Talents with name {{name}} already exists."
 			}
+		},
+		"points_remaining": "Points Remaining",
+		"carousel": {
+			"previous": "Previous",
+			"next": "Next"
 		}
 	},
 	"bulk_tab": {
