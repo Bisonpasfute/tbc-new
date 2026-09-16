@@ -25,7 +25,7 @@ const makePlayer = (overrides: Partial<Record<string, unknown>> = {}) =>
 	({
 		storeKey: STORE_KEY,
 		sim,
-		getSpec: () => Spec.SpecArmsWarrior,
+		getSpec: () => Spec.SpecDpsWarrior,
 		canEnableTargetDummies: () => true,
 		shouldEnableTargetDummies: () => false,
 		...overrides,
