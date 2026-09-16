@@ -162,6 +162,22 @@ export const BurstWindow = {
 	enableWhen: (player: Player<any>) => (player.getRaid()?.getTanks() || []).find(tank => UnitReference.equals(tank, player.makeUnitReference())) != null,
 };
 
+export const InspirationUptime = {
+	id: 'inspiration-uptime',
+	type: 'number' as const,
+	float: true,
+	label: i18n.t('settings_tab.other.inspiration_uptime.label'),
+	labelTooltip: i18n.t('settings_tab.other.inspiration_uptime.tooltip'),
+	storeField: HEALING_MODEL_FIELDS,
+	getValue: (player: Player<any>) => player.getHealingModel().inspirationUptime * 100,
+	setValue: (player: Player<any>, newValue: number) => {
+		const healingModel = player.getHealingModel();
+		healingModel.inspirationUptime = newValue / 100;
+		player.setHealingModel(healingModel);
+	},
+	enableWhen: (player: Player<any>) => (player.getRaid()?.getTanks() || []).find(tank => UnitReference.equals(tank, player.makeUnitReference())) != null,
+};
+
 export const HpPercentForDefensives = {
 	id: 'hp-percent-for-defensives',
 	type: 'number' as const,
