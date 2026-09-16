@@ -5,7 +5,7 @@
 //
 // Slices are added here as each facade is converted; a slice absent from this
 // file still lives in its class.
-import type { BulkRequiredSetBonus, PlayerStats } from '@generated/proto/api';
+import type { PlayerStats } from '@generated/proto/api';
 import {
 	ConsumesSpec,
 	Debuffs,
@@ -203,9 +203,7 @@ export interface BulkSlice {
 	// A removed item leaves a null, so the picker entries' indexes never shift.
 	items: ReadonlyArray<ItemSpec | null>;
 	pickerGroups: ReadonlyMap<BulkSimItemSlot, readonly BulkPickerEntry[]>;
-	inheritUpgrades: boolean;
 	useLegacyBulkSim: boolean;
-	requiredSetBonuses: ReadonlyMap<number, BulkRequiredSetBonus>;
 	frozenItems: ReadonlyMap<BulkSimItemSlot, EquippedItem | null>;
 	frozenWeaponSlot: ItemSlot.ItemSlotMainHand | ItemSlot.ItemSlotOffHand | undefined;
 	weaponTypeFilters: ReadonlyMap<ItemSlot.ItemSlotMainHand | ItemSlot.ItemSlotOffHand, WeaponType[]>;

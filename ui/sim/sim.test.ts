@@ -53,7 +53,7 @@ const makeRequest = (iterations: number, profession = Profession.ProfessionUnkno
 
 const makeGear = (label: string) =>
 	({
-		withoutBlacksmithSockets: vi.fn(() => makeGear(`${label}-stripped`)),
+		withoutEnchanting: vi.fn(() => makeGear(`${label}-stripped`)),
 		toDatabase: vi.fn(() => ({ label })),
 		asSpec: vi.fn(() => ({ label })),
 		// gearAsBackendSpec reads both of these before handing equipment to the backend.
@@ -96,26 +96,26 @@ describe('Sim.runSim', () => {
 		await expect(sim.runSim({ raw: true })).rejects.toThrow('Encounter has no targets!');
 	});
 
-	it('substitutes the gear option onto the player, stripping blacksmith sockets for a non-blacksmith', async () => {
+	it('substitutes the gear option onto the player, stripping ring enchants for a non-enchanter', async () => {
 		const sim = makeSim();
 		const gear = makeGear('gear');
 
 		await sim.runSim({ gear, raw: true });
 
-		expect(gear.withoutBlacksmithSockets).toHaveBeenCalled();
+		expect(gear.withoutEnchanting).toHaveBeenCalled();
 		const [request] = mocks.raidSimAsync.mock.calls[0];
 		const player = request.raid.parties[0].players[0];
 		expect(player.database).toEqual({ label: 'gear-stripped' });
 		expect(player.equipment).toEqual({ label: 'gear-stripped' });
 	});
 
-	it('keeps the blacksmith sockets when the player is a blacksmith', async () => {
-		const sim = makeSim({ profession: Profession.Blacksmithing });
+	it('keeps the ring enchants when the player is an enchanter', async () => {
+		const sim = makeSim({ profession: Profession.Enchanting });
 		const gear = makeGear('gear');
 
 		await sim.runSim({ gear, raw: true });
 
-		expect(gear.withoutBlacksmithSockets).not.toHaveBeenCalled();
+		expect(gear.withoutEnchanting).not.toHaveBeenCalled();
 		const [request] = mocks.raidSimAsync.mock.calls[0];
 		expect(request.raid.parties[0].players[0].database).toEqual({ label: 'gear' });
 	});

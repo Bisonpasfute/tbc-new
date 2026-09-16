@@ -1,5 +1,5 @@
 // Building the trimmed SimDatabase a bulk run ships to the workers.
-import { ItemRandomSuffix, ItemSpec, ReforgeStat } from '@generated/proto/common';
+import { ItemRandomSuffix, ItemSpec } from '@generated/proto/common';
 import { ItemEffectRandPropPoints, SimDatabase, SimEnchant, SimGem, SimItem } from '@generated/proto/db';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 
@@ -10,7 +10,6 @@ import { Gear } from '../proto/gear';
 export const makeBulkGearDatabase = (db: Database, gearSets: Gear[], extraItems: EquippedItem[] = []): SimDatabase => {
 	const items = new Map<number, Item>();
 	const randomSuffixes = new Map<number, ItemRandomSuffix>();
-	const reforgeStats = new Map<number, ReforgeStat>();
 	const itemEffectRandPropPoints = new Map<number, ItemEffectRandPropPoints>();
 	const enchants = new Map<number, Enchant>();
 	const gems = new Map<number, Gem>();
@@ -21,12 +20,6 @@ export const makeBulkGearDatabase = (db: Database, gearSets: Gear[], extraItems:
 
 		const randomSuffix = equippedItem.randomSuffix;
 		if (randomSuffix) randomSuffixes.set(randomSuffix.id, randomSuffix);
-
-		const itemReforge = equippedItem.reforge;
-		if (itemReforge) {
-			const reforge = db.getReforgeById(itemReforge.id);
-			if (reforge) reforgeStats.set(reforge.id, reforge);
-		}
 
 		const scalingIlvls = new Set([equippedItem.ilvl]);
 		Object.values(item.scalingOptions ?? {}).forEach(opt => {
@@ -39,9 +32,6 @@ export const makeBulkGearDatabase = (db: Database, gearSets: Gear[], extraItems:
 
 		const enchant = equippedItem.enchant;
 		if (enchant) enchants.set(enchant.effectId, enchant);
-
-		const tinker = equippedItem.tinker;
-		if (tinker) enchants.set(tinker.effectId, tinker);
 
 		for (const gem of equippedItem.gems) {
 			if (gem) gems.set(gem.id, gem);
@@ -60,7 +50,6 @@ export const makeBulkGearDatabase = (db: Database, gearSets: Gear[], extraItems:
 	return SimDatabase.create({
 		items: Array.from(items.values()).map(item => SimItem.fromJson(Item.toJson(item), { ignoreUnknownFields: true })),
 		randomSuffixes: Array.from(randomSuffixes.values()),
-		reforgeStats: Array.from(reforgeStats.values()),
 		itemEffectRandPropPoints: Array.from(itemEffectRandPropPoints.values()),
 		enchants: Array.from(enchants.values()).map(enchant => SimEnchant.fromJson(Enchant.toJson(enchant), { ignoreUnknownFields: true })),
 		gems: Array.from(gems.values()).map(gem => SimGem.fromJson(Gem.toJson(gem), { ignoreUnknownFields: true })),

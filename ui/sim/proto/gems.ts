@@ -16,8 +16,6 @@ socketToMatchingColors.set(GemColor.GemColorPrismatic, [
 	GemColor.GemColorPurple,
 	GemColor.GemColorPrismatic,
 ]);
-socketToMatchingColors.set(GemColor.GemColorCogwheel, [GemColor.GemColorCogwheel]);
-socketToMatchingColors.set(GemColor.GemColorShaTouched, [GemColor.GemColorShaTouched]);
 
 export function gemColorMatchesSocket(gemColor: GemColor, socketColor: GemColor) {
 	return gemColor == socketColor || (socketToMatchingColors.has(socketColor) && socketToMatchingColors.get(socketColor)!.includes(gemColor));
@@ -33,12 +31,8 @@ export function gemEligibleForSocket(gem: Gem, socketColor: GemColor) {
 	switch (socketColor) {
 		case GemColor.GemColorMeta:
 			return gem.color == GemColor.GemColorMeta;
-		case GemColor.GemColorCogwheel:
-			return gem.color == GemColor.GemColorCogwheel;
-		case GemColor.GemColorShaTouched:
-			return gem.color == GemColor.GemColorShaTouched;
 		default:
-			return gem.color != GemColor.GemColorMeta && gem.color != GemColor.GemColorCogwheel && gem.color != GemColor.GemColorShaTouched;
+			return gem.color != GemColor.GemColorMeta;
 	}
 }
 
@@ -131,10 +125,9 @@ export class MetaGemCondition {
 const metaGemConditions = new Map<number, MetaGemCondition>();
 
 export function getMetaGemCondition(id: number): MetaGemCondition {
-	//Commenting this because MoP meta gems has no requirements
-	// if (!metaGemConditions.has(id)) {
-	// 	throw new Error('Missing meta gem condition for gem: ' + id);
-	// }
+	if (!metaGemConditions.has(id)) {
+		throw new Error('Missing meta gem condition for gem: ' + id);
+	}
 
 	return metaGemConditions.get(id)!;
 }
@@ -146,14 +139,83 @@ export function isMetaGemActive(metaGem: Gem, numRed: number, numYellow: number,
 export function getMetaGemConditionDescription(metaGem: Gem): string {
 	return getMetaGemCondition(metaGem.id)?.description ?? '';
 }
+
+// Keep these lists in order by item ID.
+export const BRUTAL_EARTHSTORM_DIAMOND = MetaGemCondition.fromMinColors(
+	25899,
+	'Requires at least 2 Red Gems, at least 2 Yellow Gems, and at least 2 Blue Gems.',
+	2,
+	2,
+	2,
+);
+export const CHAOTIC_SKYFIRE_DIAMOND = MetaGemCondition.fromMinColors(34220, 'Requires at least 2 Blue Gems.', 0, 0, 2);
+export const DESTRUCTIVE_SKYFIRE_DIAMOND = MetaGemCondition.fromMinColors(
+	25890,
+	'Requires at least 2 Red Gems, at least 2 Yellow Gems, and at least 2 Blue Gems.',
+	2,
+	2,
+	2,
+);
+export const EMBER_SKYFIRE_DIAMOND = MetaGemCondition.fromMinColors(35503, 'Requires at least 3 Red Gems.', 3, 0, 0);
+export const ETERNAL_EARTHSTORM_DIAMOND = MetaGemCondition.fromMinColors(35501, 'Requires at least 2 Blue Gems and at least 1 Yellow Gem.', 0, 1, 2);
+export const IMBUED_UNSTABLE_DIAMOND = MetaGemCondition.fromMinColors(32641, 'Requires at least 3 Yellow Gems.', 0, 3, 0);
+export const INSIGHTFUL_EARTHSTORM_DIAMOND = MetaGemCondition.fromMinColors(
+	25901,
+	'Requires at least 2 Red Gems, at least 2 Yellow Gems, and at least 2 Blue Gems.',
+	2,
+	2,
+	2,
+);
+export const POWERFUL_EARTHSTORM_DIAMOND = MetaGemCondition.fromMinColors(25896, 'Requires at least 3 Blue Gems.', 0, 0, 3);
+export const RELENTLESS_EARTHSTORM_DIAMOND = MetaGemCondition.fromMinColors(
+	32409,
+	'Requires at least 2 Red Gems, at least 2 Yellow Gems, and at least 2 Blue Gems.',
+	2,
+	2,
+	2,
+);
+export const SWIFT_SKYFIRE_DIAMOND = MetaGemCondition.fromMinColors(25894, 'Requires at least 2 Yellow Gems and at least 1 Red Gem.', 1, 2, 0);
+export const SWIFT_STARFIRE_DIAMOND = MetaGemCondition.fromMinColors(28557, 'Requires at least 2 Yellow Gems and at least 1 Red Gem.', 1, 2, 0);
+export const SWIFT_WINDFIRE_DIAMOND = MetaGemCondition.fromMinColors(28556, 'Requires at least 2 Yellow Gems and at least 1 Red Gem.', 1, 2, 0);
+export const TENACIOUS_EARTHSTORM_DIAMOND = MetaGemCondition.fromMinColors(25898, 'Requires at least 5 Blue Gems.', 0, 0, 5);
+export const THUNDERING_SKYFIRE_DIAMOND = MetaGemCondition.fromMinColors(
+	32410,
+	'Requires at least 2 Red Gems, at least 2 Yellow Gems, and at least 2 Blue Gems.',
+	2,
+	2,
+	2,
+);
+
+export const BRACING_EARTHSTORM_DIAMOND = MetaGemCondition.fromCompareColors(
+	25897,
+	'Requires more Red Gems than Blue Gems.',
+	GemColor.GemColorRed,
+	GemColor.GemColorBlue,
+);
+export const ENIGMATIC_SKYFIRE_DIAMOND = MetaGemCondition.fromCompareColors(
+	25895,
+	'Requires more Red Gems than Yellow Gems.',
+	GemColor.GemColorRed,
+	GemColor.GemColorYellow,
+);
+export const MYSTICAL_SKYFIRE_DIAMOND = MetaGemCondition.fromCompareColors(
+	25893,
+	'Requires more Blue Gems than Yellow Gems.',
+	GemColor.GemColorBlue,
+	GemColor.GemColorYellow,
+);
+export const POTENT_UNSTABLE_DIAMOND = MetaGemCondition.fromCompareColors(
+	32640,
+	'Requires more Blue Gems than Yellow Gems.',
+	GemColor.GemColorBlue,
+	GemColor.GemColorYellow,
+);
 const emptyGemSocketIcons: Partial<Record<GemColor, string>> = {
 	[GemColor.GemColorBlue]: 'https://wow.zamimg.com/images/icons/socket-blue.gif',
 	[GemColor.GemColorMeta]: 'https://wow.zamimg.com/images/icons/socket-meta.gif',
 	[GemColor.GemColorRed]: 'https://wow.zamimg.com/images/icons/socket-red.gif',
 	[GemColor.GemColorYellow]: 'https://wow.zamimg.com/images/icons/socket-yellow.gif',
 	[GemColor.GemColorPrismatic]: 'https://wow.zamimg.com/images/icons/socket-prismatic.gif',
-	[GemColor.GemColorCogwheel]: 'https://wow.zamimg.com/images/icons/socket-cogwheel.gif',
-	[GemColor.GemColorShaTouched]: 'https://wow.zamimg.com/images/icons/socket-hydraulic.gif',
 };
 export function getEmptyGemSocketIconUrl(color: GemColor): string {
 	if (emptyGemSocketIcons[color]) return emptyGemSocketIcons[color] as string;

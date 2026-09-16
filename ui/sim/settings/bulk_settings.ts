@@ -15,9 +15,7 @@ const LEGACY_BULK_SETTINGS_STORAGE_KEY = 'bulk-settings.v1';
 const initialBulkSlice = (): BulkSlice => ({
 	items: [],
 	pickerGroups: new Map(),
-	inheritUpgrades: true,
 	useLegacyBulkSim: false,
-	requiredSetBonuses: new Map(),
 	frozenItems: new Map([
 		[BulkSimItemSlot.ItemSlotFinger, null],
 		[BulkSimItemSlot.ItemSlotTrinket, null],
@@ -61,8 +59,16 @@ export const loadStoredBulkSettings = (player: Player<any>): BulkSettingsProto |
 	}
 };
 
-export const storeBulkSettings = (player: Player<any>, settings: BulkSettingsProto) =>
-	player.sim.env.storage.setItem(
-		specStorageKey(player.getPlayerSpec(), BULK_SETTINGS_STORAGE_KEY),
-		BulkSettingsProto.toJsonString(settings, { enumAsInteger: true }),
-	);
+// A batch's item list can outgrow the storage quota; drop the key rather than leave a
+// half-written blob behind, matching what the pre-React bulk tab did.
+export const storeBulkSettings = (player: Player<any>, settings: BulkSettingsProto) => {
+	const { storage } = player.sim.env;
+	const key = specStorageKey(player.getPlayerSpec(), BULK_SETTINGS_STORAGE_KEY);
+	try {
+		storage.setItem(key, BulkSettingsProto.toJsonString(settings, { enumAsInteger: true }));
+	} catch (e) {
+		if (e instanceof DOMException && e.name === 'QuotaExceededError') {
+			storage.removeItem(key);
+		}
+	}
+};

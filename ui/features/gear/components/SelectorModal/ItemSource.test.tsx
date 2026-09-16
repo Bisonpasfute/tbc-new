@@ -172,7 +172,7 @@ describe('ItemSource', () => {
 
 		expect(getByRole('link').getAttribute('href')).toBe(ActionId.makeNpcUrl(REP_FACTION_QUARTERMASTERS[REP_FACTION]));
 		expect(container.querySelectorAll('span')).toHaveLength(2);
-		expect(container.textContent).toBe(`${REP_FACTION_NAMES[REP_FACTION] ?? ''}${REP_LEVEL_NAMES[RepLevel.RepLevelRevered]}`);
+		expect(container.textContent).toBe(`${REP_FACTION_NAMES[REP_FACTION]}${REP_LEVEL_NAMES[RepLevel.RepLevelRevered]}`);
 	});
 
 	it('links to the vendor for a soldBy source', () => {

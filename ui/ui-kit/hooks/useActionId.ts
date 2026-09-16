@@ -10,8 +10,7 @@ export interface ActionIdState {
 	ready: boolean;
 }
 
-// reforgeId is in the wowhead item URL but is not part of equals(), so equalityKey() alone would hold a stale href across a reforge.
-const keyOf = (actionId: ActionId | undefined) => (actionId ? `${actionId.equalityKey()}|${actionId.reforgeId}` : '');
+const keyOf = (actionId: ActionId | undefined) => (actionId ? actionId.equalityKey() : '');
 
 const hrefOf = (actionId: ActionId) => {
 	if (actionId.itemId) return ActionId.makeItemUrl(actionId.itemId, actionId.randomSuffixId);

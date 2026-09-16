@@ -29,6 +29,7 @@ import {
 	Faction,
 	GemColor,
 	ItemSlot,
+	Profession,
 	PseudoStat,
 	RangedWeaponType,
 	Spec,
@@ -38,7 +39,7 @@ import {
 	WeaponType,
 } from '@generated/proto/common';
 import { SimDatabase, SimGem } from '@generated/proto/db';
-import { DatabaseFilters, RaidFilterOption, SimSettings as SimSettingsProto, SourceFilterOption, UIItem } from '@generated/proto/ui';
+import { DatabaseFilters, RaidFilterOption, SimSettings as SimSettingsProto, SourceFilterOption } from '@generated/proto/ui';
 import { getLang } from '@i18n/locale_service';
 import { SimRequest } from '@worker/types';
 
@@ -60,7 +61,6 @@ import { getReforgeCacheGearKey } from './proto/items';
 import { extendPlayerProtoWithMissingEffects } from './proto/proto_migration';
 import { SimResult } from './proto/sim_result';
 import { StatCap, Stats } from './proto/stats';
-import { hasBlacksmithing } from './proto/utils';
 import { Encounter } from './raid/encounter';
 import { Raid } from './raid/raid';
 import { SimRuns } from './sim_runs';
@@ -273,11 +273,11 @@ export class Sim {
 				let gear = this.db.lookupEquipmentSpec(player.equipment);
 				let gearChanged = false;
 
-				const isBlacksmith = hasBlacksmithing(player);
+				const isEnchanter = [player.profession1, player.profession2].includes(Profession.Enchanting);
 
-				// Remove bonus sockets if not blacksmith.
-				if (!isBlacksmith) {
-					gear = gear.withoutBlacksmithSockets();
+				// Remove ring enchants if not an enchanter.
+				if (!isEnchanter) {
+					gear = gear.withoutEnchanting();
 					gearChanged = true;
 				}
 
@@ -332,7 +332,7 @@ export class Sim {
 			const player = request.raid!.parties[0].players[0];
 
 			if (options.gear) {
-				const gear = Sim.prepareGear(options.gear, hasBlacksmithing(player));
+				const gear = Sim.prepareGear(options.gear, [player.profession1, player.profession2].includes(Profession.Enchanting));
 				player.database = gear.toDatabase(this.db);
 				player.equipment = gearAsBackendSpec(gear);
 				if (player.consumables) player.consumables = gear.adjustImbues(player.consumables);
@@ -368,21 +368,17 @@ export class Sim {
 	}
 
 	// Normalizes gear for a sim/bulk/reforge request
-	private static prepareGear(gear: Gear, isBlacksmith: boolean): Gear {
-		if (!isBlacksmith) {
-			gear = gear.withoutBlacksmithSockets();
+	private static prepareGear(gear: Gear, isEnchanter: boolean): Gear {
+		// Remove ring enchants if not an enchanter.
+		if (!isEnchanter) {
+			gear = gear.withoutEnchanting();
 		}
 		return gear;
 	}
 
-	// Extends a request's SimDatabase with the reforges available on the given items and with
-	// the optimizer's gem options, so the backend optimizer can resolve them.
-	private augmentDatabaseForReforge(
-		database: SimDatabase,
-		items: UIItem[],
-		gemOptions: Array<{ id: number; name: string; color: GemColor; stats: number[]; disabledInChallengeMode: boolean }>,
-	): void {
-		database.reforgeStats = distinct(database.reforgeStats.concat(items.flatMap(item => this.db.getAvailableReforges(item))), (a, b) => a.id == b.id);
+	// Extends a request's SimDatabase with the optimizer's gem options, so the backend
+	// optimizer can resolve them.
+	private augmentDatabaseForReforge(database: SimDatabase, gemOptions: Array<{ id: number; name: string; color: GemColor; stats: number[] }>): void {
 		database.gems = distinct(
 			database.gems.concat(
 				gemOptions.map(gem =>
@@ -391,7 +387,6 @@ export class Sim {
 						name: gem.name,
 						color: gem.color,
 						stats: gem.stats.slice(),
-						disabledInChallengeMode: gem.disabledInChallengeMode,
 					}),
 				),
 			),
@@ -420,8 +415,8 @@ export class Sim {
 			baseRequest.simOptions!.debug = false;
 
 			const player = baseRequest.raid!.parties[0].players[0];
-			const isBlacksmith = hasBlacksmithing(player);
-			const prepareGear = (gear: Gear) => Sim.prepareGear(gear, isBlacksmith);
+			const isEnchanter = [player.profession1, player.profession2].includes(Profession.Enchanting);
+			const prepareGear = (gear: Gear) => Sim.prepareGear(gear, isEnchanter);
 
 			const baselineGear = prepareGear(this.raid.getActivePlayers()[0].getGear());
 			const bulkReforgeRequest = reforgeConfig ? this.makeBulkSimReforgeRequest(reforgeConfig) : undefined;
@@ -483,7 +478,7 @@ export class Sim {
 					throwIfAborted(abortSignal);
 					const candidate = bulkCandidatesResult.candidates[i];
 					if (candidate.gear) {
-						// Prepare spec (remove meta gems, blacksmith sockets) before computing cache key
+						// Prepare spec (remove ring enchants for a non-enchanter) before computing cache key
 						// so cache key matches what would be computed from prepared Gear objects
 						const preparedGear = prepareGear(this.db.lookupEquipmentSpec(candidate.gear));
 						const preparedSpec = preparedGear.asSpec();
@@ -529,19 +524,7 @@ export class Sim {
 					? makeBulkItemDatabaseFromSpecs(this.db, baselineGear, bulkSettings.items)
 					: makeBulkGearDatabase(this.db, [baselineGear, ...preparedGearSets, ...cachedOptimizedGearSets]);
 			if (bulkReforgeRequest) {
-				const selectedItems =
-					bulkSettings?.items.map(itemSpec => this.db.lookupItemSpec(itemSpec)).filter((item): item is NonNullable<typeof item> => item != null) ??
-					[];
-				const reforgeSourceItems = backendBuildCandidates
-					? selectedItems
-					: preparedGearSets
-							.flatMap(gearSet => gearSet.asArray())
-							.filter((equippedItem): equippedItem is NonNullable<typeof equippedItem> => equippedItem != null);
-				this.augmentDatabaseForReforge(
-					bulkGearDatabase,
-					reforgeSourceItems.map(equippedItem => equippedItem.item),
-					bulkReforgeRequest.gemOptions,
-				);
+				this.augmentDatabaseForReforge(bulkGearDatabase, bulkReforgeRequest.gemOptions);
 			}
 			player.database = player.database ? Database.mergeSimDatabases(player.database, bulkGearDatabase) : bulkGearDatabase;
 			player.equipment = baselineGear.asSpec();
@@ -632,8 +615,8 @@ export class Sim {
 	private makeBulkBaseRequest(bulkSettings: BulkSettings): RaidSimRequest {
 		const baseRequest = this.makeRaidSimRequest();
 		const player = baseRequest.raid!.parties[0].players[0];
-		const isBlacksmith = hasBlacksmithing(player);
-		const baselineGear = Sim.prepareGear(this.raid.getActivePlayers()[0].getGear(), isBlacksmith);
+		const isEnchanter = [player.profession1, player.profession2].includes(Profession.Enchanting);
+		const baselineGear = Sim.prepareGear(this.raid.getActivePlayers()[0].getGear(), isEnchanter);
 		const bulkGearDatabase = makeBulkItemDatabaseFromSpecs(this.db, baselineGear, bulkSettings.items);
 		player.database = player.database ? Database.mergeSimDatabases(player.database, bulkGearDatabase) : bulkGearDatabase;
 		player.equipment = baselineGear.asSpec();
@@ -748,14 +731,7 @@ export class Sim {
 			const raid = this.getModifiedRaidProto();
 			const player = raid.parties[0].players[0];
 			player.database = config.gear.toDatabase(this.db);
-			this.augmentDatabaseForReforge(
-				player.database,
-				config.gear
-					.asArray()
-					.filter((equippedItem): equippedItem is NonNullable<typeof equippedItem> => equippedItem != null)
-					.map(equippedItem => equippedItem.item),
-				gemOptions,
-			);
+			this.augmentDatabaseForReforge(player.database, gemOptions);
 			player.equipment = config.gear.asSpec();
 			raid.parties[0].players[0] = player;
 
