@@ -1,4 +1,3 @@
-import { ReforgeSettings as ReforgeSettingsProto } from '@generated/proto/api';
 import { Debuffs, Encounter as EncounterProto, PartyBuffs, RaidBuffs } from '@generated/proto/common';
 import { IndividualSimSettings } from '@generated/proto/ui';
 
@@ -25,30 +24,16 @@ export function updateIndividualSimProtoVersion(settingsProto: IndividualSimSett
 		return;
 	}
 
-	const conversionMap: ProtoConversionMap<IndividualSimSettings> = new Map([
-		[
-			2,
-			(oldProto: IndividualSimSettings) => {
-				oldProto.apiVersion = 2;
-
-				oldProto.reforgeSettings = ReforgeSettingsProto.create({
-					useCustomEpValues: oldProto.settings?.useCustomEpValues,
-					useSoftCapBreakpoints: oldProto.settings?.useSoftCapBreakpoints,
-					statCaps: oldProto.statCaps,
-					breakpointLimits: oldProto.breakpointLimits,
-				});
-
-				return oldProto;
-			},
-		],
-		[
-			4,
-			(oldProto: IndividualSimSettings) => {
-				oldProto.apiVersion = 4;
-				return oldProto;
-			},
-		],
-	]);
+	// Deliberately empty. TBC's only migration is the drums one at version 7, and it
+	// needs a toast, so it runs from ui/app/proto_version.ts before this function is
+	// reached -- ui/sim cannot import @ui-kit.
+	//
+	// The two migrations this map arrived with are upstream's, for versions 2 and 4,
+	// and they must not run here. TBC's IndividualSimSettings happens to carry every
+	// field version 2 reads, so it type-checks and then overwrites reforgeSettings on
+	// any TBC payload below version 2 -- silently replacing a user's saved gem
+	// optimizer settings with values reconstructed from unrelated fields.
+	const conversionMap: ProtoConversionMap<IndividualSimSettings> = new Map();
 
 	// Run the migration utility using the above map.
 	migrateOldProto<IndividualSimSettings>(settingsProto, settingsProto.apiVersion, conversionMap);
