@@ -50,11 +50,9 @@
 	--color-frozen: red;
 	--color-maroon: maroon;
 
-	--color-class-death-knight: rgb(194, 46, 70);
 	--color-class-druid: rgb(255, 125, 10);
 	--color-class-hunter: rgb(171, 212, 115);
 	--color-class-mage: rgb(105, 204, 240);
-	--color-class-monk: rgb(0, 255, 152);
 	--color-class-paladin: rgb(245, 140, 186);
 	--color-class-priest: rgb(255, 255, 255);
 	--color-class-rogue: rgb(255, 245, 105);
@@ -62,11 +60,9 @@
 	--color-class-warlock: rgb(148, 130, 201);
 	--color-class-warrior: rgb(199, 156, 110);
 
-	--color-class-death-knight-foreground: var(--color-white);
 	--color-class-druid-foreground: var(--color-black);
 	--color-class-hunter-foreground: var(--color-black);
 	--color-class-mage-foreground: var(--color-black);
-	--color-class-monk-foreground: var(--color-black);
 	--color-class-paladin-foreground: var(--color-black);
 	--color-class-priest-foreground: var(--color-black);
 	--color-class-rogue-foreground: var(--color-black);
@@ -81,7 +77,6 @@
 	--color-school-holy: #ffff8f;
 	--color-school-nature: #d1fa99;
 	--color-school-shadow: #b8a8f0;
-	--color-school-chaos: #a330c9;
 
 	--color-quality-junk: #9d9d9d;
 	--color-quality-common: var(--color-white);
@@ -97,16 +92,9 @@
 	--color-resource-energy: #ffd700;
 	--color-resource-rage: #f00;
 	--color-resource-focus: #cd853f;
-	--color-resource-chi: #00ff98;
 	--color-resource-combo-points: #ffa07a;
-	--color-resource-holy-power: #eed98a;
 	--color-resource-lunar-energy: #4a8aff;
 	--color-resource-solar-energy: #d2952b;
-	--color-resource-arcane-charges: #5c7cfa;
-	--color-resource-shadow-orbs: #9b59d0;
-	--color-resource-demonic-fury: #8e6fc9;
-	--color-resource-burning-embers: #e8590c;
-	--color-resource-soul-shards: #8551c9;
 
 	--color-damage-hit: green;
 	--color-damage-crit: blue;
