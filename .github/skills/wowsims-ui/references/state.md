@@ -109,7 +109,7 @@ than a closure, it is greppable, and it cannot capture the wrong object.
 
 `StoreField` also has two aggregates, `'player:*'` and `'encounter:*'`, which watch a whole slice.
 **They are a last resort** — each one is a component re-rendering on writes it does not read. There
-are nine uses today; that number should fall and never rise:
+are five uses today; that number should fall and never rise:
 
 ```
 /usr/bin/grep -rn "player:\*\|encounter:\*" --include=*.ts --include=*.tsx ui/ | /usr/bin/grep -v useStoreField.ts

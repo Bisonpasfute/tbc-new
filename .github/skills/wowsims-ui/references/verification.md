@@ -11,11 +11,21 @@ node -e "console.log(require('./package.json').scripts)"
 
 ```
 npm run type-check     # node_modules/typescript/bin/tsc --noEmit — the whole repo, tools/ included
-npm run lint:js        # npx oxlint ./ui
-npm run test:unit      # vitest run — happy-dom, ui/**/*.test.ts(x)
-npm run test:snapshots # store-contract test, then 17 golden spec protos
+npm run lint:js        # npx oxlint --max-warnings 0 ./ui
+npm run lint:css       # stylelint "./ui/**/*.css"
 npm run fmt            # npx oxfmt ui --check
+npm run test:unit      # vitest run — happy-dom, ui/**/*.test.ts(x)
+npm run test:locales   # ajv, assets/locales/** against schemas/**
 ```
+
+That is every script this tree has. **There is no `test:snapshots` script** — the golden harness it
+would run is developer-local and absent here; see "The snapshot harness" below, and read anything
+elsewhere in this skill that says "`npm run test:snapshots` covers X" as "the harness covers X, if
+you have it".
+
+`npm run lint:js` runs with `--max-warnings 0`, so a warning fails it exactly like an error. Note
+that oxlint 1.77 prints **nothing at all** on a clean run: an empty output with exit 0 is a pass,
+not a misconfigured invocation.
 
 Add `npm run test:locales` whenever you touched `assets/locales/**` or `schemas/**`, and
 `npm run lint:css` (stylelint over `ui/**/*.css`) whenever you touched a stylesheet. There is no
@@ -28,7 +38,8 @@ What each one is actually for:
 | `type-check`     | broken specifiers, alias mismatches, spec-config shape drift                                                               | a legal import that violates the layer direction                              |
 | `lint:js`        | layer violations (`no-restricted-imports`), browser globals in `ui/sim` and feature models, hook-rule breaks, import order | anything not listed in `.oxlintrc.json` — `categories.correctness` is **off** |
 | `test:unit`      | component and helper behaviour, the store hooks' gating                                                                    | anything without a `.test.ts(x)` beside it                                    |
-| `test:snapshots` | the store notification contract, then serialization drift across all 17 specs                                              | rendering                                                                     |
+| `test:locales`   | a locale key with no matching property in its `additionalProperties: false` schema                                        | a key the schema allows and no locale file defines                            |
+| `test:snapshots` | (no script here) the store notification contract, then serialization drift across all 17 specs                            | rendering                                                                     |
 | `fmt`            | `ui/` formatting only, `tools/` not in scope — and it does reformat `ui/`'s markdown, so `ui/README.md` and `ui/STYLING.md` are gated by it |                                                                               |
 
 **Zero `no-restricted-imports` errors is the bar**, not "no new ones": the layer rules are the whole

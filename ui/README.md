@@ -100,9 +100,9 @@ path segment at a time, so `@features/*` would not catch `@features/reforge/mode
 
 Features, ui-kit and sim must not name the app host (`SimHostObject`) even as a
 type: `import type` is erased at runtime but the lint bans the specifier either way. They use
-narrow host interfaces instead — all of them in `@sim/sim_host`: `SimUIHost` and `SimHeaderHost`
-(the slice ui-kit widgets reach for), then `SimHost`, `IndividualSimHost<Spec>`, `SimWarning`,
-plus the `isIndividualSimHost()` predicate that replaces `instanceof SimHostObject`). The
+narrow host interfaces instead — all of them in `@sim/sim_host`: `SimWarning`, `SimHost`,
+`IndividualSimHost<Spec>`, plus the `isIndividualSimHost()` predicate that replaces
+`instanceof SimHostObject`. The
 host declares `implements IndividualSimHost` so the interfaces stay honest. The per-spec config schema lives in `@sim/spec_config` (`IndividualSimUIConfig`,
 `InputSection`, `OtherDefaults`, `Settings`, `registerSpecConfig`, `itemSwapEnabledSpecs`). It names
 ui-kit picker configs, so it reaches them through `import type` only — a value import would be a
