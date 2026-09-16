@@ -63,6 +63,8 @@ export const makeReforgeRequest = (
 	reforgeRequest.raid = raid;
 	reforgeRequest.mode = mode;
 	reforgeRequest.settings = ReforgeSettings.clone(reforgeRequest.settings ?? ReforgeSettings.create());
-	reforgeRequest.settings.includeGems = includeGems;
+	if (!includeGems) {
+		reforgeRequest.gemOptions = [];
+	}
 	return reforgeRequest;
 };

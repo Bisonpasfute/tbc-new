@@ -1,31 +1,18 @@
-// Persisted reforge-optimizer settings, extracted from the ReforgeOptimizer
+// Persisted gem-optimizer settings, extracted from the ReforgeOptimizer
 // component (ui/features/reforge/components/ReforgePanel) so the state surface is UI-free.
+// TBC has no item reforging: the "reforge" naming is inherited from the MoP port and what the
+// optimizer actually chooses is gems and socket bonuses.
 // Values live in the sim store (`reforge[player.storeKey]`) with per-field
 // version counters; this class is the facade over that slice.
 // Serialization lands in IndividualSimSettings.reforgeSettings.
 import { ReforgeSettings as ReforgeSettingsProto } from '@generated/proto/api';
-import { ItemSlot, Stat } from '@generated/proto/common';
+import { ItemQuality, ItemSlot, Stat } from '@generated/proto/common';
 
+import { CURRENT_PHASE, Phase } from '../constants/other';
 import type { Player } from '../player/player';
-import { StatCap, Stats, UnitStat } from '../proto/stats';
+import { StatCap, Stats } from '../proto/stats';
 import { batch } from '../state/batch';
 import { patchKeyed, REFORGE_FIELDS, ReforgeField, ReforgeSlice, seedKeyed, SimStore, zeroVersions } from '../state/sim_store';
-// Used to force a particular proc from trinkets like Matrix Restabilizer and Apparatus of Khaz'goroth.
-export class RelativeStatCap {
-	static relevantStats: Stat[] = [Stat.StatCritRating, Stat.StatHasteRating, Stat.StatMasteryRating];
-	readonly forcedHighestStat: UnitStat;
-
-	static hasRoRo(player: Player<any>): boolean {
-		return player.getGear().hasTrinketFromOptions([95802, 94532, 96546, 96174, 96918]);
-	}
-
-	constructor(forcedHighestStat: Stat) {
-		if (!RelativeStatCap.relevantStats.includes(forcedHighestStat)) {
-			throw new Error('Forced highest stat must be either Crit, Haste, or Mastery!');
-		}
-		this.forcedHighestStat = UnitStat.fromStat(forcedHighestStat);
-	}
-}
 
 // The subset of the per-spec defaults the settings model needs.
 export interface ReforgeSettingsDefaults {
@@ -37,15 +24,17 @@ export interface ReforgeSettingsDefaults {
 export class ReforgeSettings {
 	private readonly player: Player<any>;
 	private readonly defaults: ReforgeSettingsDefaults;
+	// The stats this spec is willing to gem for. A gem is only a candidate if every stat it carries
+	// is in this list, so specs list stats they weight at 0 (Stamina, spell penetration) to keep
+	// those gems selectable. It cannot be derived from the pre-cap EPs for exactly that reason.
+	private readonly epStats: ReadonlyArray<Stat>;
 	readonly store: SimStore;
 	readonly storeKey: number;
 
-	// Derived from relativeStatCapStat + the player's gear; not persisted directly.
-	relativeStatCap: RelativeStatCap | null = null;
-
-	constructor(player: Player<any>, defaults: ReforgeSettingsDefaults, defaultRelativeStatCap?: Stat | null) {
+	constructor(player: Player<any>, defaults: ReforgeSettingsDefaults, epStats: ReadonlyArray<Stat> = []) {
 		this.player = player;
 		this.defaults = defaults;
+		this.epStats = epStats;
 		this.store = player.sim.store;
 		this.storeKey = player.storeKey;
 
@@ -56,13 +45,12 @@ export class ReforgeSettings {
 			useCustomEPValues: false,
 			useSoftCapBreakpoints: true,
 			softCapBreakpoints: [],
-			includeGems: false,
-			includeEOTBPGemSocket: false,
 			freezeItemSlots: false,
 			frozenItemSlots: [],
+			maxGemPhase: CURRENT_PHASE,
+			maxGemQuality: ItemQuality.ItemQualityEpic,
+			disableUniqueGems: false,
 			undershootCaps: new Stats(),
-			relativeStatCapStat: defaultRelativeStatCap ?? -1,
-			relativeStatCapPrecision: 0.0001,
 			v: zeroVersions(REFORGE_FIELDS),
 		});
 	}
@@ -93,12 +81,6 @@ export class ReforgeSettings {
 	get softCapBreakpoints(): StatCap[] {
 		return this.slice.softCapBreakpoints;
 	}
-	get includeGems(): boolean {
-		return this.slice.includeGems;
-	}
-	get includeEOTBPGemSocket(): boolean {
-		return this.slice.includeEOTBPGemSocket;
-	}
 	get freezeItemSlots(): boolean {
 		return this.slice.freezeItemSlots;
 	}
@@ -113,11 +95,8 @@ export class ReforgeSettings {
 	set undershootCaps(value: Stats) {
 		this.write({ undershootCaps: value });
 	}
-	get relativeStatCapStat(): number {
-		return this.slice.relativeStatCapStat;
-	}
-	get relativeStatCapPrecision(): number {
-		return this.slice.relativeStatCapPrecision;
+	get disableUniqueGems(): boolean {
+		return this.slice.disableUniqueGems;
 	}
 
 	setStatCaps(newStatCaps: Stats) {
@@ -147,25 +126,6 @@ export class ReforgeSettings {
 	setSoftCapBreakpoints(newSoftCapBreakpoints: StatCap[]) {
 		this.write({ softCapBreakpoints: newSoftCapBreakpoints }, ['softCapBreakpoints']);
 	}
-	setRelativeStatCap(newValue: number) {
-		this.relativeStatCap = newValue === -1 || !RelativeStatCap.hasRoRo(this.player) ? null : new RelativeStatCap(newValue);
-		this.write({ relativeStatCapStat: newValue }, ['relativeStatCapStat']);
-	}
-	setRelativeStatCapPrecision(newValue: number) {
-		this.write({ relativeStatCapPrecision: newValue }, ['relativeStatCapPrecision']);
-	}
-
-	setIncludeGems(newValue: boolean) {
-		if (this.includeGems !== newValue) {
-			this.write({ includeGems: newValue }, ['includeGems']);
-		}
-	}
-
-	setIncludeEOTBPGemSocket(newValue: boolean) {
-		if (this.includeEOTBPGemSocket !== newValue) {
-			this.write({ includeEOTBPGemSocket: newValue }, ['includeEOTBPGemSocket']);
-		}
-	}
 
 	setFreezeItemSlots(newValue: boolean) {
 		if (this.freezeItemSlots !== newValue) {
@@ -190,20 +150,38 @@ export class ReforgeSettings {
 		return (this.slice.frozenItemSlots as ItemSlot[]).includes(slot);
 	}
 
+	// ---- the gem pool knobs. TBC-only: MoP's reforger has no counterpart for any of them.
+	setMaxGemPhase(phase: number) {
+		this.write({ maxGemPhase: phase }, ['maxGemPhase']);
+	}
+
+	getMaxGemPhase(): number {
+		return this.slice.maxGemPhase;
+	}
+
+	setMaxGemQuality(quality: ItemQuality) {
+		this.write({ maxGemQuality: quality }, ['maxGemQuality']);
+	}
+
+	getMaxGemQuality(): ItemQuality {
+		return this.slice.maxGemQuality;
+	}
+
+	setDisableUniqueGems(disableUniqueGems: boolean) {
+		this.write({ disableUniqueGems }, ['disableUniqueGems']);
+	}
+
 	fromProto(proto: ReforgeSettingsProto) {
 		batch(() => {
 			this.setUseCustomEPValues(proto.useCustomEpValues);
 			this.setStatCaps(Stats.fromProto(proto.statCaps));
 			this.setUseSoftCapBreakpoints(proto.useSoftCapBreakpoints);
-			this.setIncludeGems(proto.includeGems);
-			this.setIncludeEOTBPGemSocket(proto.includeEotbGemSocket);
 			this.setFreezeItemSlots(proto.freezeItemSlots);
 			this.setFrozenItemSlots(proto.frozenItemSlots);
 			this.setBreakpointLimits(Stats.fromProto(proto.breakpointLimits));
-			if (proto.relativeStatCapStat) {
-				this.setRelativeStatCap(UnitStat.fromProto(proto.relativeStatCapStat).getStat());
-			}
-			this.setRelativeStatCapPrecision(proto.relativeStatCapMipGap || 0.0001);
+			this.setDisableUniqueGems(proto.disableUniqueGems);
+			this.setMaxGemPhase(proto.maxGemPhase || Phase.Phase1);
+			this.setMaxGemQuality(proto.maxGemQuality || ItemQuality.ItemQualityEpic);
 		});
 	}
 
@@ -211,14 +189,14 @@ export class ReforgeSettings {
 		return ReforgeSettingsProto.create({
 			useCustomEpValues: this.useCustomEPValues,
 			useSoftCapBreakpoints: this.useSoftCapBreakpoints,
-			includeGems: this.includeGems,
-			includeEotbGemSocket: this.includeEOTBPGemSocket,
 			freezeItemSlots: this.freezeItemSlots,
 			frozenItemSlots: [...this.frozenItemSlots],
 			breakpointLimits: this.breakpointLimits.toProto(),
-			relativeStatCapStat: this.relativeStatCap?.forcedHighestStat.toProto(),
-			relativeStatCapMipGap: this.relativeStatCap ? this.relativeStatCapPrecision : 0,
 			statCaps: this.statCaps.toProto(),
+			disableUniqueGems: this.disableUniqueGems,
+			maxGemPhase: this.getMaxGemPhase(),
+			maxGemQuality: this.getMaxGemQuality(),
+			epStats: [...this.epStats],
 		});
 	}
 
@@ -226,14 +204,13 @@ export class ReforgeSettings {
 		batch(() => {
 			this.setUseCustomEPValues(false);
 			this.setUseSoftCapBreakpoints(!!this.defaults.softCapBreakpoints?.length);
-			this.setIncludeGems(false);
-			this.setIncludeEOTBPGemSocket(false);
 			this.setFreezeItemSlots(false);
 			this.setStatCaps(this.defaults.statCaps || new Stats());
 			this.setBreakpointLimits(this.defaults.breakpointLimits || new Stats());
 			this.setSoftCapBreakpoints(this.defaults.softCapBreakpoints || []);
-			this.setRelativeStatCap(this.relativeStatCapStat);
-			this.setRelativeStatCapPrecision(0.0001);
+			this.setDisableUniqueGems(false);
+			this.setMaxGemPhase(this.player.sim.getPhase());
+			this.setMaxGemQuality(ItemQuality.ItemQualityEpic);
 		});
 	}
 }

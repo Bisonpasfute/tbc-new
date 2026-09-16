@@ -10,6 +10,7 @@ import {
 	ComputeStatsRequest,
 	ErrorOutcome,
 	ErrorOutcomeType,
+	PlayerStats,
 	ProgressMetrics,
 	Raid as RaidProto,
 	RaidSimRequest,
@@ -651,6 +652,31 @@ export class Sim {
 		return await this.workerPool.bulkCandidates(request);
 	}
 
+	// Stats for a hypothetical gear set, without touching the player's own current stats or
+	// metadata. Used by the gem optimizer and by batch simming.
+	async getCharacterStatsForGear(gear: Gear): Promise<PlayerStats> {
+		await this.waitForInit();
+
+		const raidProto = this.getModifiedRaidProto();
+		const player = raidProto.parties[0].players[0];
+		player.database = gear.toDatabase(this.db);
+		player.equipment = gear.asSpec();
+		extendPlayerProtoWithMissingEffects(player, this.db);
+		raidProto.parties[0].players[0] = player;
+
+		const result = await this.workerPool.computeStats(
+			ComputeStatsRequest.create({
+				raid: raidProto,
+				encounter: this.encounter.toProto(),
+			}),
+		);
+		if (result.errorResult != '') {
+			this.crashEmitter.emit(new SimError(result.errorResult));
+		}
+
+		return result.raidStats!.parties[0].players[0];
+	}
+
 	// This should be invoked internally whenever stats might have changed.
 	private characterStatsVersion = 0;
 
@@ -705,7 +731,7 @@ export class Sim {
 		const signals = this.signalManager.registerRunning(RequestTypes.ReforgeOptimize);
 		try {
 			await this.waitForInit();
-			const gemOptions = getReforgeGemOptions(this.db, config.settings);
+			const gemOptions = getReforgeGemOptions(this.db);
 			const raid = this.getModifiedRaidProto();
 			const player = raid.parties[0].players[0];
 			player.database = config.gear.toDatabase(this.db);

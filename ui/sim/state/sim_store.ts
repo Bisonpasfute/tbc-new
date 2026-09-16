@@ -12,6 +12,7 @@ import {
 	Faction,
 	HealingModel,
 	IndividualBuffs,
+	type ItemQuality,
 	type ItemSlot,
 	type ItemSpec,
 	PartyBuffs,
@@ -155,21 +156,19 @@ export const PLAYER_FIELDS = [
 ] as const;
 export type PlayerField = (typeof PLAYER_FIELDS)[number];
 
-// Reforge-optimizer settings, one slice per player (keyed by storeKey).
+// Gem-optimizer settings, one slice per player (keyed by storeKey).
 // Values are the source of truth; `v` counters are what subscribers watch
-// (bumped exactly where a change counts). The derived RelativeStatCap object
-// stays on the ReforgeSettings facade.
+// (bumped exactly where a change counts).
 export const REFORGE_FIELDS = [
-	'includeGems',
-	'includeEOTBPGemSocket',
 	'statCaps',
 	'useCustomEPValues',
 	'useSoftCapBreakpoints',
 	'softCapBreakpoints',
 	'breakpointLimits',
 	'freezeItemSlots',
-	'relativeStatCapStat',
-	'relativeStatCapPrecision',
+	'maxGemPhase',
+	'maxGemQuality',
+	'disableUniqueGems',
 ] as const;
 export type ReforgeField = (typeof REFORGE_FIELDS)[number];
 
@@ -179,14 +178,14 @@ export interface ReforgeSlice {
 	useCustomEPValues: boolean;
 	useSoftCapBreakpoints: boolean;
 	softCapBreakpoints: Array<StatCap>;
-	includeGems: boolean;
-	includeEOTBPGemSocket: boolean;
 	freezeItemSlots: boolean;
 	frozenItemSlots: Array<number>;
+	// TBC optimizes gems, not reforges: these three are the gem-pool knobs.
+	maxGemPhase: number;
+	maxGemQuality: ItemQuality;
+	disableUniqueGems: boolean;
 	// Written silently by the optimizer (no counter, like the old bare field).
 	undershootCaps: Stats;
-	relativeStatCapStat: number;
-	relativeStatCapPrecision: number;
 	v: Record<ReforgeField, number>;
 }
 

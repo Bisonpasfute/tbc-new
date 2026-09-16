@@ -1,7 +1,7 @@
 // Reforge-solve request/cache-key helpers, extracted from the ReforgeOptimizer
 // component so the domain layer (sim.ts, bulk sim, reforge cache) does not
 // depend on the view layer.
-import { Player as PlayerProtoMessageType, ReforgeOptimizeMode, ReforgeOptimizeRequest, ReforgeSettings } from '@generated/proto/api';
+import { Player as PlayerProtoMessageType, ReforgeOptimizeMode, ReforgeOptimizeRequest } from '@generated/proto/api';
 import { Debuffs, GemColor, ItemQuality, PartyBuffs, Profession, RaidBuffs } from '@generated/proto/common';
 import { UIGem as Gem } from '@generated/proto/ui';
 
@@ -70,23 +70,14 @@ export async function getReforgeConfigHash({
 	});
 }
 
-export function getReforgeGemOptions(db: Database, settings: ReforgeSettings): Gem[] {
-	return settings.includeGems
-		? distinct(
-				[
-					GemColor.GemColorPrismatic,
-					GemColor.GemColorShaTouched,
-					GemColor.GemColorCogwheel,
-					GemColor.GemColorRed,
-					GemColor.GemColorBlue,
-					GemColor.GemColorYellow,
-				]
-					.flatMap(socketColor => db.getGems(socketColor))
-					.filter(gem => !gem.name.includes('Perfect') && gem.quality >= ItemQuality.ItemQualityRare)
-					.flat(),
-				(a, b) => a.id == b.id,
-			)
-		: [];
+export function getReforgeGemOptions(db: Database): Gem[] {
+	return distinct(
+		[GemColor.GemColorRed, GemColor.GemColorBlue, GemColor.GemColorYellow]
+			.flatMap(socketColor => db.getGems(socketColor))
+			.filter(gem => !gem.name.includes('Perfect') && gem.quality >= ItemQuality.ItemQualityRare)
+			.flat(),
+		(a, b) => a.id == b.id,
+	);
 }
 
 export function makeReforgeConfigRequestFields(config: ReforgeOptimizeConfig, db: Database) {
@@ -100,7 +91,7 @@ export function makeReforgeConfigRequestFields(config: ReforgeOptimizeConfig, db
 			capType: softCap.capType,
 			postCapEPs: softCap.postCapEPs.slice(),
 		})),
-		gemOptions: getReforgeGemOptions(db, config.settings).map(gem => ({
+		gemOptions: getReforgeGemOptions(db).map(gem => ({
 			id: gem.id,
 			name: gem.name,
 			icon: gem.icon,
@@ -110,7 +101,6 @@ export function makeReforgeConfigRequestFields(config: ReforgeOptimizeConfig, db
 			quality: gem.quality ?? ItemQuality.ItemQualityJunk,
 			unique: gem.unique,
 			requiredProfession: gem.requiredProfession ?? Profession.ProfessionUnknown,
-			disabledInChallengeMode: gem.disabledInChallengeMode,
 		})),
 	};
 }
