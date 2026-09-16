@@ -108,7 +108,7 @@ export const CharacterStats = () => {
 										/>
 									);
 								case 'miss':
-									return miss && <MissRow key={row.id} info={miss} />;
+									return miss && <MissRow key={row.id} info={miss} pending={pending} />;
 								case 'avoidance':
 									return (
 										avoidance && (
@@ -118,11 +118,12 @@ export const CharacterStats = () => {
 												withHolyShield={player.isSpec(Spec.SpecProtectionPaladin)}
 												hasParry={hasParry}
 												hasBlock={hasBlock}
+												pending={pending}
 											/>
 										)
 									);
 								case 'crit-immunity':
-									return critImmunity && <CritImmunityRow key={row.id} info={critImmunity.info} text={critImmunity.text} />;
+									return critImmunity && <CritImmunityRow key={row.id} info={critImmunity.info} text={critImmunity.text} pending={pending} />;
 								case 'melee-crit-cap':
 									return critCap && <CritCapRow key={row.id} info={critCap.info} text={critCap.text} pending={pending} />;
 							}
