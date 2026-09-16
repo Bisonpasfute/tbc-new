@@ -107,6 +107,16 @@ This port runs as several parallel lanes, each scoped to disjoint paths. Rules e
   (`.oxlintrc.json`, `tsconfig.json`, `package.json`, `makefile`).
 - **Every diff uses `/usr/bin/diff`.** The bare `diff` on this machine is wrapper-intercepted and has
   produced a false "files are identical" reading — never trust it here.
+- **Rename detection needs the full `-- ui/` pathspec, never `-- ui/core/`.** The restructure moved
+  files out of `ui/core/`, so a pathspec naming only the old directory filters away every
+  destination: `git diff --name-status -M20% master..wt/tailwind -- ui/core/` reports 271 plain
+  deletions and **zero** renames. The identical range with `-- ui/` reports 563 renames. That is a
+  convincing-looking "this file has no ancestor" which is purely an artefact of the query. Eight
+  files genuinely have no lineage even with the correct pathspec — `bulk_tab.tsx`,
+  `character_stats.tsx`, `talents_picker.tsx`, `suggest_reforges_action.tsx`, `apl_helpers.tsx`,
+  `preset_configuration_picker.tsx`, `individual_sim_ui.tsx`, and `encounter.ts` (whose `R025` is
+  barely over the threshold). Those eight are rewrites driven from the TBC original as a
+  behavioural spec, not diff-and-reapply.
 - **`ui/sim/wasm/bulk_sim/` needs a three-way comparison before being overwritten.** Seven of its
   files diverged independently in both forks, so the MoP version is not automatically newer — diff
   against both the pre-migration TBC file and the MoP source before taking either side wholesale.
