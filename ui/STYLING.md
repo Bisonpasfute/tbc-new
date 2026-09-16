@@ -208,10 +208,10 @@ fix is almost always removing whatever broke the native layering, not adding log
 **Read this section as a status report, not a list of things that run.** Only one of the two
 checkers below is wired to anything today.
 
-- **`ui/testing/tailwind/canonical-classes.mjs` works and is clean.** `node
-  ui/testing/tailwind/canonical-classes.mjs` reports `Total: 0` over the whole tree; `--write`
-  auto-fixes, `--json` is for tooling. It is a standalone script, not a vitest test and not a CI
-  step, so it only runs when someone runs it.
+- **The canonical-class check works and is clean.** Running
+  `ui/testing/tailwind/canonical-classes.mjs` under node reports `Total: 0` over the whole tree;
+  `--write` auto-fixes, `--json` is for tooling. It is a standalone script, not a vitest test and
+  not a CI step, so it only runs when someone runs it.
 - **The class-hook gate is not wired up here.** `ui/testing/tailwind/class-hooks.mjs` implements it
   — `findClassHooks()` (every class-bearing string that is not a real Tailwind utility, compiled
   against `ui/styles/style.css` with Tailwind's own design system rather than a hand-maintained
@@ -222,8 +222,7 @@ checkers below is wired to anything today.
     - there is no `ui/no_class_hooks.test.ts`, and `vitest.config.mts` only collects
       `ui/**/*.test.ts(x)`, so the two `.test.mjs` files beside the checkers (both passing under a
       bare `node`) are not part of `npm run test:unit` either.
-
-  Landing the gate means writing the allowlist (`sim-ui` and the `<spec>-sim-ui` pattern that
+- **Landing the gate** means writing the allowlist (`sim-ui` and the `<spec>-sim-ui` pattern that
   `ui/styles/theme/specs.css` selects, `group`/`group/*`, `peer`/`peer/*`,
   `sim-tooltip`/`sim-tooltip--unpadded`, `fa`/`fas`/`far`/`fab`/`fa-*`, and the three
   third-party-required names `tooltip-quick-swap`, `suggest-reforges-softcaps`,

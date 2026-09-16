@@ -29,7 +29,7 @@ What each one is actually for:
 | `lint:js`        | layer violations (`no-restricted-imports`), browser globals in `ui/sim` and feature models, hook-rule breaks, import order | anything not listed in `.oxlintrc.json` — `categories.correctness` is **off** |
 | `test:unit`      | component and helper behaviour, the store hooks' gating                                                                    | anything without a `.test.ts(x)` beside it                                    |
 | `test:snapshots` | the store notification contract, then serialization drift across all 17 specs                                              | rendering                                                                     |
-| `fmt`            | `ui/` formatting only — `.oxfmtrc.json` has no markdown and no `tools/` in scope                                           |                                                                               |
+| `fmt`            | `ui/` formatting only, `tools/` not in scope — and it does reformat `ui/`'s markdown, so `ui/README.md` and `ui/STYLING.md` are gated by it |                                                                               |
 
 **Zero `no-restricted-imports` errors is the bar**, not "no new ones": the layer rules are the whole
 point of the current tree, and `lint:js` is the only thing enforcing them anywhere.
