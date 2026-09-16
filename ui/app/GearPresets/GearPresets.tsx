@@ -17,7 +17,7 @@ import { batch } from '@sim/state/batch';
 import { subscribePlayerChange, subscribeSimChange } from '@sim/state/subscriptions';
 import { Chip } from '@ui-kit/Chip';
 import { SavedDataPanel } from '@ui-kit/SavedDataPanel';
-import { Tooltip, tooltipAnchorProps } from '@ui-kit/Tooltip';
+import { LocaleHtml, Tooltip, tooltipAnchorProps } from '@ui-kit/Tooltip';
 import { useId, useMemo } from 'react';
 
 import { buildCategories, isBuildActive } from '../preset_build_state';
@@ -105,7 +105,7 @@ const GroupedGearPresets = () => {
 						tooltip: i18n.t('gear_tab.preset_configurations.tooltip'),
 						items: ready
 							? builds.map((build, index) => ({
-									key: build.name,
+									key: `${index}-${build.name}`,
 									phase: build.phase,
 									group: build.group,
 									node: (
@@ -153,7 +153,7 @@ const GroupedGearPresets = () => {
 						footer: (
 							<SavedDataPanel
 								title=""
-								className="mt-4 border-t border-t-border pt-4"
+								className="mt-4"
 								nameLabel={i18n.t('gear_tab.gear_sets.gear_set_name')}
 								saveButtonText={i18n.t('gear_tab.gear_sets.save_gear_set')}
 								presets={[]}
@@ -175,7 +175,12 @@ const GroupedGearPresets = () => {
 					return build ? <PresetBuildTooltip build={build} /> : null;
 				}}
 			/>
-			<Tooltip id={gearTooltipId} place="bottom" />
+			{/* The default preset-gear tooltip is the BIS disclaimer, which is two `<p>`s of markup. */}
+			<Tooltip
+				id={gearTooltipId}
+				place="bottom"
+				render={({ content }) => (typeof content === 'string' && content ? <LocaleHtml html={content} /> : null)}
+			/>
 		</div>
 	);
 };

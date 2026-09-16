@@ -65,7 +65,9 @@ export const PresetConfigurationPicker = ({ categories }: PresetConfigurationPic
 						{
 							title,
 							tooltip,
-							items: ready ? builds.map((build, index) => ({ key: build.name, phase: build.phase, group: build.group, node: chips[index] })) : [],
+							items: ready
+								? builds.map((build, index) => ({ key: `${index}-${build.name}`, phase: build.phase, group: build.group, node: chips[index] }))
+								: [],
 						},
 					]}
 				/>

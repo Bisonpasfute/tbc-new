@@ -3,7 +3,10 @@ import { useSimHost } from '@sim/context/SimHostContext';
 import { useTypedLocalStorage } from '@ui-kit/hooks/useTypedLocalStorage';
 import { useCallback, useMemo } from 'react';
 
-import type { PresetGroupItem } from './types';
+import { PRESET_FILTER_STORAGE_KEY } from '../storage_keys';
+
+/** Anything the picker filters: only the phase is read, so builds and gear presets both fit. */
+type Phased = { phase?: Phase };
 
 interface StoredFilter {
 	phase: number;
@@ -19,7 +22,7 @@ export interface PresetFilterPhase {
 	selectPhase: (phase?: Phase) => void;
 }
 
-export const phasesOf = (items: ReadonlyArray<PresetGroupItem>): Array<Phase> =>
+export const phasesOf = (items: ReadonlyArray<Phased>): Array<Phase> =>
 	[...new Set(items.map(item => item.phase).filter((phase): phase is Phase => phase !== undefined))].sort((a, b) => a - b);
 
 /**
@@ -27,9 +30,9 @@ export const phasesOf = (items: ReadonlyArray<PresetGroupItem>): Array<Phase> =>
  * key and written only when a phase is actually chosen — the pre-port picker never wrote on load,
  * and the golden capture records a default page load as leaving that key absent.
  */
-export const usePresetFilterPhase = (items: ReadonlyArray<PresetGroupItem>): PresetFilterPhase => {
+export const usePresetFilterPhase = (items: ReadonlyArray<Phased>): PresetFilterPhase => {
 	const host = useSimHost();
-	const [stored, setStored] = useTypedLocalStorage<StoredFilter>(host.getStorageKey('__presetFilters__'), parseFilter);
+	const [stored, setStored] = useTypedLocalStorage<StoredFilter>(host.getStorageKey(PRESET_FILTER_STORAGE_KEY), parseFilter);
 
 	const phases = useMemo(() => phasesOf(items), [items]);
 

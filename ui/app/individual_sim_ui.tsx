@@ -50,6 +50,7 @@ import { createElement } from 'react';
 import { reportSimCrash } from './crash_report';
 import { CrashReportOpener } from './crash_report_opener';
 import { updateIndividualProtoVersion } from './proto_version';
+import { PRESET_FILTER_STORAGE_KEY } from './storage_keys';
 import type { ShellDom } from './types/shell_dom';
 
 export type {
@@ -64,8 +65,7 @@ export type {
 	SpecDefinition,
 } from '@sim/spec_config';
 export { defineSpec, itemSwapEnabledSpecs, registerSpecConfig } from '@sim/spec_config';
-
-export const PRESET_FILTER_STORAGE_KEY = '__presetFilters__';
+export { PRESET_FILTER_STORAGE_KEY } from './storage_keys';
 
 // The individual sim's host: the registries, openers and cross-cutting actions the React tree
 // reaches through `useSimHost()`. `SimShell` owns every element handed to the constructor.

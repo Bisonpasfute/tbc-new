@@ -56,7 +56,7 @@ export const PresetGroupPicker = ({ sections, phases, phase, onSelectPhase }: Pr
 						{rowsOf(section.items, phase, groupNames).map(([group, items]) => (
 							<div key={group || UNGROUPED} className="contents">
 								{showGroupLabels && group !== UNGROUPED && (
-									<div className="text-xs font-semibold tracking-wide text-muted uppercase" data-testid="preset-group-label">
+									<div className="text-xs font-semibold tracking-wide text-foreground uppercase" data-testid="preset-group-label">
 										{group}
 									</div>
 								)}

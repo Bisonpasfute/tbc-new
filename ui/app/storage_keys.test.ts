@@ -11,7 +11,7 @@ import {
 } from '@sim/state/storage_keys';
 import { describe, expect, it } from 'vitest';
 
-import { PRESET_FILTER_STORAGE_KEY } from './individual_sim_ui';
+import { PRESET_FILTER_STORAGE_KEY } from './storage_keys';
 
 // Copied out of tools/state-snapshots/golden.json (`specs['druid/balance'].storageKeyNames`), which
 // was captured from the pre-port UI. A key that changes name here loses every saved set the user
