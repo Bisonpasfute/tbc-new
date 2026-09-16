@@ -1,0 +1,39 @@
+import { PseudoStat, Stat } from '@generated/proto/common';
+import { UnitStat } from '@sim/proto/stats';
+
+export type EpStatSet = {
+	epStats: Stat[];
+	epPseudoStats: PseudoStat[];
+};
+
+const EP_PSEUDO_STATS = [
+	PseudoStat.PseudoStatMainHandDps,
+	PseudoStat.PseudoStatOffHandDps,
+	PseudoStat.PseudoStatRangedDps,
+	PseudoStat.PseudoStatMeleeHitPercent,
+	PseudoStat.PseudoStatSpellHitPercent,
+	PseudoStat.PseudoStatSchoolHitPercentArcane,
+	PseudoStat.PseudoStatSchoolHitPercentFire,
+	PseudoStat.PseudoStatSchoolHitPercentFrost,
+	PseudoStat.PseudoStatSchoolHitPercentHoly,
+	PseudoStat.PseudoStatSchoolHitPercentNature,
+	PseudoStat.PseudoStatSchoolHitPercentShadow,
+	PseudoStat.PseudoStatMeleeCritPercent,
+	PseudoStat.PseudoStatSpellCritPercent,
+];
+
+export const EP_UNIT_STATS: UnitStat[] = UnitStat.getAll().filter(stat => {
+	if (stat.isStat()) {
+		return true;
+	} else {
+		return EP_PSEUDO_STATS.includes(stat.getPseudoStat());
+	}
+});
+
+export const isEpStat = (stat: UnitStat, { epStats, epPseudoStats }: EpStatSet): boolean => {
+	if (stat.isStat()) return epStats.includes(stat.getStat());
+	return epPseudoStats.includes(stat.getPseudoStat());
+};
+
+export const visibleEpUnitStats = (statSet: EpStatSet, showAllStats: boolean): UnitStat[] =>
+	EP_UNIT_STATS.filter(stat => showAllStats || isEpStat(stat, statSet));
