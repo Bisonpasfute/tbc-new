@@ -1,0 +1,192 @@
+import { SimHostProvider } from '@sim/context/SimHostContext';
+import type { Player } from '@sim/player/player';
+import type { TalentsConfig } from '@sim/talents/config';
+import { newTalentsConfig } from '@sim/talents/config';
+import { mageTalentsConfig } from '@sim/talents/mage';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+vi.mock('@ui-kit/hooks/useActionId', () => ({
+	useActionId: () => ({ iconUrl: '', name: '', href: '', ready: true }),
+}));
+
+const { TalentsPicker } = await import('./TalentsPicker');
+
+type Fake = Record<string, never>;
+
+const COLS = 4;
+
+const tree = (name: string) => ({
+	name,
+	backgroundUrl: `${name}.jpg`,
+	talents: Array.from({ length: 5 * COLS }, (_, index) => ({
+		fieldName: `talent${index}`,
+		fancyName: `Talent ${index}`,
+		location: { rowIdx: Math.floor(index / COLS), colIdx: index % COLS },
+		spellIds: [100 * index + 1],
+		maxPoints: 5,
+	})),
+});
+
+const trees: TalentsConfig<Fake> = newTalentsConfig<Fake>([tree('First'), tree('Second'), tree('Third')]);
+
+let copied: Array<string>;
+let talentsString: string;
+const setValue = vi.fn((_player: Player<any>, next: string) => {
+	talentsString = next;
+});
+
+const mount = (pickerTrees: TalentsConfig<any> = trees) => {
+	const player = { getTalentsString: () => talentsString } as unknown as Player<any>;
+	const host = { player } as never;
+	const config = {
+		id: 'talents-picker',
+		trees: pickerTrees,
+		pointsPerRow: 5,
+		getValue: () => talentsString,
+		setValue,
+	};
+	return render(
+		<SimHostProvider host={host}>
+			<TalentsPicker config={config} />
+		</SimHostProvider>,
+	);
+};
+
+const talents = () => Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-testid="talent-picker-root"]'));
+const copyButton = () => document.querySelector<HTMLButtonElement>('[data-testid="talents-picker-actions"] button')!;
+const remaining = () => screen.getByTestId('talents-picker-points-remaining').textContent;
+
+beforeEach(() => {
+	vi.useFakeTimers();
+	copied = [];
+	talentsString = '';
+	setValue.mockClear();
+	vi.stubGlobal('navigator', {
+		clipboard: {
+			writeText: vi.fn((text: string) => {
+				copied.push(text);
+				return Promise.resolve();
+			}),
+		},
+	});
+});
+
+afterEach(() => {
+	vi.useRealTimers();
+	vi.unstubAllGlobals();
+});
+
+describe('TalentsPicker container', () => {
+	it('renders all three trees in one row', () => {
+		mount();
+		expect(document.querySelectorAll('[data-testid="talent-tree"]')).toHaveLength(3);
+		expect(Array.from(document.querySelectorAll('[data-testid="talent-tree-title"]')).map(el => el.textContent)).toEqual(['First', 'Second', 'Third']);
+	});
+
+	it('counts down from 61 across every tree', () => {
+		talentsString = '5-5-5';
+		mount();
+		expect(remaining()).toBe('46');
+	});
+
+	it('writes the joined string when a talent in the last tree is clicked', () => {
+		mount();
+		const lastTreeTalents = talents().slice(2 * 5 * COLS);
+		fireEvent.mouseDown(lastTreeTalents[0], { button: 0 });
+		expect(setValue).toHaveBeenCalledWith(expect.anything(), '--1');
+	});
+
+	it('refuses the 62nd point anywhere', () => {
+		talentsString = '55555555555-51';
+		mount();
+		expect(remaining()).toBe('0');
+
+		const secondTree = talents().slice(5 * COLS);
+		fireEvent.mouseDown(secondTree[2], { button: 0 });
+		expect(setValue).toHaveBeenLastCalledWith(expect.anything(), '55555555555-51');
+	});
+});
+
+describe('TalentsPicker round trip', () => {
+	const MAGE_DEFAULT = '2500052300030150330125--053500031003001';
+
+	it('hands a real TBC default back byte-identically, empty middle tree and all', () => {
+		talentsString = MAGE_DEFAULT;
+		mount(mageTalentsConfig);
+
+		expect(remaining()).toBe('0');
+		fireEvent.mouseDown(talents()[0], { button: 0 });
+		expect(setValue).toHaveBeenLastCalledWith(expect.anything(), MAGE_DEFAULT);
+	});
+
+	it('restores the original string after a point is taken back and re-spent', () => {
+		talentsString = MAGE_DEFAULT;
+		mount(mageTalentsConfig);
+
+		// Most spent talents are load-bearing at 61 points; this finds one the rules actually let go.
+		const freeable = talents().findIndex((el, idx) => {
+			if (Number(el.dataset.points) === 0) return false;
+			fireEvent.mouseDown(talents()[idx], { button: 2 });
+			return talentsString !== MAGE_DEFAULT;
+		});
+		expect(freeable).toBeGreaterThanOrEqual(0);
+
+		fireEvent.mouseDown(talents()[freeable], { button: 0 });
+		expect(talentsString).toBe(MAGE_DEFAULT);
+	});
+});
+
+describe('TalentsPicker copy button', () => {
+	it('keeps the class vocabulary the gates select on', () => {
+		mount();
+		const classes = copyButton().className.split(' ');
+		for (const token of ['ui-button', 'ui-button-outline-primary', 'ui-button-sm', 'w-24']) expect(classes).toContain(token);
+		expect(copyButton().getAttribute('data-testid')).toBe('copy-button');
+		expect(copyButton().getAttribute('data-tooltip-id')).toBeTruthy();
+	});
+
+	it('copies the talents string as it reads at click time', () => {
+		mount();
+		talentsString = 'after';
+		fireEvent.click(copyButton());
+		expect(copied).toEqual(['after']);
+	});
+
+	it('reports the copy in the label, and reverts', () => {
+		mount();
+		fireEvent.click(copyButton());
+		expect(copyButton().querySelector('i')!.className).toContain('fa-check');
+
+		act(() => void vi.advanceTimersByTime(1500));
+		expect(copyButton().querySelector('i')!.className).toContain('fa-copy');
+	});
+});
+
+describe('TalentsPicker carousel', () => {
+	it('opens on the middle tree, with no offset', () => {
+		mount();
+		expect(Array.from(document.querySelectorAll('[data-testid="talent-tree"]')).map(el => el.getAttribute('data-active'))).toEqual([
+			'false',
+			'true',
+			'false',
+		]);
+		expect(screen.getByTestId('talents-picker-trees').style.getPropertyValue('--talents-carousel-offset')).toBe('0.0%');
+	});
+
+	it('slides to the first tree and stops there', () => {
+		mount();
+		fireEvent.click(screen.getByTestId('talents-carousel-prev'));
+		expect(screen.getAllByTestId('talent-tree').map(el => el.getAttribute('data-active'))).toEqual(['true', 'false', 'false']);
+		expect(screen.getByTestId('talents-picker-trees').style.getPropertyValue('--talents-carousel-offset')).toBe('33.3%');
+		expect(screen.getByTestId('talents-carousel-prev').hasAttribute('disabled')).toBe(true);
+	});
+
+	it('slides to the last tree and stops there', () => {
+		mount();
+		fireEvent.click(screen.getByTestId('talents-carousel-next'));
+		expect(screen.getAllByTestId('talent-tree').map(el => el.getAttribute('data-active'))).toEqual(['false', 'false', 'true']);
+		expect(screen.getByTestId('talents-picker-trees').style.getPropertyValue('--talents-carousel-offset')).toBe('-33.3%');
+		expect(screen.getByTestId('talents-carousel-next').hasAttribute('disabled')).toBe(true);
+	});
+});
