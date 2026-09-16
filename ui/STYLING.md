@@ -4,15 +4,16 @@ Source of truth: `ui/styles/style.css` (entry, `@utility`, `@source`), `ui/style
 (tokens, split by type — `colors.css`, `spacing.css`, `breakpoints.css`, `typography.css`,
 `effects.css`, `z-index.css`, `vars.css`, `specs.css`, imported via `index.css`),
 `ui/styles/base.css` (element defaults, replaces Bootstrap's reboot), `ui/styles/vendor.css`
-(the handful of selectors with no JSX element to carry them), `ui/testing/tailwind/canonical-classes.mjs`
-and `ui/testing/tailwind/class-hooks.mjs`, `ui/no_class_hooks.test.ts`.
+(the handful of selectors with no JSX element to carry them), and
+`ui/testing/tailwind/canonical-classes.mjs` / `ui/testing/tailwind/class-hooks.mjs`.
 
 There is no SCSS and no Bootstrap left anywhere in `ui/` (`find ui -name '*.scss'` is empty; neither
 HTML entry links anything but `style.css` and the FontAwesome CDN sheet). Every class in `ui/`
 markup is a Tailwind utility, a `ui-*` composition class, one of a small fixed allowlist (`sim-ui`,
 `<spec>-sim-ui`, `group`/`peer` and their named forms, FontAwesome's `fa`/`fas`/`far`/`fab`/`fa-*`,
 and the two react-tooltip class-as-theme names), or a `data-testid`/`data-*` used only by tests and
-tools. `ui/no_class_hooks.test.ts` enforces this — see "The gates" below.
+tools. That is a convention here, not yet an enforced gate — see "The gates" below for exactly what
+runs and what does not.
 
 ## 1. Styling with Tailwind
 
@@ -106,8 +107,8 @@ Rules:
 - Names are `ui-<component>-<part-or-variant>` for both kit and feature components, so they can never
   collide with a retired hook name; tests never locate elements by them (see §5).
 - `@utility` is reserved for a handful of atomic, non-component patterns where every carrier is
-  enumerable and nothing else on any carrier sets the same properties. Only five exist today, all in
-  `ui/styles/style.css`: `text-fluid-xl`/`text-fluid-5xl` (RFS-style fluid headings), `interactive`
+  enumerable and nothing else on any carrier sets the same properties. Only eight exist today, in
+  five groups, all in `ui/styles/style.css`: `text-fluid-xl`/`text-fluid-5xl` (RFS-style fluid headings), `interactive`
   (cursor + user-select), `icon-sm` (a fixed icon box), `focus-ring`/`focus-ring-inset` (the
   outline-based focus treatment), and `active-underline`/`fade-in-out` (an animated underline and a
   Base UI enter/exit fade). Don't add a sixth without the same proof: enumerate every element that
@@ -137,8 +138,9 @@ Style with the matching variant:
   `group-data-[…]:` for ancestor state (a marker `group`/`group/<name>` class sits directly on the
   ancestor; `group` and `peer` are plain marker classes, not utilities, and have no effect inside
   `@apply`), `in-data-[…]:` for a descendant-driven read.
-- A state class is never reintroduced as a styling hook once it's gone — `ui/no_class_hooks.test.ts`'s
-  retired-names list (`ui/retired_class_names.json`) fails the build if it comes back anywhere in `ui/`.
+- A state class is never reintroduced as a styling hook once it's gone. `class-hooks.mjs` exports
+  `findRetiredClassNames(root, retired)` for this, but nothing calls it and there is no
+  retired-names list on disk — see "The gates".
 - Perf-critical per-frame writers (the timeline ruler) use `element.toggleAttribute('data-*', cond)`
   instead of `classList.toggle` — same cost, same no-op when unchanged, and it's the attribute form
   the styling above already expects.
@@ -168,9 +170,7 @@ renders unconditionally and then hides.
 Prefer role and accessible name first (`getByRole('button', { name: … })`); reach for `data-testid`
 only when no role fits. Never `querySelector('.some-class')`, `closest('.x')`, `classList.contains`,
 or an exact class-list snapshot (`expect(el.className).toBe(…)`) in production code, tests, or
-`tools/react-migration/*.mjs` — `ui/no_class_hooks.test.ts` fails on all of these outside
-`ui/specs/**` (locator-only edits are allowed there; anything beyond a selector/testid change stays
-frozen).
+`tools/react-migration/*.mjs`. This is a review rule on this tree, not a checked one.
 
 - **`data-testid` value convention:** when a class hook is retired and something still needs to find
   the element, the testid keeps the old class name verbatim (`className="apl-list-item-picker"` →
@@ -178,16 +178,16 @@ frozen).
   `\.name(\.|$)` regex a tool used to run against the class keeps matching the testid instead. An
   _unread_ hook is just deleted — don't add a testid nobody consumes.
 - **`data-testid` is never a styling hook.** No `.css` rule, `@apply` selector, or TSX arbitrary
-  variant may key off `[data-testid=…]`; `ui/no_class_hooks.test.ts`'s "no `[data-testid]` styling"
-  check fails the build on one. If a style needs to reach a child, give that child a prop
+  variant may key off `[data-testid=…]`; `class-hooks.mjs`'s `findTestidStyling()` is the check for
+  it, though nothing runs it automatically yet. If a style needs to reach a child, give that child a prop
   (`triggerClassName`), a `ui-*` class of its own, or a real `data-*` state — never repoint a rule at
   its testid.
 - **Kit components take a `testId` prop** (`Dialog`, `Popover`, `Tooltip`, …), forwarded to
   `data-testid` on the element that actually carries the identity (often not the root — `Dialog`'s
   `testId` lands on the popup, with `sim-dialog-portal`/`-backdrop`/`-viewport` fixed on the
   surrounding wrapper elements).
-- **`tools/react-migration/*.mjs`** (the Playwright probes — local, untracked tooling, git-excluded
-  and absent from a fresh clone) use a shared helper:
+- **`tools/react-migration/*.mjs`** (the Playwright probes — local, untracked tooling, absent from a
+  fresh clone and from this one) use a shared helper:
     ```js
     const q = name => `:is([data-testid="${name}"], .${name})`;
     ```
@@ -205,34 +205,37 @@ fix is almost always removing whatever broke the native layering, not adding log
 
 ## 7. The gates
 
-- **`ui/no_class_hooks.test.ts`** (vitest) runs three checks over `ui/**/*.{ts,tsx}` (excluding
-  `*.test.ts(x)`) via `ui/testing/tailwind/class-hooks.mjs`:
-    1. **Class hooks** — every class-bearing string that isn't a real Tailwind utility (checked by
-       compiling it against `ui/styles/style.css` with Tailwind's own design system, not a
-       hand-maintained list), isn't `ui-*`, and isn't on the allowlist, fails.
-    2. **Retired names** — any token in `ui/retired_class_names.json` (the names Phase 6 removed)
-       appearing anywhere in production `ui/` (`*.test.ts(x)` excluded) fails, even outside a
-       `className`, so a hook can't quietly come back through a comment-free reintroduction — unless
-       the token has since become a real Tailwind utility or is on the allowlist, since Phase 6 retired
-       some hand-rolled classes whose names collide with a later Tailwind utility of the same spelling
-       (`grayscale`, `flex-3`, `tabular-nums`, …).
-    3. **`data-testid` styling** — a `.css` rule or TSX arbitrary variant selecting `[data-testid=…]`
-       fails.
-- **`ui/class_hook_allowlist.json`** is the only way to keep a raw class name. An entry needs a
-  `token` or a `pattern` plus a `reason`, and today it holds exactly: `sim-ui` and the
-  `<spec>-sim-ui` pattern (the theme root `ui/styles/theme/specs.css` selects), `group`/`group/*`, `peer`/`peer/*`
-  (Tailwind's own marker classes), `sim-tooltip`/`sim-tooltip--unpadded` (the Tooltip base class,
-  forwarded into react-tooltip), `fa`/`fas`/`far`/`fab`/`fa-*` (FontAwesome, loaded from a CDN
-  stylesheet, not ours to convert), and three **third-party-required** names
-  (`tooltip-quick-swap`, `suggest-reforges-softcaps`, `bonus-stats-popover`) — react-tooltip forwards
-  a component's `className` as its own `data-theme` attribute and forwards no `data-testid`
-  equivalent, so these can't become pure testids. Add an entry only for a genuinely external
-  constraint like these, never as a shortcut past a real conversion.
-- **The canonical-class check** (`ui/testing/tailwind/canonical-classes.mjs`, §1) runs as a standalone
-  script today; it becomes a tree-wide CI gate in a later pass — run it by hand before that lands.
+**Read this section as a status report, not a list of things that run.** Only one of the two
+checkers below is wired to anything today.
+
+- **`ui/testing/tailwind/canonical-classes.mjs` works and is clean.** `node
+  ui/testing/tailwind/canonical-classes.mjs` reports `Total: 0` over the whole tree; `--write`
+  auto-fixes, `--json` is for tooling. It is a standalone script, not a vitest test and not a CI
+  step, so it only runs when someone runs it.
+- **The class-hook gate is not wired up here.** `ui/testing/tailwind/class-hooks.mjs` implements it
+  — `findClassHooks()` (every class-bearing string that is not a real Tailwind utility, compiled
+  against `ui/styles/style.css` with Tailwind's own design system rather than a hand-maintained
+  list, is not `ui-*`, and is not allowlisted), `findRetiredClassNames()` and `findTestidStyling()`
+  — but:
+    - `ui/class_hook_allowlist.json` **does not exist**, so running the script throws `ENOENT`;
+    - `ui/retired_class_names.json` **does not exist**, and nothing calls `findRetiredClassNames()`;
+    - there is no `ui/no_class_hooks.test.ts`, and `vitest.config.mts` only collects
+      `ui/**/*.test.ts(x)`, so the two `.test.mjs` files beside the checkers (both passing under a
+      bare `node`) are not part of `npm run test:unit` either.
+
+  Landing the gate means writing the allowlist (`sim-ui` and the `<spec>-sim-ui` pattern that
+  `ui/styles/theme/specs.css` selects, `group`/`group/*`, `peer`/`peer/*`,
+  `sim-tooltip`/`sim-tooltip--unpadded`, `fa`/`fas`/`far`/`fab`/`fa-*`, and the three
+  third-party-required names `tooltip-quick-swap`, `suggest-reforges-softcaps`,
+  `bonus-stats-popover` — react-tooltip forwards a component's `className` as its own `data-theme`
+  attribute and forwards no `data-testid` equivalent, so those three cannot become pure testids),
+  writing the retired-names list, and adding a `.test.ts` wrapper vitest will collect. Until then
+  §§1-5 are conventions upheld by review. An allowlist entry needs a `token` or a `pattern` plus a
+  `reason`, and is only ever for a genuinely external constraint, never a shortcut past a real
+  conversion.
 - **The rendering gate is `tools/react-migration/tw-probe.mjs`**, and its companion is
-  `tools/react-migration/state-probe.mjs` (both local, untracked tooling, git-excluded and absent
-  from a fresh clone). Neither reads a class —
+  `tools/react-migration/state-probe.mjs` (both local, untracked tooling, absent from a fresh clone
+  and from this one). Neither reads a class —
   both walk the DOM by child-index path from `document.body` plus tag, capturing ~54 computed style
   properties and the bounding box per node, and diff that against a baseline build, which validates
   a class-hook removal for free.
@@ -251,11 +254,12 @@ fix is almost always removing whatever broke the native layering, not adding log
       census tell the two apart by compiling every candidate against Tailwind's own design system
       (`ui/testing/tailwind/canonical-classes.mjs`), never a hand-written name list, and deleting one
       because it "looks like" an old semantic class is the mistake both probes exist to catch. Run
-      both before calling a class-hook or utility change done.
+      both before calling a class-hook or utility change done — which, with the class-hook gate
+      unwired, is the only automated protection there is.
     - `tw-probe.mjs` separately caught a different regression, historical but worth knowing: three
       early utility conversions rendered **12.5% smaller** than the SCSS they replaced (`padding: 10px`
       → `p-2.5` computed to 8.75px, not 10px — `1rem` is 14px here, not 16px), passing type-check,
-      ~1700 unit tests, oxlint and all 17 snapshots straight through. **The current rule (superseding
+      the unit tests, oxlint and all 17 snapshots straight through. **The current rule (superseding
       that fixed-`[Npx]` reaction) is the exact dynamic spacing step**: Tailwind v4's spacing scale
       here accepts any multiple of `0.25`, so a source px value converts to its exact step —
       `10px` → `p-2.5`, `5px` → `p-1.25`, `18px` → `w-4.5` — computed-identically, and

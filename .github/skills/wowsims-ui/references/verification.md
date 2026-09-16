@@ -18,7 +18,8 @@ npm run fmt            # npx oxfmt ui --check
 ```
 
 Add `npm run test:locales` whenever you touched `assets/locales/**` or `schemas/**`, and
-`npm run lint:css` (stylelint) whenever you touched SCSS.
+`npm run lint:css` (stylelint over `ui/**/*.css`) whenever you touched a stylesheet. There is no
+SCSS left in the tree.
 
 What each one is actually for:
 
@@ -73,8 +74,8 @@ node -e "const j=require('./schemas/translation.schema.json'); const s=new Set()
 
 ## The snapshot harness
 
-**`tools/state-snapshots/` is developer-local and not tracked** (already a line in
-`.git/info/exclude` here, ahead of the harness itself landing). `test:snapshots` /
+**`tools/state-snapshots/` is developer-local and not tracked** (a line in `.git/info/exclude`
+here, ahead of the harness itself landing — it is absent from this checkout). `test:snapshots` /
 `test:snapshots:update` are not yet `package.json` scripts on this tree — check
 `node -e "console.log(require('./package.json').scripts)"` before quoting either. Once they exist,
 expect the same shape as the source port: they do nothing in a fresh clone, and the 17/17 figure a PR
@@ -128,18 +129,18 @@ baseline, both served first. Read `tools/react-migration/README.md` before runni
 particular its `PORT` section: several of the gates silently measure the **baseline** unless you set
 `PORT`, so a bare invocation can report a clean run of the wrong build.
 
-The directory is **git-excluded**, not deleted: `tools/react-migration/` is a line in
-`.git/info/exclude`, which lives in the shared common git dir and therefore applies to every worktree
-of this clone but travels with none of them. So `git status` is clean, `git log` knows nothing about
-it, and whether the files are actually present depends on whether that checkout's owner made them.
-Check before concluding anything:
+The directory is **untracked**, not deleted, and whether the files are present depends on whether
+that checkout's owner made them. `git log` knows nothing about it. It may or may not carry a
+`.git/info/exclude` line — that file lives in the shared common git dir, so it applies to every
+worktree of this clone but travels with none of them, and today it lists `tools/state-snapshots/`
+but not `tools/react-migration/` or `tools/browser-perf/`. Check before concluding anything:
 
 ```
 /usr/bin/ls tools/react-migration/ 2>/dev/null | wc -l
 git check-ignore -v tools/react-migration
 ```
 
-`tools/browser-perf/` (perf timings, not parity) is excluded the same way and behaves the same way.
+`tools/browser-perf/` (perf timings, not parity) behaves the same way.
 If neither is present where you are working, running the page yourself is the fallback — see
 `running-locally.md`. Either way, say in the PR what you ran or what you clicked.
 
@@ -147,19 +148,24 @@ If neither is present where you are working, running the page yourself is the fa
 
 `npm run type-check` and every build need files that are gitignored and produced by Go tooling:
 `ui/generated/proto/*` (`make ui/generated/proto/api.ts`) and the `*_auto_gen.ts` files
-(`make go-to-ts`, which runs `go run ./tools/database/gen_db -gen=go-to-ts`) — today two:
-`ui/core/player_classes/capabilities_auto_gen.ts` and
-`ui/core/components/individual_sim_ui/bulk/constants_auto_gen.ts`, at their pre-restructure paths.
-Copying them from a built checkout works and is faster. Never run `gen_db` concurrently with another
-copy of itself.
+(`make go-to-ts`, which runs `go run ./tools/database/gen_db -gen=go-to-ts`) — today three:
+`ui/sim/player/classes/capabilities_auto_gen.ts`, `ui/sim/bulk/constants_auto_gen.ts` and
+`ui/sim/wasm/bulk_sim/constants_auto_gen.ts`. Copying them from a built checkout works and is
+faster. Never run `gen_db` concurrently with another copy of itself.
 
-Watch for the wart the source port hit here: once the restructure moves these files, confirm the
-makefile's `AUTO_GEN_FILES_TS` was updated to match what the generator actually writes
-(`tools/database/gen_character_constants_ts.go`'s `os.WriteFile` calls) — a stale path there makes
-the prerequisite never appear, so every `make` that depends on it re-runs `gen_db` and re-bundles
-even when nothing changed. Today, before the restructure, the two paths agree:
+The wart to watch for is a `AUTO_GEN_FILES_TS` entry the generator does not actually write: a stale
+path there makes the prerequisite never appear, so every `make` that depends on it re-runs `gen_db`
+and re-bundles even when nothing changed. After the restructure the three agree — deleting all
+three and running `make go-to-ts` brings back byte-identical copies, and a second `make go-to-ts`
+then says "Nothing to be done". Re-derive rather than trusting this paragraph:
 
 ```
 /usr/bin/grep -n AUTO_GEN_FILES_TS makefile | head -1
-/usr/bin/grep -n 'os.WriteFile("ui/' tools/database/gen_character_constants_ts.go
+/usr/bin/grep -rn 'constants_auto_gen.ts\"\|capabilities_auto_gen.ts\"' tools/database/
 ```
+
+A fourth generated TS file, `ui/sim/constants/missing_effects_auto_gen.ts`, is *not* in that list and
+is not written by `-gen=go-to-ts`: `tools/database/gen_effects.go` emits it during full database
+generation, which needs `assets/db_inputs`. `ui/features/gear/item_notices.tsx` imports it, so a
+checkout without it fails `type-check`. That has always been true here — master has the same
+arrangement at the pre-port path — so copy the file in rather than trying to regenerate it.

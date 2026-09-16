@@ -2,7 +2,7 @@
 
 Styling, state, and how to locate elements in tests/tools are `STYLING.md`, not here.
 
-Target tree:
+The tree:
 
 ```
 ui/
@@ -16,10 +16,11 @@ ui/
                      stat_weight), utils/ (collections, math, format, json, misc),
                      workers/, cache/, state/, proto/, talents data + trees, bulk/,
                      wasm/, constants/, presets/, hooks/, context/. alias @sim
-  ui-kit/            sim-agnostic widgets + base classes: component, input, sim_tab,
-                     base_modal, content_block, copy_button, tooltip_button, tab_pane_class,
-                     saved_data_manager, input_helpers, icon_inputs,
-                     utils/ (css, dom, env, links, wowhead), pickers/, vendor/. alias @ui-kit
+  ui-kit/            sim-agnostic React widgets, one folder per component (about 45 of them:
+                     NumberPicker/, Dialog/, Tooltip/, VirtualList/, …), plus hooks/,
+                     utils/ (css, dom, wowhead), and the flat helper modules the configs use:
+                     input.ts, input_helpers.ts, icon_inputs.ts, child_props.ts,
+                     sidebar_registry.ts, tab_activation.ts. alias @ui-kit
   features/<name>/   one folder per capability: model/ (DOM-free, lint-enforced) +
                      components/ (React, one folder per component) + hooks/ + utils/ (feature
                      helpers that are neither a component nor DOM-free). The twelve are
@@ -47,7 +48,11 @@ ui/
                      STYLING.md. No SCSS and no Bootstrap remain anywhere in ui/
   index.html          the landing page, a React tree mounted by app/landing_entry.tsx on #root.
                      Its components are in app/landing/
-  index_template.html, shared/, types/, tracking/   root, unchanged
+  shared/            two browser helpers: page_boot.ts, pointer.ts (DOM helpers a component
+                     reaches for are ui-kit/utils/dom.ts)
+  testing/           tailwind/ — the canonical-class and class-hook checkers, run as node scripts
+  types/             ambient .d.ts (i18n-loader.d.ts)
+  index_template.html, tracking/   root, unchanged
 ```
 
 ## JSX
@@ -61,7 +66,8 @@ plus a co-located `<Name>.css` only when the component needs `ui-*` composition 
 the hook: the store's React binding and everything built on it in `ui/sim/hooks/`
 (`useStoreSubscribe.ts`, `useSimRun.ts`), the sim-agnostic ones in `ui-kit/hooks/` (`useInput.ts`,
 `useActionId.ts`). There is no `ui-kit/react/`: every component here is React, so the qualifier
-distinguished nothing. See `.github/skills/wowsims-ui/` for the component registry.
+distinguished nothing. There is no separate component-registry document — components and their
+co-located CSS are covered here and in `STYLING.md`.
 
 ## Placement rules
 
@@ -98,8 +104,10 @@ narrow host interfaces instead — all of them in `@sim/sim_host`: `SimUIHost` a
 (the slice ui-kit widgets reach for), then `SimHost`, `IndividualSimHost<Spec>`, `SimWarning`,
 plus the `isIndividualSimHost()` predicate that replaces `instanceof SimHostObject`). The
 host declares `implements IndividualSimHost` so the interfaces stay honest. The per-spec config schema lives in `@sim/spec_config` (`IndividualSimUIConfig`,
-`InputSection`, `OtherDefaults`, `Settings`, `registerSpecConfig`, `itemSwapEnabledSpecs`); it
-cannot sit in `ui/sim/` because it names ui-kit picker configs and `EncounterPickerConfig`.
+`InputSection`, `OtherDefaults`, `Settings`, `registerSpecConfig`, `itemSwapEnabledSpecs`). It names
+ui-kit picker configs, so it reaches them through `import type` only — a value import would be a
+layer violation. `ui/sim/spec_config.ts` and `ui/sim/sim_host.ts` (for `SidebarRegistry`) are the
+only files in `ui/sim` that name `@ui-kit`, both type-only.
 It also holds the declarative spec surface (`SpecDefinition`, `SpecBehaviors`, `DerivedSetting`,
 `CustomSection`, `defineSpec` — see "How to author a spec"); `app/individual_sim_ui.tsx` re-exports all of it as a
 convenience. The preset shapes
@@ -202,10 +210,10 @@ The `getEPDefaults` / `updateSoftCaps` callbacks receive `(…, player, ctx)` wh
 `ui/index_template.html`. It derives the module key from `location.pathname`
 (`/tbc/<class>/<spec>/` → `../specs/<class>/<spec>/spec`), loads it from a lazy
 `import.meta.glob('../specs/*/*/spec.{ts,tsx}')` — `.tsx` only for a spec module that carries real
-JSX, which today is **none of TBC's 17**: `ui/mage/dps/sim.tsx` contains no JSX at all (it is `.tsx`
-gratuitously), and the only real JSX in a pre-port spec file is `ui/warlock/dps/inputs.tsx`'s
-`appendChild(<p>)` / `(<></>) as HTMLElement`, which is tsx-vanilla DOM construction that the React
-port replaces outright. Default every spec to `.ts` — so each spec ships its own chunk and only the
+JSX, which today is **none of TBC's 17**. (Of the two pre-port `.tsx` spec files, mage/dps's carried
+no JSX at all and warlock/dps's only JSX was `appendChild(<p>)` / `(<></>) as HTMLElement`
+tsx-vanilla DOM construction that the React port replaced outright; neither file survives.)
+Default every spec to `.ts` — so each spec ships its own chunk and only the
 visited one is fetched — then:
 
 ```
@@ -250,8 +258,8 @@ before the makefile stopped generating pages — and `spec_entry.ts`'s `import.m
 the spec module up from the URL. A new spec's page therefore appears with no build-config edit.
 
 Copying one page 17× is only sound because the page is constant: `ui/index_template.html` carries
-no `@@CLASS@@`/`@@SPEC@@` placeholders and every asset reference is root-absolute (`/scss/...`,
-`/app/spec_entry.tsx`, `/i18n/localization.ts`), so vite rewrites them all to
+no `@@CLASS@@`/`@@SPEC@@` placeholders and every asset reference is root-absolute
+(`/styles/style.css`, `/app/spec_entry.tsx`, `/i18n/localization.ts`), so vite rewrites them all to
 `/tbc/...` and nothing in the built page depends on where it is served from. It is also the reason
 the 17 pages share one entry chunk (`bundle/spec_entry-<hash>.entry.js`, from the `spec_entry` key
 in `rollupOptions.input`) instead of the 17 near-identical ones the old per-page inputs produced.
@@ -261,21 +269,17 @@ to `data-class`/`data-spec` attributes only if present. It is the spec page's pa
 page translates through `i18n.t` as it renders and calls `updateLandingPageMetadata` for its title
 and `<meta name="description">`.
 
-Rules shared by several specs of the same class live in `ui/specs/<class>/shared/` (only the
-multi-spec classes need this: druid's four, paladin's three, shaman's three, warrior's two — e.g.
-`druid/shared/derived.ts`, `warrior/shared/{derived,inputs}.ts`). A shared `DerivedSetting` is
-declared `DerivedSetting<any>` because `Player<S>` is invariant in `S`, so a rule typed against a
-spec union is not assignable into any one spec's `derivedSettings`; annotate the callback
-parameters to keep the bodies checked.
+Anything shared by several specs of the same class lives in `ui/specs/<class>/shared/`, under a
+fixed name: `inputs.ts` for the input configs that would otherwise sit at the pre-port
+`<class>/inputs.ts`, and `presets.ts` for encounter presets, EP-breakpoint tables and a class's
+`DefaultRaidBuffs` where its specs share one raid-buff default. Only the classes that need it have
+the directory — today `paladin/shared/inputs.ts`, `shaman/shared/inputs.ts` and
+`warrior/shared/{inputs,presets}.ts`; druid's four specs share nothing at this level, so there is no
+`druid/shared/`.
 
-Every multi-spec class has fixed-name class-level shared files: `<class>/shared/{inputs,presets}.ts`
-(plus `derived.ts` where a class-level helper only had one caller) hold what would otherwise sit at
-`<class>/inputs.ts`, `<class>/shared.ts`, or `<class>/presets.ts`. `presets.ts` holds encounter
-presets, EP-breakpoint tables, and a class's `DefaultRaidBuffs` where all (or a class-consistent
-subset of) that class's specs share one raid-buff default. Cross-spec constants used by more than
-one class (the melee hit/expertise and spell-hit `statCaps` builders, and the shared encounter
-protos) live in `ui/sim/presets/{stat_caps,encounters}.ts` instead — `ui/sim` can't import `@app`, so these
-export raw protos/`Stats` for a class's `shared/presets.ts` to wrap with `PresetUtils`.
+If a rule ever has to be shared as a `DerivedSetting`, declare it `DerivedSetting<any>`: `Player<S>`
+is invariant in `S`, so a rule typed against a spec union is not assignable into any one spec's
+`derivedSettings`. Annotate the callback parameters to keep the bodies checked.
 
 ## How to move a file
 
@@ -284,6 +288,6 @@ file), then repair every import specifier across `ui/` and `tools/` yourself —
 the importer and the target end up in different top-level `ui/` directories and a relative
 specifier otherwise.
 
-Then run the gates: `npx tsc --noEmit -p .`, `npx oxlint -c .oxlintrc.json ui tools`
-(`--fix` sorts the imports the move disturbed), `npx vite build`,
-`npx tsx vite.build-workers.mts`, `npm run test:snapshots`.
+Then run the gates: `npm run type-check`, `npm run lint:js` (`npm run lint:js:fix` sorts the imports
+the move disturbed), `npm run fmt`, `npm run test:unit`, and `make dist/tbc/.dirstamp`, which is what
+CI builds — see `.github/skills/wowsims-ui/references/verification.md`.

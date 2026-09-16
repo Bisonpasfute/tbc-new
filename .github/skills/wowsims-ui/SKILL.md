@@ -57,8 +57,9 @@ generated → worker → {sim, i18n} → ui-kit → features → app → specs �
 | `ui/specs/<class>/<spec>/` | `@specs`     | spec data — one `spec.ts` per spec, may import everything                                                                                 |
 
 Not layers, and not in the arrow: `ui/styles/` (Tailwind entry, tokens, the 17 spec themes as CSS
-variables — see `ui/STYLING.md`), `ui/shared/` (three
-browser helpers — `dom.ts`, `pointer.ts`, `page_boot.ts`), `ui/types/` (ambient `.d.ts`),
+variables — see `ui/STYLING.md`), `ui/shared/` (two browser helpers — `pointer.ts` and
+`page_boot.ts`; the DOM helpers a component reaches for are `ui/ui-kit/utils/dom.ts`),
+`ui/testing/` (the Tailwind class checkers), `ui/types/` (ambient `.d.ts`),
 `ui/tracking/` (the analytics shim), and `ui/index.html` / `ui/index_template.html` at the root.
 The React entry points are `ui/app/spec_entry.tsx` and `ui/app/landing_entry.tsx`.
 
@@ -80,46 +81,39 @@ arguing with one.
 
 ## The short version of "done"
 
-Four commands, all from the repo root, all needing `npm ci` first:
+All from the repo root, all needing `npm ci` first:
 
 ```
 npm run type-check     # tsc --noEmit over the whole repo, tools/ included
-npm run lint:js        # oxlint on ui/ — zero no-restricted-imports allowed
+npm run lint:js        # oxlint on ui/ with --max-warnings 0 — zero no-restricted-imports allowed
+npm run lint:css       # stylelint ui/**/*.css
+npm run fmt            # oxfmt ui --check
 npm run test:unit      # vitest + happy-dom, ui/**/*.test.ts(x)
-npm run test:snapshots # store-contract test, then 17 golden spec protos
+npm run test:locales   # ajv, assets/locales/** against schemas/**
 ```
 
-`references/verification.md` says what each one actually covers, what CI runs instead (it is not
-this list), and which gate catches which class of mistake.
+There is no `test:snapshots` script on this tree — the harness it would run is developer-local, see
+`references/verification.md`. That file says what each command actually covers, what CI runs instead
+(it is not this list), and which gate catches which class of mistake.
 
-## Migration lane contract
+## Working on this tree
 
-This port runs as several parallel lanes, each scoped to disjoint paths. Rules every lane follows:
+The port is finished: `ui/core`, `ui/scss` and the eleven per-class spec directories are gone, the
+whole repo type-checks, and every gate in `references/verification.md` runs against the layout above.
+Two habits survive from the migration because they are about this machine, not about the port:
 
-- **The tree does not type-check until the final lane.** A per-lane gate is folder-scoped:
-  `npx oxlint <folder>`, `npx vitest run <folder>`, and a folder-scoped `tsconfig`. Global
-  `npm run type-check` is a final-lane gate only — do not treat a whole-repo `tsc` failure mid-migration
-  as your lane's bug.
-- **Single owner per shared file.** Another lane requests a change from the owner rather than editing
-  directly. The owned files: `ui/sim/state/sim_store.ts`, `ui/sim/proto/utils.ts`,
-  `ui/sim/wasm/stat_weights.ts`, `ui/ui-kit/icon_inputs.ts`, `ui/app/preset_utils.ts`,
-  `assets/locales/en/translation.json` + `schemas/`, `ui/styles/theme/specs.css`, and the root configs
-  (`.oxlintrc.json`, `tsconfig.json`, `package.json`, `makefile`).
-- **Every diff uses `/usr/bin/diff`.** The bare `diff` on this machine is wrapper-intercepted and has
-  produced a false "files are identical" reading — never trust it here.
-- **Rename detection needs the full `-- ui/` pathspec, never `-- ui/core/`.** The restructure moved
-  files out of `ui/core/`, so a pathspec naming only the old directory filters away every
-  destination: `git diff --name-status -M20% master..wt/tailwind -- ui/core/` reports 271 plain
-  deletions and **zero** renames. The identical range with `-- ui/` reports 563 renames. That is a
-  convincing-looking "this file has no ancestor" which is purely an artefact of the query. Eight
-  files genuinely have no lineage even with the correct pathspec — `bulk_tab.tsx`,
+- **Every diff uses `/usr/bin/diff`.** The bare `diff` here is wrapper-intercepted and has produced a
+  false "files are identical" reading — never trust it. The same goes for `grep` and `find`, and
+  `rtk` compresses some command output: if a result looks summarised rather than raw, re-run it
+  through `rtk proxy` or redirect to a file and read that.
+- **Rename detection needs the full `-- ui/` pathspec.** The restructure moved files across
+  top-level directories, so a pathspec naming only a source directory filters away every
+  destination and reports plain deletions with zero renames — a convincing-looking "this file has no
+  ancestor" that is purely an artefact of the query. Compare `master..<branch> -- ui/` when reviewing
+  the port's history. Eight files genuinely have no lineage even then — `bulk_tab.tsx`,
   `character_stats.tsx`, `talents_picker.tsx`, `suggest_reforges_action.tsx`, `apl_helpers.tsx`,
-  `preset_configuration_picker.tsx`, `individual_sim_ui.tsx`, and `encounter.ts` (whose `R025` is
-  barely over the threshold). Those eight are rewrites driven from the TBC original as a
-  behavioural spec, not diff-and-reapply.
-- **`ui/sim/wasm/bulk_sim/` needs a three-way comparison before being overwritten.** Seven of its
-  files diverged independently in both forks, so the MoP version is not automatically newer — diff
-  against both the pre-migration TBC file and the MoP source before taking either side wholesale.
+  `preset_configuration_picker.tsx`, `individual_sim_ui.tsx` and `encounter.ts` — because they are
+  rewrites driven from the TBC original as a behavioural spec, not diff-and-reapply.
 
 ## Keeping this skill true
 

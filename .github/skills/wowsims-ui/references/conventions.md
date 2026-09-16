@@ -62,9 +62,9 @@ Adding one is three edits and no page:
 
 1. `ui/specs/<class>/<spec>/spec.ts`. Use `.ts`: **no TBC spec carries real JSX.** The source port
    had two specs with a computed reforge tooltip; TBC has no equivalent. Of TBC's two pre-port
-   `.tsx` spec files, `mage/dps/sim.tsx` has no JSX whatsoever, and `warlock/dps/inputs.tsx`'s only
-   JSX is tsx-vanilla DOM construction the React port removes. Promote to `.tsx` only if a spec
-   genuinely renders a React element.
+   `.tsx` spec files, mage/dps's carried no JSX whatsoever and warlock/dps's only JSX was
+   tsx-vanilla DOM construction, which the React port replaced outright; neither file survives.
+   Promote to `.tsx` only if a spec genuinely renders a React element.
 2. A `PlayerSpec` class in `ui/sim/player/specs/<class>.ts` with its `launch: { phase, status }`,
    exported through `ui/sim/player/specs/index.ts`. That field is the single source of truth for
    launch status: `ui/app/header/SimTitleDropdown/` reads it on a spec page, and the landing page
@@ -131,7 +131,7 @@ whole change.
 
 | Decision                                                     | Why                                                                                                                  |
 | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `import/no-cycle` is off                                     | rejected on the source port's equivalent tree at 188 warnings; TODO re-check the count once `ui/` exists here, then cycles are caught by the harness |
+| `import/no-cycle` is off                                     | rejected on the source port's equivalent tree at 188 warnings; 63 here (46 `ui/sim`, 17 `ui/features`) — still a triage project, see `references/layers.md`. Cycles are caught by the harness |
 | Aliases are `tsconfig` `paths`, not `package.json` `imports` | `tsc` under `moduleResolution: "bundler"` does not resolve `#foo/*`        |
 | Only `ui/app` may `createRoot`                               | lint-banned in ui-kit and features; createRoot-per-leaf was rejected       |
 | `sections` is the only custom-section shape                  | one renderer, not two; `customSections` was deprecated, then deleted       |

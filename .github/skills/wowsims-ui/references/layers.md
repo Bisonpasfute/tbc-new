@@ -119,10 +119,16 @@ build (`npm run test:snapshots` leaves the bundle behind):
 
 Every `player/specs/<class>.ts` region must be emitted before `ui/sim/player/specs/index.ts`.
 
-`import/no-cycle` is deliberately **not** enabled: on the source port's equivalent tree it reported 188 warnings,
-enough that the rule was rejected outright rather than triaged. TODO: re-run it once `ui/` exists here
-and confirm the same call holds for TBC's tree before relying on the number; until then, cycles are
-caught by the check above and by review, not by lint.
+`import/no-cycle` is deliberately **not** enabled. It reported 188 warnings on the source port's
+equivalent tree, enough that the rule was rejected outright rather than triaged; measured against
+the finished TBC tree it reports **63** — 46 in `ui/sim`, 17 in `ui/features` — which is smaller but
+still a triage project, not a switch to flip. Re-derive the number before arguing either way:
+
+```
+npx oxlint --import-plugin -D import/no-cycle ./ui 2>&1 | grep -c 'import(no-cycle)'
+```
+
+Until someone does that work, cycles are caught by the check above and by review, not by lint.
 
 ## Moving a file
 
