@@ -1167,6 +1167,12 @@
 						},
 						"old_sim_message": {
 							"type": "string"
+						},
+						"healing_message": {
+							"type": "string"
+						},
+						"qe_live_message": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
@@ -1174,7 +1180,9 @@
 						"title",
 						"contribute_message",
 						"discord_message",
-						"old_sim_message"
+						"old_sim_message",
+						"healing_message",
+						"qe_live_message"
 					]
 				},
 				"notifications": {
@@ -8444,6 +8452,9 @@
 										"active",
 										"clear"
 									]
+								},
+								"no_matches": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
@@ -8455,7 +8466,8 @@
 								"search_placeholder",
 								"search_add_filter",
 								"search_add_value",
-								"floatingActionBar"
+								"floatingActionBar",
+								"no_matches"
 							]
 						},
 						"tabs": {
@@ -9510,6 +9522,9 @@
 						},
 						"custom_ep_not_enabled": {
 							"type": "string"
+						},
+						"label": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
@@ -9518,7 +9533,8 @@
 						"profession_requirement",
 						"too_many_jc_gems",
 						"unspent_talent_points",
-						"custom_ep_not_enabled"
+						"custom_ep_not_enabled",
+						"label"
 					]
 				},
 				"buttons": {
@@ -10306,13 +10322,21 @@
 								"tto",
 								"oom"
 							]
+						},
+						"stop": {
+							"type": "string"
+						},
+						"stopping": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
 					"required": [
 						"progress",
 						"reference",
-						"metrics"
+						"metrics",
+						"stop",
+						"stopping"
 					]
 				},
 				"character_stats": {
