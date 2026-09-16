@@ -1,13 +1,15 @@
-import { EquipmentSpec, GemColor, HandType, ItemSlot, ItemSpec, Profession } from '@generated/proto/common';
+import { ConsumesSpec, EquipmentSpec, GemColor, HandType, ItemSlot, ItemSpec, Profession, WeaponType } from '@generated/proto/common';
 import { ItemEffectRandPropPoints, SimDatabase, SimEnchant, SimGem, SimItem } from '@generated/proto/db';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 
 import { distinct, equalsOrBothNull, getEnumValues } from '../utils/collections';
 import { sum } from '../utils/math';
 import { Database } from './database';
-import { EquippedItem, ReforgeData } from './equipped_item';
+import { EquippedItem } from './equipped_item';
+import { gemMatchesSocket, isMetaGemActive } from './gems';
 import { isBluntWeaponType, isSharpWeaponType, validWeaponCombo } from './items';
 import { Stats } from './stats';
+import { adjustWeaponImbueId } from './utils';
 
 type InternalGear = Record<ItemSlot, EquippedItem | null>;
 
@@ -67,12 +69,22 @@ abstract class BaseGear {
 			.some(id => itemIds.includes(id));
 	}
 
+	hasRelic(itemId: number): boolean {
+		const relicItem = this.getEquippedItem(ItemSlot.ItemSlotRanged);
+
+		if (!relicItem) {
+			return false;
+		}
+
+		return relicItem!.item.id == itemId;
+	}
+
 	/**
 	 * Returns a new Gear set with the item equipped.
 	 *
 	 * Checks for validity and removes/exchanges items/gems as needed.
 	 */
-	protected withEquippedItemInternal(newSlot: ItemSlot, newItem: EquippedItem | null, canDualWield2H: boolean): Partial<InternalGear> {
+	protected withEquippedItemInternal(newSlot: ItemSlot, newItem: EquippedItem | null): Partial<InternalGear> {
 		// Create a new identical set of gear
 		const newInternalGear = this.asMap();
 
@@ -84,7 +96,7 @@ abstract class BaseGear {
 		// Actually assign the new item.
 		newInternalGear[newSlot] = newItem;
 
-		BaseGear.validateWeaponCombo(newInternalGear, newSlot, canDualWield2H);
+		BaseGear.validateWeaponCombo(newInternalGear, newSlot);
 
 		return newInternalGear;
 	}
@@ -117,11 +129,11 @@ abstract class BaseGear {
 		}
 	}
 
-	private static validateWeaponCombo(gear: Partial<InternalGear>, newSlot: ItemSlot, canDualWield2H: boolean) {
+	private static validateWeaponCombo(gear: Partial<InternalGear>, newSlot: ItemSlot) {
 		// Check for valid weapon combos.
-		if (!validWeaponCombo(gear[ItemSlot.ItemSlotMainHand]?.item, gear[ItemSlot.ItemSlotOffHand]?.item, canDualWield2H)) {
+		if (!validWeaponCombo(gear[ItemSlot.ItemSlotMainHand]?.item, gear[ItemSlot.ItemSlotOffHand]?.item)) {
 			if (newSlot == ItemSlot.ItemSlotOffHand) {
-				if (!canDualWield2H && gear[ItemSlot.ItemSlotOffHand]?.item.handType == HandType.HandTypeTwoHand) {
+				if (gear[ItemSlot.ItemSlotOffHand]?.item.handType == HandType.HandTypeTwoHand) {
 					gear[ItemSlot.ItemSlotOffHand] = null;
 				}
 
@@ -137,7 +149,6 @@ abstract class BaseGear {
 		const data = {
 			items: distinct(equippedItems.map(ei => BaseGear.itemToDB(ei.item))),
 			randomSuffixes: distinct(equippedItems.filter(ei => ei.randomSuffix).map(ei => ei.randomSuffix!)),
-			reforgeStats: distinct(equippedItems.filter(ei => ei.reforge).map(ei => db.getReforgeById(ei.reforge!.id) ?? {})),
 			itemEffectRandPropPoints: distinct(
 				equippedItems.flatMap(ei => db.getItemEffectRandPropPoints(ei.ilvl)).filter((ieRpp): ieRpp is ItemEffectRandPropPoints => !!ieRpp),
 			),
@@ -145,7 +156,6 @@ abstract class BaseGear {
 				equippedItems.flatMap(ei => {
 					const out: ReturnType<typeof BaseGear.enchantToDB>[] = [];
 					if (ei.enchant) out.push(BaseGear.enchantToDB(ei.enchant));
-					if (ei.tinker) out.push(BaseGear.enchantToDB(ei.tinker));
 					return out;
 				}),
 			),
@@ -181,8 +191,8 @@ export class Gear extends BaseGear {
 		return getEnumValues(ItemSlot);
 	}
 
-	withEquippedItem(newSlot: ItemSlot, newItem: EquippedItem | null, canDualWield2H: boolean): Gear {
-		return new Gear(this.withEquippedItemInternal(newSlot, newItem, canDualWield2H));
+	withEquippedItem(newSlot: ItemSlot, newItem: EquippedItem | null): Gear {
+		return new Gear(this.withEquippedItemInternal(newSlot, newItem));
 	}
 
 	asSpec(): EquipmentSpec {
@@ -191,21 +201,21 @@ export class Gear extends BaseGear {
 		});
 	}
 
-	getAllGems(isBlacksmithing: boolean): Array<Gem> {
+	getAllGems(): Array<Gem> {
 		return this.asArray()
-			.map(ei => (ei == null ? [] : ei.curEquippedGems(isBlacksmithing)))
+			.map(ei => (ei == null ? [] : ei.curEquippedGems()))
 			.flat();
 	}
 
-	getNonMetaGems(isBlacksmithing: boolean): Array<Gem> {
-		return this.getAllGems(isBlacksmithing).filter(gem => gem.color != GemColor.GemColorMeta);
+	getNonMetaGems(): Array<Gem> {
+		return this.getAllGems().filter(gem => gem.color != GemColor.GemColorMeta);
 	}
 
-	statsFromGems(isBlacksmithing: boolean): Stats {
+	statsFromGems(): Stats {
 		let stats = new Stats();
 
 		// Stats from just the gems.
-		const gems = this.getAllGems(isBlacksmithing);
+		const gems = this.getAllGems();
 		for (let i = 0; i < gems.length; i++) {
 			stats = stats.add(new Stats(gems[i].stats));
 		}
@@ -219,43 +229,53 @@ export class Gear extends BaseGear {
 		return stats;
 	}
 
-	getGemsOfColor(color: GemColor, isBlacksmithing: boolean): Array<Gem> {
-		return this.getAllGems(isBlacksmithing).filter(gem => gem.color == color);
+	getGemsOfColor(color: GemColor): Array<Gem> {
+		return this.getAllGems().filter(gem => gem.color == color);
 	}
 
-	getJCGems(isBlacksmithing: boolean): Array<Gem> {
-		return this.getAllGems(isBlacksmithing).filter(gem => gem.requiredProfession == Profession.Jewelcrafting);
+	getJCGems(): Array<Gem> {
+		return this.getAllGems().filter(gem => gem.requiredProfession == Profession.Jewelcrafting);
 	}
 
 	getMetaGem(): Gem | null {
-		return this.getGemsOfColor(GemColor.GemColorMeta, true)[0] || null;
+		return this.getGemsOfColor(GemColor.GemColorMeta)[0] || null;
 	}
 
-	withChallengeMode(enabled: boolean): Gear {
-		let curGear: Gear = this;
+	gemColorCounts(): { red: number; yellow: number; blue: number } {
+		const gems = this.getAllGems();
+		return {
+			red: gems.filter(gem => gemMatchesSocket(gem, GemColor.GemColorRed)).length,
+			yellow: gems.filter(gem => gemMatchesSocket(gem, GemColor.GemColorYellow)).length,
+			blue: gems.filter(gem => gemMatchesSocket(gem, GemColor.GemColorBlue)).length,
+		};
+	}
 
-		for (const slot of this.getItemSlots()) {
-			const item = this.getEquippedItem(slot);
-
-			if (item) {
-				curGear = curGear.withEquippedItem(slot, item.withChallengeMode(enabled), true);
-			}
+	// Returns true if this gear set has a meta gem AND the other gems meet the meta's conditions.
+	hasActiveMetaGem(): boolean {
+		const metaGem = this.getMetaGem();
+		if (!metaGem) {
+			return false;
 		}
 
-		return curGear;
+		const gemColorCounts = this.gemColorCounts();
+		return isMetaGemActive(metaGem, gemColorCounts.red, gemColorCounts.yellow, gemColorCounts.blue);
+	}
+
+	hasInactiveMetaGem(): boolean {
+		return this.getMetaGem() != null && !this.hasActiveMetaGem();
 	}
 
 	withGem(itemSlot: ItemSlot, socketIdx: number, gem: Gem | null): Gear {
 		const item = this.getEquippedItem(itemSlot);
 
 		if (item) {
-			return this.withEquippedItem(itemSlot, item.withGem(gem, socketIdx), true);
+			return this.withEquippedItem(itemSlot, item.withGem(gem, socketIdx));
 		}
 
 		return this;
 	}
 
-	withSingleGemSubstitution(oldGem: Gem | null, newGem: Gem | null, isBlacksmithing: boolean): Gear {
+	withSingleGemSubstitution(oldGem: Gem | null, newGem: Gem | null): Gear {
 		for (const slot of this.getItemSlots()) {
 			const item = this.getEquippedItem(slot);
 
@@ -263,7 +283,7 @@ export class Gear extends BaseGear {
 				continue;
 			}
 
-			const currentGems = item!.curGems(isBlacksmithing);
+			const currentGems = item!.curGems();
 
 			if (currentGems.includes(oldGem)) {
 				const socketIdx = currentGems.indexOf(oldGem);
@@ -274,7 +294,7 @@ export class Gear extends BaseGear {
 		return this;
 	}
 
-	findGem(gemToFind: Gem, isBlacksmithing: boolean): [ItemSlot, number][] {
+	findGem(gemToFind: Gem): [ItemSlot, number][] {
 		const gemMatchData: [ItemSlot, number][] = [];
 
 		for (const slot of this.getItemSlots()) {
@@ -284,7 +304,7 @@ export class Gear extends BaseGear {
 				continue;
 			}
 
-			for (const [socketIdx, gem] of item.curGems(isBlacksmithing).entries()) {
+			for (const [socketIdx, gem] of item.curGems().entries()) {
 				if (gem?.id === gemToFind.id) {
 					gemMatchData.push([slot, socketIdx]);
 				}
@@ -300,7 +320,7 @@ export class Gear extends BaseGear {
 		if (headItem) {
 			for (const [socketIdx, socketColor] of headItem.allSocketColors().entries()) {
 				if (socketColor == GemColor.GemColorMeta) {
-					return this.withEquippedItem(ItemSlot.ItemSlotHead, headItem.withGem(metaGem, socketIdx), true);
+					return this.withEquippedItem(ItemSlot.ItemSlotHead, headItem.withGem(metaGem, socketIdx));
 				}
 			}
 		}
@@ -308,7 +328,7 @@ export class Gear extends BaseGear {
 		return this;
 	}
 
-	withoutGems(canDualWield2H: boolean, ignoreSlots?: Set<ItemSlot>, ignoreMeta?: boolean): Gear {
+	withoutGems(ignoreSlots?: Set<ItemSlot>, ignoreMeta?: boolean): Gear {
 		let curGear: Gear = this;
 		const metaGem = this.getMetaGem();
 
@@ -316,7 +336,7 @@ export class Gear extends BaseGear {
 			const item = this.getEquippedItem(slot);
 
 			if (item && !ignoreSlots?.has(slot)) {
-				curGear = curGear.withEquippedItem(slot, item.removeAllGems(), canDualWield2H);
+				curGear = curGear.withEquippedItem(slot, item.removeAllGems());
 			}
 		}
 
@@ -327,50 +347,28 @@ export class Gear extends BaseGear {
 		return curGear;
 	}
 
-	withoutReforges(canDualWield2H: boolean, ignoreSlots?: Set<ItemSlot>): Gear {
+	// Removes enchanting profession bonus.
+	withoutEnchanting(): Gear {
 		let curGear: Gear = this;
 
-		for (const slot of this.getItemSlots()) {
-			const item = this.getEquippedItem(slot);
-
-			if (item && !ignoreSlots?.has(slot)) {
-				curGear = curGear.withEquippedItem(slot, item.withItem(item.item).withRandomSuffix(item._randomSuffix), canDualWield2H);
-			}
-		}
+		[ItemSlot.ItemSlotFinger1, ItemSlot.ItemSlotFinger2].forEach(slot => {
+			const fingerItem = this.getEquippedItem(slot);
+			if (fingerItem) curGear = curGear.withEquippedItem(slot, fingerItem.withEnchant(null));
+		});
 
 		return curGear;
 	}
-	withoutUpgrades(canDualWield2H: boolean): Gear {
-		let curGear: Gear = this;
-
-		for (const slot of this.getItemSlots()) {
-			const item = this.getEquippedItem(slot);
-
-			if (item) {
-				curGear = curGear.withEquippedItem(slot, item.withUpgrade(0), canDualWield2H);
-			}
-		}
-
-		return curGear;
+	hasMHWeapon(): boolean {
+		return this.getEquippedItem(ItemSlot.ItemSlotMainHand) != null;
 	}
-
-	// Removes bonus gems from blacksmith profession bonus.
-	withoutBlacksmithSockets(): Gear {
-		let curGear: Gear = this;
-
-		const wristItem = this.getEquippedItem(ItemSlot.ItemSlotWrist);
-		if (wristItem) {
-			curGear = curGear.withEquippedItem(ItemSlot.ItemSlotWrist, wristItem.withGem(null, wristItem.numPossibleSockets - 1), true);
-		}
-
-		const handsItem = this.getEquippedItem(ItemSlot.ItemSlotHands);
-		if (handsItem) {
-			curGear = curGear.withEquippedItem(ItemSlot.ItemSlotHands, handsItem.withGem(null, handsItem.numPossibleSockets - 1), true);
-		}
-
-		return curGear;
+	hasOHWeapon(): boolean {
+		const weapon = this.getEquippedItem(ItemSlot.ItemSlotOffHand);
+		return (
+			weapon != null &&
+			![HandType.HandTypeOffHand].includes(weapon.item.handType) &&
+			![WeaponType.WeaponTypeOffHand, WeaponType.WeaponTypeShield].includes(weapon.item.weaponType)
+		);
 	}
-
 	hasBluntMHWeapon(): boolean {
 		const weapon = this.getEquippedItem(ItemSlot.ItemSlotMainHand);
 		return weapon != null && isBluntWeaponType(weapon.item.weaponType);
@@ -386,6 +384,14 @@ export class Gear extends BaseGear {
 	hasSharpOHWeapon(): boolean {
 		const weapon = this.getEquippedItem(ItemSlot.ItemSlotOffHand);
 		return weapon != null && isSharpWeaponType(weapon.item.weaponType);
+	}
+	// Rewrites the MH/OH weapon stone imbues to match the equipped weapon types, returning the
+	// original ConsumesSpec unchanged if nothing needs adjusting.
+	adjustImbues(consumes: ConsumesSpec): ConsumesSpec {
+		const mhImbueId = adjustWeaponImbueId(consumes.mhImbueId, this.hasSharpMHWeapon(), this.hasBluntMHWeapon());
+		const ohImbueId = adjustWeaponImbueId(consumes.ohImbueId, this.hasSharpOHWeapon(), this.hasBluntOHWeapon());
+		if (mhImbueId === consumes.mhImbueId && ohImbueId === consumes.ohImbueId) return consumes;
+		return ConsumesSpec.clone({ ...consumes, mhImbueId, ohImbueId });
 	}
 
 	getProfessionRequirements(): Array<Profession> {
@@ -407,23 +413,13 @@ export class Gear extends BaseGear {
 		return setItemCount;
 	}
 
-	getAllReforges() {
-		const reforgedItems = new Map<ItemSlot, ReforgeData>();
-		this.getEquippedItems().forEach((item, slot) => {
-			const reforgeData = item?.getReforgeData();
-			if (!reforgeData) return;
-			reforgedItems.set(slot, reforgeData);
-		});
-		return reforgedItems;
-	}
-
-	getAverageItemLevel(canDualWield2H: boolean): number {
+	getAverageItemLevel(): number {
 		const items = this.getEquippedItems();
 		let itemSlotsToCount = this.getItemSlots().length;
-		const has2H = items?.[ItemSlot.ItemSlotMainHand]?.item?.handType === HandType.HandTypeTwoHand;
+		let has2H = items?.[ItemSlot.ItemSlotMainHand]?.item?.handType === HandType.HandTypeTwoHand;
 
 		// If user cannot dual wield 2H, then only count the main hand item as there is no off hand
-		if (has2H && !canDualWield2H) itemSlotsToCount -= 1;
+		if (has2H) itemSlotsToCount -= 1;
 
 		const totalIlvl = sum(items.filter((item): item is EquippedItem => item != null).map(item => item.ilvl));
 		return totalIlvl / itemSlotsToCount;
@@ -444,7 +440,7 @@ export class ItemSwapGear extends BaseGear {
 		return getEnumValues(ItemSlot);
 	}
 
-	withEquippedItem(newSlot: ItemSlot, newItem: EquippedItem | null, canDualWield2H: boolean): ItemSwapGear {
-		return new ItemSwapGear(this.withEquippedItemInternal(newSlot, newItem, canDualWield2H));
+	withEquippedItem(newSlot: ItemSlot, newItem: EquippedItem | null): ItemSwapGear {
+		return new ItemSwapGear(this.withEquippedItemInternal(newSlot, newItem));
 	}
 }

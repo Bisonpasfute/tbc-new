@@ -550,6 +550,10 @@ export class UnitMetrics {
 		return this.getActionsForDisplay().filter(e => e.dps !== 0 && e.hps === 0);
 	}
 
+	getThreatActions(): Array<ActionMetrics> {
+		return this.getActionsForDisplay().filter(e => e.tps !== 0 && e.hps === 0);
+	}
+
 	getHealingActions(): Array<ActionMetrics> {
 		return this.getActionsForDisplay();
 	}
@@ -868,7 +872,7 @@ export class ActionMetrics {
 	}
 
 	get avgDamage() {
-		return this.combinedMetrics.damage / this.iterations;
+		return this.combinedMetrics.avgDamage;
 	}
 
 	get avgHitDamage() {
@@ -878,10 +882,18 @@ export class ActionMetrics {
 			this.avgCritDamage +
 			this.avgCritTickDamage -
 			this.avgGlanceDamage -
-			this.avgGlanceBlockDamage -
 			this.avgBlockDamage -
-			this.avgCritBlockDamage
+			this.avgBlockedCritDamage -
+			this.avgCrushDamage
 		);
+	}
+
+	get resistedDamage() {
+		return this.combinedMetrics.resistedDamage;
+	}
+
+	get avgResistedDamage() {
+		return this.combinedMetrics.avgResistedDamage;
 	}
 
 	get critDamage() {
@@ -892,6 +904,14 @@ export class ActionMetrics {
 		return this.combinedMetrics.avgCritDamage;
 	}
 
+	get resistedCritDamage() {
+		return this.combinedMetrics.resistedCritDamage;
+	}
+
+	get avgResistedCritDamage() {
+		return this.combinedMetrics.avgResistedCritDamage;
+	}
+
 	get tickDamage() {
 		return this.combinedMetrics.tickDamage;
 	}
@@ -900,12 +920,27 @@ export class ActionMetrics {
 		return this.combinedMetrics.avgTickDamage;
 	}
 
+	get resistedTickDamage() {
+		return this.combinedMetrics.resistedTickDamage;
+	}
+
+	get avgResistedTickDamage() {
+		return this.combinedMetrics.avgResistedTickDamage;
+	}
+
 	get critTickDamage() {
 		return this.combinedMetrics.critTickDamage;
 	}
 
 	get avgCritTickDamage() {
 		return this.combinedMetrics.avgCritTickDamage;
+	}
+	get resistedCritTickDamage() {
+		return this.combinedMetrics.resistedCritTickDamage;
+	}
+
+	get avgResistedCritTickDamage() {
+		return this.combinedMetrics.avgResistedCritTickDamage;
 	}
 
 	get glanceDamage() {
@@ -916,32 +951,51 @@ export class ActionMetrics {
 		return this.combinedMetrics.avgGlanceDamage;
 	}
 
-	get glanceBlockDamage() {
-		return this.combinedMetrics.glanceBlockDamage;
-	}
-
-	get avgGlanceBlockDamage() {
-		return this.combinedMetrics.avgGlanceBlockDamage;
-	}
-
 	get blockDamage() {
 		return this.combinedMetrics.blockDamage;
+	}
+
+	get crushDamage() {
+		return this.combinedMetrics.crushDamage;
+	}
+
+	get avgCrushDamage() {
+		return this.combinedMetrics.avgCrushDamage;
 	}
 
 	get avgBlockDamage() {
 		return this.combinedMetrics.avgBlockDamage;
 	}
 
-	get critBlockDamage() {
-		return this.combinedMetrics.critBlockDamage;
+	get blockedCritDamage() {
+		return this.combinedMetrics.blockedCritDamage;
 	}
 
-	get avgCritBlockDamage() {
-		return this.combinedMetrics.avgCritBlockDamage;
+	get avgBlockedCritDamage() {
+		return this.combinedMetrics.avgBlockedCritDamage;
 	}
 
 	get dps() {
 		return this.combinedMetrics.dps;
+	}
+
+	get threat() {
+		return this.combinedMetrics.threat;
+	}
+
+	get avgThreat() {
+		return this.combinedMetrics.avgThreat;
+	}
+
+	get totalThreatPercent() {
+		const totalAvgTps = this.resultData.result.raidMetrics?.parties[0].players[0].threat?.avg;
+		if (!totalAvgTps) return undefined;
+
+		return (this.avgThreat / (totalAvgTps * this.duration)) * 100;
+	}
+
+	get tps() {
+		return this.combinedMetrics.tps;
 	}
 
 	get totalHealingPercent() {
@@ -969,10 +1023,6 @@ export class ActionMetrics {
 
 	get hps() {
 		return this.combinedMetrics.hps;
-	}
-
-	get tps() {
-		return this.combinedMetrics.tps;
 	}
 
 	get casts() {
@@ -1003,6 +1053,11 @@ export class ActionMetrics {
 	get damageThroughput() {
 		if (this.unit?.isPet && !this.actionId.spellId) return 0;
 		return this.combinedMetrics.damageThroughput;
+	}
+
+	get threatThroughput() {
+		if (this.unit?.isPet && !this.actionId.spellId) return 0;
+		return this.combinedMetrics.threatThroughput;
 	}
 
 	get healingThroughput() {
@@ -1101,12 +1156,28 @@ export class ActionMetrics {
 		return this.combinedMetrics.hits;
 	}
 
+	get resistedHits() {
+		return this.combinedMetrics.resistedHits;
+	}
+
 	get hitPercent() {
 		return this.combinedMetrics.hitPercent;
 	}
 
+	get resistedHitPercent() {
+		return this.combinedMetrics.resistedHitPercent;
+	}
+
 	get ticks() {
 		return this.combinedMetrics.ticks;
+	}
+
+	get resistedTicks() {
+		return this.combinedMetrics.resistedTicks;
+	}
+
+	get resistedTickPercent() {
+		return this.combinedMetrics.resistedTickPercent;
 	}
 
 	get critTicks() {
@@ -1117,6 +1188,22 @@ export class ActionMetrics {
 		return this.combinedMetrics.critTickPercent;
 	}
 
+	get resistedCritTicks() {
+		return this.combinedMetrics.resistedCritTicks;
+	}
+
+	get resistedCritTickPercent() {
+		return this.combinedMetrics.resistedCritTickPercent;
+	}
+
+	get crushes() {
+		return this.combinedMetrics.crushes;
+	}
+
+	get crushPercent() {
+		return this.combinedMetrics.crushPercent;
+	}
+
 	get blocks() {
 		return this.combinedMetrics.blocks;
 	}
@@ -1125,12 +1212,12 @@ export class ActionMetrics {
 		return this.combinedMetrics.blockPercent;
 	}
 
-	get critBlocks() {
-		return this.combinedMetrics.critBlocks;
+	get blockedCrits() {
+		return this.combinedMetrics.blockedCrits;
 	}
 
-	get critBlockPercent() {
-		return this.combinedMetrics.critBlockPercent;
+	get blockedCritPercent() {
+		return this.combinedMetrics.blockedCritPercent;
 	}
 
 	get glances() {
@@ -1141,20 +1228,20 @@ export class ActionMetrics {
 		return this.combinedMetrics.glancePercent;
 	}
 
-	get glanceBlocks() {
-		return this.combinedMetrics.glanceBlocks;
-	}
-
-	get glanceBlocksPercent() {
-		return this.combinedMetrics.glanceBlocksPercent;
-	}
-
 	get crits() {
 		return this.combinedMetrics.crits;
 	}
 
 	get critPercent() {
 		return this.combinedMetrics.critPercent;
+	}
+
+	get resistedCrits() {
+		return this.combinedMetrics.resistedCrits;
+	}
+
+	get resistedCritPercent() {
+		return this.combinedMetrics.resistedCritPercent;
 	}
 
 	get healingPercent() {
@@ -1166,59 +1253,94 @@ export class ActionMetrics {
 	}
 
 	get damageDone() {
-		const normalHitAvgDamage =
-			this.avgDamage -
-			this.avgTickDamage -
-			this.avgCritDamage +
-			this.avgCritTickDamage -
-			this.avgGlanceDamage -
-			this.avgGlanceBlockDamage -
-			this.avgBlockDamage -
-			this.avgCritBlockDamage;
+		const normalHitAvgDamage = Number(
+			(
+				this.avgDamage -
+				this.avgResistedDamage +
+				this.avgResistedTickDamage +
+				this.avgResistedCritDamage -
+				this.avgResistedCritTickDamage -
+				this.avgCritDamage +
+				this.avgCritTickDamage -
+				this.avgTickDamage -
+				this.avgGlanceDamage -
+				this.avgBlockDamage -
+				this.avgBlockedCritDamage -
+				this.avgCrushDamage
+			).toFixed(8),
+		);
+		const normalResistedHitAvgDamage = Number(
+			(this.avgResistedDamage - this.avgResistedCritDamage - this.avgResistedTickDamage + this.avgResistedCritTickDamage).toFixed(8),
+		);
+		const critHitAvgDamage = Number((this.avgCritDamage - this.avgResistedCritDamage - this.avgCritTickDamage + this.avgResistedCritTickDamage).toFixed(8));
+		const resistedCritHitAvgDamage = Number((this.avgResistedCritDamage - this.avgResistedCritTickDamage).toFixed(8));
 
-		const normalTickAvgDamage = this.avgTickDamage - this.avgCritTickDamage;
-		const critHitAvgDamage = this.avgCritDamage - this.avgCritTickDamage;
+		const normalTickAvgDamage = Number(
+			(this.avgTickDamage - this.avgCritTickDamage - this.avgResistedTickDamage + this.avgResistedCritTickDamage).toFixed(8),
+		);
+		const normalResistedTickAvgDamage = Number((this.avgResistedTickDamage - this.avgResistedCritTickDamage).toFixed(8));
+		const normalCritTickAvgDamage = Number((this.avgCritTickDamage - this.avgResistedCritTickDamage).toFixed(8));
 
 		return {
 			hit: {
 				value: normalHitAvgDamage,
 				percentage: (normalHitAvgDamage / this.avgDamage) * 100,
-				average: normalHitAvgDamage / this.hits,
+				average: normalHitAvgDamage / (this.hits - this.resistedHits),
+			},
+			resistedHit: {
+				value: normalResistedHitAvgDamage,
+				percentage: (normalResistedHitAvgDamage / this.avgDamage) * 100,
+				average: normalResistedHitAvgDamage / this.resistedHits,
 			},
 			critHit: {
 				value: critHitAvgDamage,
 				percentage: (critHitAvgDamage / this.avgDamage) * 100,
-				average: critHitAvgDamage / this.crits,
+				average: critHitAvgDamage / (this.crits - this.resistedCrits),
+			},
+			resistedCritHit: {
+				value: resistedCritHitAvgDamage,
+				percentage: (resistedCritHitAvgDamage / this.avgDamage) * 100,
+				average: resistedCritHitAvgDamage / this.resistedCrits,
 			},
 			tick: {
 				value: normalTickAvgDamage,
 				percentage: (normalTickAvgDamage / this.avgDamage) * 100,
-				average: normalTickAvgDamage / this.ticks,
+				average: normalTickAvgDamage / (this.ticks - this.resistedTicks),
+			},
+			resistedTick: {
+				value: normalResistedTickAvgDamage,
+				percentage: (normalResistedTickAvgDamage / this.avgDamage) * 100,
+				average: normalResistedTickAvgDamage / this.resistedTicks,
 			},
 			critTick: {
-				value: this.avgCritTickDamage,
-				percentage: (this.avgCritTickDamage / this.avgDamage) * 100,
-				average: this.avgCritTickDamage / this.critTicks,
+				value: normalCritTickAvgDamage,
+				percentage: (normalCritTickAvgDamage / this.avgDamage) * 100,
+				average: normalCritTickAvgDamage / (this.critTicks - this.resistedCritTicks),
+			},
+			resistedCritTick: {
+				value: this.avgResistedCritTickDamage,
+				percentage: (this.avgResistedCritTickDamage / this.avgDamage) * 100,
+				average: this.avgResistedCritTickDamage / this.resistedCritTicks,
 			},
 			glance: {
 				value: this.avgGlanceDamage,
 				percentage: (this.avgGlanceDamage / this.avgDamage) * 100,
 				average: this.avgGlanceDamage / this.glances,
 			},
-			glanceBlock: {
-				value: this.avgGlanceBlockDamage,
-				percentage: (this.avgGlanceBlockDamage / this.avgDamage) * 100,
-				average: this.avgGlanceBlockDamage / this.glanceBlocks,
-			},
 			block: {
 				value: this.avgBlockDamage,
 				percentage: (this.avgBlockDamage / this.avgDamage) * 100,
 				average: this.avgBlockDamage / this.blocks,
 			},
-			critBlock: {
-				value: this.avgCritBlockDamage,
-				percentage: (this.avgCritBlockDamage / this.avgDamage) * 100,
-				average: this.avgCritBlockDamage / this.critBlocks,
+			blockedCrit: {
+				value: this.avgBlockedCritDamage,
+				percentage: (this.avgBlockedCritDamage / this.avgDamage) * 100,
+				average: this.avgBlockedCritDamage / this.blockedCrits,
+			},
+			crush: {
+				value: this.avgCrushDamage,
+				percentage: (this.avgCrushDamage / this.avgDamage) * 100,
+				average: this.avgCrushDamage / this.crushes,
 			},
 		};
 	}
@@ -1306,22 +1428,22 @@ export class TargetedActionMetrics {
 		this.duration = duration;
 		this.data = data;
 
-		this.landedHitsRaw = this.data.hits + this.data.crits + this.data.blocks + this.data.critBlocks + this.data.glances + this.data.glanceBlocks;
+		this.landedHitsRaw = this.data.hits + this.data.crits + this.data.blocks + this.data.blockedCrits + this.data.glances + this.data.crushes;
 		this.landedTicksRaw = this.data.ticks + this.data.critTicks;
 
 		this.hitAttempts =
 			this.data.misses +
 			this.data.dodges +
 			this.data.parries +
-			this.data.critBlocks +
 			this.data.blocks +
+			this.data.blockedCrits +
 			this.data.glances +
-			this.data.glanceBlocks +
-			this.data.crits;
+			this.data.crits +
+			this.data.crushes;
 
-		if (this.data.hits !== 0) {
+		if (this.data.hits != 0) {
 			this.hitAttempts += this.data.hits;
-		} else if (this.data.hits === 0 && this.data.ticks > 0) {
+		} else if (this.data.hits == 0 && this.data.ticks > 0) {
 			this.hitAttempts += this.data.casts;
 		}
 	}
@@ -1334,12 +1456,28 @@ export class TargetedActionMetrics {
 		return this.data.damage / this.iterations;
 	}
 
+	get resistedDamage() {
+		return this.data.resistedDamage;
+	}
+
+	get avgResistedDamage() {
+		return this.data.resistedDamage / this.iterations;
+	}
+
 	get critDamage() {
 		return this.data.critDamage;
 	}
 
 	get avgCritDamage() {
 		return this.data.critDamage / this.iterations;
+	}
+
+	get resistedCritDamage() {
+		return this.data.resistedCritDamage;
+	}
+
+	get avgResistedCritDamage() {
+		return this.data.resistedCritDamage / this.iterations;
 	}
 
 	get tickDamage() {
@@ -1350,12 +1488,28 @@ export class TargetedActionMetrics {
 		return this.data.tickDamage / this.iterations;
 	}
 
+	get resistedTickDamage() {
+		return this.data.resistedTickDamage;
+	}
+
+	get avgResistedTickDamage() {
+		return this.data.resistedTickDamage / this.iterations;
+	}
+
 	get critTickDamage() {
 		return this.data.critTickDamage;
 	}
 
 	get avgCritTickDamage() {
 		return this.data.critTickDamage / this.iterations;
+	}
+
+	get resistedCritTickDamage() {
+		return this.data.resistedCritTickDamage;
+	}
+
+	get avgResistedCritTickDamage() {
+		return this.data.resistedCritTickDamage / this.iterations;
 	}
 
 	get glanceDamage() {
@@ -1366,12 +1520,12 @@ export class TargetedActionMetrics {
 		return this.data.glanceDamage / this.iterations;
 	}
 
-	get glanceBlockDamage() {
-		return this.data.glanceBlockDamage;
+	get crushDamage() {
+		return this.data.crushDamage;
 	}
 
-	get avgGlanceBlockDamage() {
-		return this.data.glanceBlockDamage / this.iterations;
+	get avgCrushDamage() {
+		return this.data.crushDamage / this.iterations;
 	}
 
 	get blockDamage() {
@@ -1382,16 +1536,28 @@ export class TargetedActionMetrics {
 		return this.data.blockDamage / this.iterations;
 	}
 
-	get critBlockDamage() {
-		return this.data.critBlockDamage;
+	get blockedCritDamage() {
+		return this.data.blockedCritDamage;
 	}
 
-	get avgCritBlockDamage() {
-		return this.data.critBlockDamage / this.iterations;
+	get avgBlockedCritDamage() {
+		return this.data.blockedCritDamage / this.iterations;
 	}
 
 	get dps() {
 		return this.data.damage / this.iterations / this.duration;
+	}
+
+	get threat() {
+		return this.data.threat;
+	}
+
+	get avgThreat() {
+		return this.data.threat / this.iterations;
+	}
+
+	get tps() {
+		return this.data.threat / this.iterations / this.duration;
 	}
 
 	get healing() {
@@ -1418,10 +1584,6 @@ export class TargetedActionMetrics {
 		return (this.data.healing + this.data.shielding) / this.iterations / this.duration;
 	}
 
-	get tps() {
-		return this.data.threat / this.iterations / this.duration;
-	}
-
 	get casts() {
 		return this.data.casts / this.iterations;
 	}
@@ -1437,6 +1599,14 @@ export class TargetedActionMetrics {
 	get damageThroughput() {
 		if (this.avgCastTimeMs) {
 			return this.avgCast / (this.avgCastTimeMs / 1000);
+		} else {
+			return 0;
+		}
+	}
+
+	get threatThroughput() {
+		if (this.avgCastTimeMs) {
+			return Math.max(this.avgHitThreat, this.avgCastThreat) / (this.avgCastTimeMs / 1000);
 		} else {
 			return 0;
 		}
@@ -1490,7 +1660,7 @@ export class TargetedActionMetrics {
 	}
 
 	get avgHitHealing() {
-		return (this.data.healing + this.data.shielding) / this.iterations / (this.landedHits || this.landedTicks);
+		return (this.data.healing + this.data.shielding) / this.iterations / this.landedHits;
 	}
 
 	get avgHitThreat() {
@@ -1538,8 +1708,24 @@ export class TargetedActionMetrics {
 		return (this.data.hits / this.hitAttempts) * 100;
 	}
 
+	get resistedHits() {
+		return this.data.resistedHits / this.iterations;
+	}
+
+	get resistedHitPercent() {
+		return (this.data.resistedHits / this.hitAttempts) * 100;
+	}
+
 	get ticks() {
 		return this.data.ticks / this.iterations;
+	}
+
+	get resistedTicks() {
+		return this.data.resistedTicks / this.iterations;
+	}
+
+	get resistedTickPercent() {
+		return (this.data.resistedTicks / (this.data.ticks + this.data.critTicks)) * 100;
 	}
 
 	get critTicks() {
@@ -1550,20 +1736,36 @@ export class TargetedActionMetrics {
 		return (this.data.critTicks / (this.data.ticks + this.data.critTicks)) * 100;
 	}
 
+	get resistedCritTicks() {
+		return this.data.resistedCritTicks / this.iterations;
+	}
+
+	get resistedCritTickPercent() {
+		return (this.data.resistedCritTicks / (this.data.ticks + this.data.critTicks)) * 100;
+	}
+
 	get blocks() {
 		return this.data.blocks / this.iterations;
+	}
+
+	get crushes() {
+		return this.data.crushes / this.iterations;
+	}
+
+	get crushPercent() {
+		return (this.data.crushes / this.hitAttempts) * 100;
 	}
 
 	get blockPercent() {
 		return (this.data.blocks / this.hitAttempts) * 100;
 	}
 
-	get critBlocks() {
-		return this.data.critBlocks / this.iterations;
+	get blockedCrits() {
+		return this.data.blockedCrits / this.iterations;
 	}
 
-	get critBlockPercent() {
-		return (this.data.critBlocks / this.hitAttempts) * 100;
+	get blockedCritPercent() {
+		return (this.data.blockedCrits / this.hitAttempts) * 100;
 	}
 
 	get glances() {
@@ -1574,20 +1776,20 @@ export class TargetedActionMetrics {
 		return (this.data.glances / this.hitAttempts) * 100;
 	}
 
-	get glanceBlocks() {
-		return this.data.glanceBlocks / this.iterations;
-	}
-
-	get glanceBlocksPercent() {
-		return (this.data.glanceBlocks / this.hitAttempts) * 100;
-	}
-
 	get crits() {
 		return this.data.crits / this.iterations;
 	}
 
 	get critPercent() {
 		return (this.data.crits / this.hitAttempts) * 100;
+	}
+
+	get resistedCrits() {
+		return this.data.resistedCrits / this.iterations;
+	}
+
+	get resistedCritPercent() {
+		return (this.data.resistedCrits / this.hitAttempts) * 100;
 	}
 
 	get healingPercent() {
@@ -1606,24 +1808,32 @@ export class TargetedActionMetrics {
 			TargetedActionMetricsProto.create({
 				casts: sum(actions.map(a => a.data.casts)),
 				hits: sum(actions.map(a => a.data.hits)),
+				resistedHits: sum(actions.map(a => a.data.resistedHits)),
 				crits: sum(actions.map(a => a.data.crits)),
+				resistedCrits: sum(actions.map(a => a.data.resistedCrits)),
 				ticks: sum(actions.map(a => a.data.ticks)),
+				resistedTicks: sum(actions.map(a => a.data.resistedTicks)),
 				critTicks: sum(actions.map(a => a.data.critTicks)),
+				resistedCritTicks: sum(actions.map(a => a.data.resistedCritTicks)),
 				misses: sum(actions.map(a => a.data.misses)),
 				dodges: sum(actions.map(a => a.data.dodges)),
 				parries: sum(actions.map(a => a.data.parries)),
 				blocks: sum(actions.map(a => a.data.blocks)),
-				critBlocks: sum(actions.map(a => a.data.critBlocks)),
+				crushes: sum(actions.map(a => a.data.crushes)),
+				blockedCrits: sum(actions.map(a => a.data.blockedCrits)),
 				glances: sum(actions.map(a => a.data.glances)),
-				glanceBlocks: sum(actions.map(a => a.data.glanceBlocks)),
 				damage: sum(actions.map(a => a.data.damage)),
+				resistedDamage: sum(actions.map(a => a.data.resistedDamage)),
 				critDamage: sum(actions.map(a => a.data.critDamage)),
+				resistedCritDamage: sum(actions.map(a => a.data.resistedCritDamage)),
 				tickDamage: sum(actions.map(a => a.data.tickDamage)),
+				resistedTickDamage: sum(actions.map(a => a.data.resistedTickDamage)),
 				critTickDamage: sum(actions.map(a => a.data.critTickDamage)),
+				resistedCritTickDamage: sum(actions.map(a => a.data.resistedCritTickDamage)),
 				glanceDamage: sum(actions.map(a => a.data.glanceDamage)),
-				glanceBlockDamage: sum(actions.map(a => a.data.glanceBlockDamage)),
 				blockDamage: sum(actions.map(a => a.data.blockDamage)),
-				critBlockDamage: sum(actions.map(a => a.data.critBlockDamage)),
+				blockedCritDamage: sum(actions.map(a => a.data.blockedCritDamage)),
+				crushDamage: sum(actions.map(a => a.data.crushDamage)),
 				threat: sum(actions.map(a => a.data.threat)),
 				healing: sum(actions.map(a => a.data.healing)),
 				critHealing: sum(actions.map(a => a.data.critHealing)),

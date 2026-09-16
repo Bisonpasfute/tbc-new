@@ -95,8 +95,7 @@ export interface SimSettingsSlice {
 // Per-player settings. Values are the source of truth; the parallel `v`
 // version counters are what subscribers watch: a setter bumps a field's
 // version exactly when it counts as a change, so notification semantics
-// survive reference-identity quirks (unconditional setters, forceUpdate,
-// withChallengeMode returning `this`).
+// survive reference-identity quirks (unconditional setters, forceUpdate).
 export interface PlayerSlice {
 	name: string;
 	race: number;
@@ -114,7 +113,6 @@ export interface PlayerSlice {
 	inFrontOfTarget: boolean;
 	distanceFromTarget: number;
 	healingModel: HealingModel;
-	challengeModeEnabled: boolean;
 	epWeights: Stats;
 	epRatios: Array<number>;
 	currentStats: PlayerStats;
@@ -145,7 +143,6 @@ export const PLAYER_FIELDS = [
 	'inFrontOfTarget',
 	'distanceFromTarget',
 	'healingModel',
-	'challengeModeEnabled',
 	'epWeights',
 	'epRatios',
 	'currentStats',

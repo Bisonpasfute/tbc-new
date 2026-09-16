@@ -1,6 +1,6 @@
 // What a player may equip: item and enchant eligibility, weapon-type rules and
 // the gear identity keys the reforge cache is keyed on.
-import { EnchantType, EquipmentSpec, HandType, ItemSlot, ItemType, Profession, RangedWeaponType, Spec, WeaponType } from '@generated/proto/common';
+import { EnchantType, EquipmentSpec, HandType, ItemSlot, ItemType, Profession, RangedWeaponType, Spec, Stat, WeaponType } from '@generated/proto/common';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 
 import { PlayerSpec } from '../player/player_spec';
@@ -18,11 +18,20 @@ export function isBluntWeaponType(weaponType: WeaponType): boolean {
 
 // Custom functions for determining the EP value of meta gem effects.
 // Default meta effect EP value is 0, so just handle the ones relevant to your spec.
-const metaGemEffectEPs: Partial<Record<Spec, (gem: Gem, playerStats: Stats) => number>> = {};
+const metaGemEffectEPs: Partial<Record<Spec, (gem: Gem, epWeights: Stats) => number>> = {
+	[Spec.SpecDpsWarrior]: (gem: Gem, epWeights: Stats) => {
+		// Relentless Earthstorm Diamond
+		if (gem.id == 32409) {
+			const relativeStrengthEP = 44.46 / epWeights.getStat(Stat.StatStrength);
+			return relativeStrengthEP;
+		}
+		return 0;
+	},
+};
 
-export function getMetaGemEffectEP<SpecType extends Spec>(playerSpec: PlayerSpec<SpecType>, gem: Gem, playerStats: Stats) {
+export function getMetaGemEffectEP<SpecType extends Spec>(playerSpec: PlayerSpec<SpecType>, gem: Gem, epWeights: Stats) {
 	if (metaGemEffectEPs[playerSpec.specID]) {
-		return metaGemEffectEPs[playerSpec.specID]!(gem, playerStats);
+		return metaGemEffectEPs[playerSpec.specID]!(gem, epWeights);
 	} else {
 		return 0;
 	}
@@ -56,7 +65,7 @@ export function canEquipItem<SpecType extends Spec>(item: Item, playerSpec: Play
 		if (item.handType == HandType.HandTypeTwoHand && !eligibleWeaponType.canUseTwoHand) {
 			return false;
 		}
-		if (item.handType == HandType.HandTypeTwoHand && slot == ItemSlot.ItemSlotOffHand && playerSpec.specID != Spec.SpecFuryWarrior) {
+		if (item.handType == HandType.HandTypeTwoHand && slot == ItemSlot.ItemSlotOffHand) {
 			return false;
 		}
 
@@ -103,16 +112,12 @@ const itemTypeToSlotsMap: Partial<Record<ItemType, Array<ItemSlot>>> = {
 	[ItemType.ItemTypeRanged]: [ItemSlot.ItemSlotMainHand],
 };
 
-export function getEligibleItemSlots(item: Item, canDualWield2H?: boolean): Array<ItemSlot> {
+export function getEligibleItemSlots(item: Item): Array<ItemSlot> {
 	if (itemTypeToSlotsMap[item.type]) {
 		return itemTypeToSlotsMap[item.type]!;
 	}
 
 	if (item.type == ItemType.ItemTypeWeapon) {
-		if (canDualWield2H) {
-			return [ItemSlot.ItemSlotMainHand, ItemSlot.ItemSlotOffHand];
-		}
-
 		if (item.handType == HandType.HandTypeMainHand) {
 			return [ItemSlot.ItemSlotMainHand];
 		} else if (item.handType == HandType.HandTypeOffHand) {
@@ -130,11 +135,7 @@ export const isSecondaryItemSlot = (slot: ItemSlot) => slot === ItemSlot.ItemSlo
 
 // Returns whether the given main-hand and off-hand items can be worn at the
 // same time.
-export function validWeaponCombo(mainHand: Item | null | undefined, offHand: Item | null | undefined, canDW2h: boolean): boolean {
-	if (canDW2h) {
-		return true;
-	}
-
+export function validWeaponCombo(mainHand: Item | null | undefined, offHand: Item | null | undefined): boolean {
 	return mainHand?.handType != HandType.HandTypeTwoHand && offHand?.handType != HandType.HandTypeTwoHand;
 }
 
@@ -190,13 +191,13 @@ export function enchantAppliesToItem(enchant: Enchant, item: Item): boolean {
 	return true;
 }
 
-export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, playerSpec: PlayerSpec<SpecType>): boolean {
+export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, playerSpec: PlayerSpec<SpecType>, hasEnchanting: boolean): boolean {
 	if (enchant.classAllowlist.length > 0 && !enchant.classAllowlist.includes(playerSpec.classID)) {
 		return false;
 	}
 
-	// This is a Tinker and we handle them differently
-	if (enchant.requiredProfession == Profession.Engineering) {
+	// This enchant requires the Enchanting profession.
+	if (enchant.requiredProfession == Profession.Enchanting && !hasEnchanting) {
 		return false;
 	}
 
@@ -204,24 +205,27 @@ export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, playerS
 }
 
 /**
- * Identity of a gear set for change detection. Reforges and non-meta gems are deliberately
- * excluded, so this is NOT a cache key: use getReforgeCacheGearKey for anything that keys an
- * optimizer result.
+ * Fingerprint for comparing or deduplicating gear sets: item, random suffix, enchant, plus
+ * the head meta gem. Other gems are deliberately excluded — two sets differing only there
+ * are the same bulk-sim input.
+ *
+ * NOT a cache key. Use getReforgeCacheGearKey for anything that keys an optimizer result.
  */
 export function getGearIdentityKey(spec: EquipmentSpec): string {
 	return buildGearKey(spec);
 }
 
 /**
- * Cache key for a reforge-optimizer result: everything the optimizer's output depends on.
- * That means every equipped gem — with includeGems off the optimizer keeps them, and with
- * it on minimizeRegems reuses them — plus the reforge and frozen state of each frozen slot.
+ * Cache key for a gem-optimizer result: everything the optimizer's output depends on. It
+ * clears every non-meta gem in a non-frozen slot before solving (see clearGems), so the
+ * equipped gems that survive — a frozen slot's full set, and the head meta — are exactly
+ * what the identity fingerprint already encodes, plus each frozen slot's frozen marker.
  */
 export function getReforgeCacheGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[]): string {
-	return buildGearKey(spec, frozenItemSlots, true);
+	return buildGearKey(spec, frozenItemSlots);
 }
 
-function buildGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[], includeExistingGems = false): string {
+function buildGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[]): string {
 	const items = spec.items;
 	const frozenSlots = frozenItemSlots ?? [];
 	const frozenSlotMask = frozenSlots.length ? new Uint8Array(items.length) : undefined;
@@ -243,21 +247,11 @@ function buildGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[]
 
 		const itemSlot = slotIdx as ItemSlot;
 		const isFrozen = !!frozenSlotMask?.[itemSlot];
-		const gemFingerprint =
-			isFrozen || includeExistingGems
-				? (item.gems ?? []).map(gemId => gemId ?? 0).join(',')
-				: String(itemSlot === ItemSlot.ItemSlotHead ? (item.gems?.[0] ?? 0) : 0);
-		const reforgeFingerprint = isFrozen ? (item.reforging ?? 0) : 0;
-		itemKeys[slotIdx] = [
-			item.id,
-			item.randomSuffix ?? 0,
-			item.enchant ?? 0,
-			item.tinker ?? 0,
-			reforgeFingerprint,
-			item.upgradeStep ?? 0,
-			gemFingerprint,
-			Number(item.challengeMode ?? false),
-		].join(':');
+		const gemFingerprint = isFrozen
+			? (item.gems ?? []).map(gemId => gemId ?? 0).join(',')
+			: String(itemSlot === ItemSlot.ItemSlotHead ? (item.gems?.[0] ?? 0) : 0);
+		const reforgeFingerprint = 0;
+		itemKeys[slotIdx] = [item.id, item.randomSuffix ?? 0, item.enchant ?? 0, reforgeFingerprint, gemFingerprint].join(':');
 		// Frozen-ness has to travel with the item through the paired-slot normalization
 		// below, or swapping two rings with one of them frozen collapses to a single key
 		// while the optimizer (which freezes by slot index) must leave a different ring

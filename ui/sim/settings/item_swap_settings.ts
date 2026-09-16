@@ -35,7 +35,7 @@ export class ItemSwapSettings {
 	}
 
 	equipItem(slot: ItemSlot, newItem: EquippedItem | null) {
-		this.setGear(this.getGear().withEquippedItem(slot, newItem, this.player.canDualWield2H()));
+		this.setGear(this.getGear().withEquippedItem(slot, newItem));
 	}
 
 	getItem(slot: ItemSlot): EquippedItem | null {
