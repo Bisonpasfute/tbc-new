@@ -91,24 +91,41 @@ export class UnitStat {
 
 	// Convert a UnitStat value from its Rating representation to a percentage representation
 	// (0-100). If a percentage representation does not make sense for the stat in question
-	// (Strength for example), then null is returned. Mastery is special cased to return
-	// Mastery points rather than %.
+	// (Strength for example), then null is returned.
 	convertRatingToPercent(ratingValue: number): number | null {
-		if (this.linkedToStat(Stat.StatCritRating)) {
-			return ratingValue / Mechanics.CRIT_RATING_PER_CRIT_PERCENT;
-		} else if (this.linkedToStat(Stat.StatHasteRating)) {
-			return ratingValue / Mechanics.HASTE_RATING_PER_HASTE_PERCENT;
+		if (this.linkedToStat(Stat.StatSpellHitRating)) {
+			return ratingValue / Mechanics.SPELL_HIT_RATING_PER_HIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatSpellCritRating)) {
+			return ratingValue / Mechanics.SPELL_CRIT_RATING_PER_CRIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatSpellHasteRating)) {
+			return ratingValue / Mechanics.SPELL_HASTE_RATING_PER_HASTE_PERCENT;
+		} else if (this.linkedToStat(Stat.StatMeleeHitRating)) {
+			return ratingValue / Mechanics.PHYSICAL_HIT_RATING_PER_HIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatMeleeCritRating)) {
+			return ratingValue / Mechanics.PHYSICAL_CRIT_RATING_PER_CRIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatMeleeHasteRating)) {
+			return ratingValue / Mechanics.PHYSICAL_HASTE_RATING_PER_HASTE_PERCENT;
 		} else if (this.equalsStat(Stat.StatExpertiseRating)) {
-			return ratingValue / Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION / 4;
+			return Math.floor(ratingValue / Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION) / 4;
+		} else if (this.linkedToStat(Stat.StatDefenseRating)) {
+			return ratingValue / Mechanics.DEFENSE_RATING_PER_DEFENSE_LEVEL;
 		} else if (this.linkedToStat(Stat.StatDodgeRating)) {
 			return ratingValue / Mechanics.DODGE_RATING_PER_DODGE_PERCENT;
 		} else if (this.linkedToStat(Stat.StatParryRating)) {
 			return ratingValue / Mechanics.PARRY_RATING_PER_PARRY_PERCENT;
-		} else if (this.equalsStat(Stat.StatMasteryRating)) {
-			return ratingValue / Mechanics.MASTERY_RATING_PER_MASTERY_POINT;
-		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatPhysicalHitPercent)) {
+		} else if (this.linkedToStat(Stat.StatBlockRating)) {
+			return ratingValue / Mechanics.BLOCK_RATING_PER_BLOCK_PERCENT;
+		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatMeleeHitPercent) || this.equalsPseudoStat(PseudoStat.PseudoStatRangedHitPercent)) {
 			return ratingValue / Mechanics.PHYSICAL_HIT_RATING_PER_HIT_PERCENT;
-		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatSpellHitPercent)) {
+		} else if (
+			this.equalsPseudoStat(PseudoStat.PseudoStatSpellHitPercent) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentArcane) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFire) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFrost) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentHoly) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentNature) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentShadow)
+		) {
 			return ratingValue / Mechanics.SPELL_HIT_RATING_PER_HIT_PERCENT;
 		} else {
 			return null;
@@ -117,25 +134,50 @@ export class UnitStat {
 
 	// Convert a UnitStat value from its percentage representation (0-100) to the equivalent amount of
 	// Rating. If a Rating representation does not make sense for the stat in question (Block in Cata
-	// for example), then null is returned. Mastery is special cased to assume a Mastery points input
-	// rather than a percentage.
-	convertPercentToRating(percentOrPointsValue: number): number | null {
-		if (this.linkedToStat(Stat.StatCritRating)) {
-			return percentOrPointsValue * Mechanics.CRIT_RATING_PER_CRIT_PERCENT;
-		} else if (this.linkedToStat(Stat.StatHasteRating)) {
-			return percentOrPointsValue * Mechanics.HASTE_RATING_PER_HASTE_PERCENT;
+	// for example), then null is returned.
+	// For PseudoStatReducedCritTakenPercent, parentStat specifies the source (DefenseRating or ResilienceRating).
+	convertPercentToRating(percentOrPointsValue: number, parentStat?: Stat): number | null {
+		if (this.linkedToStat(Stat.StatSpellHitRating)) {
+			return percentOrPointsValue * Mechanics.SPELL_HIT_RATING_PER_HIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatSpellCritRating)) {
+			return percentOrPointsValue * Mechanics.SPELL_CRIT_RATING_PER_CRIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatSpellHasteRating)) {
+			return percentOrPointsValue * Mechanics.SPELL_HASTE_RATING_PER_HASTE_PERCENT;
+		} else if (this.linkedToStat(Stat.StatMeleeHitRating)) {
+			return percentOrPointsValue * Mechanics.PHYSICAL_HIT_RATING_PER_HIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatMeleeCritRating)) {
+			return percentOrPointsValue * Mechanics.PHYSICAL_CRIT_RATING_PER_CRIT_PERCENT;
+		} else if (this.linkedToStat(Stat.StatMeleeHasteRating)) {
+			return percentOrPointsValue * Mechanics.PHYSICAL_HASTE_RATING_PER_HASTE_PERCENT;
 		} else if (this.equalsStat(Stat.StatExpertiseRating)) {
 			return percentOrPointsValue * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION * 4;
+		} else if (this.linkedToStat(Stat.StatDefenseRating)) {
+			return percentOrPointsValue * Mechanics.DEFENSE_RATING_PER_DEFENSE_LEVEL;
 		} else if (this.linkedToStat(Stat.StatDodgeRating)) {
 			return percentOrPointsValue * Mechanics.DODGE_RATING_PER_DODGE_PERCENT;
 		} else if (this.linkedToStat(Stat.StatParryRating)) {
 			return percentOrPointsValue * Mechanics.PARRY_RATING_PER_PARRY_PERCENT;
-		} else if (this.equalsStat(Stat.StatMasteryRating)) {
-			return percentOrPointsValue * Mechanics.MASTERY_RATING_PER_MASTERY_POINT;
-		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatPhysicalHitPercent)) {
+		} else if (this.linkedToStat(Stat.StatBlockRating)) {
+			return percentOrPointsValue * Mechanics.BLOCK_RATING_PER_BLOCK_PERCENT;
+		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatMeleeHitPercent) || this.equalsPseudoStat(PseudoStat.PseudoStatRangedHitPercent)) {
 			return percentOrPointsValue * Mechanics.PHYSICAL_HIT_RATING_PER_HIT_PERCENT;
-		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatSpellHitPercent)) {
+		} else if (
+			this.equalsPseudoStat(PseudoStat.PseudoStatSpellHitPercent) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentArcane) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFire) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFrost) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentHoly) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentNature) ||
+			this.equalsPseudoStat(PseudoStat.PseudoStatSchoolHitPercentShadow)
+		) {
 			return percentOrPointsValue * Mechanics.SPELL_HIT_RATING_PER_HIT_PERCENT;
+		} else if (this.equalsPseudoStat(PseudoStat.PseudoStatReducedCritTakenPercent)) {
+			if (parentStat === Stat.StatDefenseRating) {
+				return percentOrPointsValue * (Mechanics.DEFENSE_RATING_PER_DEFENSE_LEVEL / Mechanics.MISS_DODGE_PARRY_BLOCK_CRIT_CHANCE_PER_DEFENSE);
+			} else if (parentStat === Stat.StatResilienceRating) {
+				return percentOrPointsValue * Mechanics.RESILIENCE_RATING_PER_CRIT_REDUCTION_CHANCE;
+			}
+			return null;
 		} else {
 			return null;
 		}
@@ -291,12 +333,26 @@ export class UnitStat {
 			return Stat.StatDodgeRating;
 		} else if (pseudoStatName.includes('Parry')) {
 			return Stat.StatParryRating;
+		} else if (pseudoStatName.includes('BlockValue')) {
+			return Stat.StatBlockValue;
+		} else if (pseudoStatName.includes('Block')) {
+			return Stat.StatBlockRating;
+		} else if (pseudoStatName.includes('SpellHaste')) {
+			return Stat.StatSpellHasteRating;
+		} else if (pseudoStatName.includes('SpellHit')) {
+			return Stat.StatSpellHitRating;
+		} else if (pseudoStatName.includes('SchoolHit')) {
+			return null;
+		} else if (pseudoStatName.includes('SpellCrit')) {
+			return Stat.StatSpellCritRating;
 		} else if (pseudoStatName.includes('Haste')) {
-			return Stat.StatHasteRating;
+			return Stat.StatMeleeHasteRating;
 		} else if (pseudoStatName.includes('Hit')) {
-			return Stat.StatHitRating;
+			return Stat.StatMeleeHitRating;
+		} else if (pseudoStatName.includes('ReducedCritTaken')) {
+			return null;
 		} else if (pseudoStatName.includes('Crit')) {
-			return Stat.StatCritRating;
+			return Stat.StatMeleeCritRating;
 		} else {
 			return null;
 		}
@@ -305,31 +361,32 @@ export class UnitStat {
 	// Inverse of the above
 	static getChildren(parentStat: Stat): PseudoStat[] {
 		switch (parentStat) {
-			case Stat.StatHitRating:
-				return [PseudoStat.PseudoStatPhysicalHitPercent, PseudoStat.PseudoStatSpellHitPercent];
-			case Stat.StatCritRating:
-				return [PseudoStat.PseudoStatPhysicalCritPercent, PseudoStat.PseudoStatSpellCritPercent];
-			case Stat.StatHasteRating:
-				return [PseudoStat.PseudoStatMeleeHastePercent, PseudoStat.PseudoStatRangedHastePercent, PseudoStat.PseudoStatSpellHastePercent];
+			case Stat.StatMeleeHitRating:
+				return [PseudoStat.PseudoStatMeleeHitPercent, PseudoStat.PseudoStatRangedHitPercent];
+			case Stat.StatMeleeCritRating:
+				return [PseudoStat.PseudoStatMeleeCritPercent, PseudoStat.PseudoStatRangedCritPercent];
+			case Stat.StatMeleeHasteRating:
+				return [PseudoStat.PseudoStatMeleeHastePercent, PseudoStat.PseudoStatRangedHastePercent];
+			case Stat.StatSpellHitRating:
+				return [
+					PseudoStat.PseudoStatSpellHitPercent,
+					PseudoStat.PseudoStatSchoolHitPercentArcane,
+					PseudoStat.PseudoStatSchoolHitPercentFire,
+					PseudoStat.PseudoStatSchoolHitPercentFrost,
+					PseudoStat.PseudoStatSchoolHitPercentHoly,
+					PseudoStat.PseudoStatSchoolHitPercentNature,
+					PseudoStat.PseudoStatSchoolHitPercentShadow,
+				];
+			case Stat.StatSpellCritRating:
+				return [PseudoStat.PseudoStatSpellCritPercent];
+			case Stat.StatSpellHasteRating:
+				return [PseudoStat.PseudoStatSpellHastePercent];
+			case Stat.StatResilienceRating:
+				return [PseudoStat.PseudoStatReducedCritTakenPercent];
+			case Stat.StatDefenseRating:
+				return [PseudoStat.PseudoStatReducedCritTakenPercent];
 			default:
 				return [];
-		}
-	}
-
-	// Returns the other school variant of a school-specific PseudoStat, or
-	// null if not applicable.
-	static getSiblingPseudoStat(pseudoStat: PseudoStat): PseudoStat | null {
-		switch (pseudoStat) {
-			case PseudoStat.PseudoStatPhysicalHitPercent:
-				return PseudoStat.PseudoStatSpellHitPercent;
-			case PseudoStat.PseudoStatSpellHitPercent:
-				return PseudoStat.PseudoStatPhysicalHitPercent;
-			case PseudoStat.PseudoStatPhysicalCritPercent:
-				return PseudoStat.PseudoStatSpellCritPercent;
-			case PseudoStat.PseudoStatSpellCritPercent:
-				return PseudoStat.PseudoStatPhysicalHitPercent;
-			default:
-				return null;
 		}
 	}
 
@@ -352,24 +409,46 @@ export const displayStatOrder: Array<UnitStat> = [
 	UnitStat.fromStat(Stat.StatAgility),
 	UnitStat.fromStat(Stat.StatIntellect),
 	UnitStat.fromStat(Stat.StatSpirit),
-	UnitStat.fromStat(Stat.StatPvpPowerRating),
-	UnitStat.fromStat(Stat.StatPvpResilienceRating),
-	UnitStat.fromStat(Stat.StatSpellPower),
+	UnitStat.fromStat(Stat.StatHealingPower),
+	UnitStat.fromStat(Stat.StatSpellDamage),
+	UnitStat.fromStat(Stat.StatArcaneDamage),
+	UnitStat.fromStat(Stat.StatFireDamage),
+	UnitStat.fromStat(Stat.StatFrostDamage),
+	UnitStat.fromStat(Stat.StatHolyDamage),
+	UnitStat.fromStat(Stat.StatNatureDamage),
+	UnitStat.fromStat(Stat.StatShadowDamage),
 	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSpellHitPercent),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentArcane),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFire),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFrost),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentHoly),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentNature),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentShadow),
 	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSpellCritPercent),
 	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSpellHastePercent),
 	UnitStat.fromStat(Stat.StatMP5),
 	UnitStat.fromStat(Stat.StatAttackPower),
 	UnitStat.fromStat(Stat.StatRangedAttackPower),
-	UnitStat.fromPseudoStat(PseudoStat.PseudoStatPhysicalHitPercent),
-	UnitStat.fromPseudoStat(PseudoStat.PseudoStatPhysicalCritPercent),
-	UnitStat.fromPseudoStat(PseudoStat.PseudoStatMeleeHastePercent),
-	UnitStat.fromPseudoStat(PseudoStat.PseudoStatRangedHastePercent),
 	UnitStat.fromStat(Stat.StatExpertiseRating),
-	UnitStat.fromStat(Stat.StatMasteryRating),
+	UnitStat.fromStat(Stat.StatArmorPenetration),
+	UnitStat.fromStat(Stat.StatSpellPenetration),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatMeleeHitPercent),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatMeleeCritPercent),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatMeleeHastePercent),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatRangedHitPercent),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatRangedCritPercent),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatRangedHastePercent),
+	UnitStat.fromStat(Stat.StatResilienceRating),
+	UnitStat.fromStat(Stat.StatDefenseRating),
 	UnitStat.fromPseudoStat(PseudoStat.PseudoStatBlockPercent),
+	UnitStat.fromStat(Stat.StatBlockValue),
 	UnitStat.fromPseudoStat(PseudoStat.PseudoStatDodgePercent),
 	UnitStat.fromPseudoStat(PseudoStat.PseudoStatParryPercent),
+	UnitStat.fromStat(Stat.StatArcaneResistance),
+	UnitStat.fromStat(Stat.StatFireResistance),
+	UnitStat.fromStat(Stat.StatFrostResistance),
+	UnitStat.fromStat(Stat.StatNatureResistance),
+	UnitStat.fromStat(Stat.StatShadowResistance),
 ];
 
 /**
@@ -475,6 +554,31 @@ export class Stats {
 			total += stat * epWeights.pseudoStats[idx];
 		});
 		return total;
+	}
+
+	computeGapToCap(unitStat: UnitStat, cap: number): number {
+		let statDelta = cap - this.getUnitStat(unitStat);
+
+		if (unitStat.equalsPseudoStat(PseudoStat.PseudoStatMeleeHastePercent)) {
+			statDelta /= this.getPseudoStat(PseudoStat.PseudoStatMeleeSpeedMultiplier);
+		} else if (unitStat.equalsPseudoStat(PseudoStat.PseudoStatRangedHastePercent)) {
+			statDelta /= this.getPseudoStat(PseudoStat.PseudoStatRangedSpeedMultiplier);
+		} else if (unitStat.equalsPseudoStat(PseudoStat.PseudoStatSpellHastePercent)) {
+			statDelta /= this.getPseudoStat(PseudoStat.PseudoStatCastSpeedMultiplier);
+		}
+
+		return statDelta == 0 ? 1e-12 : statDelta;
+	}
+
+	computeStatCapsDelta(statCaps: Stats): Stats {
+		return new Stats(
+			statCaps.stats.map((value, key) => {
+				return value > 0 ? this.computeGapToCap(UnitStat.fromStat(key), value) : 0;
+			}),
+			statCaps.pseudoStats.map((value, key) => {
+				return value > 0 ? this.computeGapToCap(UnitStat.fromPseudoStat(key), value) : 0;
+			}),
+		);
 	}
 
 	getBuffedStats(): Map<Stat, number> {
@@ -643,6 +747,7 @@ export class StatCap {
 		return clonedSoftCaps;
 	}
 }
+
 // Helper utility to determine whether a particular PseudoStat has been configured as either a hard cap or
 // soft cap.
 export function pseudoStatHasCap(pseudoStat: PseudoStat, hardCaps: Stats, softCaps: StatCap[]): boolean {
@@ -658,24 +763,50 @@ export function pseudoStatHasCap(pseudoStat: PseudoStat, hardCaps: Stats, softCa
 
 	return false;
 }
-export const DEFAULT_GEM_STATS = [
-	Stat.StatHitRating,
-	Stat.StatCritRating,
-	Stat.StatHasteRating,
-	Stat.StatMasteryRating,
-	Stat.StatExpertiseRating,
-	Stat.StatPvpPowerRating,
-	Stat.StatPvpResilienceRating,
+
+export const DEFAULT_GEM_STATS = [Stat.StatStamina];
+export const DEFAULT_MELEE_GEM_STATS = [
+	...DEFAULT_GEM_STATS,
+	Stat.StatStrength,
+	Stat.StatAgility,
+	Stat.StatMeleeHitRating,
+	Stat.StatMeleeCritRating,
+	Stat.StatMeleeHasteRating,
 ];
-export const DEFAULT_CASTER_GEM_STATS = [...DEFAULT_GEM_STATS, Stat.StatIntellect, Stat.StatSpellPower];
+export const DEFAULT_CASTER_GEM_STATS = [
+	...DEFAULT_GEM_STATS,
+	Stat.StatIntellect,
+	Stat.StatSpellDamage,
+	Stat.StatSpellHitRating,
+	Stat.StatSpellCritRating,
+	Stat.StatSpellHasteRating,
+];
 export const DEFAULT_HYBRID_CASTER_GEM_STATS = [...DEFAULT_CASTER_GEM_STATS, Stat.StatSpirit];
 
 // ---------------------------------------------------------------------------
 // Stat attribution (moved out of components/character_stats.tsx so the math is
 // UI-free and reusable).
 
-export type StatMods = { base?: Stats; gear?: Stats; talents?: Stats; buffs?: Stats; consumes?: Stats; final?: Stats; stats?: Array<Stat> };
-export type StatWrites = { base: Stats; gear: Stats; talents: Stats; buffs: Stats; consumes: Stats; final: Stats; stats: Array<Stat> };
+export type StatMods = {
+	base?: Stats;
+	gear?: Stats;
+	talents?: Stats;
+	buffs?: Stats;
+	consumes?: Stats;
+	debuffs?: Stats;
+	final?: Stats;
+	stats?: Array<Stat>;
+};
+export type StatWrites = {
+	base: Stats;
+	gear: Stats;
+	talents: Stats;
+	buffs: Stats;
+	consumes: Stats;
+	debuffs: Stats;
+	final: Stats;
+	stats: Array<Stat>;
+};
 
 export interface StatAttribution {
 	base: Stats;
@@ -683,12 +814,14 @@ export interface StatAttribution {
 	talents: Stats;
 	buffs: Stats;
 	consumes: Stats;
+	debuffs: Stats;
 	final: Stats;
-	masteryPoints: number;
 }
 
 // Derives the per-source stat deltas shown in the character sheet from the
 // cumulative server-computed stages (base ⊂ gear ⊂ talents ⊂ buffs ⊂ consumes).
+// Debuffs are not one of those stages — the caller computes them from the raid's
+// debuff settings and passes them in.
 export function computeStatAttribution(
 	playerStats: {
 		baseStats?: UnitStats;
@@ -699,7 +832,7 @@ export function computeStatAttribution(
 		finalStats?: UnitStats;
 	},
 	bonusStats: Stats,
-	baseMastery: number,
+	debuffStats: Stats,
 	statMods: StatMods,
 	statOverwrites?: StatWrites,
 ): StatAttribution {
@@ -715,7 +848,9 @@ export function computeStatAttribution(
 		.add(statMods.talents || new Stats())
 		.add(statMods.buffs || new Stats())
 		.add(statMods.consumes || new Stats())
-		.add(statMods.final || new Stats());
+		.add(statMods.debuffs || new Stats())
+		.add(statMods.final || new Stats())
+		.add(debuffStats);
 
 	let baseDelta = baseStats.add(statMods.base || new Stats());
 	let gearDelta = gearStats
@@ -725,19 +860,19 @@ export function computeStatAttribution(
 	let talentsDelta = talentsStats.subtract(gearStats).add(statMods.talents || new Stats());
 	let buffsDelta = buffsStats.subtract(talentsStats).add(statMods.buffs || new Stats());
 	let consumesDelta = consumesStats.subtract(buffsStats).add(statMods.consumes || new Stats());
+	let debuffsDelta = debuffStats.add(statMods.debuffs || new Stats());
 
 	if (statOverwrites?.stats) {
-		statOverwrites.stats.forEach((stat, _) => {
+		statOverwrites.stats.forEach(stat => {
 			baseDelta = baseDelta.withStat(stat, statOverwrites.base.getStat(stat));
 			gearDelta = gearDelta.withStat(stat, statOverwrites.gear.getStat(stat));
 			talentsDelta = talentsDelta.withStat(stat, statOverwrites.talents.getStat(stat));
 			buffsDelta = buffsDelta.withStat(stat, statOverwrites.buffs.getStat(stat));
 			consumesDelta = consumesDelta.withStat(stat, statOverwrites.consumes.getStat(stat));
+			debuffsDelta = debuffsDelta.withStat(stat, statOverwrites.debuffs.getStat(stat));
 			finalStats = finalStats.withStat(stat, statOverwrites.final.getStat(stat));
 		});
 	}
 
-	const masteryPoints = baseMastery + ((playerStats.finalStats?.stats ?? [])[Stat.StatMasteryRating] || 0) / Mechanics.MASTERY_RATING_PER_MASTERY_POINT;
-
-	return { base: baseDelta, gear: gearDelta, talents: talentsDelta, buffs: buffsDelta, consumes: consumesDelta, final: finalStats, masteryPoints };
+	return { base: baseDelta, gear: gearDelta, talents: talentsDelta, buffs: buffsDelta, consumes: consumesDelta, debuffs: debuffsDelta, final: finalStats };
 }
