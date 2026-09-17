@@ -81,6 +81,8 @@ export interface ReforgeOptimizerModel {
 	updateGear(gear: Gear): Promise<Stats>;
 	computeReforgeSoftCaps(baseStats: Stats): StatCap[];
 	fromProto(proto: ReforgeSettings): void;
+	/** Applies a preset build's partial settings; see ReforgeSettingsState.applyPreset. */
+	applyPresetSettings(proto: ReforgeSettings): void;
 	applyDefaults(): void;
 }
 
@@ -220,6 +222,7 @@ export const createReforgeOptimizer = (sim: Sim, player: Player<any>, options: R
 		},
 		computeReforgeSoftCaps: baseStats => (isAllowedToOverrideStatCaps() ? [] : toRelativeSoftCaps(softCapsConfigWithLimits(), baseStats)),
 		fromProto: proto => settings.fromProto(proto),
+		applyPresetSettings: proto => settings.applyPreset(proto),
 		applyDefaults: () => settings.applyDefaults(),
 	};
 

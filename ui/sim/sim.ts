@@ -32,7 +32,6 @@ import {
 	Profession,
 	PseudoStat,
 	RangedWeaponType,
-	Spec,
 	Stat,
 	UnitReference,
 	UnitReference_Type as UnitType,
@@ -927,12 +926,11 @@ export class Sim {
 		if (newShowThreatMetrics != this.ui.showThreatMetrics) this.setUi({ showThreatMetrics: newShowThreatMetrics });
 	}
 
+	// Upstream ORs in "threat metrics on, and the player is a tank", with its own tank list. TBC's
+	// is a plain field read, and `toProto` serializes whatever this returns — so the derived form
+	// writes showHealingMetrics: true into all three tank specs' saved settings.
 	getShowHealingMetrics(): boolean {
-		return (
-			this.ui.showHealingMetrics ||
-			(this.ui.showThreatMetrics &&
-				[Spec.SpecFeralBearDruid, Spec.SpecProtectionPaladin, Spec.SpecProtectionWarrior].includes(this.raid.getPlayer(0)?.playerSpec.specID))
-		);
+		return this.ui.showHealingMetrics;
 	}
 	setShowHealingMetrics(newShowHealingMetrics: boolean) {
 		if (newShowHealingMetrics != this.ui.showHealingMetrics) this.setUi({ showHealingMetrics: newShowHealingMetrics });

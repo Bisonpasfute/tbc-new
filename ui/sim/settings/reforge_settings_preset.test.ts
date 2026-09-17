@@ -1,0 +1,61 @@
+import { ReforgeSettings as ReforgeSettingsProto, StatCapType } from '@generated/proto/api';
+import { Stat } from '@generated/proto/common';
+import { Phase } from '@sim/constants/other';
+import { StatCap, Stats } from '@sim/proto/stats';
+import { ReforgeSettings } from '@sim/settings/reforge_settings';
+import { createSimStore } from '@sim/state/sim_store';
+import { describe, expect, it } from 'vitest';
+
+// A spec with soft caps, the way warrior/dps has them: applyDefaults() turns
+// useSoftCapBreakpoints on because the spec ships breakpoints.
+const withSoftCaps = () => {
+	const defaults = {
+		statCaps: new Stats().withStat(Stat.StatArmorPenetration, 1400),
+		softCapBreakpoints: [StatCap.fromStat(Stat.StatArmorPenetration, { breakpoints: [1400], capType: StatCapType.TypeSoftCap, postCapEPs: [0] })],
+	};
+	const settings = new ReforgeSettings({ sim: { store: createSimStore(), getPhase: () => Phase.Phase3 }, storeKey: 1 } as any, defaults as any);
+	settings.applyDefaults();
+	return settings;
+};
+
+describe('ReforgeSettings.applyPreset', () => {
+	// What a preset build actually carries: the gem phase and nothing else.
+	const gemPhaseOnly = ReforgeSettingsProto.create({ maxGemPhase: Phase.Phase1 });
+
+	it('applies the fields the preset sets', () => {
+		const settings = withSoftCaps();
+
+		settings.applyPreset(gemPhaseOnly);
+
+		expect(settings.getMaxGemPhase()).toBe(Phase.Phase1);
+	});
+
+	// The regression: `fromProto` is full-replace, so a preset that only names a gem phase
+	// used to switch the spec's soft-cap breakpoints off.
+	it('leaves a field the preset omits at its spec default', () => {
+		const settings = withSoftCaps();
+		expect(settings.useSoftCapBreakpoints).toBe(true);
+
+		settings.applyPreset(gemPhaseOnly);
+
+		expect(settings.useSoftCapBreakpoints).toBe(true);
+	});
+
+	it('still lets a preset turn a field on', () => {
+		const settings = withSoftCaps();
+		settings.setUseCustomEPValues(false);
+
+		settings.applyPreset(ReforgeSettingsProto.create({ maxGemPhase: Phase.Phase2, useCustomEpValues: true }));
+
+		expect(settings.useCustomEPValues).toBe(true);
+		expect(settings.getMaxGemPhase()).toBe(Phase.Phase2);
+	});
+
+	it('is not fromProto: fromProto does reset the omitted field', () => {
+		const settings = withSoftCaps();
+
+		settings.fromProto(gemPhaseOnly);
+
+		expect(settings.useSoftCapBreakpoints).toBe(false);
+	});
+});

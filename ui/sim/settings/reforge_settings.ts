@@ -171,6 +171,27 @@ export class ReforgeSettings {
 		this.write({ disableUniqueGems }, ['disableUniqueGems']);
 	}
 
+	// A preset build carries a *partial* ReforgeSettings — vanilla's type was literally
+	// `Partial<ReforgeSettings>` — so each field is applied only when the preset actually
+	// sets it, and anything it leaves out keeps the value `applyDefaults()` gave it.
+	// `fromProto` is the deserialization path and replaces every field, which resets the
+	// spec's soft-cap breakpoints, stat caps and frozen slots to proto zero values.
+	//
+	// The field list is vanilla's: `maxGemQuality` and `disableUniqueGems` are deliberately
+	// absent, because vanilla never read them out of a build either. Mage's P3 preset sets
+	// `disableUniqueGems: true` and it has never had an effect.
+	applyPreset(proto: ReforgeSettingsProto) {
+		batch(() => {
+			if (proto.useCustomEpValues) this.setUseCustomEPValues(proto.useCustomEpValues);
+			if (proto.statCaps) this.setStatCaps(Stats.fromProto(proto.statCaps));
+			if (proto.useSoftCapBreakpoints) this.setUseSoftCapBreakpoints(proto.useSoftCapBreakpoints);
+			if (proto.freezeItemSlots) this.setFreezeItemSlots(proto.freezeItemSlots);
+			if (proto.frozenItemSlots) this.setFrozenItemSlots(proto.frozenItemSlots);
+			if (proto.breakpointLimits) this.setBreakpointLimits(Stats.fromProto(proto.breakpointLimits));
+			if (proto.maxGemPhase) this.setMaxGemPhase(proto.maxGemPhase);
+		});
+	}
+
 	fromProto(proto: ReforgeSettingsProto) {
 		batch(() => {
 			this.setUseCustomEPValues(proto.useCustomEpValues);
