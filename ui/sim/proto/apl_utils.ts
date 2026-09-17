@@ -62,6 +62,14 @@ export function renameAPLReference(obj: unknown, target: APLRenameTarget): void 
 			if (gr?.groupName === target.oldName) gr.groupName = target.newName;
 			return; // No nested group references inside a group reference
 		}
+		// A group is also named by the `Action Group is used` condition, which stores it as a bare
+		// `{name}` the generic recursion below cannot recognise. Without this arm a rename leaves the
+		// condition pointing at a group that no longer exists.
+		if (record.oneofKind === 'actionGroupUsed') {
+			const agu = record.actionGroupUsed as Record<string, unknown>;
+			if (agu?.name === target.oldName) agu.name = target.newName;
+			return; // Leaf node
+		}
 	}
 
 	for (const value of Object.values(record)) {
@@ -85,7 +93,11 @@ export const isEqualAPLRotation = (player: Player<Spec>, rotation?: APLRotation,
 			player.specTypeFunctions.rotationEquals(
 				player.specTypeFunctions.rotationFromJson(JSON.parse(otherMatchable.simple.specRotationJson)),
 				player.specTypeFunctions.rotationFromJson(JSON.parse(matchable.simple.specRotationJson)),
-			)
+			) &&
+			// Cooldown timings are part of a Simple rotation, so two that differ only there are not
+			// the same rotation. Without this the mage mana-gem and Serpent-Coil builds report as
+			// already applied while the user's schedule is still the old one.
+			Cooldowns.equals(otherMatchable.simple.cooldowns, matchable.simple.cooldowns)
 		);
 	} else {
 		return APLRotation.equals(otherMatchable, matchable);

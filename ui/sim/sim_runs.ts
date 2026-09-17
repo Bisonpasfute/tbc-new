@@ -9,6 +9,15 @@ const REQUEST_TYPE: Record<SimRunKind, RequestTypes> = {
 	[SimRunKind.ReforgeOptimize]: RequestTypes.ReforgeOptimize,
 };
 
+// What a starting run clears first, which is not always its own type. Stat weights fan out across
+// the whole worker pool, so vanilla aborted everything before starting one; leaving a DPS sim
+// running means the two compete for workers and the DPS run finishes behind the modal and
+// overwrites the results panel. Bulk narrows to itself deliberately — see `features/bulk/model/run`.
+const ABORT_SCOPE: Record<SimRunKind, RequestTypes> = {
+	...REQUEST_TYPE,
+	[SimRunKind.StatWeights]: RequestTypes.All,
+};
+
 export interface RunContext<TProgress> {
 	emit: (progress: TProgress) => void;
 }
@@ -59,7 +68,7 @@ export class SimRuns {
 				// Unconditional, and not `abort()`: the store only knows about runs this facade
 				// started, and a request left over from a previous abort has to be cleared before the
 				// worker will answer a new one. Inside the `try`, so a rejecting abort still clears.
-				await this.signals.abortType(REQUEST_TYPE[kind]);
+				await this.signals.abortType(ABORT_SCOPE[kind]);
 				this.write(kind, { isRunning: true, isAborting: false });
 				return await run({ emit: progress => this.emit(kind, progress) });
 			} finally {

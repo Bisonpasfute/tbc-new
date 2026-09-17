@@ -59,11 +59,3 @@ export function migrateOldProto<Type>(oldProto: Type, oldApiVersion: number, con
 
 	return migratedProto;
 }
-
-/**
- * Fingerprint for comparing or deduplicating gear sets: item, random suffix, enchant,
- * tinker, upgrade step, challenge mode, plus the head meta gem. Reforges and non-meta gems
- * are deliberately excluded — two sets differing only there are the same bulk-sim input.
- *
- * NOT a cache key. Use getReforgeCacheGearKey for anything that keys an optimizer result.
- */

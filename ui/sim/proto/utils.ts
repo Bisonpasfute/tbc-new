@@ -82,8 +82,6 @@ export function getPlayerSpecFromPlayer<SpecType extends Spec>(player: Player): 
 	throw new Error('Unable to parse spec from player proto: ' + JSON.stringify(Player.toJson(player), null, 2));
 }
 
-export const hasBlacksmithing = (player: Player) => [player.profession1, player.profession2].includes(Profession.Blacksmithing);
-
 export const ADAMANTITE_SHARPENING_STONE_ID = 29453;
 export const ADAMANTITE_WEIGHTSTONE_ID = 34340;
 
