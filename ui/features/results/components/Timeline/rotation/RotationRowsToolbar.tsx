@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import type { ContentRow, RotationModel, Section } from '../../../model/timeline/rotation';
 import { rowAt } from '../../../model/timeline/rotation';
 import { FloatingActionBar } from '../../FloatingActionBar';
-import { RotationFabGroup } from './RotationFabGroup';
+import { RotationFloatingActionBarGroup } from './RotationFloatingActionBarGroup';
 
 export interface RotationRowsToolbarProps {
 	model: RotationModel | null;
@@ -56,7 +56,7 @@ export const RotationRowsToolbar = ({ model, hidden, onToggle, onShowAll }: Rota
 		<FloatingActionBar
 			testIdPrefix="rotation"
 			rootClassName="ui-rotation-floating-action-bar [transition:padding_150ms_ease-in-out,border-width_150ms_ease-in-out]"
-			sheetClassName="ui-floating-action-bar-sheet ui-rotation-floating-action-bar-sheet"
+			sheetClassName="ui-rotation-floating-action-bar-sheet"
 			toggleLabel={i18n.t('results_tab.details.timeline.floatingActionBar.toggle')}
 			icon={<Icon name="eye-slash" />}
 			summary={
@@ -75,7 +75,7 @@ export const RotationRowsToolbar = ({ model, hidden, onToggle, onShowAll }: Rota
 			}}>
 			<div className="ui-floating-action-bar-drawer flex flex-col gap-4">
 				{groups.map(group => (
-					<RotationFabGroup key={group.id} title={group.title} rows={group.rows} hidden={hidden} onToggle={onToggle} />
+					<RotationFloatingActionBarGroup key={group.id} title={group.title} rows={group.rows} hidden={hidden} onToggle={onToggle} />
 				))}
 			</div>
 		</FloatingActionBar>
