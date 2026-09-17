@@ -57,12 +57,16 @@ export class Entity {
 	}
 }
 
-// 'crush' is absent on purpose: OutcomeCrush is declared and read back in String(), but nothing in
-// sim/ ever sets it, so the token cannot reach the log. Partial resists are gone for the same
-// reason - the sim contains no "% Resist" fragment at all.
-export const OUTCOMES = ['hit', 'crit', 'miss', 'dodge', 'parry', 'glance', 'block', 'critical-block', 'blocked-glance'] as const;
+// Every token sim/core/flags.go:130 prints, one per damage line. 'critical-block' is the sim's
+// BlockedCrit; a suppressed crit is a hit that rolled crit and lost it to the attack table's crit
+// suppression, so it gets its own token rather than folding into either.
+export const OUTCOMES = ['hit', 'crit', 'suppressed-crit', 'crush', 'miss', 'dodge', 'parry', 'glance', 'block', 'critical-block'] as const;
 
 export type Outcome = (typeof OUTCOMES)[number];
+
+// sim/core/flags.go:156 appends " (25% Resist)" and its 50 and 75 siblings to a glance, crit,
+// suppressed crit or hit.
+export type PartialResist = 0 | 25 | 50 | 75;
 
 /** Avoidance: the attack never landed, so there is no amount to render and nothing to add to a total. */
 const AVOIDED_OUTCOMES: ReadonlyArray<Outcome> = ['miss', 'dodge', 'parry'];
@@ -84,6 +88,10 @@ export type ParsedKind =
 	| 'cast-began'
 	| 'cast-cancelled'
 	| 'cast-completed'
+	| 'auto-delay'
+	| 'spell-queued'
+	| 'cast-failed'
+	| 'cast-pushback'
 	| 'stat-change';
 
 export type DerivedKind = 'dps' | 'threat-group' | 'resource-group' | 'aura-uptime' | 'cast';
@@ -128,6 +136,7 @@ export interface DamageLog extends BaseLog {
 	// for it, so absence has to stay distinguishable from damage.
 	readonly effect: DamageEffect | null;
 	readonly amount: number;
+	readonly resist: PartialResist;
 	// Periodic damage. Orthogonal to `outcome` — a tick can crit, and the display only says
 	// "Tick" when the outcome is a plain hit.
 	readonly tick: boolean;
@@ -163,6 +172,7 @@ export interface CastBeganLog extends BaseLog {
 	readonly kind: 'cast-began';
 	readonly manaCost: number;
 	readonly castTime: number;
+	readonly gcd: number;
 	readonly effectiveTime: number;
 }
 
@@ -173,6 +183,35 @@ export interface CastCancelledLog extends BaseLog {
 
 export interface CastCompletedLog extends BaseLog {
 	readonly kind: 'cast-completed';
+}
+
+// The gap between when an auto attack would have fired and when it did, emitted when it exceeds
+// 1ms. Attached to the cast it delayed by buildCastLogs.
+export interface AutoDelayLog extends BaseLog {
+	readonly kind: 'auto-delay';
+	readonly delay: number;
+	readonly delayText: string;
+	readonly readyAtLogText: string;
+	readonly readyAtTooltip: string;
+}
+
+export interface SpellQueuedLog extends BaseLog {
+	readonly kind: 'spell-queued';
+	readonly fireAt: number;
+	readonly fireAtText: string;
+}
+
+export interface CastFailedLog extends BaseLog {
+	readonly kind: 'cast-failed';
+	// Names spells of its own, which parseAll resolves in a second pass.
+	reason: string;
+}
+
+export interface CastPushbackLog extends BaseLog {
+	readonly kind: 'cast-pushback';
+	readonly pushback: number;
+	readonly pushbackText: string;
+	readonly isChanneling: boolean;
 }
 
 export interface StatChangeLog extends BaseLog {
@@ -191,6 +230,10 @@ export type ParsedLog =
 	| CastBeganLog
 	| CastCancelledLog
 	| CastCompletedLog
+	| AutoDelayLog
+	| SpellQueuedLog
+	| CastFailedLog
+	| CastPushbackLog
 	| StatChangeLog;
 
 export interface DpsLog extends BaseLog {
@@ -225,12 +268,17 @@ export interface AuraUptimeLog extends BaseLog {
 export interface CastLog extends BaseLog {
 	readonly kind: 'cast';
 	readonly castTime: number;
+	readonly gcd: number;
 	readonly effectiveTime: number;
 	readonly travelTime: number;
 	readonly cancelTime: number;
 	readonly castBeganLog: CastBeganLog;
 	readonly castCancelledLog: CastCancelledLog | null;
 	readonly castCompletedLog: CastCompletedLog | null;
+	readonly autoDelayLog: AutoDelayLog | null;
+	readonly delay: number;
+	readonly delayText: string;
+	readonly readyAtText: string;
 	// All damage dealt from the completion of this cast until the completion of the next.
 	readonly damageDealtLogs: Array<DamageLog>;
 }
@@ -249,6 +297,8 @@ export const isMajorCooldown = (log: CombatLog): log is MajorCooldownLog => log.
 export const isCastBegan = (log: CombatLog): log is CastBeganLog => log.kind === 'cast-began';
 export const isCastCancelled = (log: CombatLog): log is CastCancelledLog => log.kind === 'cast-cancelled';
 export const isCastCompleted = (log: CombatLog): log is CastCompletedLog => log.kind === 'cast-completed';
+export const isAutoDelay = (log: CombatLog): log is AutoDelayLog => log.kind === 'auto-delay';
+export const isCastFailed = (log: CombatLog): log is CastFailedLog => log.kind === 'cast-failed';
 
 export function formattedTimestamp(log: BaseLog): string {
 	const positiveTimestamp = Math.abs(log.timestamp);

@@ -2,7 +2,7 @@ import type { ActionId } from '@sim/proto/action_id';
 import type { AuraUptimeLog, CastLog, DamageLog, ResourceGroupLog } from '@sim/proto/combat_log';
 import type { UnitMetrics } from '@sim/proto/sim_result';
 
-export const ROW_HEIGHTS = { cast: 32, aura: 32, resource: 32, header: 32, separator: 17 } as const;
+export const ROW_HEIGHTS = { cast: 32, aura: 32, resource: 32, gcd: 32, header: 32, separator: 17 } as const;
 
 export type SectionId = string;
 
@@ -27,6 +27,31 @@ export interface CastItem {
 	cancelled: boolean;
 	travelStart: number | null;
 	travelDuration: number | null;
+	log: CastLog;
+}
+
+// The stretch an auto attack waited before it actually went out. It starts left of the cast it
+// belongs to, so it is its own item rather than a wider CastItem: the windower brackets items by
+// their own start/end, and widening the cast would move the cast bar with it.
+export interface DelayItem {
+	kind: 'delay';
+	start: number;
+	end: number;
+	log: CastLog;
+}
+
+// The remainder of the GCD after the cast bar ends, drawn inside the cast row.
+export interface GcdExtensionItem {
+	kind: 'gcdExtension';
+	start: number;
+	end: number;
+}
+
+// One cast's GCD on the dedicated GCD strip row.
+export interface GcdSegmentItem {
+	kind: 'gcdSegment';
+	start: number;
+	end: number;
 	log: CastLog;
 }
 
@@ -65,7 +90,7 @@ export interface ResourceItem {
 	log: ResourceGroupLog;
 }
 
-export type RowItem = CastItem | TickItem | AuraItem | ResourceItem;
+export type RowItem = CastItem | DelayItem | GcdExtensionItem | GcdSegmentItem | TickItem | AuraItem | ResourceItem;
 
 interface RowBase {
 	key: string;
@@ -95,6 +120,10 @@ export interface ResourceRow extends ContentRowBase {
 	cssName: string;
 }
 
+export interface GcdRow extends ContentRowBase {
+	kind: 'gcd';
+}
+
 export interface HeaderRow extends RowBase {
 	kind: 'header';
 	label: string;
@@ -105,7 +134,7 @@ export interface SeparatorRow extends RowBase {
 	kind: 'separator';
 }
 
-export type ContentRow = CastRow | AuraRow | ResourceRow;
+export type ContentRow = CastRow | AuraRow | ResourceRow | GcdRow;
 
 export type Row = ContentRow | HeaderRow | SeparatorRow;
 
@@ -120,4 +149,5 @@ export interface BuildRotationModelParams {
 	player: UnitMetrics;
 	targets: Array<UnitMetrics>;
 	duration: number;
+	showGcd: boolean;
 }

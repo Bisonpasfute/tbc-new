@@ -38,7 +38,7 @@ export const DamageResult = ({ log }: DamageResultProps) => {
 							{spellSchoolString && <> ({spellSchoolString})</>}
 						</strong>
 					)}
-					.
+					{log.resist > 0 && <> ({log.resist}% Resist)</>}.
 				</>
 			) : (
 				''

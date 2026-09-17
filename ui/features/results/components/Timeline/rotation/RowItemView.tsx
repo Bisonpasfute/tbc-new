@@ -3,6 +3,9 @@ import { memo } from 'react';
 import type { RowItem } from '../../../model/timeline/rotation';
 import { AuraItem } from './AuraItem';
 import { CastItem } from './CastItem';
+import { DelayItem } from './DelayItem';
+import { GcdExtensionItem } from './GcdExtensionItem';
+import { GcdSegmentItem } from './GcdSegmentItem';
 import { ResourceItem } from './ResourceItem';
 import { TickItem } from './TickItem';
 
@@ -21,6 +24,12 @@ export const RowItemView = memo(({ item, index, iconUrl, cssName }: RowItemViewP
 	switch (item.kind) {
 		case 'cast':
 			return <CastItem item={item} index={index} iconUrl={iconUrl} />;
+		case 'delay':
+			return <DelayItem item={item} index={index} />;
+		case 'gcdExtension':
+			return <GcdExtensionItem item={item} />;
+		case 'gcdSegment':
+			return <GcdSegmentItem item={item} index={index} />;
 		case 'tick':
 			return <TickItem item={item} index={index} />;
 		case 'aura':

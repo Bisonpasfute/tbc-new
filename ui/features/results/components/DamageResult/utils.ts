@@ -5,9 +5,10 @@ export const OUTCOME_LABEL: Record<Outcome, string> = {
 	dodge: 'Dodge',
 	parry: 'Parry',
 	'critical-block': 'Critical Block',
-	'blocked-glance': 'Blocked Glance',
 	block: 'Block',
 	glance: 'Glance',
 	crit: 'Crit',
+	'suppressed-crit': 'Suppressed Crit',
+	crush: 'Crush',
 	hit: 'Hit',
 };

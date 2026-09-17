@@ -36,16 +36,16 @@ import { ROW_HEIGHTS } from './types';
 function castOutcome(castLog: CastLog): CastOutcome {
 	if (castLog.damageDealtLogs.length === 0) return castLog.castCancelledLog ? 'cancelled' : 'none';
 	const ddl = castLog.damageDealtLogs[0];
+	if (ddl.resist > 0) return 'partial';
 	switch (ddl.outcome) {
 		case 'miss':
 		case 'dodge':
 		case 'parry':
 			return 'miss';
-		// A pre-union CriticalBlock set both `block` and `crit`, and the old chain tested
-		// `block` first, so it read as partial rather than crit. Same for a plain block/glance.
+		// A pre-union BlockedCrit set both `block` and `crit`, and the old chain tested `block`
+		// first, so it read as partial rather than crit. Same for a plain block/glance.
 		case 'block':
 		case 'glance':
-		case 'blocked-glance':
 		case 'critical-block':
 			return 'partial';
 		case 'crit':
@@ -83,13 +83,17 @@ function auraItems(auraUptimeLogs: ReadonlyArray<AuraUptimeLog>, sharesRowWithCa
 	});
 }
 
-function castRowItems(castLogs: ReadonlyArray<CastLog>, mergedAuras: ReadonlyArray<Array<AuraUptimeLog>>): Array<RowItem> {
+function castRowItems(castLogs: ReadonlyArray<CastLog>, mergedAuras: ReadonlyArray<Array<AuraUptimeLog>>, duration: number, showGcd: boolean): Array<RowItem> {
 	const items: Array<RowItem> = [];
 	castLogs.forEach(castLog => {
 		const start = castLog.timestamp;
 		const cancelled = !!castLog.castCancelledLog;
 		const width = cancelled ? castLog.cancelTime : castLog.castTime + castLog.travelTime;
 		const hasTravelTime = !cancelled && castLog.travelTime != 0;
+		if (castLog.delay > 0) {
+			const delayStart = Math.max(0, start - castLog.delay);
+			items.push({ kind: 'delay', start: delayStart, end: start, log: castLog });
+		}
 		items.push({
 			kind: 'cast',
 			start,
@@ -100,10 +104,26 @@ function castRowItems(castLogs: ReadonlyArray<CastLog>, mergedAuras: ReadonlyArr
 			travelDuration: hasTravelTime ? castLog.travelTime : null,
 			log: castLog,
 		});
+		if (showGcd && !cancelled) {
+			const extensionStart = start + castLog.castTime;
+			const extensionEnd = Math.min(start + castLog.gcd, duration);
+			if (extensionEnd > extensionStart) items.push({ kind: 'gcdExtension', start: extensionStart, end: extensionEnd });
+		}
 		castLog.damageDealtLogs.filter(ddl => ddl.tick).forEach(ddl => items.push({ kind: 'tick', start: ddl.timestamp, end: ddl.timestamp, log: ddl }));
 	});
 	mergedAuras.forEach(auraUptimeLogs => items.push(...auraItems(auraUptimeLogs, true)));
 	return items;
+}
+
+function gcdRowItems(unit: UnitMetrics, duration: number): Array<RowItem> {
+	return unit.castLogs
+		.filter(castLog => castLog.gcd > 0 && !castLog.castCancelledLog && duration - castLog.timestamp > 0)
+		.map(castLog => ({
+			kind: 'gcdSegment' as const,
+			start: castLog.timestamp,
+			end: castLog.timestamp + Math.min(castLog.gcd, duration - castLog.timestamp),
+			log: castLog,
+		}));
 }
 
 function resourceItems(resourceType: ResourceType, resourceLogs: Array<ResourceGroupLog>, duration: number): Array<ResourceItem> {
@@ -132,7 +152,7 @@ function resourceItems(resourceType: ResourceType, resourceLogs: Array<ResourceG
 	});
 }
 
-export function buildRotationModel({ player, targets, duration }: BuildRotationModelParams): RotationModel {
+export function buildRotationModel({ player, targets, duration, showGcd }: BuildRotationModelParams): RotationModel {
 	const rows: Array<Row> = [];
 	const sections: Array<Section> = [];
 	const byKey = new Map<string, number>();
@@ -198,6 +218,21 @@ export function buildRotationModel({ player, targets, duration }: BuildRotationM
 		});
 	};
 
+	const addGcdRow = (section: Section, unit: UnitMetrics) => {
+		if (!showGcd) return;
+		const items = gcdRowItems(unit, duration);
+		if (items.length === 0) return;
+		addContentRow(section, {
+			kind: 'gcd',
+			key: makeRowKey(section.id, 'gcd', 'gcd'),
+			section: section.id,
+			height: ROW_HEIGHTS.gcd,
+			label: 'GCD',
+			items,
+			maxRightUpTo: sortAndPrefixMax(items),
+		});
+	};
+
 	const addAuraRow = (section: Section, auraUptimeLogs: Array<AuraUptimeLog>) => {
 		const actionId = auraUptimeLogs[0].actionId!;
 		const items: Array<RowItem> = auraItems(auraUptimeLogs, false);
@@ -222,7 +257,7 @@ export function buildRotationModel({ player, targets, duration }: BuildRotationM
 			return grouped ? actionId.equalityKeyIgnoringTag() === mapped.equalityKeyIgnoringTag() : actionId.equalityKey() === mapped.equalityKey();
 		});
 
-		const items = castRowItems(castLogs, mergedAuras);
+		const items = castRowItems(castLogs, mergedAuras, duration, showGcd);
 		addContentRow(section, {
 			kind: 'cast',
 			key: makeRowKey(section.id, 'cast', actionBucketKey(actionId)),
@@ -247,6 +282,8 @@ export function buildRotationModel({ player, targets, duration }: BuildRotationM
 		if (auraUptimeLogs) addAuraRow(playerSection, auraUptimeLogs);
 	});
 
+	addGcdRow(playerSection, player);
+
 	const playerCastsByAbility = sortedCastsByAbility(player);
 	playerCastsByAbility.forEach(castLogs => addCastRow(playerSection, castLogs, buffsAndDebuffsById));
 
@@ -262,6 +299,7 @@ export function buildRotationModel({ player, targets, duration }: BuildRotationM
 		playerPets.forEach(({ pet, castsByAbility }) => {
 			const section = addSection(`pet:${pet.name}`, 'pet', pet.name, true, { label: pet.name, actionId: ActionId.fromPetName(pet.name) });
 			ORDERED_RESOURCE_TYPES.forEach(resourceType => addResourceRow(section, resourceType, pet.groupedResourceLogs[resourceType]));
+			addGcdRow(section, pet);
 			castsByAbility.forEach(castLogs => addCastRow(section, castLogs, buffsAndDebuffsById));
 		});
 	}

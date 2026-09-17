@@ -51,6 +51,9 @@ export const IconPicker = <ModObject, ValueType>({ modObject, config }: IconPick
 	const showCounterText = !config.improvedId && (config.states > 3 || config.states === 0);
 
 	const handleLeftClick = () => {
+		// `disabled` only reaches an <a>, where HTML ignores it, so the state change has to be stopped here.
+		if (disabled) return;
+
 		if (config.states === 0 || currentValue + 1 < config.states) {
 			setValue(toSourceValue(currentValue + 1));
 		} else if (currentValue > 0) {
@@ -59,6 +62,8 @@ export const IconPicker = <ModObject, ValueType>({ modObject, config }: IconPick
 	};
 
 	const handleRightClick = () => {
+		if (disabled) return;
+
 		if (currentValue > 0) {
 			setValue(toSourceValue(currentValue - 1));
 		} else {
@@ -107,16 +112,13 @@ export const IconPicker = <ModObject, ValueType>({ modObject, config }: IconPick
 					className={clsx('pointer-events-none absolute top-0.5 left-0.5 size-9.5', currentValue > 0 ? 'filter-none' : 'grayscale')}
 					data-testid="icon-input-level-container"
 					{...stateEvents}>
+					{/* Both badges stay visible in opposite corners, as on master: at a state below its own, a quadstate
+					    icon's grey second badge is the only affordance that a fourth state exists. */}
 					{fillImproved1 && config.improvedId && (
-						<ImprovedAnchor
-							actionId={config.improvedId}
-							testId="icon-input-improved1"
-							active={currentValue > 1}
-							hidden={fillImproved2 && currentValue > 2}
-						/>
+						<ImprovedAnchor actionId={config.improvedId} testId="icon-input-improved1" active={currentValue > 1} corner="right" />
 					)}
 					{fillImproved2 && config.improvedId2 && (
-						<ImprovedAnchor actionId={config.improvedId2} testId="icon-input-improved2" active={currentValue > 2} hidden={!(currentValue > 2)} />
+						<ImprovedAnchor actionId={config.improvedId2} testId="icon-input-improved2" active={currentValue > 2} corner="left" />
 					)}
 					<span
 						className="absolute inset-x-0 bottom-0 bg-scrim text-center text-2xs font-bold whitespace-nowrap text-success"

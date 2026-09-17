@@ -6,6 +6,7 @@ export enum PresetConfigurationCategory {
 	Gear = 'gear',
 	Talents = 'talents',
 	Rotation = 'rotation',
+	RotationType = 'rotationType',
 	Encounter = 'encounter',
 	Settings = 'settings',
 }

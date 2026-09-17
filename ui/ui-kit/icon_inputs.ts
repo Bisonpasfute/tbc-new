@@ -13,8 +13,11 @@ interface BooleanInputConfig<T> {
 	fieldName: keyof T;
 	value?: number;
 	label?: string;
+	// Faction comes off the player's race, so only the factories whose mod object is the player can
+	// honour it; the party- and raid-scoped ones omit it rather than accept it and drop it.
 	faction?: Faction;
 	showWhen?: (player: Player<any>) => boolean;
+	enableWhen?: (player: Player<any>) => boolean;
 }
 
 export const makeBooleanRaidBuffInput = <SpecType extends Spec>(
@@ -27,6 +30,7 @@ export const makeBooleanRaidBuffInput = <SpecType extends Spec>(
 			getValue: (player: Player<SpecType>) => player.getRaid()!.getBuffs(),
 			setValue: (player: Player<SpecType>, newVal: RaidBuffs) => player.getRaid()!.setBuffs(newVal),
 			storeField: ['raid:buffs', 'race'],
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.fieldName,
@@ -44,6 +48,7 @@ export const makeBooleanIndividualBuffInput = <SpecType extends Spec>(
 			getValue: (player: Player<SpecType>) => player.getBuffs(),
 			setValue: (player: Player<SpecType>, newVal: IndividualBuffs) => player.setBuffs(newVal),
 			storeField: ['buffs', 'race'],
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.fieldName,
@@ -53,12 +58,16 @@ export const makeBooleanIndividualBuffInput = <SpecType extends Spec>(
 };
 
 export const makeBooleanPartyBuffInput = <SpecType extends Spec>(
-	config: Omit<BooleanInputConfig<PartyBuffs>, 'showWhen' | 'faction'> & { showWhen?: (party: Party) => boolean },
+	config: Omit<BooleanInputConfig<PartyBuffs>, 'showWhen' | 'faction' | 'enableWhen'> & {
+		showWhen?: (party: Party) => boolean;
+		enableWhen?: (party: Party) => boolean;
+	},
 ): InputHelpers.TypedIconPickerConfig<Player<SpecType>, boolean> => {
 	return InputHelpers.makeBooleanIconInput<any, PartyBuffs, Party>(
 		{
 			getModObject: (player: Player<SpecType>) => player.getParty()!,
 			showWhen: config.showWhen,
+			enableWhen: config.enableWhen,
 			getValue: (party: Party) => party.getBuffs(),
 			setValue: (party: Party, newVal: PartyBuffs) => party.setBuffs(newVal),
 			// `race` too: the Draenei racials gate their showWhen on the party leader's race, and race
@@ -82,6 +91,7 @@ export const makeBooleanConsumeInput = <SpecType extends Spec>(
 			setValue: (player: Player<SpecType>, newVal: ConsumesSpec) => player.setConsumes(newVal),
 			storeField: ['consumables', 'profession1', 'profession2'],
 			showWhen: (player: Player<SpecType>) => !config.showWhen || config.showWhen(player),
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.fieldName,
@@ -97,6 +107,7 @@ export const makeBooleanDebuffInput = <SpecType extends Spec>(
 			getValue: (player: Player<SpecType>) => player.getRaid()!.getDebuffs(),
 			setValue: (player: Player<SpecType>, newVal: Debuffs) => player.getRaid()!.setDebuffs(newVal),
 			storeField: 'raid:debuffs',
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.fieldName,
@@ -105,12 +116,14 @@ export const makeBooleanDebuffInput = <SpecType extends Spec>(
 	);
 };
 
-interface TristateInputConfig<T> {
+interface TristateInputConfig<T, ModObject = Player<any>> {
 	actionId: ActionId;
 	impId: ActionId;
 	fieldName: keyof T;
+	// See BooleanInputConfig: unhonourable off the player, so the party and raid variants omit it.
 	faction?: Faction;
 	label?: string;
+	enableWhen?: (obj: ModObject) => boolean;
 }
 
 export const makeTristateRaidBuffInput = <SpecType extends Spec>(
@@ -123,6 +136,7 @@ export const makeTristateRaidBuffInput = <SpecType extends Spec>(
 			getValue: (player: Player<SpecType>) => player.getRaid()!.getBuffs(),
 			setValue: (player: Player<SpecType>, newVal: RaidBuffs) => player.getRaid()!.setBuffs(newVal),
 			storeField: ['raid:buffs', 'race'],
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.impId,
@@ -141,6 +155,7 @@ export const makeTristateIndividualBuffInput = <SpecType extends Spec>(
 			getValue: (player: Player<SpecType>) => player.getBuffs(),
 			setValue: (player: Player<SpecType>, newVal: IndividualBuffs) => player.setBuffs(newVal),
 			storeField: ['buffs', 'race'],
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.impId,
@@ -150,7 +165,7 @@ export const makeTristateIndividualBuffInput = <SpecType extends Spec>(
 };
 
 export const makeTristatePartyBuffInput = <SpecType extends Spec>(
-	config: TristateInputConfig<PartyBuffs>,
+	config: Omit<TristateInputConfig<PartyBuffs, Party>, 'faction'>,
 ): InputHelpers.TypedIconPickerConfig<Player<SpecType>, number> => {
 	return InputHelpers.makeTristateIconInput<any, PartyBuffs, Party>(
 		{
@@ -158,6 +173,7 @@ export const makeTristatePartyBuffInput = <SpecType extends Spec>(
 			getValue: (party: Party) => party.getBuffs(),
 			setValue: (party: Party, newVal: PartyBuffs) => party.setBuffs(newVal),
 			storeField: 'raid:partyBuffs',
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.impId,
@@ -167,7 +183,7 @@ export const makeTristatePartyBuffInput = <SpecType extends Spec>(
 };
 
 export const makeTristateDebuffInput = <SpecType extends Spec>(
-	config: TristateInputConfig<Debuffs>,
+	config: Omit<TristateInputConfig<Debuffs, Raid>, 'faction'>,
 ): InputHelpers.TypedIconPickerConfig<Player<SpecType>, number> => {
 	return InputHelpers.makeTristateIconInput<any, Debuffs, Raid>(
 		{
@@ -175,6 +191,7 @@ export const makeTristateDebuffInput = <SpecType extends Spec>(
 			getValue: (raid: Raid) => raid.getDebuffs(),
 			setValue: (raid: Raid, newVal: Debuffs) => raid.setDebuffs(newVal),
 			storeField: 'raid:debuffs',
+			enableWhen: config.enableWhen,
 		},
 		config.actionId,
 		config.impId,
@@ -189,7 +206,6 @@ interface QuadStateInputConfig<T> {
 	impId2: ActionId;
 	fieldName: keyof T;
 	fieldNameImp2: keyof T;
-	faction?: Faction;
 	label?: string;
 }
 
@@ -237,6 +253,7 @@ interface MultiStateInputConfig<T> {
 	numStates: number;
 	fieldName: keyof T;
 	multiplier?: number;
+	// See BooleanInputConfig: unhonourable off the player, so the party variant omits it.
 	faction?: Faction;
 }
 
@@ -278,7 +295,7 @@ export const makeMultistateIndividualBuffInput = <SpecType extends Spec>(
 };
 
 export const makeMultistatePartyBuffInput = <SpecType extends Spec>(
-	config: MultiStateInputConfig<PartyBuffs>,
+	config: Omit<MultiStateInputConfig<PartyBuffs>, 'faction'>,
 ): InputHelpers.TypedIconPickerConfig<Player<SpecType>, number> => {
 	return InputHelpers.makeMultistateIconInput<any, PartyBuffs, Party>(
 		{

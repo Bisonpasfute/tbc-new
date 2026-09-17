@@ -9,15 +9,17 @@ export interface ImprovedAnchorProps {
 	actionId: ActionId;
 	testId: string;
 	active: boolean;
-	hidden: boolean;
+	/** Which bottom corner of the icon the badge sits in: the two improved badges share the overlay and must not stack. */
+	corner: 'left' | 'right';
 }
 
-export const ImprovedAnchor = ({ actionId, testId, active, hidden }: ImprovedAnchorProps) => {
+export const ImprovedAnchor = ({ actionId, testId, active, corner }: ImprovedAnchorProps) => {
 	const { iconUrl, href } = useActionId(actionId);
 	return (
 		<a
 			className={clsx(
-				'ui-icon-picker-swatch pointer-events-auto absolute right-0 bottom-0 size-5 min-w-5',
+				'ui-icon-picker-swatch pointer-events-auto absolute bottom-0 size-5 min-w-5',
+				corner === 'left' ? 'left-0' : 'right-0',
 				active ? 'filter-none' : 'border-gray-600 grayscale',
 			)}
 			data-testid={testId}
@@ -26,7 +28,9 @@ export const ImprovedAnchor = ({ actionId, testId, active, hidden }: ImprovedAnc
 			href={href || undefined}
 			rel={externalRel(href, undefined)}
 			style={iconUrl ? { backgroundImage: `url('${iconUrl}')` } : undefined}
-			hidden={hidden}
+			// The glyph is a background image, so until it resolves the badge is a bare grey square. Master hid
+			// exactly that window with `.icon-input-improved:not([href])`, its href being set only after the fill.
+			hidden={!iconUrl}
 		/>
 	);
 };

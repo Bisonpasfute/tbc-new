@@ -6,18 +6,24 @@ import { stringToResourceType } from '../names';
 import {
 	AuraLog,
 	AuraStacksLog,
+	AutoDelayLog,
 	BaseLog,
 	CastBeganLog,
 	CastCancelledLog,
 	CastCompletedLog,
+	CastFailedLog,
+	CastPushbackLog,
 	DamageLog,
 	Entity,
+	isCastFailed,
 	LogKind,
 	MajorCooldownLog,
 	Outcome,
 	ParsedLog,
+	PartialResist,
 	PlainLog,
 	ResourceLog,
+	SpellQueuedLog,
 	StatChangeLog,
 } from './types';
 
@@ -51,13 +57,40 @@ const OUTCOME_BY_TOKEN: Record<string, Outcome> = {
 	Miss: 'miss',
 	Dodge: 'dodge',
 	Parry: 'parry',
-	CriticalBlock: 'critical-block',
-	GlanceBlock: 'blocked-glance',
+	BlockedCrit: 'critical-block',
 	Block: 'block',
 	Glance: 'glance',
 	Crit: 'crit',
+	SuppressedCrit: 'suppressed-crit',
+	Crush: 'crush',
 	Hit: 'hit',
 };
+
+const RESIST_BY_TOKEN: Record<string, PartialResist> = { '25': 25, '50': 50, '75': 75 };
+
+// Go's time.Duration.String() can emit nanosecond-precision strings like "29.999999999s" or
+// "33.217000001s". Round these to something readable without disturbing clean values.
+const reformatGoDurations = (text: string): string =>
+	text.replace(/(\d+m)?(\d+\.\d{3,})(m?s)/g, (_match, minute: string | undefined, value: string, unit: string) => {
+		const seconds = parseFloat(value);
+		if (unit === 'ms') {
+			return `${minute ?? ''}${Math.round(seconds)}ms`;
+		}
+		return `${minute ?? ''}${seconds.toFixed(2)}s`;
+	});
+
+// The sim's cast-failure reasons all append ", curTime = <duration>", which is redundant with the
+// line's own timestamp prefix.
+const stripCurTime = (text: string): string => text.replace(/, curTime = [\dms.h]+$/, '');
+
+function parseDuration(value: string, unit: string): number {
+	const n = parseFloat(value);
+	return unit == 'ms' ? n / 1000 : n;
+}
+
+function durationText(seconds: number): string {
+	return seconds >= 1 ? `${seconds.toFixed(2)}s` : `${Math.round(seconds * 1000)}ms`;
+}
 
 // One object is allocated per line and each builder finishes it in place. The obvious shape -
 // build a params literal, then spread it into a second literal per kind - allocates twice and
@@ -79,11 +112,10 @@ function newLog(
 function buildDamageLog(log: PendingLog, match: RegExpExecArray): DamageLog {
 	const out = log as Mutable<DamageLog>;
 	out.kind = 'damage';
-	// Crush has no OUTCOME_BY_TOKEN entry: sim/core/flags.go:123 never emits OutcomeCrush, so
-	// this falls back to 'hit' the same as an actual Hit token.
 	out.outcome = OUTCOME_BY_TOKEN[match[3]] ?? 'hit';
 	out.effect = match[18] ? (match[18] === 'healing' ? 'healing' : match[18] === 'shielding' ? 'shielding' : 'damage') : null;
 	out.amount = match[17] ? parseFloat(match[17]) : 0;
+	out.resist = RESIST_BY_TOKEN[match[15]] ?? 0;
 	out.tick = Boolean(match[2]) && match[2].includes('tick');
 	return out;
 }
@@ -127,15 +159,64 @@ function buildMajorCooldownLog(log: PendingLog): MajorCooldownLog {
 }
 
 function buildCastBeganLog(log: PendingLog, match: RegExpExecArray): CastBeganLog {
-	let castTime = parseFloat(match[3]);
-	if (match[4] == 'ms') castTime /= 1000;
-	let effectiveTime = parseFloat(match[5]);
-	if (match[6] == 'ms') effectiveTime /= 1000;
 	const out = log as Mutable<CastBeganLog>;
 	out.kind = 'cast-began';
 	out.manaCost = parseFloat(match[2]);
-	out.castTime = castTime;
-	out.effectiveTime = effectiveTime;
+	out.castTime = parseDuration(match[3], match[4]);
+	out.gcd = parseDuration(match[5], match[6]);
+	out.effectiveTime = parseDuration(match[7], match[8]);
+	return out;
+}
+
+// The "was ready at" stamp keeps the sim's own minute prefix in the log text ("1m2.50s") and is
+// flattened to seconds for the tooltip.
+function buildAutoDelayLog(log: PendingLog, match: RegExpExecArray): AutoDelayLog {
+	const delay = parseDuration(match[2], match[3]);
+	const readyAtMinute = match[4];
+	const readyAtSeconds = parseFloat(match[5]);
+	let readyAtTotal = readyAtSeconds;
+	if (readyAtMinute && readyAtMinute.endsWith('m')) {
+		readyAtTotal = parseFloat(readyAtMinute.slice(0, -1)) * 60 + readyAtSeconds;
+	}
+	const out = log as Mutable<AutoDelayLog>;
+	out.kind = 'auto-delay';
+	out.delay = delay;
+	out.delayText = durationText(delay);
+	out.readyAtLogText = readyAtTotal >= 1 ? `${readyAtMinute}${readyAtSeconds.toFixed(2)}s` : `${Math.round(readyAtTotal * 1000)}ms`;
+	out.readyAtTooltip = durationText(readyAtTotal);
+	return out;
+}
+
+function buildSpellQueuedLog(log: PendingLog, match: RegExpExecArray): SpellQueuedLog {
+	const minutePart = match[2];
+	const seconds = parseFloat(match[3]);
+	let fireAt = seconds;
+	if (minutePart && minutePart.endsWith('m')) {
+		fireAt = parseFloat(minutePart.slice(0, -1)) * 60 + seconds;
+	} else if (match[4] == 'ms') {
+		fireAt = seconds / 1000;
+	}
+	const out = log as Mutable<SpellQueuedLog>;
+	out.kind = 'spell-queued';
+	out.fireAt = fireAt;
+	out.fireAtText = fireAt >= 1 ? `${minutePart}${seconds.toFixed(2)}s` : `${Math.round(fireAt * 1000)}ms`;
+	return out;
+}
+
+function buildCastFailedLog(log: PendingLog, match: RegExpExecArray): CastFailedLog {
+	const out = log as Mutable<CastFailedLog>;
+	out.kind = 'cast-failed';
+	out.reason = reformatGoDurations(stripCurTime(match[2]));
+	return out;
+}
+
+function buildCastPushbackLog(log: PendingLog, match: RegExpExecArray): CastPushbackLog {
+	const pushback = parseDuration(match[2], match[3]);
+	const out = log as Mutable<CastPushbackLog>;
+	out.kind = 'cast-pushback';
+	out.pushback = pushback;
+	out.pushbackText = durationText(pushback);
+	out.isChanneling = match[4] == 'channeling';
 	return out;
 }
 
@@ -189,10 +270,12 @@ type LogMatcher = {
 const LOG_MATCHERS: Array<LogMatcher> = [
 	{
 		guard: ['Miss', 'Hit', 'Crit', 'Crush', 'Glance', 'Dodge', 'Parry', 'Block'],
-		// The `(Crush)` alternative and `( \((\d+)% Resist\))?` group can never match in MoP - the
-		// sim emits neither - but stay in the pattern because removing them renumbers match[15],
-		// match[17] and match[18], which the surviving groups are indexed by below.
-		regex: /] (.*?) (tick )?((Miss)|(Hit)|(CriticalBlock)|(Crit)|(Crush)|(GlanceBlock)|(Glance)|(Dodge)|(Parry)|(Block))( \((\d+)% Resist\))?( for (\d+\.\d+) ((damage)|(healing)|(shielding)))?/,
+		// BlockedCrit has to precede Block: the token is matched at one position, so `Block` would
+		// take the front of `BlockedCrit` and the optional tail groups would all skip, which reads
+		// back as a block with no amount. Crit is safe anywhere in the alternation because a space
+		// is required before the token. The resist group is match[15], amount match[17] and effect
+		// match[18].
+		regex: /] (.*?) (tick )?((Miss)|(Hit)|(BlockedCrit)|(Crit)|(SuppressedCrit)|(Crush)|(Glance)|(Dodge)|(Parry)|(Block))( \((\d+)% Resist\))?( for (\d+\.\d+) ((damage)|(healing)|(shielding)))?/,
 		idString: match => match[1],
 		build: (log, match) => buildDamageLog(log, match),
 	},
@@ -224,7 +307,7 @@ const LOG_MATCHERS: Array<LogMatcher> = [
 	},
 	{
 		guard: ['Casting '],
-		regex: /Casting (.*) \(Cost = (\d+\.?\d*), Cast Time = (\d+\.?\d*)(m?s), Effective Time = (\d+\.?\d*)(m?s)\)/,
+		regex: /Casting (.*) \(Cost = (\d+\.?\d*), Cast Time = (\d+\.?\d*)(m?s), GCD = (\d+\.?\d*)(m?s), Effective Time = (\d+\.?\d*)(m?s)\)/,
 		idString: match => match[1],
 		build: (log, match) => buildCastBeganLog(log, match),
 	},
@@ -241,10 +324,34 @@ const LOG_MATCHERS: Array<LogMatcher> = [
 		build: log => buildCastCompletedLog(log),
 	},
 	{
+		guard: [' delayed by '],
+		regex: /] (.*?) delayed by (\d+\.?\d*)(m?s), was ready at (\d*?m?)(\d+\.?\d*)(m?s)/,
+		idString: match => match[1],
+		build: (log, match) => buildAutoDelayLog(log, match),
+	},
+	{
 		guard: [' from '],
 		regex: /((Gained)|(Lost)) ({.*}) from (fading )?(.*)/,
 		idString: match => match[6],
 		build: (log, match) => buildStatChangeLog(log, match),
+	},
+	{
+		guard: ['Queueing up '],
+		regex: /Queueing up (.*?) to cast at (\d*?m?)(\d+\.?\d*)(m?s)\./,
+		idString: match => match[1],
+		build: (log, match) => buildSpellQueuedLog(log, match),
+	},
+	{
+		guard: [' failed to cast: '],
+		regex: /] (.*?) failed to cast: (.*)/,
+		idString: match => match[1],
+		build: (log, match) => buildCastFailedLog(log, match),
+	},
+	{
+		guard: [' pushed back '],
+		regex: /] (.*?) pushed back (\d+\.?\d*)(m?s) while ((casting)|(channeling))/,
+		idString: match => match[1],
+		build: (log, match) => buildCastPushbackLog(log, match),
 	},
 ];
 
@@ -355,10 +462,18 @@ export async function parseAll(result: RaidSimResult): Promise<Array<ParsedLog>>
 	const actionIds = new Map<string, ActionId>();
 	keys.forEach((key, i) => actionIds.set(key, resolved[i]));
 
-	return pending.map(entry => {
+	const logs = pending.map(entry => {
 		const actionId = entry.matcher ? actionIds.get(entry.key)! : null;
 		entry.log.actionId = actionId;
 		entry.log.actionIdAsString = computeActionIdAsString(actionId);
 		return entry.matcher ? entry.matcher.build(entry.log, entry.match!) : buildPlainLog(entry.log);
 	});
+
+	await Promise.all(
+		logs.filter(isCastFailed).map(async log => {
+			log.reason = (await ActionId.replaceAllInString(log.reason)).replace(/[.!?]$/, '');
+		}),
+	);
+
+	return logs;
 }

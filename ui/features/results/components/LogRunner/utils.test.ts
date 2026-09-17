@@ -26,8 +26,9 @@ describe('LogRunner utils', () => {
 			expect(labelOf('spell', 'Mortal Strike')).toBe('Mortal Strike');
 		});
 
+		// Every Outcome has a label, so the fallback only ever catches a value from outside the union.
 		it('falls back to the raw value for an outcome it has no label for', () => {
-			expect(labelOf('outcome', 'crush')).toBe('crush');
+			expect(labelOf('outcome', 'not-an-outcome')).toBe('not-an-outcome');
 		});
 	});
 

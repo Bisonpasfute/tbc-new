@@ -2,6 +2,8 @@ import type { RowItem } from '../../../model/timeline/rotation';
 import { ResourceTooltip } from '../tooltips/ResourceTooltip';
 import { AuraTooltip } from './AuraTooltip';
 import { CastTooltip } from './CastTooltip';
+import { DelayTooltip } from './DelayTooltip';
+import { GcdSegmentTooltip } from './GcdSegmentTooltip';
 import { TickTooltip } from './TickTooltip';
 
 export interface RowItemTooltipProps {
@@ -13,6 +15,13 @@ export const RowItemTooltip = ({ item }: RowItemTooltipProps) => {
 	switch (item.kind) {
 		case 'cast':
 			return <CastTooltip log={item.log} />;
+		case 'delay':
+			return <DelayTooltip log={item.log} />;
+		case 'gcdSegment':
+			return <GcdSegmentTooltip log={item.log} />;
+		// Named by the cast it extends, which owns the tooltip, so it carries no index to hover.
+		case 'gcdExtension':
+			return null;
 		case 'tick':
 			return <TickTooltip log={item.log} />;
 		case 'aura':

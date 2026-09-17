@@ -21,7 +21,7 @@ export interface RotationRowProps {
  */
 export const RotationRow = memo(({ row, items, onHide }: RotationRowProps) => {
 	// Every cast in a row is the same action, so the icon is resolved once here rather than per item.
-	const { iconUrl } = useActionId(row.kind === 'resource' ? undefined : row.actionId);
+	const { iconUrl } = useActionId(row.kind === 'resource' || row.kind === 'gcd' ? undefined : row.actionId);
 
 	return (
 		<div data-testid="rotation-row" data-row-kind={row.kind} className="ui-timeline-row" style={rowStyle(row)} data-row-key={row.key}>
@@ -30,6 +30,9 @@ export const RotationRow = memo(({ row, items, onHide }: RotationRowProps) => {
 				icon={
 					row.kind === 'resource' ? (
 						<WowheadIcon testId="rotation-row-icon" className="ui-timeline-row-icon" iconUrl={row.icon} />
+					) : row.kind === 'gcd' ? (
+						// The GCD strip covers every ability, so its icon cell stays empty and only holds the column.
+						<span className="ui-timeline-row-icon" />
 					) : (
 						<RotationRowIcon actionId={row.actionId} tooltip={row.kind === 'aura' ? 'buffAura' : 'spell'} />
 					)

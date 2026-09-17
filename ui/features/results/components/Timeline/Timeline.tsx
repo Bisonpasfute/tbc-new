@@ -1,5 +1,6 @@
 import i18n from '@i18n/config';
 import type { UnitMetrics } from '@sim/proto/sim_result';
+import { BooleanPicker } from '@ui-kit/BooleanPicker';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useSimResult } from '../../hooks/useSimResult';
@@ -20,6 +21,9 @@ export const Timeline = ({ active }: TimelineProps) => {
 	const live = useSimResult();
 	const [shown, setShown] = useState<ReturnType<typeof useSimResult>>(null);
 	const [view, setView] = useState<ChartView>('rotation');
+	// GCD spans are model rows and model items, not a CSS overlay: a row hidden with display still
+	// owns its height in the windower's prefix sums. So the toggle rebuilds the model.
+	const [showGcd, setShowGcd] = useState(false);
 
 	// Two emits carrying the same run under the same filter draw the same timeline, so the result the
 	// view holds only changes when its key does — which is what keeps a re-emit from rebuilding the model.
@@ -37,12 +41,12 @@ export const Timeline = ({ active }: TimelineProps) => {
 	const model = useMemo(() => {
 		if (!shown || !player) return null;
 		try {
-			return buildRotationModel({ player, targets: shown.result.getTargets(shown.filter), duration });
+			return buildRotationModel({ player, targets: shown.result.getTargets(shown.filter), duration, showGcd });
 		} catch (e) {
 			console.log('Failed to update rotation chart: ', e);
 			return null;
 		}
-	}, [shown, player, duration]);
+	}, [shown, player, duration, showGcd]);
 
 	// The rotation is the default view and the two are alternatives, so the chart's series are built
 	// only once someone has asked for them — and then kept, so switching back and forth is free.
@@ -65,7 +69,20 @@ export const Timeline = ({ active }: TimelineProps) => {
 					</p>
 					<p>{i18n.t('results_tab.details.timeline.note')}</p>
 				</div>
-				<ChartViewPicker value={view} onChange={setView} className="ml-auto w-auto shrink-0 self-start" />
+				<div className="ml-auto flex shrink-0 items-center gap-3 self-start">
+					<BooleanPicker
+						modObject={null}
+						config={{
+							id: 'timeline-show-gcd',
+							label: i18n.t('results_tab.details.timeline.show_gcd'),
+							inline: true,
+							extraClassNames: ['w-auto', 'whitespace-nowrap'],
+							value: showGcd,
+							onChange: setShowGcd,
+						}}
+					/>
+					<ChartViewPicker value={view} onChange={setView} className="w-auto shrink-0" />
+				</div>
 			</div>
 			<div className="grow">
 				{chartVisible ? (

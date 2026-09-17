@@ -393,6 +393,7 @@ export const presetConfigurationCategoryI18nKeys: Record<PresetConfigurationCate
 	[PresetConfigurationCategory.Gear]: 'gear',
 	[PresetConfigurationCategory.Talents]: 'talents',
 	[PresetConfigurationCategory.Rotation]: 'rotation',
+	[PresetConfigurationCategory.RotationType]: 'rotationType',
 	[PresetConfigurationCategory.Encounter]: 'encounter',
 	[PresetConfigurationCategory.Settings]: 'settings',
 };

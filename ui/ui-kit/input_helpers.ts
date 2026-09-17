@@ -461,6 +461,7 @@ const makeWrappedIconInput = <SpecType extends Spec, ModObject, T>(
 		states: config.states,
 		...mapStoreBinding(config, getModObject),
 		showWhen: (player: Player<SpecType>) => !config.showWhen || (config.showWhen(getModObject(player)) as any),
+		enableWhen: config.enableWhen ? (player: Player<SpecType>) => config.enableWhen!(getModObject(player)) : undefined,
 		getValue: (player: Player<SpecType>) => config.getValue(getModObject(player)),
 		setValue: (player: Player<SpecType>, newValue: T) => config.setValue(getModObject(player), newValue),
 		extraClassNames: config.extraClassNames,
@@ -474,6 +475,7 @@ type WrappedTypedInputConfig<Message, ModObject, T> = StoreBinding<ModObject> & 
 	extraClassNames?: Array<string>;
 
 	showWhen?: (obj: ModObject) => boolean;
+	enableWhen?: (obj: ModObject) => boolean;
 	getFieldValue?: (modObj: ModObject) => T;
 	setFieldValue?: (modObj: ModObject, newValue: T) => void;
 };
@@ -492,6 +494,7 @@ export const makeBooleanIconInput = <SpecType extends Spec, Message, ModObject>(
 		states: 2,
 		...mapStoreBinding(config, (modObj: ModObject) => modObj),
 		showWhen: config.showWhen,
+		enableWhen: config.enableWhen,
 		getValue:
 			config.getFieldValue ||
 			((modObj: ModObject) =>
@@ -593,6 +596,8 @@ const makeNumberIconInput = <SpecType extends Spec, Message, ModObject>(
 		label,
 		states: 0, // Must be assigned externally.
 		...mapStoreBinding(config, (modObj: ModObject) => modObj),
+		showWhen: config.showWhen,
+		enableWhen: config.enableWhen,
 		getValue: (modObj: ModObject) => {
 			const value = config.getValue(modObj);
 			const fieldValue = value[fieldName] as unknown as number;

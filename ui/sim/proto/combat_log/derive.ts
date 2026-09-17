@@ -8,6 +8,7 @@ import {
 	AuraLog,
 	AuraStacksLog,
 	AuraUptimeLog,
+	AutoDelayLog,
 	BaseLog,
 	CastBeganLog,
 	CastCancelledLog,
@@ -19,6 +20,7 @@ import {
 	Entity,
 	isAura,
 	isAuraStacks,
+	isAutoDelay,
 	isCastBegan,
 	isCastCancelled,
 	isCastCompleted,
@@ -355,6 +357,7 @@ function buildCastLog(
 	castBeganLog: CastBeganLog,
 	castCompletedLog: CastCompletedLog | null,
 	castCancelledLog: CastCancelledLog | null,
+	autoDelayLog: AutoDelayLog | null,
 	damageDealtLogs: Array<DamageLog>,
 ): CastLog {
 	const actionId = castCompletedLog?.actionId || castCancelledLog?.actionId || castBeganLog.actionId; // Use completed log because of arcane blast
@@ -388,34 +391,44 @@ function buildCastLog(
 		activeAuras: [],
 		kind: 'cast',
 		castTime,
+		gcd: castBeganLog.gcd,
 		effectiveTime,
 		travelTime,
 		cancelTime,
 		castBeganLog,
 		castCancelledLog,
 		castCompletedLog,
+		autoDelayLog,
+		delay: autoDelayLog?.delay ?? 0,
+		delayText: autoDelayLog?.delayText ?? '',
+		readyAtText: autoDelayLog?.readyAtTooltip ?? '',
 		damageDealtLogs,
 	};
 }
 
 export function buildCastLogs(logs: Array<CombatLog>): Array<CastLog> {
-	// One classification pass instead of four full scans of the same array.
+	// One classification pass instead of five full scans of the same array.
 	const castBeganLogs: Array<CastBeganLog> = [];
 	const castCompletedLogs: Array<CastCompletedLog> = [];
 	const castCancelledLogs: Array<CastCancelledLog> = [];
 	const damageLogs: Array<DamageLog> = [];
+	const autoDelayLogs: Array<AutoDelayLog> = [];
 	for (const log of logs) {
 		if (isCastBegan(log)) castBeganLogs.push(log);
 		else if (isCastCompleted(log)) castCompletedLogs.push(log);
 		else if (isCastCancelled(log)) castCancelledLogs.push(log);
 		else if (isDamage(log)) damageLogs.push(log);
+		else if (isAutoDelay(log)) autoDelayLogs.push(log);
 	}
 
 	const toBucketKey = (actionId: ActionId) => {
-		if (actionId.spellId == 30451 || actionId.spellId == 127632) {
+		if (actionId.spellId == 30451) {
 			// Arcane Blast is unique because it can finish its cast as a different spell than it
-			// started (if stacks drop). Also handle Shadow's Cascade for bouncing.
+			// started (if stacks drop).
 			return actionId.toStringIgnoringTag();
+		} else if (actionId.spellId === 27014) {
+			// Raptor Strike should be grouped with regular melee swings
+			return 'other-3-1';
 		} else {
 			return actionId.toString();
 		}
@@ -424,6 +437,7 @@ export function buildCastLogs(logs: Array<CombatLog>): Array<CastLog> {
 	const castCompletedLogsByAbility = bucket(castCompletedLogs, log => toBucketKey(log.actionId!));
 	const castCancelledLogsByAbility = bucket(castCancelledLogs, log => toBucketKey(log.actionId!));
 	const damageLogsByAbility = bucket(damageLogs, log => toBucketKey(log.actionId!));
+	const autoDelayLogsByAbility = bucket(autoDelayLogs, log => toBucketKey(log.actionId!));
 
 	const castLogs: Array<CastLog> = [];
 	Object.keys(castBeganLogsByAbility).forEach(bucketKey => {
@@ -431,8 +445,10 @@ export function buildCastLogs(logs: Array<CombatLog>): Array<CastLog> {
 		const abilityCastsCompleted = castCompletedLogsByAbility[bucketKey];
 		const abilityCastsCancelled = castCancelledLogsByAbility[bucketKey];
 		const abilityDamage = damageLogsByAbility[bucketKey];
+		const abilityAutoDelay = autoDelayLogsByAbility[bucketKey];
 
 		let ddIdx = 0;
+		let adIdx = 0;
 		let castSkipIdx = 0;
 		// abilityCastsCancelled is in the same log order as abilityCastsBegan, and each cbLog's
 		// cancel window starts where the previous one's ended - a monotonic cursor never needs to
@@ -473,7 +489,19 @@ export function buildCastLogs(logs: Array<CombatLog>): Array<CastLog> {
 				ddLogs.push(abilityDamage[ddIdx]);
 				ddIdx++;
 			}
-			castLogs.push(buildCastLog(cbLog, ccLog, cCancelLog, ddLogs));
+			// At most one auto-delay log per cast; the next one inside this cast's window.
+			const nextCbLog = abilityCastsBegan[cbIdx + 1];
+			let adLog: AutoDelayLog | null = null;
+			if (
+				abilityAutoDelay &&
+				adIdx < abilityAutoDelay.length &&
+				abilityAutoDelay[adIdx].timestamp >= cbLog.timestamp &&
+				(!nextCbLog || abilityAutoDelay[adIdx].timestamp < nextCbLog.timestamp)
+			) {
+				adLog = abilityAutoDelay[adIdx];
+				adIdx++;
+			}
+			castLogs.push(buildCastLog(cbLog, ccLog, cCancelLog, adLog, ddLogs));
 		}
 	});
 

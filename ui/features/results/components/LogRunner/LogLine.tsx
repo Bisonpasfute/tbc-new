@@ -2,15 +2,19 @@ import { ResourceType } from '@generated/proto/spell';
 import type {
 	AuraLog,
 	AuraStacksLog,
+	AutoDelayLog,
 	CastBeganLog,
 	CastCancelledLog,
 	CastCompletedLog,
+	CastFailedLog,
 	CastLog,
+	CastPushbackLog,
 	CombatLog,
 	DamageLog,
 	MajorCooldownLog,
 	ResourceGroupLog,
 	ResourceLog,
+	SpellQueuedLog,
 	StatChangeLog,
 } from '@sim/proto/combat_log';
 import { matchTimestampPrefix } from '@sim/proto/combat_log';
@@ -107,6 +111,35 @@ const CastCompletedLine = ({ log }: { log: CastCompletedLog }) => (
 	</>
 );
 
+const AutoDelayLine = ({ log }: { log: AutoDelayLog }) => (
+	<>
+		<SourcePrefix log={log} /> <ActionLink actionId={log.actionId!} /> delayed by {log.delayText}, was ready at {log.readyAtLogText}.
+	</>
+);
+
+const SpellQueuedLine = ({ log }: { log: SpellQueuedLog }) => (
+	<>
+		<SourcePrefix log={log} /> Queueing <ActionLink actionId={log.actionId!} /> to cast at {log.fireAtText}.
+	</>
+);
+
+const CastFailedLine = ({ log }: { log: CastFailedLog }) => (
+	<>
+		<SourcePrefix log={log} /> Failed to cast <ActionLink actionId={log.actionId!} />: {log.reason}.
+	</>
+);
+
+const CastPushbackLine = ({ log }: { log: CastPushbackLog }) =>
+	log.isChanneling ? (
+		<>
+			<SourcePrefix log={log} /> <ActionLink actionId={log.actionId!} /> lost {log.pushbackText} while channeling due to pushback.
+		</>
+	) : (
+		<>
+			<SourcePrefix log={log} /> <ActionLink actionId={log.actionId!} /> pushed back {log.pushbackText} while casting.
+		</>
+	);
+
 const StatChangeLine = ({ log }: { log: StatChangeLog }) =>
 	log.isGain ? (
 		<>
@@ -147,6 +180,10 @@ const LINE_BY_KIND: { [K in CombatLog['kind']]: ComponentType<{ log: LogOfKind<K
 	'cast-began': CastBeganLine,
 	'cast-cancelled': CastCancelledLine,
 	'cast-completed': CastCompletedLine,
+	'auto-delay': AutoDelayLine,
+	'spell-queued': SpellQueuedLine,
+	'cast-failed': CastFailedLine,
+	'cast-pushback': CastPushbackLine,
 	'stat-change': StatChangeLine,
 	'resource-group': ResourceGroupLine,
 	cast: CastLine,

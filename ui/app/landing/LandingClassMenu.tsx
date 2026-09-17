@@ -1,5 +1,5 @@
 import { Menu } from '@base-ui/react/menu';
-import type { Class } from '@generated/proto/common';
+import { Class } from '@generated/proto/common';
 import { translatePlayerClass, translatePlayerSpec, translateStatus } from '@i18n/localization';
 import { PlayerClasses } from '@sim/player/classes/index';
 import type { PlayerClass } from '@sim/player/player_class';
@@ -26,6 +26,10 @@ export const LandingClassMenu = ({ playerClass }: LandingClassMenuProps) => {
 	const stacked = useMedia(STACKED, false);
 	const className = translatePlayerClass(playerClass);
 	const specs = Object.values(playerClass.specs) as Array<PlayerSpec<any>>;
+	// Priest's class-level icon (`getIcon`) is a spell icon (spell_shadow_shadowwordpain), not the
+	// generic class_*.jpg every other class returns; the pre-port landing page hardcoded class_priest.jpg here.
+	const classIconPath =
+		playerClass.classID === Class.ClassPriest ? 'https://wow.zamimg.com/images/wow/icons/large/class_priest.jpg' : playerClass.getIcon('large');
 
 	// Five of TBC's nine classes have a single spec, and the pre-port page linked straight to it
 	// rather than opening a one-entry menu.
@@ -35,7 +39,7 @@ export const LandingClassMenu = ({ playerClass }: LandingClassMenuProps) => {
 			<div className="ui-landing-sim-link-dropdown" data-testid="sim-link-dropdown">
 				<a href={spec.simLink} className={clsx('ui-landing-sim-link-cell', textClassNameForClass(playerClass))} data-testid="sim-link">
 					<SimLinkContent
-						iconPath={playerClass.getIcon('large')}
+						iconPath={classIconPath}
 						iconClassName={CLASS_BORDER[PlayerClasses.getCssScheme(playerClass)]}
 						title={className}
 						status={translateStatus(spec.launch.status)}
@@ -50,7 +54,7 @@ export const LandingClassMenu = ({ playerClass }: LandingClassMenuProps) => {
 			<Menu.Root modal={false}>
 				<Menu.Trigger openOnHover delay={0} className={clsx('ui-landing-sim-link-cell', textClassNameForClass(playerClass))} data-testid="sim-link">
 					<SimLinkContent
-						iconPath={playerClass.getIcon('large')}
+						iconPath={classIconPath}
 						iconClassName={CLASS_BORDER[PlayerClasses.getCssScheme(playerClass)]}
 						title={className}
 						status={translateStatus(classLaunchStatus(playerClass))}
