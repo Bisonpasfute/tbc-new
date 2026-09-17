@@ -5,6 +5,13 @@
 	}
 
 	.ui-picker-group-icons {
-		@apply flex gap-1;
+		@apply flex flex-wrap gap-1;
+	}
+
+	/* A labelled icon picker takes the row to itself, label left and icon right. Vanilla did this in
+	   `_icon_picker.scss` keyed on `:has(.form-label)`; without it four labelled pickers share one
+	   flex row and the labels truncate to two characters. */
+	.ui-player-icon-group .ui-icon-field:has([data-testid='form-label']) {
+		@apply w-full flex-row-reverse justify-between;
 	}
 }
