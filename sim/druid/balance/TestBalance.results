@@ -503,8 +503,8 @@ dps_results: {
 dps_results: {
  key: "TestBalance-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1502.02329
-  tps: 1011.62141
+  dps: 1516.52857
+  tps: 1021.84316
  }
 }
 dps_results: {

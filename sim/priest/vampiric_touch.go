@@ -47,7 +47,7 @@ func (priest *Priest) registerVampiricTouchSpell(rankConfig shared.SpellRankConf
 				OnInit: func(aura *core.Aura, sim *core.Simulation) {
 					aura.AttachProcTrigger(core.ProcTrigger{
 						Name:               "VampiricTouch-ManaReturn",
-						CanProcFromProcs:   true, // 34914 .. 34917 carry the bit.
+						CanProcFromProcs:   true, // 34914, 34916, 34917 carry the bit.
 						Callback:           core.CallbackOnSpellHitTaken | core.CallbackOnPeriodicDamageTaken,
 						ClassSpellMask:     PriestShadowSpells,
 						RequireDamageDealt: true,

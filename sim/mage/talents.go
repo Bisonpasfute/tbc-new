@@ -318,7 +318,7 @@ func (mage *Mage) registerIgnite() {
 
 	procTrigger := core.ProcTrigger{
 		Name:               "Ignite Talent",
-		CanProcFromProcs:   true, // 11119 .. 12848 carry the bit.
+		CanProcFromProcs:   true, // 11119, 11120, 12846-12848 carry the bit.
 		Callback:           core.CallbackOnSpellHitDealt,
 		ProcMask:           core.ProcMaskSpellDamage,
 		ClassSpellMask:     FireSpellIgnitable,

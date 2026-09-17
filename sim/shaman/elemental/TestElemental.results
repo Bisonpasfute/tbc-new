@@ -552,8 +552,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1763.42329
-  tps: 964.99195
+  dps: 1765.43312
+  tps: 967.85465
  }
 }
 dps_results: {

@@ -41,9 +41,6 @@ func RegisterAllOnUseCds() {
 		{{- if .StackProcInfo.CanProcFromProcs }}
 		CanProcFromProcs:      true,
 		{{- end}}
-		{{- if .StackProcInfo.IsWeaponProc }}
-		IsWeaponProc:          true,
-		{{- end}}
 		{{- if .StackProcInfo.HonoursWeaponProcSuppression }}
 		SpellFlagsExclude:     core.SpellFlagSuppressWeaponProcs,
 		{{- end}}

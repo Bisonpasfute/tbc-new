@@ -152,42 +152,54 @@ func init() {
 		})
 
 		// Enchant 3273 carries two effects: a combat spell (Effect 1) that rolls on melee hits, and an
-		// Equip aura 46662 (Effect 3) that rolls on spell hits, without Can Proc From Procs. Both cast
-		// 46579. The 25 s lockout is 46662's proc recovery; the combat half has none in the DBC, so
-		// the two halves share one here rather than doubling the rate the old single trigger had.
+		// Equip aura 46662 (Effect 3) that rolls on spell damage, direct and periodic (ProcTypeMask
+		// 2424832), without Can Proc From Procs. Both cast 46579. The 25 s lockout is 46662's proc
+		// recovery; the combat half has none in the DBC, so the two halves share one here rather than
+		// doubling the rate the old single trigger had.
+		//
+		// The roll and the lockout are taken in ExtraCondition, which runs synchronously in the
+		// callback. The handler runs a batch window later, and hits landing on the same timestamp
+		// (both hands, extra attacks, multiple targets) would all pass a lockout consumed there.
 		lockout := core.Cooldown{
 			Timer:    character.NewTimer(),
 			Duration: time.Second * 25,
 		}
+		meleeDPM := character.NewFixedProcChanceManager(0.5, core.ProcMaskMelee)
 		handler := func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			lockout.Use(sim)
 			debuffArray.Get(result.Target).Activate(sim)
 			dfSpell.Cast(sim, result.Target)
 		}
-		ready := func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) bool {
-			return lockout.IsReady(sim)
-		}
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:           "Enchant Weapon - Deathfrost (Melee)",
-			Callback:       core.CallbackOnSpellHitDealt,
-			ActionID:       core.ActionID{SpellID: 46579},
-			IsWeaponProc:   true,
-			DPM:            character.NewFixedProcChanceManager(0.5, core.ProcMaskMelee),
-			Outcome:        core.OutcomeLanded,
-			ExtraCondition: ready,
-			Handler:        handler,
+			Name:         "Enchant Weapon - Deathfrost (Melee)",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 46579},
+			IsWeaponProc: true,
+			Outcome:      core.OutcomeLanded,
+			ExtraCondition: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) bool {
+				if !lockout.IsReady(sim) || !meleeDPM.Proc(sim, spell.ProcMask, "Deathfrost (Melee)") {
+					return false
+				}
+				lockout.Use(sim)
+				return true
+			},
+			Handler: handler,
 		})
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:           "Enchant Weapon - Deathfrost (Spell)",
-			Callback:       core.CallbackOnSpellHitDealt,
-			ActionID:       core.ActionID{SpellID: 46662},
-			ProcMask:       core.ProcMaskSpellDamage,
-			ProcChance:     0.5,
-			Outcome:        core.OutcomeLanded,
-			ExtraCondition: ready,
-			Handler:        handler,
+			Name:     "Enchant Weapon - Deathfrost (Spell)",
+			Callback: core.CallbackOnSpellHitDealt | core.CallbackOnPeriodicDamageDealt,
+			ActionID: core.ActionID{SpellID: 46662},
+			ProcMask: core.ProcMaskSpellDamage,
+			Outcome:  core.OutcomeLanded,
+			ExtraCondition: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) bool {
+				if !lockout.IsReady(sim) || !sim.Proc(0.5, "Deathfrost (Spell)") {
+					return false
+				}
+				lockout.Use(sim)
+				return true
+			},
+			Handler: handler,
 		})
 	})
 

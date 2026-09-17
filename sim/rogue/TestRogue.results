@@ -510,8 +510,8 @@ dps_results: {
 dps_results: {
  key: "TestRogue-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1808.34536
-  tps: 898.74764
+  dps: 1807.53824
+  tps: 898.34651
  }
 }
 dps_results: {

@@ -296,7 +296,7 @@ func (war *Warrior) registerFlurry() {
 		Name:               "Flurry - Trigger",
 		ActionID:           core.ActionID{SpellID: 12974},
 		ProcMask:           core.ProcMaskMelee,
-		CanProcFromProcs:   true, // 12974 carries the bit.
+		CanProcFromProcs:   true, // 12319, 12971-12974 carry the bit.
 		TriggerImmediately: true,
 		Callback:           core.CallbackOnSpellHitDealt,
 		Outcome:            core.OutcomeLanded,

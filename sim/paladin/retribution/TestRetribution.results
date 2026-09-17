@@ -616,9 +616,9 @@ dps_results: {
 dps_results: {
  key: "TestRetribution-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1885.83262
-  tps: 953.1274
-  dtps: 12.05933
+  dps: 1886.56246
+  tps: 953.46483
+  dtps: 12.20524
  }
 }
 dps_results: {

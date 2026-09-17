@@ -639,9 +639,9 @@ dps_results: {
 dps_results: {
  key: "TestHunter-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 3525.3057
-  tps: 1744.47134
-  dtps: 11.60303
+  dps: 3525.89853
+  tps: 1744.88631
+  dtps: 11.22286
  }
 }
 dps_results: {
