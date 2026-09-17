@@ -1,4 +1,4 @@
-import { ItemSlot } from '@generated/proto/common';
+import { HandType, ItemSlot } from '@generated/proto/common';
 import { BulkSimItemSlot } from '@sim/bulk/constants_auto_gen';
 import type { BulkPickerEntry } from '@sim/bulk/types';
 import type { EquippedItem } from '@sim/proto/equipped_item';
@@ -6,7 +6,9 @@ import { describe, expect, it } from 'vitest';
 
 import { addPickerEntry, frozenItemSlot, pickerEntryAt, removePickerEntry, updatePickerEntry } from './picker_groups';
 
-const item = (id: number, unique = false) => ({ id, _item: { id, unique } }) as unknown as EquippedItem;
+type ItemOverrides = { unique?: boolean; limitCategory?: number; handType?: HandType };
+const item = (id: number, overrides: ItemOverrides = {}) =>
+	({ id, _item: { id, unique: false, limitCategory: 0, handType: HandType.HandTypeOneHand, ...overrides } }) as unknown as EquippedItem;
 const order = (entries: readonly BulkPickerEntry[]) => entries.map(entry => entry.index);
 const addAll = (bulkSlot: BulkSimItemSlot, adds: Array<[number, EquippedItem]>): readonly BulkPickerEntry[] =>
 	adds.reduce<readonly BulkPickerEntry[]>((entries, [index, added]) => {
@@ -39,16 +41,44 @@ describe('addPickerEntry', () => {
 	});
 
 	it('allows only one copy of a unique item even in a paired slot', () => {
-		const trinket = addAll(BulkSimItemSlot.ItemSlotTrinket, [[0, item(9, true)]]);
-		expect(addPickerEntry(BulkSimItemSlot.ItemSlotTrinket, trinket, 1, item(9, true))).toBe('duplicate');
+		const trinket = addAll(BulkSimItemSlot.ItemSlotTrinket, [[0, item(9, { unique: true })]]);
+		expect(addPickerEntry(BulkSimItemSlot.ItemSlotTrinket, trinket, 1, item(9, { unique: true }))).toBe('duplicate');
 	});
 
-	it('never rejects an equipped entry, whatever is already in the group', () => {
+	it('allows only one copy of a limit-category item even in a paired slot', () => {
+		const trinket = addAll(BulkSimItemSlot.ItemSlotTrinket, [[0, item(9, { limitCategory: 326 })]]);
+		expect(addPickerEntry(BulkSimItemSlot.ItemSlotTrinket, trinket, 1, item(9, { limitCategory: 326 }))).toBe('duplicate');
+	});
+
+	it('allows two copies of a one-handed weapon', () => {
+		const weapons = addAll(BulkSimItemSlot.ItemSlotHandWeapon, [
+			[0, item(7, { handType: HandType.HandTypeOneHand })],
+			[1, item(7, { handType: HandType.HandTypeOneHand })],
+		]);
+		expect(order(weapons)).toEqual([0, 1]);
+	});
+
+	it.each([
+		['two-handed', HandType.HandTypeTwoHand],
+		['main-hand-only', HandType.HandTypeMainHand],
+		['off-hand-only', HandType.HandTypeOffHand],
+	])('rejects a second copy of a %s weapon, which no player can wield twice', (_name, handType) => {
+		const weapons = addAll(BulkSimItemSlot.ItemSlotHandWeapon, [[0, item(7, { handType })]]);
+		expect(addPickerEntry(BulkSimItemSlot.ItemSlotHandWeapon, weapons, 1, item(7, { handType }))).toBe('duplicate');
+	});
+
+	it("evicts a batch copy of a newly equipped item, but keeps one that fills the group's other slot", () => {
 		const head = addAll(BulkSimItemSlot.ItemSlotHead, [
 			[0, item(7)],
 			[-1, item(7)],
 		]);
-		expect(order(head)).toEqual([-1, 0]);
+		expect(order(head)).toEqual([-1]);
+
+		const finger = addAll(BulkSimItemSlot.ItemSlotFinger, [
+			[0, item(7)],
+			[-1, item(7)],
+		]);
+		expect(order(finger)).toEqual([-1, 0]);
 	});
 
 	it('re-adding an index moves it rather than duplicating it', () => {

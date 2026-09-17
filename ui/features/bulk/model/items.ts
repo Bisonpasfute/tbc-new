@@ -9,7 +9,7 @@ import { bulkState, patchBulkState } from '@sim/settings/bulk_settings';
 import { getEnumValues } from '@sim/utils/collections';
 import { toastManager } from '@ui-kit/Toast';
 
-import { addPickerEntry, pickerEntryAt, removePickerEntry, updatePickerEntry } from './picker_groups';
+import { addPickerEntry, pickerEntryAt, redundantAddedIndices, removePickerEntry, updatePickerEntry } from './picker_groups';
 
 type PickerGroups = Map<BulkSimItemSlot, readonly BulkPickerEntry[]>;
 
@@ -165,16 +165,23 @@ export const loadEquippedBulkItems = (player: Player<any>) => {
 		groups.set(bulkSlot, removePickerEntry(removePickerEntry(entries, -1), -2));
 	}
 
+	const redundant = new Set<number>();
 	player.getEquippedItems().forEach((equippedItem, slot) => {
 		const bulkSlot = getBulkItemSlotFromSlot(slot, playerCanDualWield);
 		const entries = groups.get(bulkSlot);
 		if (!entries) return;
 		const idx = isSecondaryBulkSlot(slot, playerCanDualWield) ? -2 : -1;
 		if (equippedItem) {
+			redundantAddedIndices(bulkSlot, entries, equippedItem).forEach(index => redundant.add(index));
 			const next = addPickerEntry(bulkSlot, entries, idx, equippedItem);
 			if (next !== 'duplicate') groups.set(bulkSlot, next);
 		}
 	});
 
 	patchBulkState(player, { pickerGroups: groups }, ['items']);
+
+	// The groups above dropped the redundant entries they render; the batch still holds their
+	// specs, which autosave would re-persist. Removing by index also clears the other groups an
+	// item is eligible for, which would otherwise point at a batch slot that no longer exists.
+	redundant.forEach(idx => removeBulkItemByIndex(player, idx, true));
 };

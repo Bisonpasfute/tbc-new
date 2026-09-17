@@ -42,12 +42,16 @@ beforeEach(() => {
 });
 
 describe('watchTargetDummies', () => {
-	// The one that matters. Settings are restored on `waitForInit`, and raid settings and talents
-	// come back separately — a rule that applied itself when it was armed would zero a saved count
-	// against talents that had not arrived. Turning this into a `DerivedSetting`, whose contract is
-	// apply-then-subscribe, is the refactor this test exists to fail.
-	it('does not touch the count when it is armed', () => {
+	// The one that matters. A count restored from localStorage or pasted in from another spec's
+	// link is stale on arrival; nothing changes the player afterwards, so only the apply at arm
+	// time zeroes it, and every sim until then ships the extra allies.
+	it('zeroes a stale count when it is armed', () => {
 		watchTargetDummies(makePlayer(), sim);
+		expect(dummies).toBe(0);
+	});
+
+	it('leaves a stale count alone for a spec that cannot enable them at all, so the initial apply stays behind the guard', () => {
+		watchTargetDummies(makePlayer({ canEnableTargetDummies: () => false }), sim);
 		expect(dummies).toBe(3);
 	});
 
