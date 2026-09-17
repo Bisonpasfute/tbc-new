@@ -141,6 +141,30 @@ describe('ThreatMetricsTable', () => {
 		]);
 	});
 
+	it('breaks the miss cell into miss, parry and dodge', async () => {
+		result = playerResult([
+			metric('Shield Slam', {
+				misses: 5,
+				missPercent: 5,
+				parries: 3,
+				parryPercent: 3,
+				dodges: 1,
+				dodgePercent: 1,
+				totalMisses: 9,
+				totalMissesPercent: 9,
+			}),
+		]);
+		const { container } = render(<ThreatMetricsTable />);
+
+		fireEvent.mouseEnter(rows(container)[0].cells[7]);
+		await waitFor(() => expect(tooltipTable()).toBeTruthy());
+		expect([...tooltipTable()!.querySelectorAll<HTMLTableRowElement>('tbody tr')].map(row => row.cells[0].textContent)).toEqual([
+			'results_tab.details.attack_types.miss',
+			'results_tab.details.attack_types.parry',
+			'results_tab.details.attack_types.dodge',
+		]);
+	});
+
 	it('dashes a passive action on Avg Cast and sorts it as 0', () => {
 		result = playerResult([metric('Shield Slam', { tps: 300 }), metric('Thunderfury', { isPassiveAction: true, tps: 20 })]);
 		const { container } = render(<ThreatMetricsTable />);

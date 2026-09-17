@@ -7,9 +7,9 @@ import { useMemo } from 'react';
 import { useSimResult } from '../../hooks/useSimResult';
 import { buildMetricRows, indexMetricRows, type MetricGrouping, type MetricRow } from '../../model/grouping';
 import type { SimResultData } from '../../model/result_data';
-import { amountHeader, attackFormat, attackMetricsColumns, castsGroup, hitGroups, missGroup, useMetricMax } from '../AttackMetricsColumns';
+import { amountHeader, attackFormat, attackMetricsColumns, castsTooltip, hitsTooltip, missTooltip, useMetricMax } from '../AttackMetricsColumns';
 import { MetricsCombinedTooltip } from '../MetricsCombinedTooltip';
-import { createMetricsColumnHelper, metricForAnchor, MetricsTable } from '../MetricsTable';
+import { createMetricsColumnHelper, metricForAnchor, MetricsTable, MetricTooltip } from '../MetricsTable';
 
 const helper = createMetricsColumnHelper<ActionMetrics>();
 
@@ -132,67 +132,39 @@ export const ThreatMetricsTable = () => {
 		<>
 			<MetricsTable rootTestId="threat-metrics-root" columns={columns} rows={rows} sortColumnId="tps" hasResult={!!resultData} />
 			<Tooltip id={TOOLTIP.avgCastHeader} />
-			<Tooltip
-				id={TOOLTIP.casts}
-				className="ui-metrics-tooltip text-xs"
-				maxWidth="max-w-none max-sm:max-w-metrics-tooltip"
-				render={({ activeAnchor }) =>
-					forAnchor(activeAnchor, metric =>
-						(!metric.landedHits && !metric.totalMisses) || metric.isPassiveAction ? null : <MetricsCombinedTooltip groups={[castsGroup(metric)]} />,
-					)
-				}
-			/>
-			<Tooltip
-				id={TOOLTIP.hits}
-				className="ui-metrics-tooltip text-xs"
-				maxWidth="max-w-none max-sm:max-w-metrics-tooltip"
-				render={({ activeAnchor }) =>
-					forAnchor(activeAnchor, metric =>
-						!metric.landedHits && !metric.landedTicks ? null : <MetricsCombinedTooltip groups={hitGroups(metric)} />,
-					)
-				}
-			/>
-			<Tooltip
-				id={TOOLTIP.missPercent}
-				className="ui-metrics-tooltip text-xs"
-				maxWidth="max-w-none max-sm:max-w-metrics-tooltip"
-				render={({ activeAnchor }) =>
-					forAnchor(activeAnchor, metric => (metric.totalMissesPercent ? <MetricsCombinedTooltip groups={[missGroup(metric)]} /> : null))
-				}
-			/>
-			<Tooltip
+			<MetricTooltip id={TOOLTIP.casts} forAnchor={forAnchor} body={castsTooltip} />
+			<MetricTooltip id={TOOLTIP.hits} forAnchor={forAnchor} body={hitsTooltip} />
+			<MetricTooltip id={TOOLTIP.missPercent} forAnchor={forAnchor} body={missTooltip} />
+			<MetricTooltip
 				id={TOOLTIP.tps}
-				className="ui-metrics-tooltip text-xs"
-				maxWidth="max-w-none max-sm:max-w-metrics-tooltip"
-				render={({ activeAnchor }) =>
-					forAnchor(activeAnchor, metric => {
-						if (!metric.tps) return null;
-						const peak = Math.max(metric.avgCastThreat, metric.avgHitThreat);
-						return (
-							<MetricsCombinedTooltip
-								headerValues={amountHeader()}
-								groups={[
-									{
-										spellSchool: metric.spellSchool,
-										totalPercentage: 100,
-										data: [
-											{
-												name: i18n.t('results_tab.details.tooltip_table.per_cast'),
-												value: metric.avgCastThreat,
-												percentage: (metric.avgCastThreat / peak) * 100,
-											},
-											{
-												name: i18n.t('results_tab.details.tooltip_table.per_hit'),
-												value: metric.avgHitThreat,
-												percentage: (metric.avgHitThreat / peak) * 100,
-											},
-										],
-									},
-								]}
-							/>
-						);
-					})
-				}
+				forAnchor={forAnchor}
+				body={metric => {
+					if (!metric.tps) return null;
+					const peak = Math.max(metric.avgCastThreat, metric.avgHitThreat);
+					return (
+						<MetricsCombinedTooltip
+							headerValues={amountHeader()}
+							groups={[
+								{
+									spellSchool: metric.spellSchool,
+									totalPercentage: 100,
+									data: [
+										{
+											name: i18n.t('results_tab.details.tooltip_table.per_cast'),
+											value: metric.avgCastThreat,
+											percentage: (metric.avgCastThreat / peak) * 100,
+										},
+										{
+											name: i18n.t('results_tab.details.tooltip_table.per_hit'),
+											value: metric.avgHitThreat,
+											percentage: (metric.avgHitThreat / peak) * 100,
+										},
+									],
+								},
+							]}
+						/>
+					);
+				}}
 			/>
 		</>
 	);

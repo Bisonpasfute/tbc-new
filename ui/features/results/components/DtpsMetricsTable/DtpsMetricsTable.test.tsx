@@ -152,6 +152,22 @@ describe('DtpsMetricsTable', () => {
 		]);
 	});
 
+	it('counts blocked hits and crushing blows out of the hit row of the casts breakdown', async () => {
+		result = targetResult([metric('Melee', { landedHits: 100, casts: 112, totalMisses: 12, misses: 12, blocks: 20, blockedCrits: 5, crushes: 10 })]);
+		const { container } = render(<DtpsMetricsTable />);
+
+		fireEvent.mouseEnter(rows(container)[0].cells[2]);
+		await waitFor(() => expect(tooltipTable()).toBeTruthy());
+		const breakdown = [...tooltipTable()!.querySelectorAll<HTMLTableRowElement>('tbody tr')];
+		expect(breakdown.map(row => row.cells[0].textContent)).toEqual([
+			'results_tab.details.attack_types.hit',
+			'results_tab.details.attack_types.blocked_hit',
+			'results_tab.details.attack_types.miss',
+			'results_tab.details.attack_types.crushing_blow',
+		]);
+		expect(breakdown[0].cells[1].textContent?.endsWith('65')).toBe(true);
+	});
+
 	it('carries no tooltip on Avg Hit or on the rate column, so a target reports no threat', () => {
 		result = targetResult([metric('Melee')]);
 		const { container } = render(<DtpsMetricsTable />);

@@ -181,6 +181,21 @@ describe('DamageMetricsTable', () => {
 		]);
 	});
 
+	it('counts blocked hits out of the hit row of the casts breakdown, and shows no crushing blows', async () => {
+		result = playerResult([metric('Steady Shot', { landedHits: 100, casts: 112, totalMisses: 12, misses: 12, blocks: 20, blockedCrits: 5, crushes: 10 })]);
+		const { container } = render(<DamageMetricsTable />);
+
+		fireEvent.mouseEnter(rows(container)[0].cells[2]);
+		await waitFor(() => expect(tooltipTable()).toBeTruthy());
+		const breakdown = [...tooltipTable()!.querySelectorAll<HTMLTableRowElement>('tbody tr')];
+		expect(breakdown.map(row => row.cells[0].textContent)).toEqual([
+			'results_tab.details.attack_types.hit',
+			'results_tab.details.attack_types.blocked_hit',
+			'results_tab.details.attack_types.miss',
+		]);
+		expect(breakdown[0].cells[1].textContent?.endsWith('75')).toBe(true);
+	});
+
 	it('resolves a child row against its own metric, not its parent', async () => {
 		result = playerResult([], [pet('Claw', { dps: 4, hits: 40, crits: 0 }), pet('Bite', { dps: 6, hits: 60, crits: 0 })]);
 		const { container } = render(<DamageMetricsTable />);

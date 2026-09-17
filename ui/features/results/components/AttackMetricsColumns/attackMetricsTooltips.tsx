@@ -15,7 +15,7 @@ export interface AttackBreakdownOptions {
 	crush?: boolean;
 }
 
-export const damageBreakdownGroup = (metric: ActionMetrics, { crush }: AttackBreakdownOptions = {}): MetricsCombinedTooltipGroup => {
+const damageBreakdownGroup = (metric: ActionMetrics, { crush }: AttackBreakdownOptions = {}): MetricsCombinedTooltipGroup => {
 	const done = metric.damageDone;
 	return {
 		spellSchool: metric.spellSchool,
@@ -37,7 +37,7 @@ export const damageBreakdownGroup = (metric: ActionMetrics, { crush }: AttackBre
 	};
 };
 
-export const castsGroup = (metric: ActionMetrics, { crush }: AttackBreakdownOptions = {}): MetricsCombinedTooltipGroup => {
+const castsGroup = (metric: ActionMetrics, { crush }: AttackBreakdownOptions = {}): MetricsCombinedTooltipGroup => {
 	const landed = metric.landedHits || metric.casts;
 	const blocked = metric.blocks + metric.blockedCrits;
 	return {
@@ -62,7 +62,7 @@ export const castsGroup = (metric: ActionMetrics, { crush }: AttackBreakdownOpti
 	};
 };
 
-export const hitGroups = (metric: ActionMetrics, { crush }: AttackBreakdownOptions = {}): Array<MetricsCombinedTooltipGroup> => {
+const hitGroups = (metric: ActionMetrics, { crush }: AttackBreakdownOptions = {}): Array<MetricsCombinedTooltipGroup> => {
 	const ofHits = (value: number) => (value / metric.landedHits) * 100;
 	const ofTicks = (value: number) => (value / metric.landedTicks) * 100;
 
@@ -120,7 +120,7 @@ export const hitGroups = (metric: ActionMetrics, { crush }: AttackBreakdownOptio
 	];
 };
 
-export const missGroup = (metric: ActionMetrics): MetricsCombinedTooltipGroup => ({
+const missGroup = (metric: ActionMetrics): MetricsCombinedTooltipGroup => ({
 	spellSchool: metric.spellSchool,
 	totalPercentage: metric.totalMissesPercent,
 	data: [
@@ -139,3 +139,15 @@ export const threatGroup = (metric: ActionMetrics, value: number): MetricsCombin
 /** The threat veto, as a body that is simply not built: `showThreatMetrics` comes from the store, and a `render` that returns nothing draws no tooltip at all. */
 export const threatTooltip = (metric: ActionMetrics, value: number, showThreatMetrics: boolean) =>
 	showThreatMetrics && value ? <MetricsCombinedTooltip headerValues={amountHeader()} groups={[threatGroup(metric, value)]} /> : null;
+
+export const damageBreakdownTooltip = (metric: ActionMetrics, options?: AttackBreakdownOptions) => (
+	<MetricsCombinedTooltip headerValues={amountHeader()} groups={[damageBreakdownGroup(metric, options)]} />
+);
+
+export const castsTooltip = (metric: ActionMetrics, options?: AttackBreakdownOptions) =>
+	(!metric.landedHits && !metric.totalMisses) || metric.isPassiveAction ? null : <MetricsCombinedTooltip groups={[castsGroup(metric, options)]} />;
+
+export const hitsTooltip = (metric: ActionMetrics, options?: AttackBreakdownOptions) =>
+	!metric.landedHits && !metric.landedTicks ? null : <MetricsCombinedTooltip groups={hitGroups(metric, options)} />;
+
+export const missTooltip = (metric: ActionMetrics) => (metric.totalMissesPercent ? <MetricsCombinedTooltip groups={[missGroup(metric)]} /> : null);
