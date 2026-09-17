@@ -289,7 +289,7 @@ var ItemSetSpellstrikeInfusion = core.NewItemSet(core.ItemSet{
 				Name:             "Spellstrike Infusion 2pc",
 				ProcChance:       0.05,
 				ProcMask:         core.ProcMaskSpellDamage,
-				CanProcFromProcs: true,
+				CanProcFromProcs: true, // 32106 carries the bit.
 				Callback:         core.CallbackOnSpellHitDealt,
 				ClassSpellsOnly:  true,
 				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

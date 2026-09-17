@@ -77,6 +77,33 @@ func (config *ProcTrigger) canProcFrom(spell *Spell) bool {
 	return config.CanProcFromProcs || !spell.Flags.Matches(SpellFlagProc)
 }
 
+// The spell-side checks every callback path applies, in one place so the paths cannot drift:
+// eligibility, the flag filters, the class spell filters and the hit-kind mask.
+func (config *ProcTrigger) matchesSpell(spell *Spell) bool {
+	if !config.canProcFrom(spell) {
+		return false
+	}
+	if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
+		return false
+	}
+	if config.SpellFlagsExclude != SpellFlagNone && spell.Flags.Matches(config.SpellFlagsExclude) {
+		return false
+	}
+	if config.ClassSpellMask > 0 && config.ClassSpellMask&spell.ClassSpellMask == 0 {
+		return false
+	}
+	if config.ClassSpellsOnly && spell.ClassSpellMask == 0 {
+		return false
+	}
+	if config.ProcMaskExclude != ProcMaskUnknown && spell.ProcMask.Matches(config.ProcMaskExclude) {
+		return false
+	}
+	if config.ProcMask != ProcMaskUnknown && !spell.ProcMask.Matches(config.ProcMask) {
+		return false
+	}
+	return true
+}
+
 func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) {
 	var icd Cooldown
 	if config.ICD != 0 {
@@ -118,25 +145,7 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 	}
 
 	callback := func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
-		if !config.canProcFrom(spell) {
-			return
-		}
-		if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
-			return
-		}
-		if config.SpellFlagsExclude != SpellFlagNone && spell.Flags.Matches(config.SpellFlagsExclude) {
-			return
-		}
-		if config.ClassSpellMask > 0 && config.ClassSpellMask&spell.ClassSpellMask == 0 {
-			return
-		}
-		if config.ClassSpellsOnly && spell.ClassSpellMask == 0 {
-			return
-		}
-		if config.ProcMaskExclude != ProcMaskUnknown && spell.ProcMask.Matches(config.ProcMaskExclude) {
-			return
-		}
-		if config.ProcMask != ProcMaskUnknown && !spell.ProcMask.Matches(config.ProcMask) {
+		if !config.matchesSpell(spell) {
 			return
 		}
 		if config.Outcome != OutcomeEmpty {
@@ -192,25 +201,14 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 	}
 	if config.Callback.Matches(CallbackOnCastComplete) {
 		procAura.OnCastComplete = func(aura *Aura, sim *Simulation, spell *Spell) {
-			if !config.canProcFrom(spell) {
-				return
-			}
-			if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
-				return
-			}
-			if config.ClassSpellMask > 0 && config.ClassSpellMask&spell.ClassSpellMask == 0 {
-				return
-			}
-			if config.ClassSpellsOnly && spell.ClassSpellMask == 0 {
-				return
-			}
-			if config.ProcMask != ProcMaskUnknown && !spell.ProcMask.Matches(config.ProcMask) {
-				return
-			}
-			if config.ProcMaskExclude != ProcMaskUnknown && spell.ProcMask.Matches(config.ProcMaskExclude) {
+			if !config.matchesSpell(spell) {
 				return
 			}
 			if icd.Duration != 0 && !icd.IsReady(sim) {
+				return
+			}
+			// No result exists for a cast, so a condition here can only look at the spell.
+			if config.ExtraCondition != nil && !config.ExtraCondition(sim, spell, nil) {
 				return
 			}
 			if config.ProcChance != 1 && sim.RandomFloat(config.Name) > config.ProcChance {
@@ -225,22 +223,7 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 	}
 	if config.Callback.Matches(CallbackOnApplyEffects) {
 		procAura.OnApplyEffects = func(aura *Aura, sim *Simulation, target *Unit, spell *Spell) {
-			if !config.canProcFrom(spell) {
-				return
-			}
-			if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
-				return
-			}
-			if config.ClassSpellMask > 0 && config.ClassSpellMask&spell.ClassSpellMask == 0 {
-				return
-			}
-			if config.ClassSpellsOnly && spell.ClassSpellMask == 0 {
-				return
-			}
-			if config.ProcMask != ProcMaskUnknown && !spell.ProcMask.Matches(config.ProcMask) {
-				return
-			}
-			if config.ProcMaskExclude != ProcMaskUnknown && spell.ProcMask.Matches(config.ProcMaskExclude) {
+			if !config.matchesSpell(spell) {
 				return
 			}
 			if icd.Duration != 0 && !icd.IsReady(sim) {

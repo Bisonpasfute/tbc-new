@@ -411,6 +411,10 @@ type StackingStatBonusCD struct {
 	SpellFlags         core.SpellFlag
 	Outcome            core.HitOutcome
 	RequireDamageDealt bool
+	// See core.ProcTrigger. The generator reads them off the stack proc's aura.
+	CanProcFromProcs  bool
+	IsWeaponProc      bool
+	SpellFlagsExclude core.SpellFlag
 
 	// The stacks will only be granted as long as the trinket is active
 	TrinketLimitsDuration bool
@@ -504,6 +508,9 @@ func attachStackingCDTrigger(character *core.Character, config StackingStatBonus
 		Callback:           config.Callback,
 		ProcMask:           config.ProcMask,
 		SpellFlags:         config.SpellFlags,
+		SpellFlagsExclude:  config.SpellFlagsExclude,
+		CanProcFromProcs:   config.CanProcFromProcs,
+		IsWeaponProc:       config.IsWeaponProc,
 		Outcome:            config.Outcome,
 		RequireDamageDealt: config.RequireDamageDealt,
 		ProcChance:         core.TernaryFloat64(stackDPM == nil, stackProc.GetProcChance(), 0),

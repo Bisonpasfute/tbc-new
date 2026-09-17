@@ -132,7 +132,7 @@ func (shaman *Shaman) applyFlurry() {
 		Name:             "Flurry Trigger",
 		Callback:         core.CallbackOnSpellHitDealt,
 		ProcMask:         core.ProcMaskMelee,
-		CanProcFromProcs: true,
+		CanProcFromProcs: true, // 16256 .. 16284 carry the bit.
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			if result.Outcome.Matches(core.OutcomeCrit) {
 				flurryAura.Activate(sim)
@@ -206,7 +206,7 @@ func (shaman *Shaman) applyShamanisticFocus() {
 		Name:             "Shamanistic Focus Trigger",
 		Callback:         core.CallbackOnSpellHitDealt,
 		ProcMask:         core.ProcMaskMelee,
-		CanProcFromProcs: true,
+		CanProcFromProcs: true, // 43338 carries the bit.
 		Outcome:          core.OutcomeCrit,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			sfAura.Activate(sim)
@@ -299,7 +299,7 @@ func (shaman *Shaman) applyUnleashedRage() {
 		Name:               "Unleashed Rage Trigger",
 		Callback:           core.CallbackOnSpellHitDealt,
 		ProcMask:           core.ProcMaskMelee,
-		CanProcFromProcs:   true,
+		CanProcFromProcs:   true, // 30802 .. 30811 carry the bit.
 		Outcome:            core.OutcomeCrit,
 		RequireDamageDealt: true,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {

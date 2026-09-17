@@ -233,7 +233,7 @@ func init() {
 				ActionID:    core.ActionID{SpellID: 40293},
 				SpellSchool: core.SpellSchoolShadow,
 				ProcMask:    core.ProcMaskEmpty,
-				Flags:       core.SpellFlagPassiveSpell,
+				Flags:       core.SpellFlagPassiveSpell | core.SpellFlagProc, // 40293 lacks Not a Proc.
 
 				DamageMultiplier: 1,
 
@@ -242,6 +242,8 @@ func init() {
 				},
 			})
 
+			// 40291 is an Equip aura: ProcTypeMask 20 (melee auto and ability hits), no Can Proc From
+			// Procs, no Aura Is Weapon Proc. So a plain aura proc.
 			return character.MakeProcTriggerAura(core.ProcTrigger{
 				Name:            "Siphon Essence",
 				MetricsActionID: core.ActionID{SpellID: 40293},

@@ -882,7 +882,7 @@ dps_results: {
  key: "TestShadowPriest-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 1707.83873
-  tps: 881.93162
+  tps: 882.0489
  }
 }
 dps_results: {

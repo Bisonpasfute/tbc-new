@@ -45,6 +45,17 @@ type ProcInfo struct {
 	HonoursWeaponProcSuppression bool
 }
 
+// A weapon proc ignores proc-ness and already skips hits that suppress weapon procs, so the two
+// aura-side fields would be dead or redundant next to it. Cleared so the generated file states
+// one rule per listener.
+func (info *ProcInfo) setIsWeaponProc(isWeaponProc bool) {
+	info.IsWeaponProc = isWeaponProc
+	if isWeaponProc {
+		info.CanProcFromProcs = false
+		info.HonoursWeaponProcSuppression = false
+	}
+}
+
 // Entry represents a effect with its Item ID, Spell ID and display name.
 type Variant struct {
 	ID      int
@@ -800,24 +811,13 @@ func BuildProcInfo(parsed *proto.UIItem, itemEffectID int, instance *dbc.DBC, to
 	}
 
 	procInfo, supported := BuildSpellProcInfo(&procSpell, tooltip, itemType)
-	procInfo.IsWeaponProc = isWeaponProc
+	procInfo.setIsWeaponProc(isWeaponProc)
 
 	if SpellHasDummyEffect(int(procId), instance) {
 		return procInfo, false
 	}
 
 	return procInfo, supported
-}
-
-// Reports whether the enchant's effect is a combat spell (SpellItemEnchantment.Effect 1): a weapon
-// proc the game casts off every eligible hit, as opposed to an equip spell, which is an aura proc.
-func enchantIsCombatSpell(enchant *proto.UIEnchant, instance *dbc.DBC) bool {
-	raw, ok := instance.EnchantsByEffectId[int(enchant.EffectId)]
-	if !ok {
-		return false
-	}
-
-	return slices.Contains(raw.Effects, dbc.ITEM_ENCHANTMENT_COMBAT_SPELL)
 }
 
 func BuildEnchantProcInfo(enchant *proto.UIEnchant, instance *dbc.DBC, tooltip string) (ProcInfo, bool) {
@@ -833,7 +833,8 @@ func BuildEnchantProcInfo(enchant *proto.UIEnchant, instance *dbc.DBC, tooltip s
 	}
 
 	procInfo, supported := BuildSpellProcInfo(&procSpell, tooltip, enchant.Type)
-	procInfo.IsWeaponProc = enchantIsCombatSpell(enchant, instance)
+	raw, ok := instance.EnchantsByEffectId[int(enchant.EffectId)]
+	procInfo.setIsWeaponProc(ok && raw.IsCombatSpell(int(procSpellID)))
 
 	if SpellHasDummyEffect(int(procSpellID), instance) {
 		return procInfo, false

@@ -567,9 +567,9 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-DoomplateBattlegear"
  value: {
-  dps: 861.60003
-  tps: 1546.12957
-  dtps: 1562.13632
+  dps: 861.28124
+  tps: 1546.10617
+  dtps: 1563.72009
  }
 }
 dps_results: {
@@ -671,9 +671,9 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 782.56527
-  tps: 1436.83573
-  dtps: 1280.50683
+  dps: 785.11218
+  tps: 1442.47819
+  dtps: 1275.71361
  }
 }
 dps_results: {
@@ -1688,9 +1688,9 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-WastewalkerArmor"
  value: {
-  dps: 848.50602
-  tps: 1527.3457
-  dtps: 1662.97885
+  dps: 847.22504
+  tps: 1525.06431
+  dtps: 1664.62545
  }
 }
 dps_results: {

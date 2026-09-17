@@ -909,8 +909,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-PendantoftheVioletEye-28727"
  value: {
-  dps: 1934.14605
-  tps: 854.98813
+  dps: 1928.45253
+  tps: 851.54345
  }
 }
 dps_results: {

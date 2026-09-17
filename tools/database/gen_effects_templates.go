@@ -38,6 +38,15 @@ func RegisterAllOnUseCds() {
 		ProcMask:              {{ .StackProcInfo.ProcMask | asCoreProcMask }},
 		Outcome:               {{ .StackProcInfo.Outcome | asCoreOutcome }},
 		RequireDamageDealt:    {{ .StackProcInfo.RequireDamageDealt }},
+		{{- if .StackProcInfo.CanProcFromProcs }}
+		CanProcFromProcs:      true,
+		{{- end}}
+		{{- if .StackProcInfo.IsWeaponProc }}
+		IsWeaponProc:          true,
+		{{- end}}
+		{{- if .StackProcInfo.HonoursWeaponProcSuppression }}
+		SpellFlagsExclude:     core.SpellFlagSuppressWeaponProcs,
+		{{- end}}
 		TrinketLimitsDuration: true,
 	})
 	{{- else if not .Supported}}

@@ -160,7 +160,7 @@ func (war *Warrior) registerDeepWounds() {
 		SpellSchool:    core.SpellSchoolPhysical,
 		ProcMask:       core.ProcMaskEmpty,
 		ClassSpellMask: SpellMaskDeepWounds,
-		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagIgnoreResists,
+		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagIgnoreResists | core.SpellFlagProc, // 12867 lacks Not a Proc.
 
 		// Deep Wounds (12867) has no SpellCategories row in the client DB. It's a bleed that
 		// snapshots on proc; the application uses OutcomeAlwaysHitNoHitCounter and the DoT ticks

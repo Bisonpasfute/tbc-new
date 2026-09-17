@@ -664,9 +664,9 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 913.79
-  tps: 1633.11001
-  dtps: 1246.02952
+  dps: 910.35064
+  tps: 1623.09061
+  dtps: 1219.97899
  }
 }
 dps_results: {
@@ -1298,7 +1298,7 @@ dps_results: {
  key: "TestProtection-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 887.81662
-  tps: 1587.43486
+  tps: 1587.80089
   dtps: 1291.18048
  }
 }
@@ -1674,8 +1674,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-TomeofFieryRedemption-30447"
  value: {
-  dps: 921.01654
-  tps: 1652.10589
+  dps: 916.78047
+  tps: 1643.94515
   dtps: 1291.18048
  }
 }

@@ -346,7 +346,7 @@ func (paladin *Paladin) registerSealOfLight(seal seal) {
 		ClassSpellMask:   SpellMaskSealOfLight,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskSpellHealing,
-		Flags:            core.SpellFlagHelpful | core.SpellFlagPassiveSpell,
+		Flags:            core.SpellFlagHelpful | core.SpellFlagPassiveSpell | core.SpellFlagProc, // 20167 .. 27161 lack Not a Proc.
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -422,7 +422,7 @@ func (paladin *Paladin) registerSealOfWisdom(seal seal) {
 		ClassSpellMask:   SpellMaskSealOfWisdom,
 		SpellSchool:      core.SpellSchoolHoly,
 		ProcMask:         core.ProcMaskEmpty,
-		Flags:            core.SpellFlagHelpful | core.SpellFlagPassiveSpell,
+		Flags:            core.SpellFlagHelpful | core.SpellFlagPassiveSpell | core.SpellFlagProc, // 20168 .. 27167 lack Not a Proc.
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -512,7 +512,7 @@ func (paladin *Paladin) registerSealOfJustice(seal seal) {
 		SpellSchool:      core.SpellSchoolHoly,
 		DefenseType:      core.DefenseTypeMagic,
 		ProcMask:         core.ProcMaskEmpty,
-		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell,
+		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell | core.SpellFlagProc, // 20170 lacks Not a Proc.
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {

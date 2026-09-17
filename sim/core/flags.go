@@ -55,8 +55,10 @@ const (
 	ProcMaskRangedSpecial
 	ProcMaskSpellDamage
 	ProcMaskSpellHealing
-	// Spell damage dealt by a weapon imbue or poison. A hit kind, not proc-ness (that is SpellFlagProc):
-	// it keeps class-ability-only spell listeners from hearing Flametongue and poison hits.
+	// Spell damage dealt by a weapon imbue or poison (Flametongue, Frostbrand, rogue poisons). A hit
+	// kind, not proc-ness (that is SpellFlagProc). It is deliberately not a member of
+	// ProcMaskSpellDamage, so a listener whose mask is ProcMaskSpellDamage never hears these hits
+	// even when it can proc from procs; that is the whole reason the bit survives.
 	ProcMaskSpellDamageProc
 
 	ProcMaskLast

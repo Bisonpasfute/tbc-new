@@ -376,7 +376,7 @@ func registerConjuredCD(agent Agent, consumes *proto.ConsumesSpec) {
 				ActionID:    conjuredMCD.Spell.ActionID,
 				SpellSchool: SpellSchoolFire,
 				DefenseType: DefenseTypeMagic, // Flamecap Fire (28715)
-				ProcMask:    ProcMaskSpellDamageProc,
+				ProcMask:    ProcMaskSpellDamage,
 				Flags:       SpellFlagProc,
 
 				DamageMultiplier: 1,

@@ -591,8 +591,8 @@ dps_results: {
 dps_results: {
  key: "TestDpsWarrior-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 2085.24962
-  tps: 1103.59191
+  dps: 2086.27207
+  tps: 1104.1234
   dtps: 6.84366
  }
 }
@@ -1471,8 +1471,8 @@ dps_results: {
 dps_results: {
  key: "TestDpsWarrior-AllItems-WastewalkerArmor"
  value: {
-  dps: 1823.69526
-  tps: 968.00984
+  dps: 1816.51108
+  tps: 964.01319
   dtps: 6.79847
  }
 }

@@ -234,7 +234,7 @@ func init() {
 			SpellSchool: core.SpellSchoolNature,
 			DefenseType: core.DefenseTypeMagic,
 
-			ProcMask: core.ProcMaskSpellDamageProc,
+			ProcMask: core.ProcMaskSpellDamage,
 			Flags:    core.SpellFlagPassiveSpell | core.SpellFlagNoOnCastComplete | core.SpellFlagProc,
 
 			DamageMultiplier: 1,
@@ -310,7 +310,7 @@ func init() {
 			Name:             "The Lightning Capacitor",
 			ActionID:         core.ActionID{ItemID: 28785},
 			ProcMask:         core.ProcMaskSpellDamage,
-			CanProcFromProcs: true,
+			CanProcFromProcs: true, // 37657 carries the bit.
 			Outcome:          core.OutcomeCrit,
 			Callback:         core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -413,15 +413,18 @@ func init() {
 	core.NewItemEffect(30621, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
+		// Two Equip auras, both able to proc from procs: 38326 takes melee and ranged crits off by 150
+		// (38329) and 38327 takes spell crits off by 1000 (38328).
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:               "Prism of Inner Calm",
 			ActionID:           core.ActionID{ItemID: 30621},
 			Outcome:            core.OutcomeCrit,
 			Callback:           core.CallbackOnSpellHitDealt,
 			RequireDamageDealt: true,
+			CanProcFromProcs:   true,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				threatReduction := 150.0
-				if spell.Flags.Matches(core.SpellFlagProc) {
+				if spell.ProcMask.Matches(core.ProcMaskSpellDamage | core.ProcMaskSpellDamageProc) {
 					threatReduction = 1000
 				}
 				spell.FlatThreatBonus -= threatReduction
@@ -473,7 +476,7 @@ func init() {
 			Name:             "Darkmoon Card: Crusade (Caster)",
 			ActionID:         core.ActionID{SpellID: 39440},
 			ProcMask:         core.ProcMaskSpellDamage,
-			CanProcFromProcs: true,
+			CanProcFromProcs: true, // 39440 carries the bit.
 			ClassSpellsOnly:  true,
 			Outcome:          core.OutcomeLanded,
 			Callback:         core.CallbackOnSpellHitDealt,

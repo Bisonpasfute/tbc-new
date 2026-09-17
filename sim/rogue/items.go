@@ -146,7 +146,7 @@ func init() {
 			Name:               "Perceived Weakness",
 			ActionID:           core.ActionID{ItemID: 30450},
 			ProcMask:           core.ProcMaskMeleeSpecial,
-			CanProcFromProcs:   true,
+			CanProcFromProcs:   true, // 37173 carries the bit.
 			ICD:                time.Second * 30,
 			RequireDamageDealt: true,
 			Outcome:            core.OutcomeLanded,

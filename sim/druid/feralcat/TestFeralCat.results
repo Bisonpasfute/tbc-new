@@ -667,9 +667,9 @@ dps_results: {
 dps_results: {
  key: "TestFeralCat-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 2496.75049
-  tps: 1271.02877
-  dtps: 10.71088
+  dps: 2496.65446
+  tps: 1270.98105
+  dtps: 10.99364
   hps: 68.66347
  }
 }
