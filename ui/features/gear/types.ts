@@ -1,4 +1,4 @@
-import { ItemQuality, ItemRandomSuffix, ItemSlot } from '@generated/proto/common';
+import { ItemQuality, ItemRandomSuffix } from '@generated/proto/common';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 import i18n from '@i18n/config';
 import { ActionId } from '@sim/proto/action_id';
@@ -60,15 +60,4 @@ export function getTranslatedTabLabel(tab: SelectorModalTabs): string {
 		default:
 			return tab;
 	}
-}
-
-export interface SelectorModalOpener {
-	openTab(selectedSlot: ItemSlot, selectedTab: SelectorModalTabs, gearData: GearData): void;
-}
-
-export interface SlotRailEntry {
-	slot: ItemSlot;
-	getItem: () => EquippedItem | null;
-	subscribe: StoreSubscribe;
-	open: (tab: SelectorModalTabs) => void;
 }

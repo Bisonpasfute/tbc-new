@@ -57,7 +57,6 @@ export type APLActionImplStruct<F extends APLActionKind> = Extract<APLAction['ac
 export type APLActionImplTypesUnion = {
 	[f in NonNullable<APLActionKind>]: f extends keyof APLActionImplStruct<f> ? APLActionImplStruct<f>[f] : never;
 };
-export type APLActionImplType = APLActionImplTypesUnion[NonNullable<APLActionKind>] | undefined;
 
 // The DOM-free half of an APL action kind. `components/ActionPicker` renders `fields`
 // through `FieldGroup`.
