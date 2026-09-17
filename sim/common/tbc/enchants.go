@@ -66,12 +66,12 @@ func init() {
 		ohAuras := createMongooseAuras(2)
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Enchant Weapon - Mongoose",
-			Callback:          core.CallbackOnSpellHitDealt,
-			ActionID:          core.ActionID{SpellID: 28093},
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               character.NewDynamicLegacyProcForEnchant(2673, 1.0, 0),
-			Outcome:           core.OutcomeLanded,
+			Name:         "Enchant Weapon - Mongoose",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 28093},
+			IsWeaponProc: true,
+			DPM:          character.NewDynamicLegacyProcForEnchant(2673, 1.0, 0),
+			Outcome:      core.OutcomeLanded,
 			Handler: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) {
 				core.Ternary(spell.IsOH(), ohAuras, mhAuras).Activate(sim)
 			},
@@ -96,12 +96,12 @@ func init() {
 		character.ItemSwap.RegisterWeaponEnchantBuff(aura.Aura, 3225)
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Enchant Weapon - Executioner",
-			Callback:          core.CallbackOnSpellHitDealt,
-			ActionID:          core.ActionID{SpellID: 28093},
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               character.NewDynamicLegacyProcForEnchant(3225, 1.0, 0),
-			Outcome:           core.OutcomeLanded,
+			Name:         "Enchant Weapon - Executioner",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 28093},
+			IsWeaponProc: true,
+			DPM:          character.NewDynamicLegacyProcForEnchant(3225, 1.0, 0),
+			Outcome:      core.OutcomeLanded,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				aura.Activate(sim)
 			},
@@ -140,8 +140,8 @@ func init() {
 			ActionID:    core.ActionID{SpellID: 46579},
 			SpellSchool: core.SpellSchoolFrost,
 			DefenseType: core.DefenseTypeMagic,
-			Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagSuppressEquipProcs,
-			ProcMask:    core.ProcMaskSpellProc,
+			Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagProc,
+			ProcMask:    core.ProcMaskSpellDamage,
 
 			DamageMultiplier: 1,
 			ThreatMultiplier: 1,
@@ -151,18 +151,55 @@ func init() {
 			},
 		})
 
+		// Enchant 3273 carries two effects: a combat spell (Effect 1) that rolls on melee hits, and an
+		// Equip aura 46662 (Effect 3) that rolls on spell damage, direct and periodic (ProcTypeMask
+		// 2424832), without Can Proc From Procs. Both cast 46579. The 25 s lockout is 46662's proc
+		// recovery; the combat half has none in the DBC, so the two halves share one here rather than
+		// doubling the rate the old single trigger had.
+		//
+		// The roll and the lockout are taken in ExtraCondition, which runs synchronously in the
+		// callback. The handler runs a batch window later, and hits landing on the same timestamp
+		// (both hands, extra attacks, multiple targets) would all pass a lockout consumed there.
+		lockout := core.Cooldown{
+			Timer:    character.NewTimer(),
+			Duration: time.Second * 25,
+		}
+		meleeDPM := character.NewFixedProcChanceManager(0.5, core.ProcMaskMelee)
+		handler := func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			debuffArray.Get(result.Target).Activate(sim)
+			dfSpell.Cast(sim, result.Target)
+		}
+
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Enchant Weapon - Deathfrost",
-			Callback:          core.CallbackOnSpellHitDealt,
-			ActionID:          core.ActionID{SpellID: 46579},
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               character.NewFixedProcChanceManager(0.5, core.ProcMaskMeleeOrMeleeProc|core.ProcMaskSpellOrSpellProc),
-			Outcome:           core.OutcomeLanded,
-			ICD:               time.Second * 25,
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				debuffArray.Get(result.Target).Activate(sim)
-				dfSpell.Cast(sim, result.Target)
+			Name:         "Enchant Weapon - Deathfrost (Melee)",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 46579},
+			IsWeaponProc: true,
+			Outcome:      core.OutcomeLanded,
+			ExtraCondition: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) bool {
+				if !lockout.IsReady(sim) || !meleeDPM.Proc(sim, spell.ProcMask, "Deathfrost (Melee)") {
+					return false
+				}
+				lockout.Use(sim)
+				return true
 			},
+			Handler: handler,
+		})
+
+		character.MakeProcTriggerAura(core.ProcTrigger{
+			Name:     "Enchant Weapon - Deathfrost (Spell)",
+			Callback: core.CallbackOnSpellHitDealt | core.CallbackOnPeriodicDamageDealt,
+			ActionID: core.ActionID{SpellID: 46662},
+			ProcMask: core.ProcMaskSpellDamage,
+			Outcome:  core.OutcomeLanded,
+			ExtraCondition: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) bool {
+				if !lockout.IsReady(sim) || !sim.Proc(0.5, "Deathfrost (Spell)") {
+					return false
+				}
+				lockout.Use(sim)
+				return true
+			},
+			Handler: handler,
 		})
 	})
 

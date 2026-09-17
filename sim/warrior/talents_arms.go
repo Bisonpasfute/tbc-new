@@ -160,7 +160,7 @@ func (war *Warrior) registerDeepWounds() {
 		SpellSchool:    core.SpellSchoolPhysical,
 		ProcMask:       core.ProcMaskEmpty,
 		ClassSpellMask: SpellMaskDeepWounds,
-		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagIgnoreResists,
+		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagIgnoreResists | core.SpellFlagProc, // 12867 lacks Not a Proc.
 
 		// Deep Wounds (12867) has no SpellCategories row in the client DB. It's a bleed that
 		// snapshots on proc; the application uses OutcomeAlwaysHitNoHitCounter and the DoT ticks
@@ -419,7 +419,6 @@ func (war *Warrior) registerSwordSpecialization() {
 	procTrigger := war.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Sword Specialization",
 		ProcMask:           core.ProcMaskMelee,
-		SpellFlagsExclude:  core.SpellFlagSuppressEquipProcs,
 		DPM:                dpm,
 		ICD:                time.Millisecond * 500,
 		TriggerImmediately: true,
@@ -495,9 +494,10 @@ func (war *Warrior) registerBloodFrenzy() {
 	})
 
 	war.MakeProcTriggerAura(core.ProcTrigger{
-		Name:           "Blood Frenzy",
-		ClassSpellMask: SpellMaskRend | SpellMaskDeepWounds,
-		Callback:       core.CallbackOnSpellHitDealt,
+		Name:             "Blood Frenzy",
+		CanProcFromProcs: true, // 29836/29859 carry the bit.
+		ClassSpellMask:   SpellMaskRend | SpellMaskDeepWounds,
+		Callback:         core.CallbackOnSpellHitDealt,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			aura := bfAuras.Get(result.Target)
 			aura.Duration = spell.Dot(result.Target).RemainingDuration(sim)

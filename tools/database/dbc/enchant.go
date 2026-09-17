@@ -28,6 +28,19 @@ type Enchant struct {
 	EffectName         string
 }
 
+// Reports whether spellID is cast by this enchant as a combat spell (Effect 1), which the game
+// rolls off every eligible weapon hit, rather than as an equip aura (Effect 3). Checked per slot:
+// Deathfrost carries one of each, and only the combat slot's spell is a weapon proc.
+func (enchant *Enchant) IsCombatSpell(spellID int) bool {
+	for idx, effect := range enchant.Effects {
+		if effect == ITEM_ENCHANTMENT_COMBAT_SPELL && idx < len(enchant.EffectArgs) && enchant.EffectArgs[idx] == spellID {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (enchant *Enchant) HasEnchantEffect() bool {
 	for idx, effect := range enchant.Effects {
 		if effect == ITEM_ENCHANTMENT_COMBAT_SPELL {

@@ -27,11 +27,9 @@ type ShamSpellConfig struct {
 // Shared precomputation logic for LB and CL.
 // Needs isElementalOverload, actionID, BaseFlatCost, baseCastTime, bonusCoefficient fields of the shamSpellConfig
 func (shaman *Shaman) newElectricSpellConfig(config ShamSpellConfig) core.SpellConfig {
-	mask := core.ProcMaskSpellDamage
 	flags := SpellFlagShamanSpell | SpellFlagFocusable
 	if config.IsElementalOverload {
-		mask = core.ProcMaskSpellProc
-		flags |= core.SpellFlagPassiveSpell
+		flags |= core.SpellFlagPassiveSpell | core.SpellFlagProc
 	} else {
 		flags |= core.SpellFlagAPL
 	}
@@ -40,7 +38,7 @@ func (shaman *Shaman) newElectricSpellConfig(config ShamSpellConfig) core.SpellC
 		ActionID:       config.ActionID,
 		SpellSchool:    core.SpellSchoolNature,
 		DefenseType:    core.DefenseTypeMagic,
-		ProcMask:       mask,
+		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          flags,
 		ClassSpellMask: config.ClassSpellMask,
 

@@ -36,6 +36,24 @@ type ProcInfo struct {
 	MaxCumulativeStacks int32
 	RequireDamageDealt  bool
 	ClassSpellsOnly     bool
+	// The listener's Can Proc From Procs attribute: it also hears hits from proc spells.
+	CanProcFromProcs bool
+	// A "Chance on hit" item effect or a combat enchant, cast by the game off every eligible
+	// weapon hit regardless of proc flags. Decided by the trigger type, not by the item slot.
+	IsWeaponProc bool
+	// An aura proc carrying Aura Is Weapon Proc, which skips hits that suppress weapon procs.
+	HonoursWeaponProcSuppression bool
+}
+
+// A weapon proc ignores proc-ness and already skips hits that suppress weapon procs, so the two
+// aura-side fields would be dead or redundant next to it. Cleared so the generated file states
+// one rule per listener.
+func (info *ProcInfo) setIsWeaponProc(isWeaponProc bool) {
+	info.IsWeaponProc = isWeaponProc
+	if isWeaponProc {
+		info.CanProcFromProcs = false
+		info.HonoursWeaponProcSuppression = false
+	}
 }
 
 // Entry represents a effect with its Item ID, Spell ID and display name.
@@ -68,6 +86,11 @@ type Entry struct {
 	DamageIcdMs      int32
 	// Set when the damage spell is barred from critting, which picks a no-crit outcome.
 	DamageCannotCrit bool
+	// Set unless the damage spell carries Not a Proc: its hits are then invisible to aura procs
+	// that cannot proc from procs.
+	DamageIsProc bool
+	// Set when the damage spell carries Suppress Weapon Procs.
+	DamageSuppressesWeaponProcs bool
 }
 
 // The literals a stacking on-use needs in the generated call. Everything else - stacks,
@@ -547,6 +570,8 @@ func TryParseProcEffect(parsed *proto.UIItem, itemEffect *proto.ItemEffect, inst
 						entry.DamageProcChance = proc.GetProcChance()
 						entry.DamageIcdMs = proc.IcdMs
 						entry.DamageCannotCrit = damageSpell.CannotCrit()
+						entry.DamageIsProc = !damageSpell.NotAProc()
+						entry.DamageSuppressesWeaponProcs = damageSpell.SuppressesWeaponProcs()
 					}
 				}
 			}
@@ -776,12 +801,17 @@ func BuildProcInfo(parsed *proto.UIItem, itemEffectID int, instance *dbc.DBC, to
 		panic(fmt.Sprintf("Could not find proc aura %d spell for item effect %d.\n", procId, parsed.Id))
 	}
 
+	// A "Chance on hit" effect is a weapon proc: the game casts it off the hit itself and never
+	// consults a ProcTypeMask, so it takes the on-hit shape whatever the proc spell says.
+	isWeaponProc := itemEffect.TriggerType == dbc.ITEM_SPELLTRIGGER_CHANCE_ON_HIT
+
 	itemType := proto.ItemType_ItemTypeUnknown
-	if itemEffect.TriggerType == 2 {
+	if isWeaponProc {
 		itemType = proto.ItemType_ItemTypeWeapon
 	}
 
 	procInfo, supported := BuildSpellProcInfo(&procSpell, tooltip, itemType)
+	procInfo.setIsWeaponProc(isWeaponProc)
 
 	if SpellHasDummyEffect(int(procId), instance) {
 		return procInfo, false
@@ -803,6 +833,9 @@ func BuildEnchantProcInfo(enchant *proto.UIEnchant, instance *dbc.DBC, tooltip s
 	}
 
 	procInfo, supported := BuildSpellProcInfo(&procSpell, tooltip, enchant.Type)
+	raw, ok := instance.EnchantsByEffectId[int(enchant.EffectId)]
+	procInfo.setIsWeaponProc(ok && raw.IsCombatSpell(int(procSpellID)))
+
 	if SpellHasDummyEffect(int(procSpellID), instance) {
 		return procInfo, false
 	}
@@ -973,23 +1006,12 @@ func BuildSpellProcInfo(procSpell *dbc.Spell, tooltip string, itemType proto.Ite
 		}
 	}
 
-	if info.ProcMask.Matches(core.ProcMaskMelee) && procSpell.CanProcFromProcs() {
-		info.ProcMask |= core.ProcMaskMeleeProc
-	}
-
-	if info.ProcMask.Matches(core.ProcMaskRanged) && procSpell.CanProcFromProcs() {
-		info.ProcMask |= core.ProcMaskRangedProc
-	}
-
-	// ProcMaskSpellProc and not ProcMaskSpellDamageProc, deliberately. The latter is reserved for
-	// the weapon-imbue shape - Flametongue and the rogue poisons - which is kept a distinct source
-	// on purpose, so a generated spell-damage trigger is not meant to fire off those. This narrows
-	// Shiffar's Nexus-Horn, Wrath of Cenarius and Robe of the Elder Scribes against master, where
-	// the same branch emitted ProcMaskSpellDamageProc and they proc'd off FT and poison crits
-	// instead of off Ignite, Elemental Overload and Hurricane's DoT.
-	if info.ProcMask.Matches(core.ProcMaskSpellDamage) && procSpell.CanProcFromProcs() {
-		info.ProcMask |= core.ProcMaskSpellProc
-	}
+	// Proc-ness is a flag on the listener, not a hit kind in the mask. ProcMaskSpellDamageProc is
+	// deliberately never emitted: that is the weapon-imbue shape (Flametongue, rogue poisons), kept
+	// a distinct hit kind so that Shiffar's Nexus-Horn, Wrath of Cenarius and Robe of the Elder
+	// Scribes proc off Ignite, Elemental Overload and Hurricane's DoT rather than off imbue crits.
+	info.CanProcFromProcs = procSpell.CanProcFromProcs()
+	info.HonoursWeaponProcSuppression = procSpell.IsWeaponProcAura()
 
 	if requiresOutcome {
 		if critMatcher.MatchString(tooltip) {

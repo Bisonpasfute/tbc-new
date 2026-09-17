@@ -49,8 +49,10 @@ func (druid *Druid) registerHurricaneSpell() {
 		ActionID:       core.ActionID{SpellID: 42230},
 		SpellSchool:    core.SpellSchoolNature,
 		DefenseType:    core.DefenseTypeMagic,
-		ProcMask:       core.ProcMaskSpellProc,
+		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: DruidSpellHurricane,
+		// 42230 is the tick the channel triggers, a proc rather than a cast.
+		Flags: core.SpellFlagProc,
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,

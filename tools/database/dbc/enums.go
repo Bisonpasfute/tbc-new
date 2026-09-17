@@ -1138,7 +1138,19 @@ const (
 const (
 	ATTR_EX_2_CANT_CRIT int = 0x20000000
 
+	// On a triggered spell: aura listeners treat its hits like a normal ability hit. Seal of
+	// Command damage, every Judgement, Stormstrike's bonus hits and Sweeping Strikes carry it.
+	ATTR_EX_3_NOT_A_PROC          int = 0x200
 	ATTR_EX_3_CAN_PROC_FROM_PROCS int = 0x4000000
+
+	// Weapon procs (Player::CastItemCombatSpell) ignore hits of this spell, as do auras marked
+	// ATTR_EX_6_AURA_IS_WEAPON_PROC. In TBC that is the Seal of Blood, Righteousness and Martyr
+	// damage spells plus Gouge, Sap, Scatter Shot and Maim.
+	ATTR_EX_4_SUPPRESS_WEAPON_PROCS int = 0x800000
+
+	// An aura proc that honours ATTR_EX_4_SUPPRESS_WEAPON_PROCS anyway: Black Bow of the Betrayer
+	// and the Sunwell melee neck.
+	ATTR_EX_6_AURA_IS_WEAPON_PROC int = 0x80
 
 	ATTR_EX_11_SCALES_WITH_ITEM_LEVEL int = 0x4
 
@@ -1149,6 +1161,8 @@ const (
 const (
 	ATTR_INDEX_EX_2  int = 2
 	ATTR_INDEX_EX_3  int = 3
+	ATTR_INDEX_EX_4  int = 4
+	ATTR_INDEX_EX_6  int = 6
 	ATTR_INDEX_EX_11 int = 11
 	ATTR_INDEX_EX_12 int = 12
 )

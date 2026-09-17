@@ -295,7 +295,8 @@ func (war *Warrior) registerFlurry() {
 	war.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Flurry - Trigger",
 		ActionID:           core.ActionID{SpellID: 12974},
-		ProcMask:           core.ProcMaskMeleeOrMeleeProc,
+		ProcMask:           core.ProcMaskMelee,
+		CanProcFromProcs:   true, // 12319, 12971-12974 carry the bit.
 		TriggerImmediately: true,
 		Callback:           core.CallbackOnSpellHitDealt,
 		Outcome:            core.OutcomeLanded,
@@ -426,7 +427,8 @@ func (war *Warrior) registerRampage() {
 	war.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Rampage - Trigger",
 		TriggerImmediately: true,
-		ProcMask:           core.ProcMaskMeleeOrMeleeProc,
+		ProcMask:           core.ProcMaskMelee,
+		CanProcFromProcs:   true, // 29801 carries the bit.
 		Outcome:            core.OutcomeLanded,
 		Callback:           core.CallbackOnSpellHitDealt,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

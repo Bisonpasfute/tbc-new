@@ -27,7 +27,7 @@ func (rogue *Rogue) registerDeadlyPoisonSpell() {
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamageProc,
 		ClassSpellMask: RogueSpellDeadlyPoison,
-		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell,
+		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell | core.SpellFlagProc,
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
@@ -76,7 +76,7 @@ func (rogue *Rogue) registerDeadlyPoisonSpell() {
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamageProc,
 		ClassSpellMask: RogueSpellDeadlyPoison,
-		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell,
+		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell | core.SpellFlagProc,
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
@@ -127,7 +127,7 @@ func (rogue *Rogue) registerWoundPoisonSpell() {
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamageProc,
 		ClassSpellMask: RogueSpellWoundPoison,
-		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell,
+		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell | core.SpellFlagProc,
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
@@ -162,7 +162,7 @@ func (rogue *Rogue) registerInstantPoisonSpell() {
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamageProc,
 		ClassSpellMask: RogueSpellInstantPoison,
-		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell,
+		Flags:          core.SpellFlagPoison | core.SpellFlagPassiveSpell | core.SpellFlagProc,
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
@@ -204,6 +204,7 @@ func (rogue *Rogue) applyDeadlyPoison() {
 		Callback:           core.CallbackOnSpellHitDealt,
 		TriggerImmediately: true,
 		ProcMask:           procMask,
+		IsWeaponProc:       true,
 		DPM:                rogue.deadlyPoisonPPHM,
 
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -226,6 +227,7 @@ func (rogue *Rogue) applyWoundPoison() {
 		Callback:           core.CallbackOnSpellHitDealt,
 		TriggerImmediately: true,
 		ProcMask:           procMask,
+		IsWeaponProc:       true,
 		DPM:                rogue.woundPoisonPPHM,
 
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -248,6 +250,7 @@ func (rogue *Rogue) applyInstantPoison() {
 		Callback:           core.CallbackOnSpellHitDealt,
 		TriggerImmediately: true,
 		ProcMask:           procMask,
+		IsWeaponProc:       true,
 		DPM:                rogue.instantPoisonPPHM,
 
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

@@ -111,10 +111,11 @@ var ItemSetCorruptorRaiment = core.NewItemSet(core.ItemSet{
 			// Pet Healing - 37381
 			healthMetric := agent.(WarlockAgent).GetWarlock().NewHealthMetrics(core.ActionID{SpellID: 38394})
 			setBonusAura.AttachProcTrigger(core.ProcTrigger{
-				Name:     "Corruptor Raiment 2pc - Pet Healing",
-				ActionID: core.ActionID{SpellID: 37381},
-				Outcome:  core.OutcomeLanded,
-				Callback: core.CallbackOnSpellHitDealt,
+				Name:             "Corruptor Raiment 2pc - Pet Healing",
+				CanProcFromProcs: true, // 37381 carries the bit.
+				ActionID:         core.ActionID{SpellID: 37381},
+				Outcome:          core.OutcomeLanded,
+				Callback:         core.CallbackOnSpellHitDealt,
 				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 					for _, pet := range agent.(WarlockAgent).GetWarlock().Pets {
 						pet.GainHealth(sim, result.Damage*0.15, healthMetric)

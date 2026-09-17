@@ -234,8 +234,8 @@ func init() {
 			SpellSchool: core.SpellSchoolNature,
 			DefenseType: core.DefenseTypeMagic,
 
-			ProcMask: core.ProcMaskSpellProc | core.ProcMaskSpellDamageProc,
-			Flags:    core.SpellFlagPassiveSpell | core.SpellFlagNoOnCastComplete,
+			ProcMask: core.ProcMaskSpellDamage,
+			Flags:    core.SpellFlagPassiveSpell | core.SpellFlagNoOnCastComplete | core.SpellFlagProc,
 
 			DamageMultiplier: 1,
 			ThreatMultiplier: 1,
@@ -249,7 +249,6 @@ func init() {
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:               "Romulo's Poison Vial",
 			ActionID:           core.ActionID{ItemID: 28579},
-			SpellFlagsExclude:  core.SpellFlagSuppressEquipProcs,
 			DPM:                character.NewLegacyPPMManager(1, core.ProcMaskMeleeOrRanged),
 			RequireDamageDealt: true,
 			Outcome:            core.OutcomeLanded,
@@ -308,11 +307,12 @@ func init() {
 		})
 
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:     "The Lightning Capacitor",
-			ActionID: core.ActionID{ItemID: 28785},
-			ProcMask: core.ProcMaskSpellOrSpellProc,
-			Outcome:  core.OutcomeCrit,
-			Callback: core.CallbackOnSpellHitDealt,
+			Name:             "The Lightning Capacitor",
+			ActionID:         core.ActionID{ItemID: 28785},
+			ProcMask:         core.ProcMaskSpellDamage,
+			CanProcFromProcs: true, // 37657 carries the bit.
+			Outcome:          core.OutcomeCrit,
+			Callback:         core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				if !icd.IsReady(sim) {
 					return
@@ -339,12 +339,11 @@ func init() {
 		)
 
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Eye of Magtheridon",
-			ActionID:          core.ActionID{ItemID: 28789},
-			SpellFlagsExclude: core.SpellFlagSuppressEquipProcs,
-			ClassSpellsOnly:   true,
-			Outcome:           core.OutcomeMiss,
-			Callback:          core.CallbackOnSpellHitDealt,
+			Name:            "Eye of Magtheridon",
+			ActionID:        core.ActionID{ItemID: 28789},
+			ClassSpellsOnly: true,
+			Outcome:         core.OutcomeMiss,
+			Callback:        core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				aura.Activate(sim)
 			},
@@ -364,7 +363,8 @@ func init() {
 			SpellSchool: core.SpellSchoolNature,
 			DefenseType: core.DefenseTypeMagic, // Regeneration (38325)
 
-			ProcMask: core.ProcMaskSpellProc | core.ProcMaskSpellDamageProc,
+			// An on-use heal, not a proc. Matches only listeners that state no mask.
+			ProcMask: core.ProcMaskEmpty,
 			Flags:    core.SpellFlagNoOnCastComplete,
 
 			Cast: core.CastConfig{
@@ -413,15 +413,18 @@ func init() {
 	core.NewItemEffect(30621, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
+		// Two Equip auras, both able to proc from procs: 38326 takes melee and ranged crits off by 150
+		// (38329) and 38327 takes spell crits off by 1000 (38328).
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:               "Prism of Inner Calm",
 			ActionID:           core.ActionID{ItemID: 30621},
 			Outcome:            core.OutcomeCrit,
 			Callback:           core.CallbackOnSpellHitDealt,
 			RequireDamageDealt: true,
+			CanProcFromProcs:   true,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				threatReduction := 150.0
-				if spell.ProcMask.Matches(core.ProcMaskSpellProc) {
+				if spell.ProcMask.Matches(core.ProcMaskSpellDamage | core.ProcMaskSpellDamageProc) {
 					threatReduction = 1000
 				}
 				spell.FlatThreatBonus -= threatReduction
@@ -458,12 +461,11 @@ func init() {
 		})
 
 		meleeProcAura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Darkmoon Card: Crusade (Melee)",
-			ActionID:          core.ActionID{SpellID: 39438},
-			SpellFlagsExclude: core.SpellFlagSuppressEquipProcs,
-			ProcMask:          core.ProcMaskMeleeOrRanged,
-			Outcome:           core.OutcomeLanded,
-			Callback:          core.CallbackOnSpellHitDealt,
+			Name:     "Darkmoon Card: Crusade (Melee)",
+			ActionID: core.ActionID{SpellID: 39438},
+			ProcMask: core.ProcMaskMeleeOrRanged,
+			Outcome:  core.OutcomeLanded,
+			Callback: core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				meleeAura.Activate(sim)
 				meleeAura.AddStack(sim)
@@ -471,12 +473,13 @@ func init() {
 		})
 
 		casterProcAura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:            "Darkmoon Card: Crusade (Caster)",
-			ActionID:        core.ActionID{SpellID: 39440},
-			ProcMask:        core.ProcMaskSpellOrSpellProc,
-			ClassSpellsOnly: true,
-			Outcome:         core.OutcomeLanded,
-			Callback:        core.CallbackOnSpellHitDealt,
+			Name:             "Darkmoon Card: Crusade (Caster)",
+			ActionID:         core.ActionID{SpellID: 39440},
+			ProcMask:         core.ProcMaskSpellDamage,
+			CanProcFromProcs: true, // 39440 carries the bit.
+			ClassSpellsOnly:  true,
+			Outcome:          core.OutcomeLanded,
+			Callback:         core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				casterAura.Activate(sim)
 				casterAura.AddStack(sim)
@@ -505,12 +508,11 @@ func init() {
 		})
 
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Darkmoon Card: Wrath",
-			ActionID:          core.ActionID{ItemID: 31857},
-			SpellFlagsExclude: core.SpellFlagSuppressEquipProcs,
-			ProcMask:          core.ProcMaskDirect,
-			Outcome:           core.OutcomeLanded,
-			Callback:          core.CallbackOnSpellHitDealt,
+			Name:     "Darkmoon Card: Wrath",
+			ActionID: core.ActionID{ItemID: 31857},
+			ProcMask: core.ProcMaskDirect,
+			Outcome:  core.OutcomeLanded,
+			Callback: core.CallbackOnSpellHitDealt,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				if result.Outcome.Matches(core.OutcomeCrit) {
 					aura.Deactivate(sim)

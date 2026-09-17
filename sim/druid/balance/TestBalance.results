@@ -503,8 +503,8 @@ dps_results: {
 dps_results: {
  key: "TestBalance-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1512.09704
-  tps: 1018.63192
+  dps: 1516.52857
+  tps: 1021.84316
  }
 }
 dps_results: {
@@ -1063,8 +1063,8 @@ dps_results: {
 dps_results: {
  key: "TestBalance-AllItems-PendantoftheVioletEye-28727"
  value: {
-  dps: 1564.457
-  tps: 1056.71763
+  dps: 1562.18109
+  tps: 1055.11421
  }
 }
 dps_results: {

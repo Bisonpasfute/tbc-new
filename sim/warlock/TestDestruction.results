@@ -909,8 +909,8 @@ dps_results: {
 dps_results: {
  key: "TestDestruction-AllItems-PendantoftheVioletEye-28727"
  value: {
-  dps: 1857.27293
-  tps: 1152.06646
+  dps: 1857.04788
+  tps: 1151.87522
  }
 }
 dps_results: {

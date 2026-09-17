@@ -12,10 +12,13 @@ func (hunter *Hunter) registerScorpidStingSpell() {
 	})
 
 	hunter.ScorpidSting = hunter.RegisterRangedSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 3043},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeRanged,
-		ProcMask:       core.ProcMaskProc,
+		ActionID:    core.ActionID{SpellID: 3043},
+		SpellSchool: core.SpellSchoolNature,
+		DefenseType: core.DefenseTypeRanged,
+		// A cast, not a proc, but one that must not read as a ranged hit to on-hit listeners; what
+		// the sting's application should count as is a separate question. Matches only listeners
+		// that state no mask.
+		ProcMask:       core.ProcMaskEmpty,
 		ClassSpellMask: HunterSpellScorpidSting,
 		Flags:          core.SpellFlagAPL,
 

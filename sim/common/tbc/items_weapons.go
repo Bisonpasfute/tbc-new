@@ -199,7 +199,7 @@ func init() {
 
 		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:               "Blinkstrike",
-			SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
+			IsWeaponProc:       true,
 			DPM:                dpm,
 			TriggerImmediately: true,
 			Outcome:            core.OutcomeLanded,
@@ -233,7 +233,7 @@ func init() {
 				ActionID:    core.ActionID{SpellID: 40293},
 				SpellSchool: core.SpellSchoolShadow,
 				ProcMask:    core.ProcMaskEmpty,
-				Flags:       core.SpellFlagPassiveSpell,
+				Flags:       core.SpellFlagPassiveSpell | core.SpellFlagProc, // 40293 lacks Not a Proc.
 
 				DamageMultiplier: 1,
 
@@ -242,13 +242,14 @@ func init() {
 				},
 			})
 
+			// 40291 is an Equip aura: ProcTypeMask 20 (melee auto and ability hits), no Can Proc From
+			// Procs, no Aura Is Weapon Proc. So a plain aura proc.
 			return character.MakeProcTriggerAura(core.ProcTrigger{
-				Name:              "Siphon Essence",
-				MetricsActionID:   core.ActionID{SpellID: 40293},
-				Duration:          time.Second * 6,
-				SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-				ProcMask:          core.ProcMaskMelee,
-				Callback:          core.CallbackOnSpellHitDealt,
+				Name:            "Siphon Essence",
+				MetricsActionID: core.ActionID{SpellID: 40293},
+				Duration:        time.Second * 6,
+				ProcMask:        core.ProcMaskMelee,
+				Callback:        core.CallbackOnSpellHitDealt,
 				Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
 					spell.Cast(sim, result.Target)
 				},
@@ -285,12 +286,11 @@ func init() {
 
 				setBonusAura.
 					AttachProcTrigger(core.ProcTrigger{
-						Name:              "The Twin Blades of Azzinoth - Trigger",
-						SpellFlagsExclude: core.SpellFlagSuppressEquipProcs,
-						DPM:               dpm,
-						ICD:               time.Second * 45,
-						Outcome:           core.OutcomeLanded,
-						Callback:          core.CallbackOnSpellHitDealt,
+						Name:     "The Twin Blades of Azzinoth - Trigger",
+						DPM:      dpm,
+						ICD:      time.Second * 45,
+						Outcome:  core.OutcomeLanded,
+						Callback: core.CallbackOnSpellHitDealt,
 						Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 							aura.Activate(sim)
 						},

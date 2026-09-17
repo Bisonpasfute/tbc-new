@@ -634,7 +634,7 @@ func (paladin *Paladin) applyCrusade() {
 func (paladin *Paladin) applyTwoHandedWeaponSpecialization() {
 	weaponMod := paladin.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Pct,
-		ProcMask:   core.ProcMaskMeleeOrMeleeProc,
+		ProcMask:   core.ProcMaskMelee,
 		FloatValue: 0.02 * float64(paladin.Talents.TwoHandedWeaponSpecialization),
 	})
 
@@ -684,10 +684,11 @@ func (paladin *Paladin) applyVengeance() {
 	})
 
 	paladin.MakeProcTriggerAura(core.ProcTrigger{
-		Name:       "Vengeance - Trigger",
-		Callback:   core.CallbackOnSpellHitDealt,
-		Outcome:    core.OutcomeCrit,
-		ProcChance: 1,
+		Name:             "Vengeance - Trigger",
+		Callback:         core.CallbackOnSpellHitDealt,
+		Outcome:          core.OutcomeCrit,
+		ProcChance:       1,
+		CanProcFromProcs: true, // 20049/20056/20057 carry the bit: Seal of Blood crits count.
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			aura.Activate(sim)
 			aura.AddStack(sim)

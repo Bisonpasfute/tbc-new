@@ -285,9 +285,9 @@ func (mage *Mage) registerIgnite() {
 	igniteSpell := mage.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: 12846},
 		SpellSchool:      core.SpellSchoolFire,
-		ProcMask:         core.ProcMaskSpellProc,
+		ProcMask:         core.ProcMaskSpellDamage,
 		ClassSpellMask:   MageSpellIgnite,
-		Flags:            core.SpellFlagIgnoreModifiers | core.SpellFlagNoSpellMods | core.SpellFlagNoOnCastComplete | core.SpellFlagIgnoreResists,
+		Flags:            core.SpellFlagIgnoreModifiers | core.SpellFlagNoSpellMods | core.SpellFlagNoOnCastComplete | core.SpellFlagIgnoreResists | core.SpellFlagProc,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 
@@ -318,6 +318,7 @@ func (mage *Mage) registerIgnite() {
 
 	procTrigger := core.ProcTrigger{
 		Name:               "Ignite Talent",
+		CanProcFromProcs:   true, // 11119, 11120, 12846-12848 carry the bit.
 		Callback:           core.CallbackOnSpellHitDealt,
 		ProcMask:           core.ProcMaskSpellDamage,
 		ClassSpellMask:     FireSpellIgnitable,

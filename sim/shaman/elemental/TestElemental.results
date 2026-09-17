@@ -552,8 +552,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-EnchantWeapon-Deathfrost-3273"
  value: {
-  dps: 1755.84914
-  tps: 963.18718
+  dps: 1765.43312
+  tps: 967.85465
  }
 }
 dps_results: {
@@ -580,8 +580,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-EyeofMagtheridon-28789"
  value: {
-  dps: 1752.80495
-  tps: 1006.34109
+  dps: 1751.33313
+  tps: 1005.46349
  }
 }
 dps_results: {
@@ -993,8 +993,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-PendantoftheVioletEye-28727"
  value: {
-  dps: 1710.30529
-  tps: 982.76228
+  dps: 1710.51361
+  tps: 983.32644
  }
 }
 dps_results: {
@@ -1154,8 +1154,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-SkycallTotem-33506"
  value: {
-  dps: 1777.47937
-  tps: 975.22929
+  dps: 1771.54264
+  tps: 972.7959
  }
 }
 dps_results: {

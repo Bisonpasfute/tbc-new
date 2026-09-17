@@ -2,7 +2,6 @@ package shared
 
 import (
 	"fmt"
-	"slices"
 	"time"
 
 	"github.com/wowsims/tbc/sim/core"
@@ -20,6 +19,14 @@ type ProcStatBonusEffect struct {
 	Outcome            core.HitOutcome
 	RequireDamageDealt bool
 	ClassSpellsOnly    bool
+	// The listener's Can Proc From Procs attribute. See core.ProcTrigger.
+	CanProcFromProcs bool
+	// A "Chance on hit" item effect or a combat enchant. See core.ProcTrigger. The generator
+	// reads it from the trigger type; a hand-written effect states it.
+	IsWeaponProc bool
+	// Carried through to the trigger. The generator sets SpellFlagSuppressWeaponProcs here for the
+	// two auras marked Aura Is Weapon Proc.
+	SpellFlagsExclude core.SpellFlag
 
 	// What adds a stack while a stacking trinket's window is open. Derived from the container
 	// spell's own proc flags, which are not the ones that open the window.
@@ -182,20 +189,17 @@ func factory_StatBonusEffect(config ProcStatBonusEffect, extraSpell func(agent c
 				procSpell = extraSpell(agent)
 			}
 
-			allWeaponSlots := core.AllWeaponSlots()
-			isWeaponSlot := slices.ContainsFunc(eligibleSlots, func(s proto.ItemSlot) bool {
-				return slices.Contains(allWeaponSlots, s)
-			})
-
 			triggerAura := character.MakeProcTriggerAura(core.ProcTrigger{
 				ActionID:           triggerActionID,
 				Name:               config.Name,
 				Callback:           config.Callback,
 				ProcMask:           config.ProcMask,
-				SpellFlagsExclude:  core.Ternary(source.isEnchant || isWeaponSlot, core.SpellFlagSuppressWeaponProcs, core.SpellFlagSuppressEquipProcs),
+				SpellFlagsExclude:  config.SpellFlagsExclude,
 				Outcome:            config.Outcome,
 				RequireDamageDealt: config.RequireDamageDealt,
 				ClassSpellsOnly:    config.ClassSpellsOnly,
+				CanProcFromProcs:   config.CanProcFromProcs,
+				IsWeaponProc:       config.IsWeaponProc,
 				ProcChance:         proc.GetProcChance(),
 				DPM:                dpm,
 				ICD:                time.Millisecond * time.Duration(proc.IcdMs),
@@ -319,14 +323,19 @@ func attachStackTrigger(character *core.Character, config ProcStatBonusEffect, e
 	// Attached to the window rather than registered as its own aura: it is then only live while
 	// the window is open, needs no active check, and cannot outlive the item the way a permanent
 	// trigger would across an item swap.
+	// The container spell's proc-ness rules are not read separately; the stack trigger follows the
+	// opener's. No stacking item in the database differs between the two.
 	windowAura.AttachProcTriggerCallback(&character.Unit, core.ProcTrigger{
-		Name:       config.Name + " Stack Trigger",
-		Callback:   config.StackCallback,
-		ProcMask:   config.StackProcMask,
-		Outcome:    config.StackOutcome,
-		ProcChance: stackProc.GetProcChance(),
-		DPM:        stackTriggerDPM(character, stackProc, config.StackProcMask),
-		ICD:        time.Millisecond * time.Duration(stackProc.IcdMs),
+		Name:              config.Name + " Stack Trigger",
+		Callback:          config.StackCallback,
+		ProcMask:          config.StackProcMask,
+		Outcome:           config.StackOutcome,
+		SpellFlagsExclude: config.SpellFlagsExclude,
+		CanProcFromProcs:  config.CanProcFromProcs,
+		IsWeaponProc:      config.IsWeaponProc,
+		ProcChance:        stackProc.GetProcChance(),
+		DPM:               stackTriggerDPM(character, stackProc, config.StackProcMask),
+		ICD:               time.Millisecond * time.Duration(stackProc.IcdMs),
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			if !statAura.IsActive() {
 				return
@@ -402,6 +411,10 @@ type StackingStatBonusCD struct {
 	SpellFlags         core.SpellFlag
 	Outcome            core.HitOutcome
 	RequireDamageDealt bool
+	// See core.ProcTrigger. The generator reads them off the stack proc's aura, which is always an
+	// Equip aura, so there is no weapon-proc counterpart here.
+	CanProcFromProcs  bool
+	SpellFlagsExclude core.SpellFlag
 
 	// The stacks will only be granted as long as the trinket is active
 	TrinketLimitsDuration bool
@@ -495,6 +508,8 @@ func attachStackingCDTrigger(character *core.Character, config StackingStatBonus
 		Callback:           config.Callback,
 		ProcMask:           config.ProcMask,
 		SpellFlags:         config.SpellFlags,
+		SpellFlagsExclude:  config.SpellFlagsExclude,
+		CanProcFromProcs:   config.CanProcFromProcs,
 		Outcome:            config.Outcome,
 		RequireDamageDealt: config.RequireDamageDealt,
 		ProcChance:         core.TernaryFloat64(stackDPM == nil, stackProc.GetProcChance(), 0),

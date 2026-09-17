@@ -895,8 +895,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-PendantoftheVioletEye-28727"
  value: {
-  dps: 1985.27542
-  tps: 973.57502
+  dps: 1981.39443
+  tps: 972.76331
  }
 }
 dps_results: {

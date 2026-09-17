@@ -94,11 +94,12 @@ var Tier5 = core.NewItemSet(core.ItemSet{
 				FloatValue: -1,
 			})
 			setBonusAura.AttachProcTrigger(core.ProcTrigger{
-				Name:     "Deathmantle Proc Trigger",
-				ProcMask: core.ProcMaskMelee,
-				Outcome:  core.OutcomeLanded,
-				Callback: core.CallbackOnSpellHitDealt,
-				DPM:      rogue.NewLegacyPPMManager(0.5, core.ProcMaskMelee),
+				Name:             "Deathmantle Proc Trigger",
+				CanProcFromProcs: true, // 37171 carries the bit.
+				ProcMask:         core.ProcMaskMelee,
+				Outcome:          core.OutcomeLanded,
+				Callback:         core.CallbackOnSpellHitDealt,
+				DPM:              rogue.NewLegacyPPMManager(0.5, core.ProcMaskMelee),
 				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 					mod.Activate(sim)
 				},
@@ -144,7 +145,8 @@ func init() {
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:               "Perceived Weakness",
 			ActionID:           core.ActionID{ItemID: 30450},
-			ProcMask:           core.ProcMaskMeleeSpecial | core.ProcMaskMeleeProc,
+			ProcMask:           core.ProcMaskMeleeSpecial,
+			CanProcFromProcs:   true, // 37173 carries the bit.
 			ICD:                time.Second * 30,
 			RequireDamageDealt: true,
 			Outcome:            core.OutcomeLanded,
