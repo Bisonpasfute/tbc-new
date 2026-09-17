@@ -280,7 +280,11 @@ export class Sim {
 					gearChanged = true;
 				}
 
-				if (gearChanged) {
+				// An inactive meta gem is flagged rather than removed, so that flag still has to reach
+				// the backend even when nothing else about the gear changed. Dropping the second half
+				// of this condition leaves an enchanter — the only player whose gear is otherwise
+				// untouched here — simming an unmet meta gem's full stats.
+				if (gearChanged || gear.hasInactiveMetaGem()) {
 					player.equipment = gearAsBackendSpec(gear);
 				}
 

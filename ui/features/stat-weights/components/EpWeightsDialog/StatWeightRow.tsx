@@ -21,7 +21,6 @@ export interface StatWeightRowProps {
 	player: Player<any>;
 	epReferenceStat: Stat;
 	includable: boolean;
-	isTank: boolean;
 	showThreatMetrics: boolean;
 	displayMetrics: DisplayMetrics;
 }
@@ -36,7 +35,6 @@ export const StatWeightRow = ({
 	player,
 	epReferenceStat,
 	includable,
-	isTank,
 	showThreatMetrics,
 	displayMetrics,
 }: StatWeightRowProps) => {
@@ -57,35 +55,32 @@ export const StatWeightRow = ({
 	return (
 		<tr className="odd:bg-(--table-row-odd-bg) even:bg-(--table-row-even-bg)">
 			<td className={cellClassName}>{fullName}</td>
-			{!isTank && (
-				<td data-testid="swcalc-include-toggle" className={cellClassName}>
-					{includable && (
-						<BooleanPicker
-							modObject={settings}
-							config={{
-								id: `sw-stat-toggle-${sanitizeId(fullName)}`,
-								getValue: () => !settings.isUnitStatExcludedFromCalc(stat),
-								setValue: (subject, newValue) => subject.setStatExcluded(stat, !newValue),
-								storeField: 'statWeights:settings',
-								enableWhen: () => !stat.isStat() || epReferenceStat !== stat.getStat(),
-								extraClassNames: ['mb-0'],
-							}}
-						/>
-					)}
-				</td>
-			)}
-			{!isTank &&
-				metrics.map(({ statWeights, ratioIndex }) => (
-					<StatWeightCells
-						key={ratioIndex}
-						stat={stat}
-						statWeights={statWeights}
-						iterations={iterations}
-						epRatio={epRatios[ratioIndex]}
-						epDelta={epDelta}
-						cellClassName={cellClassName}
+			<td data-testid="swcalc-include-toggle" className={cellClassName}>
+				{includable && (
+					<BooleanPicker
+						modObject={settings}
+						config={{
+							id: `sw-stat-toggle-${sanitizeId(fullName)}`,
+							getValue: () => !settings.isUnitStatExcludedFromCalc(stat),
+							setValue: (subject, newValue) => subject.setStatExcluded(stat, !newValue),
+							storeField: 'statWeights:settings',
+							enableWhen: () => !stat.isStat() || epReferenceStat !== stat.getStat(),
+							extraClassNames: ['mb-0'],
+						}}
 					/>
-				))}
+				)}
+			</td>
+			{metrics.map(({ statWeights, ratioIndex }) => (
+				<StatWeightCells
+					key={ratioIndex}
+					stat={stat}
+					statWeights={statWeights}
+					iterations={iterations}
+					epRatio={epRatios[ratioIndex]}
+					epDelta={epDelta}
+					cellClassName={cellClassName}
+				/>
+			))}
 			<td data-testid="current-ep" className={cellClassName}>
 				<NumberPicker
 					modObject={player}

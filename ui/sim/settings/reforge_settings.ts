@@ -186,7 +186,11 @@ export class ReforgeSettings {
 			if (proto.statCaps) this.setStatCaps(Stats.fromProto(proto.statCaps));
 			if (proto.useSoftCapBreakpoints) this.setUseSoftCapBreakpoints(proto.useSoftCapBreakpoints);
 			if (proto.freezeItemSlots) this.setFreezeItemSlots(proto.freezeItemSlots);
-			if (proto.frozenItemSlots) this.setFrozenItemSlots(proto.frozenItemSlots);
+			// `.length`, not truthiness. Vanilla's presets were plain `Partial<ReforgeSettings>`
+			// literals where an unset repeated field is `undefined`; these are real protos, and
+			// protobuf-ts `create()` seeds every repeated field to `[]`, which is truthy — so a bare
+			// guard here empties the slots a user pinned in the optimizer on every preset click.
+			if (proto.frozenItemSlots.length) this.setFrozenItemSlots(proto.frozenItemSlots);
 			if (proto.breakpointLimits) this.setBreakpointLimits(Stats.fromProto(proto.breakpointLimits));
 			if (proto.maxGemPhase) this.setMaxGemPhase(proto.maxGemPhase);
 		});

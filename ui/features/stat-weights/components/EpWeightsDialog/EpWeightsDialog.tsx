@@ -70,7 +70,6 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 	const displayMetrics = useDisplayMetrics(sim);
 	const { threat: showThreatMetrics } = displayMetrics;
 	const showEpRatios = showsEpRatios(displayMetrics);
-	const isTank = Boolean(player.playerSpec?.isTankSpec) && !player.playerSpec?.isHealingSpec;
 	const refStats = useStoreSubscribe(subscribePlayerField(player, 'epRefStat'), () => ({
 		dps: player.getRefStat('dpsRefStat'),
 		heal: player.getRefStat('healRefStat'),
@@ -103,14 +102,7 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 			),
 		[prevSimResult, individualConfig, refStats, epReferenceStat, applyWeights],
 	);
-	const visibleColumns = useMemo(
-		() =>
-			columns.filter(column => {
-				if (isTank && column.metric) return false;
-				return !column.metric || displayMetrics[column.metric];
-			}),
-		[columns, isTank, displayMetrics],
-	);
+	const visibleColumns = useMemo(() => columns.filter(column => !column.metric || displayMetrics[column.metric]), [columns, displayMetrics]);
 
 	const onComputeEp = useCallback(() => {
 		const combine = statsType === StatsType.Ep ? combineScaledEpValues : combineScaledWeights;
@@ -175,17 +167,15 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 			scrollContents
 			title={i18n.t('sidebar.buttons.stat_weights.modal.title')}
 			footer={
-				isTank ? undefined : (
-					<Button data-testid="calc-weights" disabled={isRunning} onClick={() => void onCalculate()}>
-						<Icon name="calculator" className="mr-1" />
-						{i18n.t('sidebar.buttons.stat_weights.modal.calculate')}
-					</Button>
-				)
+				<Button data-testid="calc-weights" disabled={isRunning} onClick={() => void onCalculate()}>
+					<Icon name="calculator" className="mr-1" />
+					{i18n.t('sidebar.buttons.stat_weights.modal.calculate')}
+				</Button>
 			}>
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-start">
 				<div className="order-1 w-full lg:order-0">
 					<EpWeightsOptions options={options.current} onStatsTypeChange={setStatsType} onShowAllStatsChange={setShowAllStats} />
-					{!isTank && <EpReferenceOptions epStats={epStats} epReferenceStat={epReferenceStat} displayMetrics={displayMetrics} />}
+					<EpReferenceOptions epStats={epStats} epReferenceStat={epReferenceStat} displayMetrics={displayMetrics} />
 					<p>
 						{i18n.t('sidebar.buttons.stat_weights.modal.current_ep_description')}
 						<br />
@@ -204,7 +194,6 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 						epStatSet={epStatSet}
 						epReferenceStat={epReferenceStat}
 						onComputeEp={onComputeEp}
-						isTank={isTank}
 						showThreatMetrics={showThreatMetrics}
 						showEpRatios={showEpRatios}
 						displayMetrics={displayMetrics}

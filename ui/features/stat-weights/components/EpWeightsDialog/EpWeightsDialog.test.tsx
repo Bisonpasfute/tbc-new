@@ -312,18 +312,17 @@ describe('EpWeightsDialog', () => {
 		]);
 	});
 
-	it('shows only the stat and current-ep columns for tanks, matching what the sim-type--tank CSS used to hide', () => {
+	// Vanilla's `.sim-type--tank .ep-weights-menu { display: none }` block is commented out, so a tank
+	// gets the whole dialog there. Re-implementing that dead rule in TSX left the three tank specs
+	// with no Calculate button at all and no way to compute weights.
+	it('gives a tank the same dialog as everyone else', () => {
 		player.playerSpec = { isTankSpec: true, isHealingSpec: false };
 		host.sim.showThreatMetrics = true;
 		renderDialog();
-		const headerRows = [...table().querySelectorAll('thead tr')];
-		expect(headerRows).toHaveLength(1);
-		expect(headerRows[0].querySelectorAll('th').length).toBe(2);
-		expect([...headerRows[0].querySelectorAll('th')].map(th => th.textContent)).toEqual([
-			'sidebar.buttons.stat_weights.modal.column_headers.stat',
-			'sidebar.buttons.stat_weights.modal.current_ep.label',
-		]);
-		expect(popup().querySelector('[data-testid="ep-reference-options"]')).toBeNull();
+
+		expect(popup().querySelector('[data-testid="calc-weights"]')).not.toBeNull();
+		expect(popup().querySelector('[data-testid="ep-reference-options"]')).not.toBeNull();
+		expect(table().querySelectorAll('thead tr')[0].querySelectorAll('th').length).toBeGreaterThan(2);
 	});
 
 	it('shows the spec stats, and the rest only once Show all stats is on', () => {

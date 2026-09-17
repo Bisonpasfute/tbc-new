@@ -26,7 +26,6 @@ export interface EpWeightsTableProps {
 	epStatSet: EpStatSet;
 	epReferenceStat: Stat;
 	onComputeEp: () => void;
-	isTank: boolean;
 	showThreatMetrics: boolean;
 	showEpRatios: boolean;
 	displayMetrics: DisplayMetrics;
@@ -45,7 +44,6 @@ export const EpWeightsTable = ({
 	epStatSet,
 	epReferenceStat,
 	onComputeEp,
-	isTank,
 	showThreatMetrics,
 	showEpRatios,
 	displayMetrics,
@@ -56,8 +54,8 @@ export const EpWeightsTable = ({
 			className={clsx('w-full', showThreatMetrics && 'max-lg:pr-0', `stats-type-${statsType}`)}
 			data-stats-type={statsType}>
 			<thead>
-				<EpWeightsHeader columns={columns} isTank={isTank} showThreatMetrics={showThreatMetrics} />
-				{!isTank && showEpRatios && <EpRatiosRow columns={columns} player={player} onComputeEp={onComputeEp} showThreatMetrics={showThreatMetrics} />}
+				<EpWeightsHeader columns={columns} showThreatMetrics={showThreatMetrics} />
+				{showEpRatios && <EpRatiosRow columns={columns} player={player} onComputeEp={onComputeEp} showThreatMetrics={showThreatMetrics} />}
 			</thead>
 			<tbody>
 				{stats.map(stat => (
@@ -72,7 +70,6 @@ export const EpWeightsTable = ({
 						player={player}
 						epReferenceStat={epReferenceStat}
 						includable={isEpStat(stat, epStatSet)}
-						isTank={isTank}
 						showThreatMetrics={showThreatMetrics}
 						displayMetrics={displayMetrics}
 					/>

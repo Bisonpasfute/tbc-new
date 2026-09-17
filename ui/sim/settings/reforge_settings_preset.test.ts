@@ -1,5 +1,5 @@
 import { ReforgeSettings as ReforgeSettingsProto, StatCapType } from '@generated/proto/api';
-import { Stat } from '@generated/proto/common';
+import { ItemSlot, Stat } from '@generated/proto/common';
 import { Phase } from '@sim/constants/other';
 import { StatCap, Stats } from '@sim/proto/stats';
 import { ReforgeSettings } from '@sim/settings/reforge_settings';
@@ -49,6 +49,25 @@ describe('ReforgeSettings.applyPreset', () => {
 
 		expect(settings.useCustomEPValues).toBe(true);
 		expect(settings.getMaxGemPhase()).toBe(Phase.Phase2);
+	});
+
+	// `create()` seeds repeated fields to `[]`, so a truthiness guard here fires on every preset.
+	it('leaves the user frozen slots a preset does not mention', () => {
+		const settings = withSoftCaps();
+		settings.setFreezeItemSlots(true);
+		settings.setFrozenItemSlots([ItemSlot.ItemSlotHead, ItemSlot.ItemSlotChest]);
+
+		settings.applyPreset(gemPhaseOnly);
+
+		expect([...settings.frozenItemSlots]).toEqual([ItemSlot.ItemSlotHead, ItemSlot.ItemSlotChest]);
+	});
+
+	it('still lets a preset set frozen slots', () => {
+		const settings = withSoftCaps();
+
+		settings.applyPreset(ReforgeSettingsProto.create({ frozenItemSlots: [ItemSlot.ItemSlotHands] }));
+
+		expect([...settings.frozenItemSlots]).toEqual([ItemSlot.ItemSlotHands]);
 	});
 
 	it('is not fromProto: fromProto does reset the omitted field', () => {
