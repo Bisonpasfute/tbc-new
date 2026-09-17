@@ -53,7 +53,7 @@ export const ActionIdField = ({ player, config, actionIdSet, unitRefField, defau
 
 	// One subscription for both reads: the referenced unit can change with the rotation, and its
 	// metadata can change on its own.
-	const { changeSource } = useApl();
+	const { isPrepull, changeSource } = useApl();
 	const subscribe = useMemo(() => subscribeAll([changeSource(player), subscribeUnitMetadata(player.sim)]), [player, changeSource]);
 	const view = useStoreSubscribe(subscribe, () => ({
 		metadata: player.sim.getUnitMetadata(unitRefField ? parentRef.current()[unitRefField] : UnitReference.create(), player, defaultRef),
@@ -76,11 +76,13 @@ export const ActionIdField = ({ player, config, actionIdSet, unitRefField, defau
 					// The four `headerText` entries in `action_id_sets.ts` are list padding: they name no
 					// action and have never rendered.
 					.filter(value => !value.headerText)
+					// An entry the sim only accepts in the other list is not offered at all, so no user
+					// action can build a rotation out of one; see `ActionIdOption.listScope`.
+					.filter(value => !value.listScope || value.listScope === (isPrepull ? 'prepull' : 'priority'))
 					.map(value => ({
 						value: value.value,
 						label: value.value.name,
 						icon: <ActionIdIcon actionId={value.value} useBuffAura={useBuffAura} />,
-						itemClassName: value.extraClassNames,
 						submenu: value.submenu,
 						tooltip: value.tooltip,
 					})),
@@ -89,7 +91,7 @@ export const ActionIdField = ({ player, config, actionIdSet, unitRefField, defau
 		return () => {
 			live = false;
 		};
-	}, [metadata, metadataEpoch, set, useBuffAura]);
+	}, [metadata, metadataEpoch, set, useBuffAura, isPrepull]);
 
 	const selected = useMemo(() => (view.source ? ActionId.fromProto(view.source) : ActionId.fromEmpty()), [view.source]);
 	const isMissing = selected.anyId() != 0 && !available.some(option => sameActionId(option.value, selected));

@@ -71,7 +71,6 @@
 			align-items: center;
 		}
 
-		& .ui-apl-list-item-picker .ui-apl-prepull-actions-only,
 		& .ui-apl-prepull-action-picker .ui-apl-priority-list-only {
 			display: none;
 		}

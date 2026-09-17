@@ -30,11 +30,26 @@ const spellHasRanks = (actionId: ActionId, spells: Array<AuraStats | SpellStats>
 const createSpellSubmenu = (actionId: ActionId, spells: Array<AuraStats | SpellStats>, baseMenuEntry: Array<string> = []): Array<string> =>
 	spellHasRanks(actionId, spells) ? [...baseMenuEntry, actionId.nameWithoutRank] : baseMenuEntry;
 
+/** The one list a spell may be cast from, for the spells the sim only accepts in one of them. */
+export type LIST_SCOPE = 'prepull' | 'priority';
+
+export interface ActionIdOption extends DropdownValueConfig<ActionId> {
+	/**
+	 * Read by the field, which drops the entries the list it is in cannot use.
+	 *
+	 * Master marked them with a CSS class instead and hid them with a rule scoped to the enclosing
+	 * list; the port's menu renders in a portal on `document.body`, where no such rule can reach it.
+	 */
+	listScope?: LIST_SCOPE;
+}
+
+const listScopeOf = (spell: SpellStats): LIST_SCOPE | undefined => (spell.data.prepullOnly ? 'prepull' : spell.data.encounterOnly ? 'priority' : undefined);
+
 export const actionIdSets: Record<
 	ACTION_ID_SET,
 	{
 		defaultLabel: string;
-		getActionIDs: (metadata: UnitMetadata) => Promise<Array<DropdownValueConfig<ActionId>>>;
+		getActionIDs: (metadata: UnitMetadata) => Promise<Array<ActionIdOption>>;
 	}
 > = {
 	auras: {
@@ -128,11 +143,7 @@ export const actionIdSets: Record<
 					return {
 						value: actionId.id,
 						submenu: createSpellSubmenu(actionId.id, spells, ['spell']),
-						extraClassNames: actionId.data.prepullOnly
-							? ['ui-apl-prepull-actions-only']
-							: actionId.data.encounterOnly
-								? ['ui-apl-priority-list-only']
-								: [],
+						listScope: listScopeOf(actionId),
 					};
 				}),
 				[
@@ -146,11 +157,7 @@ export const actionIdSets: Record<
 					return {
 						value: actionId.id,
 						submenu: createSpellSubmenu(actionId.id, spells, ['cooldowns']),
-						extraClassNames: actionId.data.prepullOnly
-							? ['ui-apl-prepull-actions-only']
-							: actionId.data.encounterOnly
-								? ['ui-apl-priority-list-only']
-								: [],
+						listScope: listScopeOf(actionId),
 					};
 				}),
 				[
@@ -164,11 +171,7 @@ export const actionIdSets: Record<
 					return {
 						value: actionId.id,
 						submenu: createSpellSubmenu(actionId.id, spells, ['potions']),
-						extraClassNames: actionId.data.prepullOnly
-							? ['ui-apl-prepull-actions-only']
-							: actionId.data.encounterOnly
-								? ['ui-apl-priority-list-only']
-								: [],
+						listScope: listScopeOf(actionId),
 					};
 				}),
 				[
@@ -182,11 +185,7 @@ export const actionIdSets: Record<
 					return {
 						value: actionId.id,
 						submenu: createSpellSubmenu(actionId.id, spells, ['conjured_items']),
-						extraClassNames: actionId.data.prepullOnly
-							? ['ui-apl-prepull-actions-only']
-							: actionId.data.encounterOnly
-								? ['ui-apl-priority-list-only']
-								: [],
+						listScope: listScopeOf(actionId),
 					};
 				}),
 				[

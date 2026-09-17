@@ -170,3 +170,52 @@ describe('GroupVariablesField', () => {
 		expect(label.getAttribute('for')).toBeTruthy();
 	});
 });
+
+// The reference outlives what it points at: deleting a group, or renaming one, leaves a reference
+// naming nothing, and retribution's default APL ships a reference passing a variable to a group
+// that declares no placeholder (ui/specs/paladin/retribution/apls/default.apl.json, group
+// `ExoOrConsec`). None of those may cost the user the assignments they typed.
+describe('GroupVariablesField — nothing to derive from', () => {
+	const assigned = () => ({
+		name: 'TargetDemonOrUndead',
+		value: { uuid: { value: 'keep' }, value: { oneofKind: 'variableRef', variableRef: { name: 'No' } } },
+	});
+
+	it('leaves the stored variables alone with no group selected', () => {
+		const existing = [assigned()];
+		setup({ placeholders: ['a'], existingVariables: existing });
+		mount();
+
+		expect(parentValue.variables).toBe(existing);
+		expect(parentValue.variables[0].value.value.variableRef.name).toBe('No');
+		expect(container().className.split(' ')).toContain('hidden');
+	});
+
+	it('leaves the stored variables alone when the named group no longer exists', () => {
+		const existing = [assigned()];
+		setup({ groupName: 'deleted', placeholders: ['a'], existingVariables: existing });
+		mount();
+
+		expect(parentValue.variables).toBe(existing);
+		expect(parentValue.variables[0].value.value.variableRef.name).toBe('No');
+		expect(container().className.split(' ')).toContain('hidden');
+	});
+
+	it('leaves the stored variables alone when the selected group declares no placeholder', () => {
+		const existing = [assigned()];
+		setup({ groupName: 'g1', placeholders: [], existingVariables: existing });
+		mount();
+
+		expect(parentValue.variables).toBe(existing);
+		expect(parentValue.variables[0].value.value.variableRef.name).toBe('No');
+		expect(container().className.split(' ')).toContain('hidden');
+		expect(rows()).toHaveLength(0);
+	});
+
+	it('still rewrites the list once the group does declare placeholders', () => {
+		setup({ groupName: 'g1', placeholders: ['a'], existingVariables: [assigned()] });
+		mount();
+
+		expect(parentValue.variables.map(entry => entry.name)).toEqual(['a']);
+	});
+});

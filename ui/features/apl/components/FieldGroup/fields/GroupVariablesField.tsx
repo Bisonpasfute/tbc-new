@@ -23,6 +23,9 @@ const newVariable = (name: string) => ({
 	value: { uuid: { value: randomUUID() }, value: { oneofKind: 'variableRef', variableRef: { name: '' } } },
 });
 
+/** One array for every guarded read, so two of them are the same snapshot and re-render nothing. */
+const NOTHING_TO_PASS: Array<any> = [];
+
 /**
  * The variables a referenced group expects, one row per placeholder the group defines.
  *
@@ -38,8 +41,9 @@ const newVariable = (name: string) => ({
  * cleared, which is the useful reading of the button and the only one it can have. Copy is not
  * offered — a duplicate entry carries an existing name, so the next reconcile drops it.
  *
- * With no group selected, or one with no placeholders, there is nothing to pass and the container
- * is `hidden` — not the shell's `hide`, which is a different class.
+ * With no group selected, one whose name resolves to nothing, or one with no placeholders, there is
+ * nothing to derive: the stored `variables` are left exactly as the user wrote them and the
+ * container is `hidden` — not the shell's `hide`, which is a different class.
  */
 export const GroupVariablesField = ({ player, config, groupNameField, getParentValue }: GroupVariablesFieldProps) => {
 	const parentRef = useRef(getParentValue);
@@ -49,10 +53,17 @@ export const GroupVariablesField = ({ player, config, groupNameField, getParentV
 		const parentValue = parentRef.current();
 		const groupName = parentValue?.[groupNameField];
 		const group = groupName ? (player.aplRotation?.groups || []).find(candidate => candidate.name === groupName) : undefined;
-		const existing: Array<any> = parentValue?.variables || [];
-		const reconciled = placeholderNames(group).map(name => existing.find(entry => entry.name === name) || newVariable(name));
+		const names = placeholderNames(group);
+		// One check for master's three guards: no group named, a name that resolves to nothing — deleting
+		// a group leaves every reference to it dangling — and a group that declares no placeholder all
+		// land here, and none of them may write. Deriving an empty set from them would empty the live
+		// rotation's `variables` on a render alone, and retribution's default APL ships a reference
+		// passing a variable to a group that declares no placeholder at all.
+		if (!names.length) return NOTHING_TO_PASS;
+		const existing: Array<any> = parentValue.variables || [];
+		const reconciled = names.map(name => existing.find(entry => entry.name === name) || newVariable(name));
 		const changed = reconciled.length !== existing.length || reconciled.some((entry, index) => entry !== existing[index]);
-		if (changed && parentValue) parentValue.variables = reconciled;
+		if (changed) parentValue.variables = reconciled;
 		return changed ? reconciled : existing;
 	}, [player, groupNameField]);
 

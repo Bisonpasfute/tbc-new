@@ -21,7 +21,9 @@ export const ActionListField = ({ player, config }: ActionListFieldProps) => {
 		...config,
 		itemLabel: 'action',
 		newItem: APLAction.create,
-		allowedActions: ['create', 'delete', 'move'],
+		// Called through, not passed: `clone` reads `this`, so the bare method copies nothing.
+		copyItem: (oldItem: APLAction) => APLAction.clone(oldItem),
+		allowedActions: ['create', 'copy', 'delete', 'move'],
 		actions: { create: { useIcon: true } },
 	};
 
