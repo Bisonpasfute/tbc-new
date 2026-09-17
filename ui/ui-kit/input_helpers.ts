@@ -12,7 +12,7 @@ import { BooleanPickerConfig } from './BooleanPicker/types';
 import { EnumPickerConfig, EnumValueConfig } from './EnumPicker/types';
 import { IconEnumPickerConfig, IconEnumValueConfig } from './IconEnumPicker/types';
 import { IconPickerConfig } from './IconPicker/types';
-import type { StoreBinding } from './input';
+import type { InputChrome, StoreBinding } from './input';
 import { MultiIconPickerConfig } from './MultiIconPicker/types';
 import { NumberPickerConfig } from './NumberPicker/types';
 
@@ -456,8 +456,10 @@ const makeWrappedIconInput = <SpecType extends Spec, ModObject, T>(
 	const getModObject = config.getModObject;
 	return {
 		type: 'icon',
+		id: config.id,
 		actionId: config.actionId,
 		label: config.label,
+		labelTooltip: config.labelTooltip,
 		states: config.states,
 		...mapStoreBinding(config, getModObject),
 		showWhen: (player: Player<SpecType>) => !config.showWhen || (config.showWhen(getModObject(player)) as any),
@@ -469,6 +471,8 @@ const makeWrappedIconInput = <SpecType extends Spec, ModObject, T>(
 };
 
 type WrappedTypedInputConfig<Message, ModObject, T> = StoreBinding<ModObject> & {
+	// The picker's own id, which PickerShell keys the label and its tooltip on. Not the ActionId.
+	id?: string;
 	getModObject: (player: Player<any>) => ModObject;
 	getValue: (modObj: ModObject) => Message;
 	setValue: (modObj: ModObject, messageVal: Message) => void;
@@ -486,11 +490,14 @@ export const makeBooleanIconInput = <SpecType extends Spec, Message, ModObject>(
 	fieldName: keyof Message,
 	value?: number,
 	label?: string,
+	labelTooltip?: InputChrome<ModObject>['labelTooltip'],
 ): TypedIconPickerConfig<Player<SpecType>, boolean> => {
 	return makeWrappedIconInput<SpecType, ModObject, boolean>({
+		id: config.id,
 		getModObject: config.getModObject,
 		actionId,
 		label,
+		labelTooltip,
 		states: 2,
 		...mapStoreBinding(config, (modObj: ModObject) => modObj),
 		showWhen: config.showWhen,
@@ -538,7 +545,8 @@ export const makePartyBuffEnumIconInput = <SpecType extends Spec>(
 	});
 };
 
-export interface PlayerBooleanIconInputConfig<SpecType extends Spec, Message, T> extends BasePlayerConfig<SpecType, T> {
+export interface PlayerBooleanIconInputConfig<SpecType extends Spec, Message, T>
+	extends BasePlayerConfig<SpecType, T>, Pick<InputChrome<Player<SpecType>>, 'label' | 'labelTooltip'> {
 	fieldName: keyof Message;
 	id: ActionId;
 	value?: number;
@@ -548,6 +556,7 @@ export const makeClassOptionsBooleanIconInput = <SpecType extends Spec>(
 ): TypedIconPickerConfig<Player<SpecType>, boolean> => {
 	return makeBooleanIconInput<SpecType, ClassOptions<SpecType>, Player<SpecType>>(
 		{
+			id: `${String(config.fieldName) || randomUUID()}`,
 			getModObject: (player: Player<SpecType>) => player,
 			getValue: (player: Player<SpecType>) => player.getClassOptions(),
 			setValue: (player: Player<SpecType>, newVal: ClassOptions<SpecType>) => player.setClassOptions(newVal),
@@ -560,6 +569,8 @@ export const makeClassOptionsBooleanIconInput = <SpecType extends Spec>(
 		config.id,
 		config.fieldName,
 		config.value,
+		config.label,
+		config.labelTooltip,
 	);
 };
 export const makeSpecOptionsBooleanIconInput = <SpecType extends Spec>(
@@ -567,6 +578,7 @@ export const makeSpecOptionsBooleanIconInput = <SpecType extends Spec>(
 ): TypedIconPickerConfig<Player<SpecType>, boolean> => {
 	return makeBooleanIconInput<SpecType, SpecOptions<SpecType>, Player<SpecType>>(
 		{
+			id: `${String(config.fieldName) || randomUUID()}`,
 			getModObject: (player: Player<SpecType>) => player,
 			getValue: (player: Player<SpecType>) => player.getSpecOptions(),
 			setValue: (player: Player<SpecType>, newVal: SpecOptions<SpecType>) => player.setSpecOptions(newVal),
@@ -579,6 +591,8 @@ export const makeSpecOptionsBooleanIconInput = <SpecType extends Spec>(
 		config.id,
 		config.fieldName,
 		config.value,
+		config.label,
+		config.labelTooltip,
 	);
 };
 
@@ -681,6 +695,9 @@ const makeWrappedEnumIconInput = <SpecType extends Spec, ModObject, T>(
 	const getModObject = config.getModObject;
 	return {
 		type: 'iconEnum',
+		id: config.id,
+		label: config.label,
+		labelTooltip: config.labelTooltip,
 		numColumns: config.numColumns,
 		values: config.values.map(value => {
 			if (value.showWhen) {
@@ -699,7 +716,8 @@ const makeWrappedEnumIconInput = <SpecType extends Spec, ModObject, T>(
 	};
 };
 
-export interface PlayerEnumIconInputConfig<SpecType extends Spec, Message, T> extends BasePlayerConfig<SpecType, T> {
+export interface PlayerEnumIconInputConfig<SpecType extends Spec, Message, T>
+	extends BasePlayerConfig<SpecType, T>, Pick<InputChrome<Player<SpecType>>, 'label' | 'labelTooltip'> {
 	fieldName: keyof Message;
 	values: Array<IconEnumValueConfig<Player<SpecType>, T>>;
 	numColumns?: number;
@@ -708,6 +726,9 @@ export const makeClassOptionsEnumIconInput = <SpecType extends Spec, T>(
 	config: PlayerEnumIconInputConfig<SpecType, ClassOptions<SpecType>, T>,
 ): TypedIconEnumPickerConfig<Player<SpecType>, T> => {
 	return makeWrappedEnumIconInput<SpecType, Player<SpecType>, T>({
+		id: `${String(config.fieldName) || randomUUID()}`,
+		label: config.label,
+		labelTooltip: config.labelTooltip,
 		numColumns: config.numColumns || 1,
 		values: config.values,
 		equals: (a: T, b: T) => a == b,
@@ -730,6 +751,9 @@ export const makeSpecOptionsEnumIconInput = <SpecType extends Spec, T>(
 	config: PlayerEnumIconInputConfig<SpecType, SpecOptions<SpecType>, T>,
 ): TypedIconEnumPickerConfig<Player<SpecType>, T> => {
 	return makeWrappedEnumIconInput<SpecType, Player<SpecType>, T>({
+		id: `${String(config.fieldName) || randomUUID()}`,
+		label: config.label,
+		labelTooltip: config.labelTooltip,
 		numColumns: config.numColumns || 1,
 		values: config.values,
 		equals: (a: T, b: T) => a == b,
@@ -752,6 +776,9 @@ export const makeRotationEnumIconInput = <SpecType extends Spec, T>(
 	config: PlayerEnumIconInputConfig<SpecType, SpecRotation<SpecType>, T>,
 ): TypedIconEnumPickerConfig<Player<SpecType>, T> => {
 	return makeWrappedEnumIconInput<SpecType, Player<SpecType>, T>({
+		id: `${String(config.fieldName) || randomUUID()}`,
+		label: config.label,
+		labelTooltip: config.labelTooltip,
 		numColumns: config.numColumns || 1,
 		values: config.values,
 		equals: (a: T, b: T) => a == b,

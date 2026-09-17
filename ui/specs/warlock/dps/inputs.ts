@@ -68,7 +68,7 @@ const makeCursePicker = <SpecType extends WarlockSpecs>(curse: WarlockOptions_Cu
 export const CursesSection: CustomSection<Spec.SpecWarlock> = {
 	id: 'assigned-curse-settings',
 	title: i18n.t('settings_tab.other.warlock_assigned_curse.title'),
-	tooltip: i18n.t('settings_tab.other.warlock_assigned_curse.description'),
+	description: i18n.t('settings_tab.other.warlock_assigned_curse.description'),
 	iconGroupClassName: 'curses-toggle-container',
 	iconInputs: [
 		makeCursePicker<Spec.SpecWarlock>(WarlockOptions_CurseOptions.Agony, 27218),

@@ -25,7 +25,11 @@ export const CustomSection = ({ section }: CustomSectionProps) => {
 	if (!visible) return null;
 
 	return (
-		<ContentBlock className={[section.className || section.id]} config={{ header: { title: section.title, tooltip: section.tooltip } }}>
+		<ContentBlock
+			className={[section.className || section.id]}
+			// The header is a row, so it has to stack before a description can sit under the title.
+			config={{ header: { title: section.title, tooltip: section.tooltip, className: section.description ? 'flex-col' : undefined } }}
+			headerChildren={section.description ? <p className="text-sm">{section.description}</p> : undefined}>
 			{!!section.iconInputs?.length && (
 				<PickerGroup variant="icons" className={section.iconGroupClassName}>
 					{section.iconInputs.map((config, index) => {

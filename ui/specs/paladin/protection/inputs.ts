@@ -57,6 +57,9 @@ export const PaladinRotationConfig = {
 export const PaladinRotationIconInputs = [
 	InputHelpers.makeRotationEnumIconInput<Spec.SpecProtectionPaladin, PaladinJudgement>({
 		fieldName: 'maintainJudgement',
+		label: 'Maintain Judgement',
+		labelTooltip:
+			'Which Judgement debuff to keep active on the target. The matching Seal will be used before each Judgement. Pick <b>None</b> to keep Seal of Righteousness up and skip Judgement maintenance.',
 		values: [
 			{ color: 'grey', value: PaladinJudgement.JudgementNone, tooltip: 'None' },
 			{ actionId: ActionId.fromSpellId(27162), value: PaladinJudgement.JudgementOfLight, tooltip: 'Judgement of Light' },
@@ -64,5 +67,7 @@ export const PaladinRotationIconInputs = [
 		],
 		getValue: player => player.getSimpleRotation().maintainJudgement,
 	}),
-	SharedPaladinInputs.AuraInput<Spec.SpecProtectionPaladin>(),
+	SharedPaladinInputs.AuraInput<Spec.SpecProtectionPaladin>(
+		'Which paladin aura to activate in the prepull. <b>Sanctity Aura</b> requires the talent. Pick <b>None</b> to skip casting an aura.',
+	),
 ];

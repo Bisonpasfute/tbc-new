@@ -25,11 +25,12 @@ export const ConsecrationRankInput = <SpecType extends PaladinSimpleSpec>(labelT
 		values: CONSECRATION_RANK_VALUES,
 	});
 
-// The aura picker is an icon-enum input, so it lands in `rotationIconInputs`; the new
-// IconEnumPicker labels itself from the selected value and takes no config label or tooltip.
-export const AuraInput = <SpecType extends PaladinSimpleSpec>() =>
+// The aura picker is an icon-enum input, so it lands in `rotationIconInputs`.
+export const AuraInput = <SpecType extends PaladinSimpleSpec>(labelTooltip: string) =>
 	InputHelpers.makeRotationEnumIconInput<SpecType, PaladinAura>({
 		fieldName: 'aura',
+		label: 'Aura',
+		labelTooltip,
 		values: [
 			{ color: 'grey', value: PaladinAura.AuraNone, tooltip: 'None' },
 			{ actionId: ActionId.fromSpellId(27149), value: PaladinAura.DevotionAura, tooltip: 'Devotion Aura' },

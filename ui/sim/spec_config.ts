@@ -57,6 +57,9 @@ export interface CustomSection<SpecType extends Spec> {
 	id: string;
 	title: string;
 	tooltip?: string;
+	// Body text under the section title, for a section whose explanation is too long to hide
+	// behind the title's tooltip.
+	description?: string;
 	// Css class for the section's ContentBlock; this is what stylesheets hook on.
 	className?: string;
 	// Hides the whole section when this evaluates to false, mirroring `showWhen`

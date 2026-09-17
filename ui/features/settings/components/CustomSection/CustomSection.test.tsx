@@ -69,6 +69,20 @@ describe('CustomSection', () => {
 		expect(mount({}).querySelector('[data-testid="content-block-title"]')!.textContent).toBe('Totems');
 	});
 
+	// The header lays its children out in a row, so a description only lands under the title if the
+	// header is also stacked.
+	it('renders a description under the title, stacking the header', () => {
+		const header = mount({ description: 'The selected curse blocks the matching external debuff.' }).querySelector('[data-testid="content-block-header"]')!;
+		expect(header.querySelector('p')!.textContent).toBe('The selected curse blocks the matching external debuff.');
+		expect(header.classList.contains('flex-col')).toBe(true);
+	});
+
+	it('leaves the header unstacked and adds no paragraph when the section has no description', () => {
+		const header = mount({}).querySelector('[data-testid="content-block-header"]')!;
+		expect(header.querySelector('p')).toBeNull();
+		expect(header.classList.contains('flex-col')).toBe(false);
+	});
+
 	it('renders its icons and inputs into the block body, both forced inline', () => {
 		const block = mount({
 			iconInputs: [{ type: 'icon' }] as never,

@@ -1,6 +1,6 @@
 import { Field } from '@base-ui/react/field';
 import type { AnyInputConfig } from '@ui-kit/input';
-import { Tooltip, tooltipAnchorProps } from '@ui-kit/Tooltip';
+import { LocaleHtml, Tooltip, tooltipAnchorProps } from '@ui-kit/Tooltip';
 import clsx from 'clsx';
 import { isValidElement, type ReactNode, type Ref, useMemo } from 'react';
 
@@ -39,10 +39,20 @@ export const PickerShell = <ModObject, T, V>({
 		console.warn(`${className} ${config.id}: labelTooltip is neither a string, a node nor an element, so it is not rendered.`, tooltip);
 	}
 	const tooltipId = renderable ? `${config.id}-tooltip` : undefined;
-	const tooltipNode = useMemo(
-		() => (tooltipId ? <Tooltip id={tooltipId} content={isNode(tooltip) ? <span ref={adoptNode(tooltip)} /> : (tooltip as ReactNode)} /> : null),
-		[tooltipId, tooltip],
-	);
+	// A string goes through LocaleHtml, as ContentBlock's header tooltip already does: several spec
+	// tooltips carry <b> to mark the option they are talking about, and passed raw those render as
+	// literal tags.
+	const tooltipNode = useMemo(() => {
+		if (!tooltipId) return null;
+		const content = isNode(tooltip) ? (
+			<span ref={adoptNode(tooltip)} />
+		) : typeof tooltip === 'string' ? (
+			<LocaleHtml html={tooltip} />
+		) : (
+			(tooltip as ReactNode)
+		);
+		return <Tooltip id={tooltipId} content={content} />;
+	}, [tooltipId, tooltip]);
 
 	if (hidden) return null;
 

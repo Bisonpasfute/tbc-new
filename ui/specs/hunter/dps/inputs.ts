@@ -9,6 +9,8 @@ import * as InputHelpers from '@ui-kit/input_helpers';
 export const AmmoInput = <SpecType extends HunterSpecs>() =>
 	InputHelpers.makeClassOptionsEnumIconInput<SpecType, HunterOptions_Ammo>({
 		fieldName: 'ammo',
+		label: i18n.t('settings_tab.other.ammo.label'),
+		labelTooltip: i18n.t('settings_tab.other.ammo.tooltip'),
 		numColumns: 4,
 		values: [
 			{ value: HunterOptions_Ammo.AmmoNone, tooltip: i18n.t('settings_tab.other.ammo.no_ammo') },
@@ -33,6 +35,8 @@ export const QuiverInput = <SpecType extends HunterSpecs>() =>
 	InputHelpers.makeClassOptionsEnumIconInput<SpecType, HunterOptions_QuiverBonus>({
 		extraClassNames: ['quiver-picker'],
 		fieldName: 'quiverBonus',
+		label: i18n.t('settings_tab.other.quiver.label'),
+		labelTooltip: i18n.t('settings_tab.other.quiver.tooltip'),
 		numColumns: 4,
 		values: [
 			{ color: '82e89d', value: HunterOptions_QuiverBonus.QuiverNone, tooltip: i18n.t('settings_tab.other.quiver.no_quiver') },
@@ -49,6 +53,8 @@ export const PetTypeInput = <SpecType extends HunterSpecs>() =>
 	InputHelpers.makeClassOptionsEnumIconInput<SpecType, HunterOptions_PetType>({
 		extraClassNames: ['pet-type-picker'],
 		fieldName: 'petType',
+		label: i18n.t('settings_tab.other.pet_type.label'),
+		labelTooltip: i18n.t('settings_tab.other.pet_type.tooltip'),
 		numColumns: 4,
 		values: [
 			{ value: HunterOptions_PetType.PetNone, actionId: ActionId.fromPetName(''), tooltip: i18n.t('settings_tab.other.pet_type.no_pet') },
