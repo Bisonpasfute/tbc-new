@@ -72,18 +72,25 @@ describe('applyBuild rotation', () => {
 });
 
 describe('applyBuild player timings', () => {
-	// An encounter-only build JSON parses to reactionTimeMs 0, which is "not stated", not "zero".
-	it('ignores a zero reaction time and channel clip delay', () => {
-		applyBuild({ name: 'Magtheridon', settings: { name: 'm', playerOptions: { reactionTimeMs: 0, channelClipDelayMs: 0 } } } as any, host());
+	it('leaves them alone when the preset states neither', () => {
+		applyBuild({ name: 'Magtheridon', settings: { name: 'm', playerOptions: { inFrontOfTarget: true } } } as any, host());
 
 		expect(setReactionTime).not.toHaveBeenCalled();
 		expect(setChannelClipDelay).not.toHaveBeenCalled();
 	});
 
-	it('applies one the build does state', () => {
-		applyBuild({ name: 'x', settings: { name: 'x', playerOptions: { reactionTimeMs: 250 } } } as any, host());
+	it('applies the ones it does state', () => {
+		applyBuild({ name: 'x', settings: { name: 'x', playerOptions: { reactionTimeMs: 250, channelClipDelayMs: 50 } } } as any, host());
 
 		expect(setReactionTime).toHaveBeenCalledWith(250);
+		expect(setChannelClipDelay).toHaveBeenCalledWith(50);
+	});
+
+	// A preset that means zero can say so; only `makePresetSettingsHelper` decides what "stated" is.
+	it('applies a stated zero', () => {
+		applyBuild({ name: 'x', settings: { name: 'x', playerOptions: { reactionTimeMs: 0 } } } as any, host());
+
+		expect(setReactionTime).toHaveBeenCalledWith(0);
 	});
 });
 

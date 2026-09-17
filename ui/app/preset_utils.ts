@@ -235,12 +235,22 @@ const makePresetSettingsHelper = (name: string, spec: Spec, simSettings: Individ
 		}
 
 		settings.playerOptions = {
-			reactionTimeMs: simSettings.player.reactionTimeMs,
-			channelClipDelayMs: simSettings.player.channelClipDelayMs,
 			inFrontOfTarget: simSettings.player.inFrontOfTarget,
 			distanceFromTarget: simSettings.player.distanceFromTarget,
 			enableItemSwap: simSettings.player.enableItemSwap,
 		};
+
+		// proto3 cannot tell an absent scalar from a zero one, so a JSON that never mentions these
+		// timings parses to 0 for both. Leaving the field out here is what lets `applyBuild` keep a
+		// `typeof === 'number'` guard and so still honour a hand-written preset that means 0.
+		if (simSettings.player.reactionTimeMs) {
+			settings.playerOptions.reactionTimeMs = simSettings.player.reactionTimeMs;
+		}
+
+		if (simSettings.player.channelClipDelayMs) {
+			settings.playerOptions.channelClipDelayMs = simSettings.player.channelClipDelayMs;
+		}
+
 		if (!!simSettings.player.profession1) {
 			settings.playerOptions.profession1 = simSettings.player.profession1;
 		}

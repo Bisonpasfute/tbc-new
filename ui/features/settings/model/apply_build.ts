@@ -48,12 +48,12 @@ export const applyBuild = (
 			if (settings.playerOptions?.profession1) simUI.player.setProfession1(settings.playerOptions.profession1);
 			if (settings.playerOptions?.profession2) simUI.player.setProfession2(settings.playerOptions.profession2);
 			if (typeof settings.playerOptions?.distanceFromTarget === 'number') simUI.player.setDistanceFromTarget(settings.playerOptions.distanceFromTarget);
-			// Truthy, not `typeof === 'number'`. `makePresetBuildFromJSON` copies these two straight off
-			// the parsed proto, where an absent field reads back as 0 — so a `typeof` guard applies a
-			// zero the build never stated. The three tank specs' default build is an encounter-only
-			// JSON carrying no player timings, and it was wiping their 100/250 ms reaction time.
-			if (settings.playerOptions?.reactionTimeMs) simUI.player.setReactionTime(settings.playerOptions.reactionTimeMs);
-			if (settings.playerOptions?.channelClipDelayMs) simUI.player.setChannelClipDelay(settings.playerOptions.channelClipDelayMs);
+			// Reachable only when the preset states a timing: `makePresetSettingsHelper` omits these
+			// two rather than copying a parsed 0, which a JSON that never mentioned them also yields.
+			// The three tank specs' default build is exactly that, and it was wiping their reaction
+			// time to 0 ms.
+			if (typeof settings.playerOptions?.reactionTimeMs === 'number') simUI.player.setReactionTime(settings.playerOptions.reactionTimeMs);
+			if (typeof settings.playerOptions?.channelClipDelayMs === 'number') simUI.player.setChannelClipDelay(settings.playerOptions.channelClipDelayMs);
 			if (typeof settings.playerOptions?.inFrontOfTarget === 'boolean') simUI.player.setInFrontOfTarget(settings.playerOptions.inFrontOfTarget);
 			if (settings.playerOptions?.enableItemSwap !== undefined && settings.playerOptions?.itemSwap) {
 				simUI.player.itemSwapSettings.setItemSwapSettings(
