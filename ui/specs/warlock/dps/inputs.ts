@@ -38,6 +38,9 @@ export const DemonicSacrificeInput = <SpecType extends WarlockSpecs>() =>
 	InputHelpers.makeClassOptionsBooleanIconInput<SpecType>({
 		fieldName: 'sacrificeSummon',
 		id: ActionId.fromSpellId(18788),
+		// `talentsString` too, because both accessors below read the talent. Without it, untalenting
+		// Demonic Sacrifice leaves the icon lit and the sim reading a stale `sacrificeSummon`.
+		storeField: ['specOptions', 'talentsString'] as const,
 		getValue: (player: Player<SpecType>) =>
 			player.getClassOptions().sacrificeSummon && player.getTalents().demonicSacrifice && player.getClassOptions().summon != Summon.NoSummon,
 		setValue: (player: Player<SpecType>, newValue: boolean) => {
