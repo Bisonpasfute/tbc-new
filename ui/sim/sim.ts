@@ -782,8 +782,15 @@ export class Sim {
 				.includes(player.getRaidIndex())
 				? [UnitReference.create({ type: UnitType.Player, index: 0 })]
 				: [];
+			// `toDatabase()` fills items, enchants and gems only, so without this the request carries
+			// no consumables or spell effects. lib.wasm is built without the `with_db` tag, so a
+			// worker that has not already handled a full sim request cannot resolve them and computes
+			// the stat's sub-sims with no flask, elixir, food or potion.
+			const playerProto = player.toProto(false, true);
+			extendPlayerProtoWithMissingEffects(playerProto, this.db);
+
 			const request = StatWeightsRequest.create({
-				player: player.toProto(false, true),
+				player: playerProto,
 				raidBuffs: this.raid.getBuffs(),
 				partyBuffs: player.getParty()!.getBuffs(),
 				debuffs: this.raid.getDebuffs(),

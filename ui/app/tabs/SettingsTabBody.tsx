@@ -71,7 +71,7 @@ export const SettingsTabBody = () => {
 								rootDataAttributes={{ 'data-block': 'consumes-settings' }}
 								config={{ header: { title: i18n.t('settings_tab.consumables.title') } }}>
 								<ConsumesPicker
-									consumableStats={config.consumableStats ?? config.epStats}
+									consumableStats={[...(config.consumableStats ?? []), ...config.epStats]}
 									conjuredOptions={options.conjured}
 									explosiveOptions={options.explosive}
 									imbueMHOptions={options.imbueMH}

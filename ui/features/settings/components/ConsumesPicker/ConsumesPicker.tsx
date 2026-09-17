@@ -66,7 +66,11 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 			<ConsumeRow name="imbue">
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-imbue">
 					<IconEnumPicker modObject={player} config={configs.mhImbue} />
-					<IconEnumPicker modObject={player} config={configs.ohImbue} />
+					{/* Vanilla gated the off-hand imbue on the five dual-wield specs. The picker's own
+					    `showWhen` is not a substitute: it tests `offHand?.item.weaponSpeed !== undefined`,
+					    and `weapon_speed` is a non-optional proto3 double, so it reads 0 rather than
+					    undefined for a shield or an off-hand frill and the gate never closes. */}
+					{player.getPlayerSpec().canDualWield && <IconEnumPicker modObject={player} config={configs.ohImbue} />}
 				</PickerGroup>
 			</ConsumeRow>
 			{/* Ungated on purpose, the way vanilla's drums row was: the picker has to stay mounted while

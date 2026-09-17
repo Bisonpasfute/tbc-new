@@ -40,7 +40,7 @@ export const makeBooleanIndividualBuffInput = <SpecType extends Spec>(
 	return InputHelpers.makeBooleanIconInput<any, IndividualBuffs, Player<SpecType>>(
 		{
 			getModObject: (player: Player<SpecType>) => player,
-			showWhen: (player: Player<SpecType>) => !config.faction || config.faction == player.getFaction(),
+			showWhen: (player: Player<SpecType>) => (!config.faction || config.faction == player.getFaction()) && (!config.showWhen || config.showWhen(player)),
 			getValue: (player: Player<SpecType>) => player.getBuffs(),
 			setValue: (player: Player<SpecType>, newVal: IndividualBuffs) => player.setBuffs(newVal),
 			storeField: ['buffs', 'race'],
@@ -61,7 +61,9 @@ export const makeBooleanPartyBuffInput = <SpecType extends Spec>(
 			showWhen: config.showWhen,
 			getValue: (party: Party) => party.getBuffs(),
 			setValue: (party: Party, newVal: PartyBuffs) => party.setBuffs(newVal),
-			storeField: 'raid:partyBuffs',
+			// `race` too: the Draenei racials gate their showWhen on the party leader's race, and race
+			// lives in the player slice, so a party-buff subscription alone never sees a race change.
+			storeField: ['raid:partyBuffs', 'race'],
 		},
 		config.actionId,
 		config.fieldName,
