@@ -25,16 +25,9 @@ const ClassSubmenu = ({ playerClass }: { playerClass: PlayerClass<Class> }) => (
 	<Menu
 		submenu
 		surface="plain"
-		// `Menu submenu` renders its trigger bare, so the trigger has to be the `SubmenuTrigger` itself;
-		// `MenuItem submenu` would be the other way in, but it layers `ui-menu-item` over SIM_LINK_CLASSES.
-		trigger={
-			<BaseMenu.SubmenuTrigger
-				render={<button type="button" />}
-				className={clsx(SIM_LINK_CLASSES, textClassNameForClass(playerClass))}
-				data-testid="sim-link">
-				<SimLinkContent iconPath={playerClass.getIcon('large')} title={translatePlayerClass(playerClass)} />
-			</BaseMenu.SubmenuTrigger>
-		}
+		trigger={<SimLinkContent iconPath={playerClass.getIcon('large')} title={translatePlayerClass(playerClass)} />}
+		triggerRender={<button type="button" />}
+		triggerProps={{ className: clsx(SIM_LINK_CLASSES, textClassNameForClass(playerClass)), 'data-testid': 'sim-link' }}
 		side="right"
 		align="start"
 		sideOffset={0}
