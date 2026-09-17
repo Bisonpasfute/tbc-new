@@ -99,6 +99,8 @@ export default defineSpec<Spec.SpecDpsWarrior>({
 	includeBuffDebuffInputs: [],
 	excludeBuffDebuffInputs: [],
 	rotationInputs: DpsWarriorInputs.RotationInputs,
+	// `simpleRotation` below never reads its Cooldowns argument.
+	hideSimpleCooldowns: true,
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
 		inputs: [

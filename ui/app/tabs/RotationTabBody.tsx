@@ -55,7 +55,8 @@ export const RotationTabBody = ({ rotationType }: RotationTabBodyProps) => {
 	const player = host.player;
 	const config = useSpecConfig();
 	const hasSimple = player.hasSimpleRotationGenerator() && !!config.rotationInputs;
-	const hasCooldowns = useAvailableCooldowns().length > 0;
+	const availableCooldowns = useAvailableCooldowns();
+	const hasCooldowns = !config.hideSimpleCooldowns && availableCooldowns.length > 0;
 
 	const [activeId, setActiveId] = useState<AplPaneId>(APL_PANES[0].id);
 

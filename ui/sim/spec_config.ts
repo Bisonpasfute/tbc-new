@@ -160,6 +160,10 @@ export interface IndividualSimUIConfig<SpecType extends Spec> extends PlayerConf
 	petConsumeInputs?: Array<IconInputs.IconInputConfig<Player<SpecType>, any>>;
 	rotationInputs?: InputSection;
 	rotationIconInputs?: Array<IconInputs.IconInputConfig<Player<SpecType>, any>>;
+	// Hides the Cooldowns block on the simple rotation tab. Set it where the spec's
+	// `simpleRotation` generator ignores its `Cooldowns` argument, so the picker cannot
+	// affect the generated APL and would only mislead.
+	hideSimpleCooldowns?: boolean;
 	includeBuffDebuffInputs: Array<any>;
 	excludeBuffDebuffInputs: Array<any>;
 	otherInputs: InputSection;
