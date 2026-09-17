@@ -177,7 +177,8 @@ export function subscribePlayerChange(player: Player<any>): StoreSubscribe {
 
 // Party = its composition row, its buffs, and each member's player slice.
 export function subscribePartyChange(party: Party): StoreSubscribe {
-	return cached(party, 'change', () => fromSelector(party.sim.store, s => partyTuple(s, party.getIndex()), shallowArrayEquals));
+	const index = party.getIndex();
+	return cached(party, 'change', () => fromSelector(party.sim.store, s => partyTuple(s, index), shallowArrayEquals));
 }
 
 export function subscribeRaidChange(raid: Raid): StoreSubscribe {
@@ -205,10 +206,11 @@ export function subscribeSimChange(sim: Sim): StoreSubscribe {
 	return cached(sim, 'change', () => fromSelector(sim.store, s => [...simSettingsKey(s), s.encounter, ...raidTuple(s)], shallowArrayEquals));
 }
 
-// Party buffs for one party (PartyBuffs is an empty proto in MoP, but the
-// picker binding still exists).
+// Party buffs for one party. Unlike MoP's, where the message is vestigial, TBC's
+// PartyBuffs is populated and drives a picker row of its own.
 export function subscribePartyBuffs(party: Party): StoreSubscribe {
-	return cached(party, 'buffs', () => fromSelector(party.sim.store, s => s.raid.partyBuffs[party.getIndex()]));
+	const index = party.getIndex();
+	return cached(party, 'buffs', () => fromSelector(party.sim.store, s => s.raid.partyBuffs[index]));
 }
 
 // Reforge-optimizer settings (per player; see ReforgeSettings).

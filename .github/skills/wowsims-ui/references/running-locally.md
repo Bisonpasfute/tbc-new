@@ -78,5 +78,5 @@ necessarily in the worktree you are in. It is not in this clone's `.git/info/exc
 git dir, so a rule in it applies to every worktree of this clone and travels with none of them.
 
 So: check before you rely on it (`/usr/bin/ls tools/browser-perf/`), and do not tell anyone else a
-path is there. If it is not present and you need reference-swap or APL-edit timings, drive the page
+path is there. If it is not present and you need APL-edit timings, drive the page
 with Playwright yourself and record the protocol in the PR.
