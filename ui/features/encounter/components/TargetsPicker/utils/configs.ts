@@ -155,7 +155,7 @@ export const tankIndexConfig = ({ encounter, targetIndex, getTarget }: TargetFie
 export const statConfig = ({ encounter, targetIndex, getTarget }: TargetFieldContext, stat: Stat, tooltip: string, extraClassNames: Array<string>) =>
 	({
 		id: `target-${targetIndex}-picker-stats-${stat}`,
-		inline: true,
+		layout: 'inline',
 		extraClassNames,
 		label: translateStat(stat),
 		labelTooltip: tooltip,
@@ -277,7 +277,7 @@ export const booleanConfigs = ({ encounter, targetIndex, getTarget }: TargetFiel
 		id: targetId(targetIndex, field.name),
 		label: i18n.t(`settings_tab.encounter.${field.key}.label`),
 		labelTooltip: i18n.t(`settings_tab.encounter.${field.key}.tooltip`),
-		inline: true,
+		layout: 'inline',
 		reverse: true,
 		storeSubscribe: onTargets(encounter),
 		getValue: () => field.get(getTarget()),
@@ -340,7 +340,7 @@ export const targetInputConfig = (encounter: Encounter, targetIndex: number, inp
 			kind: 'boolean' as const,
 			config: {
 				...shared,
-				inline: true,
+				layout: 'inline',
 				getValue: () => getTargetInput().boolValue,
 				setValue: write<boolean>((draft, value) => {
 					draft.boolValue = value;

@@ -60,7 +60,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 					extraClassNames: ['mb-2'],
 					id: 'reforge-optimizer-enable-custom-ep-weights',
 					label: i18n.t('sidebar.buttons.suggest_reforges.use_custom'),
-					inline: true,
+					layout: 'inline',
 					storeField: 'reforge:useCustomEPValues',
 					getValue: () => settings.useCustomEPValues,
 					setValue: (_player, newValue) => {
@@ -90,7 +90,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 						extraClassNames: ['mb-2'],
 						id: 'reforge-optimizer-enable-soft-cap-breakpoints',
 						label: i18n.t('sidebar.buttons.suggest_reforges.use_soft_cap_breakpoints'),
-						inline: true,
+						layout: 'inline',
 						storeField: 'reforge:useSoftCapBreakpoints',
 						getValue: () => settings.useSoftCapBreakpoints,
 						setValue: (_player, newValue) => {
@@ -109,7 +109,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 					extraClassNames: ['mb-2'],
 					id: 'reforge-optimizer-disable-unique-gems',
 					label: i18n.t('sidebar.buttons.suggest_reforges.disable_unique_gems'),
-					inline: true,
+					layout: 'inline',
 					storeField: 'reforge:disableUniqueGems',
 					getValue: () => settings.disableUniqueGems,
 					setValue: (_player, newValue) => {
@@ -157,7 +157,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 					id: 'reforge-optimizer-freeze-item-slots',
 					label: i18n.t('sidebar.buttons.suggest_reforges.freeze_item_slots'),
 					labelTooltip: i18n.t('sidebar.buttons.suggest_reforges.freeze_item_slots_tooltip'),
-					inline: true,
+					layout: 'inline',
 					storeField: 'reforge:freezeItemSlots',
 					getValue: () => settings.freezeItemSlots,
 					setValue: (_player, newValue) => {

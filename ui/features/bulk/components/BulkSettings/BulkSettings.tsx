@@ -90,7 +90,7 @@ export const BulkSettings = () => {
 								id: 'use-legacy-bulk-sim',
 								label: i18n.t('bulk_tab.settings.use_legacy_bulk_sim.label'),
 								labelTooltip: i18n.t('bulk_tab.settings.use_legacy_bulk_sim.tooltip'),
-								inline: true,
+								layout: 'inline',
 								value: useLegacyBulkSim,
 								onChange: (newValue: boolean) => {
 									setBulkUseLegacyBulkSim(player, newValue);

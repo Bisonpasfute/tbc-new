@@ -75,7 +75,7 @@ export const Timeline = ({ active }: TimelineProps) => {
 						config={{
 							id: 'timeline-show-gcd',
 							label: i18n.t('results_tab.details.timeline.show_gcd'),
-							inline: true,
+							layout: 'inline',
 							extraClassNames: ['w-auto', 'whitespace-nowrap'],
 							value: showGcd,
 							onChange: setShowGcd,
