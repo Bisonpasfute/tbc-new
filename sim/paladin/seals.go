@@ -199,7 +199,7 @@ func (paladin *Paladin) registerSealOfRighteousness(seal seal) {
 		SpellSchool:    core.SpellSchoolHoly,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,
-		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagBinary | core.SpellFlagSuppressEquipProcs,
+		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagBinary,
 		ClassSpellMask: SpellMaskJudgementOfRighteousness,
 
 		DamageMultiplier: 1,
@@ -231,11 +231,13 @@ func (paladin *Paladin) registerSealOfRighteousness(seal seal) {
 	//   2H: damage = (1.20 * SoRcoef * Speed) - (QualityModifier * Speed * 0.03) + (0.03 * AvgWeaponDmg) + (0.108 * Speed * SP)
 	sorCoef := seal.proc.value * 1.2 * 1.03 / 100
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: seal.proc.spellID},
-		SpellSchool:    core.SpellSchoolHoly,
-		DefenseType:    core.DefenseTypeMelee,
-		ProcMask:       core.ProcMaskMeleeMHSpecial,
-		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell | core.SpellFlagSuppressEquipProcs,
+		ActionID:    core.ActionID{SpellID: seal.proc.spellID},
+		SpellSchool: core.SpellSchoolHoly,
+		DefenseType: core.DefenseTypeMelee,
+		ProcMask:    core.ProcMaskMeleeMHSpecial,
+		// The damage spells (25713 .. 27156) carry Suppress Weapon Procs and are procs: weapon procs
+		// and auras without Can Proc From Procs never hear them.
+		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell | core.SpellFlagProc | core.SpellFlagSuppressWeaponProcs,
 		ClassSpellMask: SpellMaskSealOfRighteousness,
 
 		DamageMultiplier: 1,
@@ -659,12 +661,13 @@ func (paladin *Paladin) registerSealOfBlood() {
 		},
 	})
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: 31893},
-		ClassSpellMask:   SpellMaskSealOfBlood,
-		SpellSchool:      core.SpellSchoolHoly,
-		DefenseType:      core.DefenseTypeMelee,
-		ProcMask:         core.ProcMaskMeleeProc,
-		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell | core.SpellFlagSuppressEquipProcs,
+		ActionID:       core.ActionID{SpellID: 31893},
+		ClassSpellMask: SpellMaskSealOfBlood,
+		SpellSchool:    core.SpellSchoolHoly,
+		DefenseType:    core.DefenseTypeMelee,
+		ProcMask:       core.ProcMaskMeleeMHSpecial,
+		// 31893 carries Suppress Weapon Procs and is a proc, like Seal of Righteousness.
+		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell | core.SpellFlagProc | core.SpellFlagSuppressWeaponProcs,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -761,7 +764,7 @@ func (paladin *Paladin) registerSealOfVengeance() {
 		SpellSchool:      core.SpellSchoolHoly,
 		DefenseType:      core.DefenseTypeMagic,
 		ProcMask:         core.ProcMaskEmpty,
-		Flags:            core.SpellFlagPassiveSpell,
+		Flags:            core.SpellFlagPassiveSpell | core.SpellFlagProc,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -776,7 +779,7 @@ func (paladin *Paladin) registerSealOfVengeance() {
 		SpellSchool:      core.SpellSchoolHoly,
 		DefenseType:      core.DefenseTypeMagic,
 		ProcMask:         core.ProcMaskEmpty,
-		Flags:            core.SpellFlagPassiveSpell | core.SpellFlagMeleeMetrics,
+		Flags:            core.SpellFlagPassiveSpell | core.SpellFlagMeleeMetrics | core.SpellFlagProc,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		Dot: core.DotConfig{
@@ -895,11 +898,12 @@ func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 	})
 
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: seal.proc.spellID},
-		ClassSpellMask:   SpellMaskSealOfCommand,
-		SpellSchool:      core.SpellSchoolHoly,
-		DefenseType:      core.DefenseTypeMelee,
-		ProcMask:         core.ProcMaskMeleeMHSpecial | core.ProcMaskMeleeProc,
+		ActionID:       core.ActionID{SpellID: seal.proc.spellID},
+		ClassSpellMask: SpellMaskSealOfCommand,
+		SpellSchool:    core.SpellSchoolHoly,
+		DefenseType:    core.DefenseTypeMelee,
+		ProcMask:       core.ProcMaskMeleeMHSpecial,
+		// 20424 carries Not a Proc: it is an ability hit to every listener, weapon procs included.
 		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagPassiveSpell,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,

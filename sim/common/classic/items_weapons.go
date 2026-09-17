@@ -33,8 +33,8 @@ func init() {
 				ActionID:    procActionID.WithTag(1),
 				SpellSchool: core.SpellSchoolNature,
 				DefenseType: core.DefenseTypeMagic,
-				ProcMask:    core.ProcMaskSpellProc | core.ProcMaskSpellDamageProc,
-				Flags:       core.SpellFlagSuppressWeaponProcs,
+				ProcMask:    core.ProcMaskSpellDamageProc,
+				Flags:       core.SpellFlagProc,
 
 				DamageMultiplier: 1,
 				ThreatMultiplier: 0.5,

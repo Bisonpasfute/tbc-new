@@ -19,12 +19,13 @@ func init() {
 			time.Second*15)
 
 		paladin.MakeProcTriggerAura(core.ProcTrigger{
-			Name:            "Tome of Fiery Redemption",
-			MetricsActionID: core.ActionID{SpellID: 37197},
-			Callback:        core.CallbackOnCastComplete,
-			ClassSpellMask:  SpellMaskCanProcTome,
-			ProcChance:      0.15,
-			ICD:             time.Second * 45,
+			Name:             "Tome of Fiery Redemption",
+			CanProcFromProcs: true, // 37197 carries the bit.
+			MetricsActionID:  core.ActionID{SpellID: 37197},
+			Callback:         core.CallbackOnCastComplete,
+			ClassSpellMask:   SpellMaskCanProcTome,
+			ProcChance:       0.15,
+			ICD:              time.Second * 45,
 
 			ExtraCondition: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
 				return sim.CurrentTime >= 0 &&

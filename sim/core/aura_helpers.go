@@ -52,6 +52,29 @@ type ProcTrigger struct {
 	ClassSpellMask     int64
 	ClassSpellsOnly    bool // Corresponds to the Only Proc From Class Abilities flag, e.g. https://www.wowhead.com/tbc/spell=32106/lesser-spell-blasting
 	ExtraCondition     ProcExtraCondition
+
+	// The Can Proc From Procs attribute (Attributes[3] 0x4000000): the listener also fires on hits
+	// from spells flagged SpellFlagProc. Without it a proc's hits are invisible to this listener,
+	// which is how the game treats every talent, set bonus and Equip effect by default.
+	CanProcFromProcs bool
+	// A weapon proc: a "Chance on hit" item effect (ItemEffect.TriggerType 2) or a combat enchant
+	// (SpellItemEnchantment.Effect 1, e.g. Mongoose, Crusader, poisons, imbues, Windfury Totem).
+	// The game casts these off every melee or ranged hit that lacks SpellFlagSuppressWeaponProcs,
+	// whether or not that hit was itself a proc, so SpellFlagProc and CanProcFromProcs are ignored.
+	// Which hand's hits qualify is still the DPM's or ProcMask's job.
+	IsWeaponProc bool
+}
+
+// The game's rule for whether a hit may reach a listener at all, before the proc flags are
+// matched. Weapon procs (Player::CastItemCombatSpell) skip only spells with Suppress Weapon Procs.
+// Aura procs (Aura::IsProcTriggeredOnEvent) skip triggered spells that lack Not a Proc, unless the
+// listener carries Can Proc From Procs. Auto attacks, extra attacks included, carry neither flag and
+// so are always eligible.
+func (config *ProcTrigger) canProcFrom(spell *Spell) bool {
+	if config.IsWeaponProc {
+		return !spell.Flags.Matches(SpellFlagSuppressWeaponProcs)
+	}
+	return config.CanProcFromProcs || !spell.Flags.Matches(SpellFlagProc)
 }
 
 func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) {
@@ -95,6 +118,9 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 	}
 
 	callback := func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
+		if !config.canProcFrom(spell) {
+			return
+		}
 		if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
 			return
 		}
@@ -166,6 +192,9 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 	}
 	if config.Callback.Matches(CallbackOnCastComplete) {
 		procAura.OnCastComplete = func(aura *Aura, sim *Simulation, spell *Spell) {
+			if !config.canProcFrom(spell) {
+				return
+			}
 			if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
 				return
 			}
@@ -196,6 +225,9 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 	}
 	if config.Callback.Matches(CallbackOnApplyEffects) {
 		procAura.OnApplyEffects = func(aura *Aura, sim *Simulation, target *Unit, spell *Spell) {
+			if !config.canProcFrom(spell) {
+				return
+			}
 			if config.SpellFlags != SpellFlagNone && !spell.Flags.Matches(config.SpellFlags) {
 				return
 			}

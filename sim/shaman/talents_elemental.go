@@ -79,10 +79,11 @@ func (shaman *Shaman) applyElementalDevastation() {
 		ProcMask:   core.ProcMaskMelee,
 	})
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:     "Elemental Devastation Trigger",
-		Callback: core.CallbackOnSpellHitDealt,
-		ProcMask: core.ProcMaskSpellDamage,
-		Outcome:  core.OutcomeCrit,
+		Name:             "Elemental Devastation Trigger",
+		CanProcFromProcs: true, // 29179/29180/30160 carry the bit.
+		Callback:         core.CallbackOnSpellHitDealt,
+		ProcMask:         core.ProcMaskSpellDamage,
+		Outcome:          core.OutcomeCrit,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			critBuffAura.Activate(sim)
 		},
@@ -123,6 +124,7 @@ func (shaman *Shaman) applyElementalFocus() {
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Elemental Focus",
 		Callback:           core.CallbackOnSpellHitDealt,
+		CanProcFromProcs:   true, // 16164 carries the bit: Lightning Overload crits count.
 		Outcome:            core.OutcomeCrit,
 		TriggerImmediately: true,
 

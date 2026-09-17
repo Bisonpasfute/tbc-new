@@ -286,11 +286,12 @@ var ItemSetSpellstrikeInfusion = core.NewItemSet(core.ItemSet{
 			bonusPower := character.NewTemporaryStatsAura("Lesser Spell Blasting", core.ActionID{SpellID: 32108}, stats.Stats{stats.SpellDamage: 92}, time.Second*10)
 
 			setBonusAura.AttachProcTrigger(core.ProcTrigger{
-				Name:            "Spellstrike Infusion 2pc",
-				ProcChance:      0.05,
-				ProcMask:        core.ProcMaskSpellOrSpellProc,
-				Callback:        core.CallbackOnSpellHitDealt,
-				ClassSpellsOnly: true,
+				Name:             "Spellstrike Infusion 2pc",
+				ProcChance:       0.05,
+				ProcMask:         core.ProcMaskSpellDamage,
+				CanProcFromProcs: true,
+				Callback:         core.CallbackOnSpellHitDealt,
+				ClassSpellsOnly:  true,
 				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 					bonusPower.Activate(sim)
 				},

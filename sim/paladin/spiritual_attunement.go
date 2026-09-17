@@ -10,6 +10,7 @@ func (paladin *Paladin) RegisterSpiritualAttunement() {
 
 	paladin.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Spiritual Attunement",
+		CanProcFromProcs:   true, // 31785/33776 carry the bit: proc heals count.
 		ActionID:           core.ActionID{SpellID: 33776},
 		Callback:           core.CallbackOnSpellHitTaken,
 		RequireDamageDealt: true,

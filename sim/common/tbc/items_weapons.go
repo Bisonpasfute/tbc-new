@@ -199,7 +199,7 @@ func init() {
 
 		procTrigger := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:               "Blinkstrike",
-			SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
+			IsWeaponProc:       true,
 			DPM:                dpm,
 			TriggerImmediately: true,
 			Outcome:            core.OutcomeLanded,
@@ -243,12 +243,11 @@ func init() {
 			})
 
 			return character.MakeProcTriggerAura(core.ProcTrigger{
-				Name:              "Siphon Essence",
-				MetricsActionID:   core.ActionID{SpellID: 40293},
-				Duration:          time.Second * 6,
-				SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-				ProcMask:          core.ProcMaskMelee,
-				Callback:          core.CallbackOnSpellHitDealt,
+				Name:            "Siphon Essence",
+				MetricsActionID: core.ActionID{SpellID: 40293},
+				Duration:        time.Second * 6,
+				ProcMask:        core.ProcMaskMelee,
+				Callback:        core.CallbackOnSpellHitDealt,
 				Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
 					spell.Cast(sim, result.Target)
 				},
@@ -285,12 +284,11 @@ func init() {
 
 				setBonusAura.
 					AttachProcTrigger(core.ProcTrigger{
-						Name:              "The Twin Blades of Azzinoth - Trigger",
-						SpellFlagsExclude: core.SpellFlagSuppressEquipProcs,
-						DPM:               dpm,
-						ICD:               time.Second * 45,
-						Outcome:           core.OutcomeLanded,
-						Callback:          core.CallbackOnSpellHitDealt,
+						Name:     "The Twin Blades of Azzinoth - Trigger",
+						DPM:      dpm,
+						ICD:      time.Second * 45,
+						Outcome:  core.OutcomeLanded,
+						Callback: core.CallbackOnSpellHitDealt,
 						Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 							aura.Activate(sim)
 						},

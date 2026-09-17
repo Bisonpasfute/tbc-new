@@ -6668,6 +6668,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 12798, ItemName: "Annihilator"},
 	})
@@ -6703,7 +6704,7 @@ func RegisterAllProcs() {
 		DefenseType: core.DefenseTypeMagic,
 		MinDmg:      2,
 		MaxDmg:      2,
-		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt | core.SpellFlagProc,
 		Trigger: core.ProcTrigger{
 			Name:               "Blazefury Medallion",
 			ActionID:           core.ActionID{ItemID: 17111},
@@ -6724,7 +6725,7 @@ func RegisterAllProcs() {
 		DefenseType: core.DefenseTypeMagic,
 		MinDmg:      35,
 		MaxDmg:      65,
-		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt | core.SpellFlagProc,
 		Trigger: core.ProcTrigger{
 			Name:               "Grand Marshal's Aegis",
 			ActionID:           core.ActionID{ItemID: 18825},
@@ -6745,7 +6746,7 @@ func RegisterAllProcs() {
 		DefenseType: core.DefenseTypeMagic,
 		MinDmg:      35,
 		MaxDmg:      65,
-		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt | core.SpellFlagProc,
 		Trigger: core.ProcTrigger{
 			Name:               "High Warlord's Shield Wall",
 			ActionID:           core.ActionID{ItemID: 18826},
@@ -6766,7 +6767,7 @@ func RegisterAllProcs() {
 		DefenseType: core.DefenseTypeMagic,
 		MinDmg:      2,
 		MaxDmg:      2,
-		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt | core.SpellFlagProc,
 		Trigger: core.ProcTrigger{
 			Name:               "Fiery Retributer",
 			ActionID:           core.ActionID{ItemID: 19968},
@@ -6795,9 +6796,10 @@ func RegisterAllProcs() {
 	// https://www.wowhead.com/tbc/spell=25907
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 		Callback:           core.CallbackOnCastComplete,
-		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellProc,
+		ProcMask:           core.ProcMaskSpellDamage,
 		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
+		CanProcFromProcs:   true,
 	}, []shared.ItemVariant{
 		{ItemID: 21190, ItemName: "Wrath of Cenarius"},
 	})
@@ -6866,10 +6868,11 @@ func RegisterAllProcs() {
 	// https://www.wowhead.com/tbc/spell=34321
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 		Callback:           core.CallbackOnSpellHitDealt | core.CallbackOnHealDealt,
-		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing | core.ProcMaskSpellProc,
+		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing,
 		Outcome:            core.OutcomeCrit,
 		RequireDamageDealt: false,
 		ClassSpellsOnly:    true,
+		CanProcFromProcs:   true,
 	}, []shared.ItemVariant{
 		{ItemID: 28418, ItemName: "Shiffar's Nexus-Horn"},
 	})
@@ -6881,6 +6884,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 28429, ItemName: "Lionheart Champion"},
 	})
@@ -6892,6 +6896,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 28430, ItemName: "Lionheart Executioner"},
 	})
@@ -6903,6 +6908,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 28437, ItemName: "Drakefist Hammer"},
 	})
@@ -6914,6 +6920,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 28438, ItemName: "Dragonmaw"},
 	})
@@ -6925,6 +6932,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 28439, ItemName: "Dragonstrike"},
 	})
@@ -6946,9 +6954,10 @@ func RegisterAllProcs() {
 	// https://www.wowhead.com/tbc/spell=34597
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 		Callback:           core.CallbackOnCastComplete,
-		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellProc,
+		ProcMask:           core.ProcMaskSpellDamage,
 		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
+		CanProcFromProcs:   true,
 	}, []shared.ItemVariant{
 		{ItemID: 28602, ItemName: "Robe of the Elder Scribes"},
 	})
@@ -7016,6 +7025,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 29348, ItemName: "The Bladefist"},
 	})
@@ -7027,6 +7037,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 29962, ItemName: "Heartrazor"},
 	})
@@ -7035,9 +7046,10 @@ func RegisterAllProcs() {
 	// https://www.wowhead.com/tbc/spell=38348
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 		Callback:           core.CallbackOnSpellHitDealt | core.CallbackOnHealDealt,
-		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing | core.ProcMaskSpellProc,
+		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing,
 		Outcome:            core.OutcomeCrit,
 		RequireDamageDealt: false,
+		CanProcFromProcs:   true,
 	}, []shared.ItemVariant{
 		{ItemID: 30626, ItemName: "Sextant of Unstable Currents"},
 	})
@@ -7071,6 +7083,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskUnknown,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: true,
+		IsWeaponProc:       true,
 	}, []shared.ItemVariant{
 		{ItemID: 31331, ItemName: "The Night Blade"},
 	})
@@ -7091,10 +7104,11 @@ func RegisterAllProcs() {
 	// https://www.wowhead.com/tbc/spell=37656
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 		Callback:           core.CallbackOnCastComplete,
-		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing | core.ProcMaskSpellProc,
+		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing,
 		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
 		ClassSpellsOnly:    true,
+		CanProcFromProcs:   true,
 	}, []shared.ItemVariant{
 		{ItemID: 32496, ItemName: "Memento of Tyrande"},
 	})
@@ -7134,7 +7148,7 @@ func RegisterAllProcs() {
 		DefenseType: core.DefenseTypeMagic,
 		MinDmg:      285,
 		MaxDmg:      475,
-		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt | core.SpellFlagProc,
 		Trigger: core.ProcTrigger{
 			Name:               "Timbal's Focusing Crystal",
 			ActionID:           core.ActionID{ItemID: 34470},

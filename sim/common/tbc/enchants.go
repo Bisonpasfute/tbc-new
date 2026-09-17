@@ -66,12 +66,12 @@ func init() {
 		ohAuras := createMongooseAuras(2)
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Enchant Weapon - Mongoose",
-			Callback:          core.CallbackOnSpellHitDealt,
-			ActionID:          core.ActionID{SpellID: 28093},
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               character.NewDynamicLegacyProcForEnchant(2673, 1.0, 0),
-			Outcome:           core.OutcomeLanded,
+			Name:         "Enchant Weapon - Mongoose",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 28093},
+			IsWeaponProc: true,
+			DPM:          character.NewDynamicLegacyProcForEnchant(2673, 1.0, 0),
+			Outcome:      core.OutcomeLanded,
 			Handler: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) {
 				core.Ternary(spell.IsOH(), ohAuras, mhAuras).Activate(sim)
 			},
@@ -96,12 +96,12 @@ func init() {
 		character.ItemSwap.RegisterWeaponEnchantBuff(aura.Aura, 3225)
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Enchant Weapon - Executioner",
-			Callback:          core.CallbackOnSpellHitDealt,
-			ActionID:          core.ActionID{SpellID: 28093},
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               character.NewDynamicLegacyProcForEnchant(3225, 1.0, 0),
-			Outcome:           core.OutcomeLanded,
+			Name:         "Enchant Weapon - Executioner",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 28093},
+			IsWeaponProc: true,
+			DPM:          character.NewDynamicLegacyProcForEnchant(3225, 1.0, 0),
+			Outcome:      core.OutcomeLanded,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				aura.Activate(sim)
 			},
@@ -140,8 +140,8 @@ func init() {
 			ActionID:    core.ActionID{SpellID: 46579},
 			SpellSchool: core.SpellSchoolFrost,
 			DefenseType: core.DefenseTypeMagic,
-			Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagSuppressEquipProcs,
-			ProcMask:    core.ProcMaskSpellProc,
+			Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagProc,
+			ProcMask:    core.ProcMaskSpellDamageProc,
 
 			DamageMultiplier: 1,
 			ThreatMultiplier: 1,
@@ -152,13 +152,19 @@ func init() {
 		})
 
 		character.MakeProcTriggerAura(core.ProcTrigger{
-			Name:              "Enchant Weapon - Deathfrost",
-			Callback:          core.CallbackOnSpellHitDealt,
-			ActionID:          core.ActionID{SpellID: 46579},
-			SpellFlagsExclude: core.SpellFlagSuppressWeaponProcs,
-			DPM:               character.NewFixedProcChanceManager(0.5, core.ProcMaskMeleeOrMeleeProc|core.ProcMaskSpellOrSpellProc),
-			Outcome:           core.OutcomeLanded,
-			ICD:               time.Second * 25,
+			Name:         "Enchant Weapon - Deathfrost",
+			Callback:     core.CallbackOnSpellHitDealt,
+			ActionID:     core.ActionID{SpellID: 46579},
+			IsWeaponProc: true,
+			DPM:          character.NewFixedProcChanceManager(0.5, core.ProcMaskMelee|core.ProcMaskSpellDamage),
+			Outcome:      core.OutcomeLanded,
+			ICD:          time.Second * 25,
+			// Two effects on one enchant: a combat spell for melee hits and an Equip aura (46662) for
+			// spell hits. The melee half is a weapon proc; the spell half is an aura without Can Proc
+			// From Procs, so it must not hear proc spells.
+			ExtraCondition: func(_ *core.Simulation, spell *core.Spell, _ *core.SpellResult) bool {
+				return spell.ProcMask.Matches(core.ProcMaskMelee) || !spell.Flags.Matches(core.SpellFlagProc)
+			},
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				debuffArray.Get(result.Target).Activate(sim)
 				dfSpell.Cast(sim, result.Target)

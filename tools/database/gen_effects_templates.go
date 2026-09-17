@@ -104,7 +104,7 @@ func RegisterAllProcs() {
 				{{- if $entry.DamageCannotCrit }}
 				CannotCrit: true,
 				{{- end}}
-				Flags:   core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt,
+				Flags:   core.SpellFlagNoOnCastComplete | core.SpellFlagPassiveSpell | core.SpellFlagNoOnDamageDealt{{ if $entry.DamageIsProc }} | core.SpellFlagProc{{ end }}{{ if $entry.DamageSuppressesWeaponProcs }} | core.SpellFlagSuppressWeaponProcs{{ end }},
 				Trigger: core.ProcTrigger{
 					Name:               "{{ .Name }}",
 					ActionID:           core.ActionID{ItemID: {{ .ID }}},
@@ -113,6 +113,15 @@ func RegisterAllProcs() {
 					Outcome:            {{ $entry.ProcInfo.Outcome | asCoreOutcome }},
 					RequireDamageDealt: {{ $entry.ProcInfo.RequireDamageDealt }},
 					ProcChance:         {{ $entry.DamageProcChance }},
+					{{- if $entry.ProcInfo.CanProcFromProcs }}
+					CanProcFromProcs:   true,
+					{{- end}}
+					{{- if $entry.ProcInfo.IsWeaponProc }}
+					IsWeaponProc:       true,
+					{{- end}}
+					{{- if $entry.ProcInfo.HonoursWeaponProcSuppression }}
+					SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
+					{{- end}}
 					{{- if $entry.DamageIcdMs }}
 					ICD:                time.Millisecond * {{ $entry.DamageIcdMs }},
 					{{- end}}
@@ -127,6 +136,15 @@ func RegisterAllProcs() {
 				RequireDamageDealt: {{ .ProcInfo.RequireDamageDealt }},
 				{{- if .ProcInfo.ClassSpellsOnly }}
 				ClassSpellsOnly:    {{ .ProcInfo.ClassSpellsOnly }},
+				{{- end}}
+				{{- if .ProcInfo.CanProcFromProcs }}
+				CanProcFromProcs:   true,
+				{{- end}}
+				{{- if .ProcInfo.IsWeaponProc }}
+				IsWeaponProc:       true,
+				{{- end}}
+				{{- if .ProcInfo.HonoursWeaponProcSuppression }}
+				SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
 				{{- end}}
 			{{- if .StackProcInfo }}
 				StackCallback:      {{ .StackProcInfo.Callback | asCoreCallback }},
@@ -146,6 +164,15 @@ func RegisterAllProcs() {
 				RequireDamageDealt: {{ .ProcInfo.RequireDamageDealt }},
 				{{- if .ProcInfo.ClassSpellsOnly }}
 				ClassSpellsOnly:    {{ .ProcInfo.ClassSpellsOnly }},
+				{{- end}}
+				{{- if .ProcInfo.CanProcFromProcs }}
+				CanProcFromProcs:   true,
+				{{- end}}
+				{{- if .ProcInfo.IsWeaponProc }}
+				IsWeaponProc:       true,
+				{{- end}}
+				{{- if .ProcInfo.HonoursWeaponProcSuppression }}
+				SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
 				{{- end}}
 			{{- if .StackProcInfo }}
 				StackCallback:      {{ .StackProcInfo.Callback | asCoreCallback }},
@@ -240,6 +267,15 @@ func RegisterAllEnchants() {
 			RequireDamageDealt: {{ .ProcInfo.RequireDamageDealt }},
 			{{- if .ProcInfo.ClassSpellsOnly }}
 			ClassSpellsOnly:    {{ .ProcInfo.ClassSpellsOnly }},
+			{{- end}}
+			{{- if .ProcInfo.CanProcFromProcs }}
+			CanProcFromProcs:   true,
+			{{- end}}
+			{{- if .ProcInfo.IsWeaponProc }}
+			IsWeaponProc:       true,
+			{{- end}}
+			{{- if .ProcInfo.HonoursWeaponProcSuppression }}
+			SpellFlagsExclude:  core.SpellFlagSuppressWeaponProcs,
 			{{- end}}
 		})
 	{{- else}}

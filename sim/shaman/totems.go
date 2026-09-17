@@ -53,7 +53,7 @@ func (shaman *Shaman) registerWindfuryTotemSpell() {
 	wfProcTrigger := shaman.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Windfury Totem Trigger (Self)",
 		MetricsActionID:    core.ActionID{SpellID: 25580},
-		SpellFlagsExclude:  core.SpellFlagSuppressEquipProcs,
+		IsWeaponProc:       true,
 		ProcChance:         0.2,
 		Duration:           core.NeverExpires,
 		Outcome:            core.OutcomeLanded,

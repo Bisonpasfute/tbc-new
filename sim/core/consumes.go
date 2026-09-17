@@ -376,8 +376,8 @@ func registerConjuredCD(agent Agent, consumes *proto.ConsumesSpec) {
 				ActionID:    conjuredMCD.Spell.ActionID,
 				SpellSchool: SpellSchoolFire,
 				DefenseType: DefenseTypeMagic, // Flamecap Fire (28715)
-				ProcMask:    ProcMaskSpellDamageProc | ProcMaskSpellProc,
-				Flags:       SpellFlagSuppressEquipProcs,
+				ProcMask:    ProcMaskSpellDamageProc,
+				Flags:       SpellFlagProc,
 
 				DamageMultiplier: 1,
 				ThreatMultiplier: 1,
@@ -388,14 +388,13 @@ func registerConjuredCD(agent Agent, consumes *proto.ConsumesSpec) {
 			})
 
 			procTrigger := character.MakeProcTriggerAura(ProcTrigger{
-				Name:              "Flame Cap - Proc",
-				SpellFlagsExclude: SpellFlagSuppressEquipProcs,
-				ActionID:          conjuredMCD.Spell.ActionID,
-				Duration:          time.Minute * 1,
-				ProcChance:        0.185,
-				ProcMask:          ProcMaskMeleeWhiteHit | ProcMaskRangedAuto,
-				Outcome:           OutcomeLanded,
-				Callback:          CallbackOnSpellHitDealt,
+				Name:       "Flame Cap - Proc",
+				ActionID:   conjuredMCD.Spell.ActionID,
+				Duration:   time.Minute * 1,
+				ProcChance: 0.185,
+				ProcMask:   ProcMaskMeleeWhiteHit | ProcMaskRangedAuto,
+				Outcome:    OutcomeLanded,
+				Callback:   CallbackOnSpellHitDealt,
 				Handler: func(sim *Simulation, spell *Spell, result *SpellResult) {
 					flameCapProc.Cast(sim, result.Target)
 				},

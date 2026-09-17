@@ -129,9 +129,10 @@ func (shaman *Shaman) applyFlurry() {
 	}).AttachMultiplyMeleeSpeed(attackSpeed)
 
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:     "Flurry Trigger",
-		Callback: core.CallbackOnSpellHitDealt,
-		ProcMask: core.ProcMaskMelee | core.ProcMaskMeleeProc,
+		Name:             "Flurry Trigger",
+		Callback:         core.CallbackOnSpellHitDealt,
+		ProcMask:         core.ProcMaskMelee,
+		CanProcFromProcs: true,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			if result.Outcome.Matches(core.OutcomeCrit) {
 				flurryAura.Activate(sim)
@@ -202,10 +203,11 @@ func (shaman *Shaman) applyShamanisticFocus() {
 	})
 
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
-		Name:     "Shamanistic Focus Trigger",
-		Callback: core.CallbackOnSpellHitDealt,
-		ProcMask: core.ProcMaskMeleeOrMeleeProc,
-		Outcome:  core.OutcomeCrit,
+		Name:             "Shamanistic Focus Trigger",
+		Callback:         core.CallbackOnSpellHitDealt,
+		ProcMask:         core.ProcMaskMelee,
+		CanProcFromProcs: true,
+		Outcome:          core.OutcomeCrit,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			sfAura.Activate(sim)
 		},
@@ -296,7 +298,8 @@ func (shaman *Shaman) applyUnleashedRage() {
 	shaman.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Unleashed Rage Trigger",
 		Callback:           core.CallbackOnSpellHitDealt,
-		ProcMask:           core.ProcMaskMeleeOrMeleeProc,
+		ProcMask:           core.ProcMaskMelee,
+		CanProcFromProcs:   true,
 		Outcome:            core.OutcomeCrit,
 		RequireDamageDealt: true,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {

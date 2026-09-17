@@ -61,10 +61,27 @@ func (s *Spell) ScalesWithItemLevel() bool {
 	return s.HasAttributeAt(ATTR_INDEX_EX_11, ATTR_EX_11_SCALES_WITH_ITEM_LEVEL)
 }
 
-// Reports whether the spell may be triggered by another proc, which decides whether the proc
-// masks carry their ...Proc bits.
+// Reports whether the listener aura also fires from hits of triggered spells that lack
+// ATTR_EX_3_NOT_A_PROC. Emitted as ProcTrigger.CanProcFromProcs.
 func (s *Spell) CanProcFromProcs() bool {
 	return s.HasAttributeAt(ATTR_INDEX_EX_3, ATTR_EX_3_CAN_PROC_FROM_PROCS)
+}
+
+// Reports whether a triggered spell's hits count as ability hits to aura listeners rather than
+// as proc hits. A damage proc built from a spell without it gets SpellFlagProc.
+func (s *Spell) NotAProc() bool {
+	return s.HasAttributeAt(ATTR_INDEX_EX_3, ATTR_EX_3_NOT_A_PROC)
+}
+
+// Reports whether weapon procs ignore this spell's hits. Emitted as SpellFlagSuppressWeaponProcs.
+func (s *Spell) SuppressesWeaponProcs() bool {
+	return s.HasAttributeAt(ATTR_INDEX_EX_4, ATTR_EX_4_SUPPRESS_WEAPON_PROCS)
+}
+
+// Reports whether the listener aura, although not a weapon proc, ignores hits that suppress
+// weapon procs. Emitted as SpellFlagsExclude: SpellFlagSuppressWeaponProcs.
+func (s *Spell) IsWeaponProcAura() bool {
+	return s.HasAttributeAt(ATTR_INDEX_EX_6, ATTR_EX_6_AURA_IS_WEAPON_PROC)
 }
 
 // Reports whether the spell is barred from critically striking. Seal of Light, Judgement of Wisdom,

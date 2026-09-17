@@ -580,8 +580,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-EyeofMagtheridon-28789"
  value: {
-  dps: 1752.80495
-  tps: 1006.34109
+  dps: 1751.33313
+  tps: 1005.46349
  }
 }
 dps_results: {
@@ -1154,8 +1154,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-SkycallTotem-33506"
  value: {
-  dps: 1777.47937
-  tps: 975.22929
+  dps: 1771.54264
+  tps: 972.7959
  }
 }
 dps_results: {

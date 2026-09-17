@@ -55,10 +55,9 @@ const (
 	ProcMaskRangedSpecial
 	ProcMaskSpellDamage
 	ProcMaskSpellHealing
-	ProcMaskSpellProc       // Special mask for Spell procs that can trigger things (Can be used together with damage proc mask or alone)
-	ProcMaskMeleeProc       // Special mask for Melee procs that can trigger things (Can be used together with damage proc mask or alone)
-	ProcMaskRangedProc      // Special mask for Ranged procs that can trigger things (Can be used together with damage proc mask or alone)
-	ProcMaskSpellDamageProc // Mask for procs triggering from spell damage procs like FT weapon and rogue poisons
+	// Spell damage dealt by a weapon imbue or poison. A hit kind, not proc-ness (that is SpellFlagProc):
+	// it keeps class-ability-only spell listeners from hearing Flametongue and poison hits.
+	ProcMaskSpellDamageProc
 
 	ProcMaskLast
 )
@@ -84,12 +83,6 @@ const (
 	ProcMaskDirect = ProcMaskMelee | ProcMaskRanged | ProcMaskSpellDamage
 
 	ProcMaskSpecial = ProcMaskMeleeOrRangedSpecial | ProcMaskSpellDamage
-
-	ProcMaskMeleeOrMeleeProc   = ProcMaskMelee | ProcMaskMeleeProc
-	ProcMaskRangedOrRangedProc = ProcMaskRanged | ProcMaskRangedProc
-	ProcMaskSpellOrSpellProc   = ProcMaskSpellDamage | ProcMaskSpellProc
-
-	ProcMaskProc = ProcMaskSpellProc | ProcMaskRangedProc | ProcMaskMeleeProc
 )
 
 // Possible outcomes of any hit/damage roll.
@@ -204,8 +197,8 @@ const (
 	SpellFlagNoSpellMods                                    // Indicates that no spell mods should be applied to this spell
 	SpellFlagCanCastWhileMoving                             // Allows the cast to be casted while moving
 	SpellFlagPassiveSpell                                   // Indicates this spell is applied/cast as a result of another spell
-	SpellFlagSuppressWeaponProcs                            // Indicates this spell cannot proc weapon chance on hits or enchants
-	SpellFlagSuppressEquipProcs                             // Indicates this spell cannot proc Equip procs
+	SpellFlagSuppressWeaponProcs                            // The Suppress Weapon Procs attribute (Attributes[4] 0x800000): weapon procs, and auras marked "aura is weapon proc", ignore this spell's hits. In TBC that is Seal of Blood, Righteousness and Martyr damage plus a few CC spells.
+	SpellFlagProc                                           // Not a DBC attribute. The spell is cast by an aura or item effect and lacks Not a Proc (Attributes[3] 0x200), so aura procs only hear its hits when they can proc from procs. Weapon procs do not care.
 	SpellFlagSupressDoTApply                                // If present this spell will not apply dots (Used for DTR dot supression)
 	SpellFlagSwapped                                        // Indicates that this spell is not useable because it is from a currently swapped item
 	SpellFlagCastWhileIncapacitated                         // Allows the cast while the unit is incapacitated, e.g. Berserker Rage breaking a Fear.
