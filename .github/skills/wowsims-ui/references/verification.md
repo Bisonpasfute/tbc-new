@@ -133,27 +133,18 @@ Rendering, layout and interaction. None of the five commands above constructs th
 `applyDefaults` by hand, so the goldens prove no state write leaked into a component and say nothing
 about whether anything rendered.
 
-**There is a DOM-parity harness, and it is not in a fresh clone.** `tools/react-migration/` holds
-~30 `.mjs` files: Playwright probes (`a11y.mjs`, `tabs-behaviour.mjs`, and one per tab and per
-widget) over a shared `browser.mjs`. Each probe compares a built React branch against a built
-baseline, both served first. Read `tools/react-migration/README.md` before running one — in
-particular its `PORT` section: several of the gates silently measure the **baseline** unless you set
-`PORT`, so a bare invocation can report a clean run of the wrong build.
+**Nothing above proves the page rendered.** The goldens are a state contract, not a render check, so
+a change that only moves DOM or CSS around can pass every command here. When a change touches
+rendering, layout or interaction, drive the built page yourself — build it, serve it, and compare
+against a build of the parent commit rather than against a remembered element count. Say in the PR
+what you ran or what you clicked.
 
-The directory is **untracked**, not deleted, and whether the files are present depends on whether
-that checkout's owner made them. `git log` knows nothing about it. It may or may not carry a
-`.git/info/exclude` line — that file lives in the shared common git dir, so it applies to every
-worktree of this clone but travels with none of them, and today it lists `tools/state-snapshots/`
-but not `tools/react-migration/` or `tools/browser-perf/`. Check before concluding anything:
-
-```
-/usr/bin/ls tools/react-migration/ 2>/dev/null | wc -l
-git check-ignore -v tools/react-migration
-```
-
-`tools/browser-perf/` (perf timings, not parity) behaves the same way.
-If neither is present where you are working, running the page yourself is the fallback — see
-`running-locally.md`. Either way, say in the PR what you ran or what you clicked.
+`tools/browser-perf/` (perf timings) is **untracked**: it exists wherever its owner made it and
+nowhere else — not in a fresh clone and not in CI. It is not in this clone's `.git/info/exclude`
+today (only `tools/state-snapshots/` is), and that file is never committed anyway: it lives in the
+shared common git dir, so a rule in it applies to every worktree of this clone and travels with none
+of them. Check before relying on it (`/usr/bin/ls tools/browser-perf/`) and do not tell anyone else a
+path is there.
 
 ## A fresh checkout needs generated files first
 
