@@ -275,6 +275,18 @@
 									"react-dom/**"
 								],
 								"message": "A feature's model layer is framework-free \u2014 keep React out of it (see ui/README.md dependency direction)."
+							},
+							{
+								"group": [
+									"**/state/sim_store*"
+								],
+								"importNames": [
+									"patchSlice",
+									"patchKeyed",
+									"seedKeyed",
+									"deleteKeyed"
+								],
+								"message": "Features must not write the store directly \u2014 go through a facade (e.g. ui/sim/bulk_settings.ts)."
 							}
 						]
 					}

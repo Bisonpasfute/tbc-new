@@ -1,5 +1,5 @@
 import { Player } from '@generated/proto/api';
-import { Class, Debuffs, Faction, Profession, Race, RaidBuffs, Spec, UnitReference, UnitReference_Type } from '@generated/proto/common';
+import { Class, Debuffs, Faction, Race, RaidBuffs, Spec, UnitReference, UnitReference_Type } from '@generated/proto/common';
 import { ResourceType } from '@generated/proto/spell';
 
 import { CURRENT_PHASE, Phase } from '../constants/other';

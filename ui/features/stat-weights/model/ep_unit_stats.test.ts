@@ -71,12 +71,19 @@ describe('visibleEpUnitStats', () => {
 		expect(names(shown)).toContain(UnitStat.fromStat(Stat.StatIntellect).getKey());
 	});
 
-	// DEFECT FIXED. The pseudo-stat clause was not gated on `showAllStats`, so "Show all stats"
-	// revealed extra `Stat`s but never an extra pseudo-stat. Both clauses are the same clause now.
-	it('adds every listed pseudo-stat when showAllStats is on', () => {
-		expect(names(visibleEpUnitStats(statSet, true)).filter(key => key.startsWith('PseudoStat'))).toEqual(
-			names(EP_UNIT_STATS.filter(stat => stat.isPseudoStat())),
+	// Master gates only the `Stat` clause on `showAllStats`; an off-spec pseudo-stat is hidden
+	// unconditionally, because its row carries an editable Current EP cell.
+	it('keeps an off-spec pseudo-stat hidden when showAllStats is on', () => {
+		expect(names(visibleEpUnitStats(statSet, true))).toEqual(
+			expect.not.arrayContaining([
+				UnitStat.fromPseudoStat(PseudoStat.PseudoStatMainHandDps).getKey(),
+				UnitStat.fromPseudoStat(PseudoStat.PseudoStatMeleeCritPercent).getKey(),
+			]),
 		);
+	});
+
+	it('keeps a pseudo-stat the spec does weight when showAllStats is on', () => {
+		expect(names(visibleEpUnitStats(statSet, true))).toContain(UnitStat.fromPseudoStat(PseudoStat.PseudoStatSpellHitPercent).getKey());
 	});
 
 	it('keeps EP_UNIT_STATS order', () => {
