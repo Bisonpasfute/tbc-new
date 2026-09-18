@@ -13,7 +13,7 @@ node -e "console.log(require('./package.json').scripts)"
 npm run type-check     # node_modules/typescript/bin/tsc --noEmit — the whole repo, tools/ included
 npm run lint:js        # npx oxlint --max-warnings 0 ./ui
 npm run lint:css       # stylelint "./ui/**/*.css"
-npm run fmt            # npx oxfmt ui --check
+npm run fmt            # npx oxfmt . --check
 npm run test:unit      # vitest run — happy-dom, ui/**/*.test.ts(x)
 npm run test:locales   # ajv, assets/locales/** against schemas/**
 ```

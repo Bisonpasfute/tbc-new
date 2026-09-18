@@ -348,8 +348,7 @@
 					"never",
 					{
 						"css": "always",
-						"json": "always",
-						"scss": "always"
+						"json": "always"
 					}
 				]
 			},

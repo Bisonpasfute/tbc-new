@@ -31,6 +31,8 @@
     "ui/**/builds/**/*.build.json",
     "ui/**/gear_sets/**/*.gear.json",
     "ui/**/presets/**/*.json",
-    "ui/sim/talents/trees/*.json"
+    "ui/sim/talents/trees/*.json",
+    "assets/**",
+    "**/test-fixtures/*.json"
   ]
 }
