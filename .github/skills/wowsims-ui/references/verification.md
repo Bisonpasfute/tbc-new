@@ -45,20 +45,26 @@ What each one is actually for:
 **Zero `no-restricted-imports` errors is the bar**, not "no new ones": the layer rules are the whole
 point of the current tree, and `lint:js` is the only thing enforcing them anywhere.
 
-## What CI runs — it is not the list above
+## What CI runs
 
 `.github/workflows/run_tests.yml` has two jobs:
 
-- **`build-ui`**: `npm ci`, `npm run test:locales`, then `make dist/tbc/.dirstamp`.
+- **`build-ui`**: `npm ci` and `test:locales`, then `fmt`, `lint:js`, `lint:css`, a
+  `make ui/generated/proto/api.ts go-to-ts` generate step, `type-check`, `test:unit`, and finally
+  `make dist/tbc/.dirstamp`.
 - **`test`**: four shards of `go test --tags=with_db ./sim/...` — the Go sim, not the UI.
+
+So every script in the list above runs in CI. The generate step has to come before `type-check`
+because `ui/generated/proto/**` and `ui/sim/wasm/bulk_sim/constants_auto_gen.ts` are gitignored and
+absent from a fresh checkout; the other three `*_auto_gen.ts` are tracked.
 
 `make dist/tbc/.dirstamp` is not a thin wrapper: through `dist/tbc/bundle/.dirstamp` it runs
 `tsc --noEmit`, `npx tsx vite.build-workers.mts` and `npx vite build`, and it also builds
-`dist/tbc/lib.wasm.gz`, `ui/generated/proto/api.ts` and the asset copies. So CI does type-check and
-does build the bundle — through make, never by calling `vite build` directly.
+`dist/tbc/lib.wasm.gz`, `ui/generated/proto/api.ts` and the asset copies — so the build type-checks
+a second time, through make, never by calling `vite build` directly.
 
-**CI does not run oxlint, vitest, or the snapshot harness.** A layer violation, a failing unit test
-and a golden diff all reach master green. Run them locally; nothing else will.
+**The one thing CI does not run is the snapshot harness**, which is developer-local and not on this
+tree at all. A golden diff still reaches master green.
 
 Read the current job list rather than trusting this section:
 

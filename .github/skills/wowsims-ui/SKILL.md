@@ -87,14 +87,14 @@ All from the repo root, all needing `npm ci` first:
 npm run type-check     # tsc --noEmit over the whole repo, tools/ included
 npm run lint:js        # oxlint on ui/ with --max-warnings 0 — zero no-restricted-imports allowed
 npm run lint:css       # stylelint ui/**/*.css
-npm run fmt            # oxfmt ui --check
+npm run fmt            # oxfmt . --check — the whole repo, not just ui/
 npm run test:unit      # vitest + happy-dom, ui/**/*.test.ts(x)
 npm run test:locales   # ajv, assets/locales/** against schemas/**
 ```
 
 There is no `test:snapshots` script on this tree — the harness it would run is developer-local, see
-`references/verification.md`. That file says what each command actually covers, what CI runs instead
-(it is not this list), and which gate catches which class of mistake.
+`references/verification.md`. That file says what each command actually covers, which of them CI
+runs, and which gate catches which class of mistake.
 
 ## Working on this tree
 

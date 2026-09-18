@@ -6,9 +6,11 @@ enforced.
 
 ## Formatting
 
-`oxfmt` is the formatter, not prettier — prettier is not a dependency of this repo. Its scope is
-`ui/` only (`npm run fmt` is `npx oxfmt ui --check`), so `tools/`, the makefile and the markdown in
-`.github/skills/` are formatted by hand.
+`oxfmt` is the formatter, not prettier — prettier is not a dependency of this repo. `npm run fmt` is
+`npx oxfmt . --check`, so its scope is the whole repo: the markdown in `.github/skills/`, the
+workflows, `docker-compose.yml` and the JSON schemas are formatted too, and CI checks them. What it
+skips is `ignorePatterns` in `.oxfmtrc.json` — `assets/**`, the per-spec preset JSON and the talent
+trees.
 
 ```
 node -e "console.log(require('./.oxfmtrc.json'))"
