@@ -5,6 +5,7 @@ import { getBulkFreezeWeaponTypes } from '@sim/bulk/utils';
 import { usePlayer } from '@sim/context/SimHostContext';
 import { BooleanPicker } from '@ui-kit/BooleanPicker';
 
+import { trackEvent } from '../../../../tracking/utils';
 import { useBulkState } from '../../hooks/useBulkState';
 import { setBulkWeaponTypeFilter } from '../../model/settings';
 
@@ -41,6 +42,7 @@ export const FreezeWeaponTypes = ({ slot }: FreezeWeaponTypesProps) => {
 									onChange: (newValue: boolean) => {
 										const filter = weaponTypeFilters.get(slot)!;
 										setBulkWeaponTypeFilter(player, slot, newValue ? [...filter, weaponType] : filter.filter(type => type !== weaponType));
+										trackEvent({ action: 'settings', category: 'batch_sim', label: `freeze_${slot}_weapon_type`, value: newValue });
 									},
 								}}
 							/>
