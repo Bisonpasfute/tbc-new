@@ -32,7 +32,7 @@ const buildRotation = () =>
 					action: {
 						oneofKind: 'castSpell',
 						castSpell: {
-							spellId: { rawId: { oneofKind: 'spellId', spellId: 42 }, tag: 0 },
+							spellId: { rawId: { oneofKind: 'spellId', spellId: 42 }, tag: 0, rank: 0 },
 							target: UnitReference.create({
 								type: UnitReference_Type.Pet,
 								index: 2,
@@ -58,7 +58,7 @@ const buildRotation = () =>
 									action: {
 										oneofKind: 'multidot',
 										multidot: {
-											spellId: { rawId: { oneofKind: 'otherId', otherId: 1 }, tag: 0 },
+											spellId: { rawId: { oneofKind: 'otherId', otherId: 1 }, tag: 0, rank: 0 },
 											maxDots: 3,
 											maxOverlap: APLValue.create({ uuid: uid('val-1'), value: { oneofKind: 'const', const: { val: '0ms' } } }),
 										},
