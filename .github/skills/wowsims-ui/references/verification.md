@@ -13,7 +13,7 @@ node -e "console.log(require('./package.json').scripts)"
 npm run type-check     # node_modules/typescript/bin/tsc --noEmit — the whole repo, tools/ included
 npm run lint:js        # npx oxlint --max-warnings 0 ./ui
 npm run lint:css       # stylelint "./ui/**/*.css"
-npm run fmt            # npx oxfmt . --check
+npm run fmt            # npx oxfmt . --check — the whole repo, not just ui/
 npm run test:unit      # vitest run — happy-dom, ui/**/*.test.ts(x)
 npm run test:locales   # ajv, assets/locales/** against schemas/**
 ```
@@ -33,14 +33,14 @@ SCSS left in the tree.
 
 What each one is actually for:
 
-| Gate             | Catches                                                                                                                                     | Does not catch                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `type-check`     | broken specifiers, alias mismatches, spec-config shape drift                                                                                | a legal import that violates the layer direction                              |
-| `lint:js`        | layer violations (`no-restricted-imports`), browser globals in `ui/sim` and feature models, hook-rule breaks, import order                  | anything not listed in `.oxlintrc.json` — `categories.correctness` is **off** |
-| `test:unit`      | component and helper behaviour, the store hooks' gating                                                                                     | anything without a `.test.ts(x)` beside it                                    |
-| `test:locales`   | a locale key with no matching property in its `additionalProperties: false` schema                                                          | a key the schema allows and no locale file defines                            |
-| `test:snapshots` | (no script here) the store notification contract, then serialization drift across all 17 specs                                              | rendering                                                                     |
-| `fmt`            | `ui/` formatting only, `tools/` not in scope — and it does reformat `ui/`'s markdown, so `ui/README.md` and `ui/STYLING.md` are gated by it |                                                                               |
+| Gate             | Catches                                                                                                                    | Does not catch                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `type-check`     | broken specifiers, alias mismatches, spec-config shape drift                                                               | a legal import that violates the layer direction                                |
+| `lint:js`        | layer violations (`no-restricted-imports`), browser globals in `ui/sim` and feature models, hook-rule breaks, import order | anything not listed in `.oxlintrc.json` — `categories.correctness` is **off**   |
+| `test:unit`      | component and helper behaviour, the store hooks' gating, and the two tree-wide gates below                                 | anything without a `.test.ts(x)` beside it, and warnings — see the last section |
+| `test:locales`   | a locale key with no matching property in its `additionalProperties: false` schema                                         | a key the schema allows and no locale file defines                              |
+| `test:snapshots` | (no script here) the store notification contract, then serialization drift across all 17 specs                             | rendering                                                                       |
+| `fmt`            | formatting across the repo, markdown included — `assets/**` and `**/test-fixtures/*.json` are the ignored trees            | anything `.gitignore` already hides, which is how generated output escapes it   |
 
 **Zero `no-restricted-imports` errors is the bar**, not "no new ones": the layer rules are the whole
 point of the current tree, and `lint:js` is the only thing enforcing them anywhere.
@@ -54,7 +54,8 @@ point of the current tree, and `lint:js` is the only thing enforcing them anywhe
   `make dist/tbc/.dirstamp`.
 - **`test`**: four shards of `go test --tags=with_db ./sim/...` — the Go sim, not the UI.
 
-So every script in the list above runs in CI. The generate step has to come before `type-check`
+So every script in the list above runs in CI, cheapest first, which is why a formatting slip reports
+in about a minute instead of behind the wasm build. The generate step has to come before `type-check`
 because `ui/generated/proto/**` and `ui/sim/wasm/bulk_sim/constants_auto_gen.ts` are gitignored and
 absent from a fresh checkout; the other three `*_auto_gen.ts` are tracked.
 
@@ -63,13 +64,60 @@ absent from a fresh checkout; the other three `*_auto_gen.ts` are tracked.
 `dist/tbc/lib.wasm.gz`, `ui/generated/proto/api.ts` and the asset copies — so the build type-checks
 a second time, through make, never by calling `vite build` directly.
 
+Two of `test:unit`'s files are tree-wide gates rather than component tests, and they are the only
+thing enforcing what they check: `ui/canonical_classes.test.ts` (no non-canonical Tailwind tokens,
+no `var(...)` inside a class token) and `ui/no_class_hooks.test.ts` (no class hooks, no retired
+vanilla class names, no `[data-testid]` styling). Both run under `// @vitest-environment node` —
+they read the tree off disk and need no DOM — and both read data files beside them,
+`ui/retired_class_names.json` and `ui/class_hook_allowlist.json`.
+
 **The one thing CI does not run is the snapshot harness**, which is developer-local and not on this
 tree at all. A golden diff still reaches master green.
+
+`build-ui` is reused through `workflow_call` by `deploy.yml` and `release.yml`, both with
+`needs: tests`, so every gate above also blocks a deploy and a release.
 
 Read the current job list rather than trusting this section:
 
 ```
-/usr/bin/grep -n "run:" -A3 .github/workflows/run_tests.yml
+RTK_DISABLED=1 /usr/bin/grep -n "name:\|run:" .github/workflows/run_tests.yml
+```
+
+## Warnings are invisible unless you ask for them
+
+vitest intercepts console output, so React and Base UI warnings do not reach stdout on a normal run
+— `npm run test:unit` can be entirely green while the suite emits hundreds of them. They surface in
+CI logs and nowhere else, which makes them look like a CI-only phenomenon. They are not:
+
+```
+RTK_DISABLED=1 npx vitest run --disableConsoleIntercept 2>&1 | grep -c "not wrapped in act"
+```
+
+Three counts worth keeping at zero, all of which were nonzero the first time anyone looked here:
+
+- `not wrapped in act` — a state update landing outside an act window. Usually a promise resolving
+  after the test body, or a store notify called bare between acts.
+- `overlapping act` — the failure mode introduced by fixing the first one carelessly.
+- `Base UI:` — the `nativeButton` contract, among others.
+
+**Prefix `RTK_DISABLED=1` on anything whose output you grep for a count**, not just git. RTK rewrites
+dev commands too, and a compressed one-line summary greps as zero — indistinguishable from success.
+
+If a flag the count depends on might be silently ignored, pass a deliberately bogus one first:
+`--disableConsoleInterceptXYZ` fails with ``CACError: Unknown option `--disableConsoleInterceptXYZ` ``,
+so a clean run proves the real flag was accepted rather than dropped.
+
+**Do not attribute a warning from its position in the output.** Workers write to a shared stdout, so
+a warning header from one file routinely lands next to a stack frame from another — two sites were
+misread that way before this was noticed, and `--no-file-parallelism` does not fix it either, because
+the reporter's file markers and the console writes are separate streams. Bisect instead: run a
+directory, then a file, then `-t 'test name'`, and read the count.
+
+```
+for f in ui/features/settings/model/*.test.ts*; do
+  printf '%-48s ' "$f"
+  RTK_DISABLED=1 npx vitest run "$f" --disableConsoleIntercept 2>&1 | grep -c 'not wrapped in act'
+done
 ```
 
 ## Locales
