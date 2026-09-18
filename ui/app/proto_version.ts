@@ -1,0 +1,51 @@
+import { Drums } from '@generated/proto/common';
+import { IndividualSimSettings } from '@generated/proto/ui';
+import i18n from '@i18n/config';
+import { migrateOldProto, type ProtoConversionMap } from '@sim/proto/proto_migration';
+import { updateIndividualSimProtoVersion } from '@sim/state/serialization';
+import { toastManager } from '@ui-kit/Toast';
+
+// Party drums moved out of the player's consumables and into PartyBuffs in api version 7. The
+// converter lives here rather than beside the shared migrations in `ui/sim` because it reports
+// itself with a toast, and that layer may not reach `@ui-kit`.
+const TBC_CONVERSION_MAP: ProtoConversionMap<IndividualSimSettings> = new Map([
+	[
+		7,
+		(oldProto: IndividualSimSettings) => {
+			oldProto.apiVersion = 7;
+			const oldPartyDrums = oldProto.player?.consumables?.drumsId as number;
+			if (oldPartyDrums && oldProto.partyBuffs) {
+				switch (oldPartyDrums) {
+					case 351355: // Greater Drums of Battle
+						oldProto.partyBuffs.drums = Drums.LesserDrumsOfBattle;
+						break;
+					case 351360: // Greater Drums of War
+						oldProto.partyBuffs.drums = Drums.LesserDrumsOfWar;
+						break;
+					case 351358: // Greater Drums of Restoration
+						oldProto.partyBuffs.drums = Drums.LesserDrumsOfRestoration;
+						break;
+				}
+
+				if (oldProto.player?.consumables) oldProto.player.consumables.drumsId = 0;
+
+				toastManager.add({
+					variant: 'warning',
+					delay: 8000,
+					body: i18n.t('protoVersion.7.body', { ns: 'updates' }),
+				});
+			}
+
+			return oldProto;
+		},
+	],
+]);
+
+/**
+ * TBC's own migrations, then the shared ones. The order matters: the shared pass stamps the proto
+ * as current, after which nothing below would ever run again.
+ */
+export function updateIndividualProtoVersion(settingsProto: IndividualSimSettings) {
+	migrateOldProto(settingsProto, settingsProto.apiVersion, TBC_CONVERSION_MAP);
+	updateIndividualSimProtoVersion(settingsProto);
+}

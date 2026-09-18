@@ -33,7 +33,7 @@ func setValueVariable(apl *proto.APLRotation, name string, val string) {
 
 func TestProtection(t *testing.T) {
 	// Set all boolean options to true to test everything
-	apl := core.GetAplRotation("../../../ui/paladin/protection/apls", "default")
+	apl := core.GetAplRotation("../../../ui/specs/paladin/protection/apls", "default")
 	setValueVariable(apl.Rotation, "Prioritize Holy Shield", "true")
 	setValueVariable(apl.Rotation, "Use Exorcism", "true")
 	setValueVariable(apl.Rotation, "Use Avenger's Shield", "true")
@@ -44,7 +44,7 @@ func TestProtection(t *testing.T) {
 			Class:            proto.Class_ClassPaladin,
 			Race:             proto.Race_RaceBloodElf,
 			OtherRaces:       []proto.Race{proto.Race_RaceHuman},
-			GearSet:          core.GetGearSet("../../../ui/paladin/protection/gear_sets", "p2"),
+			GearSet:          core.GetGearSet("../../../ui/specs/paladin/protection/gear_sets", "p2"),
 			Talents:          DefaultProtectionTalents,
 			Consumables:      DefaultConsumables,
 			SpecOptions:      core.SpecOptionsCombo{Label: "Protection", SpecOptions: DefaultOptions},

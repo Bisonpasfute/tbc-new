@@ -20,9 +20,9 @@ func TestProtectionWarrior(t *testing.T) {
 			Class:      proto.Class_ClassWarrior,
 			Race:       proto.Race_RaceOrc,
 			OtherRaces: []proto.Race{proto.Race_RaceHuman},
-			GearSet:    core.GetGearSet("../../../ui/warrior/protection/gear_sets", "preraid"),
+			GearSet:    core.GetGearSet("../../../ui/specs/warrior/protection/gear_sets", "preraid"),
 			OtherGearSets: []core.GearSetCombo{
-				core.GetGearSet("../../../ui/warrior/protection/gear_sets", "p1_bis"),
+				core.GetGearSet("../../../ui/specs/warrior/protection/gear_sets", "p1_bis"),
 			},
 			Talents:          DefaultProtectionTalents,
 			Consumables:      DefaultConsumables,
@@ -31,7 +31,7 @@ func TestProtectionWarrior(t *testing.T) {
 			Profession1:      proto.Profession_Engineering,
 			Profession2:      proto.Profession_Blacksmithing,
 
-			Rotation: core.GetAplRotation("../../../ui/warrior/protection/apls", "default"),
+			Rotation: core.GetAplRotation("../../../ui/specs/warrior/protection/apls", "default"),
 
 			IndividualBuffs: core.FullTankIndividualBuffs,
 

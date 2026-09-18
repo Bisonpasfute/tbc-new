@@ -38,19 +38,19 @@ func TestShadowPriest(t *testing.T) {
 			},
 
 			// Primary gear set — update path when higher phase sets are added.
-			GearSet: core.GetGearSet("../../ui/priest/dps/gear_sets", "pre_raid"),
+			GearSet: core.GetGearSet("../../ui/specs/priest/dps/gear_sets", "pre_raid"),
 			OtherGearSets: []core.GearSetCombo{
-				core.GetGearSet("../../ui/priest/dps/gear_sets", "p3"),
+				core.GetGearSet("../../ui/specs/priest/dps/gear_sets", "p3"),
 			},
 
 			Talents: defaultTalents,
 
 			// Primary rotation
-			Rotation: core.GetAplRotation("../../ui/priest/dps/apls", "default"),
+			Rotation: core.GetAplRotation("../../ui/specs/priest/dps/apls", "default"),
 
 			// Secondary rotation: casts every implemented spell
 			OtherRotations: []core.RotationCombo{
-				core.GetAplRotation("../../ui/priest/dps/apls", "test"),
+				core.GetAplRotation("../../ui/specs/priest/dps/apls", "test"),
 			},
 
 			ItemFilter: core.ItemFilter{

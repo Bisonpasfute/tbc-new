@@ -15,10 +15,10 @@ func init() {
 }
 
 func TestHunter(t *testing.T) {
-	weaveRotation := core.GetAplRotation("../../ui/hunter/dps/apls", "default")
+	weaveRotation := core.GetAplRotation("../../ui/specs/hunter/dps/apls", "default")
 	weaveRotation.Label = "weave"
 
-	turretRotation := core.GetAplRotation("../../ui/hunter/dps/apls", "default").Rotation
+	turretRotation := core.GetAplRotation("../../ui/specs/hunter/dps/apls", "default").Rotation
 	turretRotation.ValueVariables[2] = &proto.APLValueVariable{
 		Name: "Melee weave",
 		Value: &proto.APLValue{
@@ -35,7 +35,7 @@ func TestHunter(t *testing.T) {
 			Class:      proto.Class_ClassHunter,
 			Race:       proto.Race_RaceOrc,
 			OtherRaces: []proto.Race{proto.Race_RaceNightElf},
-			GearSet:    core.GetGearSet("../../ui/hunter/dps/gear_sets/phase_2/bm", "2h_6p"),
+			GearSet:    core.GetGearSet("../../ui/specs/hunter/dps/gear_sets/phase_2/bm", "2h_6p"),
 			Talents:    DefaultBMTalents,
 			OtherTalentSets: []core.TalentsCombo{
 				{Label: "SV", Talents: DefaultSVTalents},

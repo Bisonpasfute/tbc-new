@@ -1,0 +1,43 @@
+import { SavedTalents } from '@features/talents/components/SavedTalents';
+import { TalentsPicker } from '@features/talents/components/TalentsPicker';
+import { PresetConfigurationCategory } from '@sim/constants/preset_categories';
+import { useSimHost } from '@sim/context/SimHostContext';
+import type { Player } from '@sim/player/player';
+import { classTalentsConfig } from '@sim/talents/factory';
+import { TabPanelColumns } from '@ui-kit/TabPanelColumns';
+import { useMemo } from 'react';
+
+import { PresetConfigurationPicker } from '../PresetConfigurationPicker';
+
+const TALENT_PRESETS = [PresetConfigurationCategory.Talents];
+
+// TBC's tier gate is five points per row of the tree (talents_tab.tsx:47), not a character level.
+const POINTS_PER_ROW = 5;
+
+export const TalentsTabBody = () => {
+	const host = useSimHost();
+	const player = host.player;
+
+	const talentsConfig = useMemo(
+		() => ({
+			trees: classTalentsConfig[player.getClass()]!,
+			pointsPerRow: POINTS_PER_ROW,
+			storeField: 'talentsString' as const,
+			getValue: (subject: Player<any>) => subject.getTalentsString(),
+			setValue: (subject: Player<any>, newValue: string) => subject.setTalentsString(newValue),
+		}),
+		[player],
+	);
+
+	return (
+		<>
+			<TabPanelColumns.Left>
+				<TalentsPicker config={talentsConfig} />
+			</TabPanelColumns.Left>
+			<TabPanelColumns.Right>
+				<PresetConfigurationPicker categories={TALENT_PRESETS} />
+				<SavedTalents />
+			</TabPanelColumns.Right>
+		</>
+	);
+};

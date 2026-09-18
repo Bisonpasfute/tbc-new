@@ -20,16 +20,16 @@ func TestRogue(t *testing.T) {
 			Class:      proto.Class_ClassRogue,
 			Race:       proto.Race_RaceHuman,
 			OtherRaces: []proto.Race{proto.Race_RaceOrc},
-			GearSet:    core.GetGearSet("../../ui/rogue/dps/gear_sets", "preraid"),
+			GearSet:    core.GetGearSet("../../ui/specs/rogue/dps/gear_sets", "preraid"),
 			OtherGearSets: []core.GearSetCombo{
-				core.GetGearSet("../../ui/rogue/dps/gear_sets", "p1"),
-				//core.GetGearSet("../../../ui/rogue/combat/gear_sets", "p4_combat"),
+				core.GetGearSet("../../ui/specs/rogue/dps/gear_sets", "p1"),
+				//core.GetGearSet("../../../ui/specs/rogue/combat/gear_sets", "p4_combat"),
 			},
 			Talents:     DefaultTalents,
 			Consumables: DefaultConsumables,
 			SpecOptions: core.SpecOptionsCombo{Label: "Rogue", SpecOptions: DefaultOptions},
 
-			Rotation:       core.GetAplRotation("../../ui/rogue/dps/apls", "swords"),
+			Rotation:       core.GetAplRotation("../../ui/specs/rogue/dps/apls", "swords"),
 			OtherRotations: []core.RotationCombo{},
 			ItemFilter: core.ItemFilter{
 				ArmorType: proto.ArmorType_ArmorTypeLeather,

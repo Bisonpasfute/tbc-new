@@ -80,6 +80,37 @@
 				"elapsed_time": {
 					"type": "string"
 				},
+				"ok": {
+					"type": "string"
+				},
+				"cancel": {
+					"type": "string"
+				},
+				"confirm": {
+					"type": "string"
+				},
+				"delete": {
+					"type": "string"
+				},
+				"saved_data": {
+					"type": "object",
+					"properties": {
+						"delete_title": {
+							"type": "string"
+						},
+						"delete_confirm": {
+							"type": "string"
+						},
+						"choose_name": {
+							"type": "string"
+						},
+						"name_exists": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["delete_title", "delete_confirm", "choose_name", "name_exists"]
+				},
 				"melee": {
 					"type": "string"
 				},
@@ -1016,10 +1047,16 @@
 						},
 						"old_sim_message": {
 							"type": "string"
+						},
+						"healing_message": {
+							"type": "string"
+						},
+						"qe_live_message": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["title", "contribute_message", "discord_message", "old_sim_message"]
+					"required": ["title", "contribute_message", "discord_message", "old_sim_message", "healing_message", "qe_live_message"]
 				},
 				"notifications": {
 					"type": "object",
@@ -1735,6 +1772,84 @@
 							"additionalProperties": false,
 							"required": ["label", "tooltip"]
 						},
+						"isb_uptime": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
+						"hemo_uptime": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
+						"shadow_priest_dps": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
+						"expose_weakness_uptime": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
+						"expose_weakness_hunter_agility": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
+						"totem_twisting": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
 						"pet_uptime": {
 							"type": "object",
 							"properties": {
@@ -2203,6 +2318,12 @@
 						"absorb_frac",
 						"burst_window",
 						"hp_percent_for_defensives",
+						"isb_uptime",
+						"hemo_uptime",
+						"shadow_priest_dps",
+						"expose_weakness_uptime",
+						"expose_weakness_hunter_agility",
+						"totem_twisting",
 						"pet_uptime",
 						"pet_single_ability",
 						"pet_type",
@@ -2259,10 +2380,13 @@
 							"properties": {
 								"title": {
 									"type": "string"
+								},
+								"separator": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
-							"required": ["title"]
+							"required": ["title", "separator"]
 						},
 						"food": {
 							"type": "object",
@@ -2981,15 +3105,34 @@
 					},
 					"additionalProperties": false,
 					"required": ["title", "label", "name_label", "save_button", "delete", "alerts"]
+				},
+				"points_remaining": {
+					"type": "string"
+				},
+				"carousel": {
+					"type": "object",
+					"properties": {
+						"previous": {
+							"type": "string"
+						},
+						"next": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["previous", "next"]
 				}
 			},
 			"additionalProperties": false,
-			"required": ["title", "copy_button", "reset_button", "saved_talents"]
+			"required": ["title", "copy_button", "reset_button", "saved_talents", "points_remaining", "carousel"]
 		},
 		"bulk_tab": {
 			"type": "object",
 			"properties": {
 				"title": {
+					"type": "string"
+				},
+				"title_badge": {
 					"type": "string"
 				},
 				"description": {
@@ -5172,10 +5315,13 @@
 										},
 										"tooltip": {
 											"type": "string"
+										},
+										"full_description": {
+											"type": "string"
 										}
 									},
 									"additionalProperties": false,
-									"required": ["label", "tooltip"]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"all_item_stat_procs_active": {
 									"type": "object",
@@ -5301,10 +5447,13 @@
 										},
 										"tooltip": {
 											"type": "string"
+										},
+										"full_description": {
+											"type": "string"
 										}
 									},
 									"additionalProperties": false,
-									"required": ["label", "tooltip"]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"dot_is_active": {
 									"type": "object",
@@ -7054,6 +7203,9 @@
 									},
 									"additionalProperties": false,
 									"required": ["toggle", "none", "active", "clear"]
+								},
+								"no_matches": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
@@ -7065,7 +7217,8 @@
 								"search_placeholder",
 								"search_add_filter",
 								"search_add_value",
-								"floatingActionBar"
+								"floatingActionBar",
+								"no_matches"
 							]
 						},
 						"tabs": {
@@ -7974,10 +8127,13 @@
 						},
 						"custom_ep_not_enabled": {
 							"type": "string"
+						},
+						"label": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["meta_gem_disabled", "profession_requirement", "too_many_jc_gems", "unspent_talent_points", "custom_ep_not_enabled"]
+					"required": ["meta_gem_disabled", "profession_requirement", "too_many_jc_gems", "unspent_talent_points", "custom_ep_not_enabled", "label"]
 				},
 				"buttons": {
 					"type": "object",
@@ -8001,6 +8157,9 @@
 											"type": "string"
 										},
 										"weights": {
+											"type": "string"
+										},
+										"stats_type": {
 											"type": "string"
 										},
 										"show_all_stats": {
@@ -8271,6 +8430,7 @@
 										"title",
 										"ep",
 										"weights",
+										"stats_type",
 										"show_all_stats",
 										"dps_tps_reference",
 										"healing_reference",
@@ -8643,10 +8803,16 @@
 							},
 							"additionalProperties": false,
 							"required": ["dps", "hps", "tps", "dtps", "tmi", "cod", "dur", "tto", "oom"]
+						},
+						"stop": {
+							"type": "string"
+						},
+						"stopping": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["progress", "reference", "metrics"]
+					"required": ["progress", "reference", "metrics", "stop", "stopping"]
 				},
 				"character_stats": {
 					"type": "object",
@@ -8773,6 +8939,62 @@
 							"additionalProperties": false,
 							"required": ["exact", "over_by", "under_by"]
 						},
+						"tank_caps": {
+							"type": "object",
+							"properties": {
+								"miss_label": {
+									"type": "string"
+								},
+								"avoidance_label": {
+									"type": "string"
+								},
+								"crit_immunity_label": {
+									"type": "string"
+								},
+								"miss": {
+									"type": "string"
+								},
+								"dodge": {
+									"type": "string"
+								},
+								"parry": {
+									"type": "string"
+								},
+								"block": {
+									"type": "string"
+								},
+								"defense": {
+									"type": "string"
+								},
+								"resilience": {
+									"type": "string"
+								},
+								"crush": {
+									"type": "string"
+								},
+								"shear": {
+									"type": "string"
+								},
+								"with_holy_shield": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": [
+								"miss_label",
+								"avoidance_label",
+								"crit_immunity_label",
+								"miss",
+								"dodge",
+								"parry",
+								"block",
+								"defense",
+								"resilience",
+								"crush",
+								"shear",
+								"with_holy_shield"
+							]
+						},
 						"bonus_prefix": {
 							"type": "string"
 						},
@@ -8784,7 +9006,17 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": ["title", "melee_crit_cap", "tooltip", "attack_table", "crit_cap", "bonus_prefix", "points_suffix", "percent_suffix"]
+					"required": [
+						"title",
+						"melee_crit_cap",
+						"tooltip",
+						"attack_table",
+						"crit_cap",
+						"tank_caps",
+						"bonus_prefix",
+						"points_suffix",
+						"percent_suffix"
+					]
 				}
 			},
 			"additionalProperties": false,
