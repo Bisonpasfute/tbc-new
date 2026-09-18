@@ -159,7 +159,7 @@ describe('SavedTalents', () => {
 			expect(popoverText()).toBe("Delete saved talents 'Raiding'?");
 		});
 
-		it('holds the presets back until the sim is ready', () => {
+		it('holds the presets back until the sim is ready', async () => {
 			presets = [{ name: 'Default', data: talentsWith('222') }];
 			window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Raiding: storedJson('111') }));
 			let resolveInit = () => {};
@@ -173,7 +173,7 @@ describe('SavedTalents', () => {
 
 			expect(chips('presets')).toHaveLength(0);
 			expect(chips('custom').map(chip => chip.textContent)).toEqual(['Raiding']);
-			resolveInit();
+			await act(async () => resolveInit());
 		});
 	});
 
