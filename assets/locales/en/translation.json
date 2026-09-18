@@ -916,6 +916,12 @@
 		"settings": {
 			"combinations_count": "{{amount}} Combinations",
 			"combination_singular": "1 Combination",
+			"groups": {
+				"options": "Batch options",
+				"frozen_slots": "Frozen slots",
+				"reforge": "Gem settings",
+				"reforge_description": "These are the same settings the Suggest Gems button uses. The batch sim applies them to every gear set it simulates."
+			},
 			"iterations": "Iterations",
 			"use_legacy_bulk_sim": {
 				"label": "Use legacy single-stage sim",

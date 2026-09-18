@@ -3230,6 +3230,25 @@
 						"combination_singular": {
 							"type": "string"
 						},
+						"groups": {
+							"type": "object",
+							"properties": {
+								"options": {
+									"type": "string"
+								},
+								"frozen_slots": {
+									"type": "string"
+								},
+								"reforge": {
+									"type": "string"
+								},
+								"reforge_description": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["options", "frozen_slots", "reforge", "reforge_description"]
+						},
 						"iterations": {
 							"type": "string"
 						},
@@ -3306,6 +3325,7 @@
 					"required": [
 						"combinations_count",
 						"combination_singular",
+						"groups",
 						"iterations",
 						"use_legacy_bulk_sim",
 						"freeze_ring",
