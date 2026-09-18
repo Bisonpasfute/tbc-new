@@ -33,13 +33,13 @@ SCSS left in the tree.
 
 What each one is actually for:
 
-| Gate             | Catches                                                                                                                    | Does not catch                                                                |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `type-check`     | broken specifiers, alias mismatches, spec-config shape drift                                                               | a legal import that violates the layer direction                              |
-| `lint:js`        | layer violations (`no-restricted-imports`), browser globals in `ui/sim` and feature models, hook-rule breaks, import order | anything not listed in `.oxlintrc.json` — `categories.correctness` is **off** |
-| `test:unit`      | component and helper behaviour, the store hooks' gating                                                                    | anything without a `.test.ts(x)` beside it                                    |
-| `test:locales`   | a locale key with no matching property in its `additionalProperties: false` schema                                        | a key the schema allows and no locale file defines                            |
-| `test:snapshots` | (no script here) the store notification contract, then serialization drift across all 17 specs                            | rendering                                                                     |
+| Gate             | Catches                                                                                                                                     | Does not catch                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `type-check`     | broken specifiers, alias mismatches, spec-config shape drift                                                                                | a legal import that violates the layer direction                              |
+| `lint:js`        | layer violations (`no-restricted-imports`), browser globals in `ui/sim` and feature models, hook-rule breaks, import order                  | anything not listed in `.oxlintrc.json` — `categories.correctness` is **off** |
+| `test:unit`      | component and helper behaviour, the store hooks' gating                                                                                     | anything without a `.test.ts(x)` beside it                                    |
+| `test:locales`   | a locale key with no matching property in its `additionalProperties: false` schema                                                          | a key the schema allows and no locale file defines                            |
+| `test:snapshots` | (no script here) the store notification contract, then serialization drift across all 17 specs                                              | rendering                                                                     |
 | `fmt`            | `ui/` formatting only, `tools/` not in scope — and it does reformat `ui/`'s markdown, so `ui/README.md` and `ui/STYLING.md` are gated by it |                                                                               |
 
 **Zero `no-restricted-imports` errors is the bar**, not "no new ones": the layer rules are the whole
@@ -166,7 +166,7 @@ then says "Nothing to be done". Re-derive rather than trusting this paragraph:
 /usr/bin/grep -rn 'constants_auto_gen.ts\"\|capabilities_auto_gen.ts\"' tools/database/
 ```
 
-A fourth generated TS file, `ui/sim/constants/missing_effects_auto_gen.ts`, is *not* in that list and
+A fourth generated TS file, `ui/sim/constants/missing_effects_auto_gen.ts`, is _not_ in that list and
 is not written by `-gen=go-to-ts`: `tools/database/gen_effects.go` emits it during full database
 generation, which needs `assets/db_inputs`. `ui/features/gear/item_notices.tsx` imports it, so a
 checkout without it fails `type-check`. That has always been true here — master has the same

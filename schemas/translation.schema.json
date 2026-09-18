@@ -21,12 +21,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"home",
-						"simulations",
-						"about",
-						"toggle"
-					]
+					"required": ["home", "simulations", "about", "toggle"]
 				},
 				"home": {
 					"type": "object",
@@ -42,11 +37,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"welcomeDescription"
-					]
+					"required": ["title", "description", "welcomeDescription"]
 				},
 				"header": {
 					"type": "object",
@@ -62,19 +53,11 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"wowsims",
-						"expansion",
-						"supportDevs"
-					]
+					"required": ["wowsims", "expansion", "supportDevs"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"navigation",
-				"home",
-				"header"
-			]
+			"required": ["navigation", "home", "header"]
 		},
 		"common": {
 			"type": "object",
@@ -126,12 +109,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"delete_title",
-						"delete_confirm",
-						"choose_name",
-						"name_exists"
-					]
+					"required": ["delete_title", "delete_confirm", "choose_name", "name_exists"]
 				},
 				"melee": {
 					"type": "string"
@@ -159,13 +137,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"1",
-						"2",
-						"3",
-						"4",
-						"5"
-					]
+					"required": ["1", "2", "3", "4", "5"]
 				},
 				"phase_names": {
 					"type": "object",
@@ -187,13 +159,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"1",
-						"2",
-						"3",
-						"4",
-						"5"
-					]
+					"required": ["1", "2", "3", "4", "5"]
 				},
 				"tanks": {
 					"type": "object",
@@ -212,12 +178,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"main_tank",
-						"tank_2",
-						"tank_3",
-						"tank_4"
-					]
+					"required": ["main_tank", "tank_2", "tank_3", "tank_4"]
 				},
 				"status": {
 					"type": "object",
@@ -236,12 +197,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unlaunched",
-						"alpha",
-						"beta",
-						"launched"
-					]
+					"required": ["unlaunched", "alpha", "beta", "launched"]
 				},
 				"mob_types": {
 					"type": "object",
@@ -275,17 +231,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unknown",
-						"beast",
-						"demon",
-						"dragonkin",
-						"elemental",
-						"giant",
-						"humanoid",
-						"mechanical",
-						"undead"
-					]
+					"required": ["unknown", "beast", "demon", "dragonkin", "elemental", "giant", "humanoid", "mechanical", "undead"]
 				},
 				"sources": {
 					"type": "object",
@@ -378,18 +324,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unknown",
-						"kara",
-						"gruuls",
-						"mag",
-						"tk",
-						"ssc",
-						"mh",
-						"bt",
-						"za",
-						"swp"
-					]
+					"required": ["unknown", "kara", "gruuls", "mag", "tk", "ssc", "mh", "bt", "za", "swp"]
 				},
 				"armor_types": {
 					"type": "object",
@@ -411,13 +346,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unknown",
-						"cloth",
-						"leather",
-						"mail",
-						"plate"
-					]
+					"required": ["unknown", "cloth", "leather", "mail", "plate"]
 				},
 				"weapon_types": {
 					"type": "object",
@@ -454,18 +383,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unknown",
-						"axe",
-						"dagger",
-						"fist",
-						"mace",
-						"off_hand",
-						"polearm",
-						"shield",
-						"staff",
-						"sword"
-					]
+					"required": ["unknown", "axe", "dagger", "fist", "mace", "off_hand", "polearm", "shield", "staff", "sword"]
 				},
 				"ranged_weapon_types": {
 					"type": "object",
@@ -490,14 +408,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unknown",
-						"bow",
-						"crossbow",
-						"gun",
-						"thrown",
-						"wand"
-					]
+					"required": ["unknown", "bow", "crossbow", "gun", "thrown", "wand"]
 				},
 				"spell_schools": {
 					"type": "object",
@@ -525,15 +436,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"physical",
-						"arcane",
-						"fire",
-						"frost",
-						"holy",
-						"nature",
-						"shadow"
-					]
+					"required": ["physical", "arcane", "fire", "frost", "holy", "nature", "shadow"]
 				},
 				"resource_types": {
 					"type": "object",
@@ -620,16 +523,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"junk",
-						"common",
-						"uncommon",
-						"rare",
-						"epic",
-						"legendary",
-						"artifact",
-						"heirloom"
-					]
+					"required": ["junk", "common", "uncommon", "rare", "epic", "legendary", "artifact", "heirloom"]
 				},
 				"stats": {
 					"type": "object",
@@ -941,11 +835,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"valorPoints",
-						"justicePoints",
-						"honorPoints"
-					]
+					"required": ["valorPoints", "justicePoints", "honorPoints"]
 				},
 				"copy_button": {
 					"type": "object",
@@ -958,10 +848,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"default_text",
-						"copied"
-					]
+					"required": ["default_text", "copied"]
 				},
 				"list_picker": {
 					"type": "object",
@@ -1131,11 +1018,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"message",
-						"download_button"
-					]
+					"required": ["title", "message", "download_button"]
 				},
 				"crash_modal": {
 					"type": "object",
@@ -1148,10 +1031,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"header"
-					]
+					"required": ["title", "header"]
 				},
 				"unlaunched": {
 					"type": "object",
@@ -1176,14 +1056,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"contribute_message",
-						"discord_message",
-						"old_sim_message",
-						"healing_message",
-						"qe_live_message"
-					]
+					"required": ["title", "contribute_message", "discord_message", "old_sim_message", "healing_message", "qe_live_message"]
 				},
 				"notifications": {
 					"type": "object",
@@ -1199,11 +1072,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"sim_cancelled",
-						"simulation_failed",
-						"failed_to_file_report"
-					]
+					"required": ["sim_cancelled", "simulation_failed", "failed_to_file_report"]
 				},
 				"crash_report": {
 					"type": "object",
@@ -1219,11 +1088,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"confirm_title",
-						"confirm_message",
-						"report_title"
-					]
+					"required": ["confirm_title", "confirm_message", "report_title"]
 				}
 			},
 			"additionalProperties": false,
@@ -1256,10 +1121,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"reset_gems"
-					]
+					"required": ["title", "reset_gems"]
 				},
 				"reforge_success": {
 					"type": "object",
@@ -1272,10 +1134,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"no_changes"
-					]
+					"required": ["title", "no_changes"]
 				},
 				"gear_sets": {
 					"type": "object",
@@ -1294,12 +1153,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"gear_set",
-						"gear_set_name",
-						"save_gear_set"
-					]
+					"required": ["title", "gear_set", "gear_set_name", "save_gear_set"]
 				},
 				"gear_picker": {
 					"type": "object",
@@ -1327,14 +1181,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"items",
-								"random_suffix",
-								"enchants",
-								"gem1",
-								"gem2",
-								"gem3"
-							]
+							"required": ["items", "random_suffix", "enchants", "gem1", "gem2", "gem3"]
 						},
 						"remove_buttons": {
 							"type": "object",
@@ -1350,11 +1197,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"remove_enchant",
-								"remove_random_suffix",
-								"remove_gem"
-							]
+							"required": ["remove_enchant", "remove_random_suffix", "remove_gem"]
 						},
 						"filters": {
 							"type": "object",
@@ -1394,24 +1237,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"none",
-										"alliance_only",
-										"horde_only"
-									]
+									"required": ["none", "alliance_only", "horde_only"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"general",
-								"min_ilvl",
-								"max_ilvl",
-								"faction_restrictions",
-								"source",
-								"raids",
-								"faction_labels"
-							]
+							"required": ["title", "general", "min_ilvl", "max_ilvl", "faction_restrictions", "source", "raids", "faction_labels"]
 						},
 						"quick_popovers": {
 							"type": "object",
@@ -1430,11 +1260,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"title",
-										"empty_message",
-										"open_gems"
-									]
+									"required": ["title", "empty_message", "open_gems"]
 								},
 								"favorite_enchants": {
 									"type": "object",
@@ -1450,18 +1276,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"title",
-										"empty_message",
-										"open_enchants"
-									]
+									"required": ["title", "empty_message", "open_enchants"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"favorite_gems",
-								"favorite_enchants"
-							]
+							"required": ["favorite_gems", "favorite_enchants"]
 						},
 						"missing_gear_message": {
 							"type": "object",
@@ -1474,10 +1293,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"description"
-							]
+							"required": ["title", "description"]
 						},
 						"cooldowns": {
 							"type": "object",
@@ -1490,10 +1306,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"tooltip"
-							]
+							"required": ["title", "tooltip"]
 						},
 						"ep_tooltip": {
 							"type": "string"
@@ -1518,11 +1331,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"ilvl",
-								"item",
-								"source"
-							]
+							"required": ["ilvl", "item", "source"]
 						},
 						"show_ep": {
 							"type": "string"
@@ -1598,10 +1407,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"tooltip"
-					]
+					"required": ["title", "tooltip"]
 				},
 				"upgrade_summary": {
 					"type": "object",
@@ -1617,23 +1423,11 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"upgrade_all_items",
-						"reset_upgrades"
-					]
+					"required": ["title", "upgrade_all_items", "reset_upgrades"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"title",
-				"gem_summary",
-				"reforge_success",
-				"gear_sets",
-				"gear_picker",
-				"preset_configurations",
-				"upgrade_summary"
-			]
+			"required": ["title", "gem_summary", "reforge_success", "gear_sets", "gear_picker", "preset_configurations", "upgrade_summary"]
 		},
 		"settings_tab": {
 			"type": "object",
@@ -1664,10 +1458,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"stats": {
 							"type": "string"
@@ -1720,11 +1511,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"tooltip",
-						"description"
-					]
+					"required": ["title", "tooltip", "description"]
 				},
 				"external_damage_cooldowns": {
 					"type": "object",
@@ -1755,16 +1542,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"tooltip",
-						"bloodlust",
-						"skull_banner",
-						"stormlash_totem",
-						"tricks_of_the_trade",
-						"unholy_frenzy",
-						"shattering_throw"
-					]
+					"required": ["title", "tooltip", "bloodlust", "skull_banner", "stormlash_totem", "tricks_of_the_trade", "unholy_frenzy", "shattering_throw"]
 				},
 				"external_defensive_cooldowns": {
 					"type": "object",
@@ -1789,14 +1567,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"tooltip",
-						"vigilance",
-						"devotion_aura",
-						"pain_suppression",
-						"rallying_cry"
-					]
+					"required": ["title", "tooltip", "vigilance", "devotion_aura", "pain_suppression", "rallying_cry"]
 				},
 				"debuffs": {
 					"type": "object",
@@ -1818,10 +1589,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"armor_reduction": {
 							"type": "string"
@@ -1840,16 +1608,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"tooltip",
-						"misc",
-						"armor_reduction",
-						"phys_dmg_reduction",
-						"cast_speed",
-						"phys_dmg",
-						"spell_dmg"
-					]
+					"required": ["title", "tooltip", "misc", "armor_reduction", "phys_dmg_reduction", "cast_speed", "phys_dmg", "spell_dmg"]
 				},
 				"other": {
 					"type": "object",
@@ -1868,10 +1627,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"channel_clip_delay": {
 							"type": "object",
@@ -1884,10 +1640,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"in_front_of_target": {
 							"type": "object",
@@ -1900,10 +1653,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"distance_from_target": {
 							"type": "object",
@@ -1916,10 +1666,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"tank_assignment": {
 							"type": "object",
@@ -1932,10 +1679,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"inspiration_uptime": {
 							"type": "object",
@@ -1948,10 +1692,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"incoming_hps": {
 							"type": "object",
@@ -1964,10 +1705,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"healing_cadence": {
 							"type": "object",
@@ -1980,10 +1718,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"healing_cadence_variation": {
 							"type": "object",
@@ -1996,10 +1731,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"absorb_frac": {
 							"type": "object",
@@ -2012,10 +1744,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"burst_window": {
 							"type": "object",
@@ -2028,10 +1757,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"hp_percent_for_defensives": {
 							"type": "object",
@@ -2044,10 +1770,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"isb_uptime": {
 							"type": "object",
@@ -2060,10 +1783,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"hemo_uptime": {
 							"type": "object",
@@ -2076,10 +1796,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"shadow_priest_dps": {
 							"type": "object",
@@ -2092,10 +1809,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"expose_weakness_uptime": {
 							"type": "object",
@@ -2108,10 +1822,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"expose_weakness_hunter_agility": {
 							"type": "object",
@@ -2124,10 +1835,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"totem_twisting": {
 							"type": "object",
@@ -2140,10 +1848,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"pet_uptime": {
 							"type": "object",
@@ -2156,10 +1861,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"pet_single_ability": {
 							"type": "object",
@@ -2172,10 +1874,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"pet_type": {
 							"type": "object",
@@ -2218,20 +1917,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip",
-								"no_pet",
-								"bat",
-								"bear",
-								"cat",
-								"crab",
-								"owl",
-								"raptor",
-								"ravager",
-								"wind_serpent",
-								"dragonhawk"
-							]
+							"required": ["label", "tooltip", "no_pet", "bat", "bear", "cat", "crab", "owl", "raptor", "ravager", "wind_serpent", "dragonhawk"]
 						},
 						"ammo": {
 							"type": "object",
@@ -2309,17 +1995,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip",
-								"no_quiver",
-								"speed_15",
-								"speed_14",
-								"speed_13",
-								"speed_12",
-								"speed_11",
-								"speed_10"
-							]
+							"required": ["label", "tooltip", "no_quiver", "speed_15", "speed_14", "speed_13", "speed_12", "speed_11", "speed_10"]
 						},
 						"detonate_seed": {
 							"type": "object",
@@ -2332,10 +2008,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"default_shout": {
 							"type": "object",
@@ -2348,10 +2021,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"default_stance": {
 							"type": "object",
@@ -2364,10 +2034,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"starting_rage": {
 							"type": "object",
@@ -2380,10 +2047,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"stance_snapshot": {
 							"type": "object",
@@ -2396,10 +2060,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"has_bs_solarian_sapphire": {
 							"type": "object",
@@ -2412,10 +2073,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"has_bs_tier_2": {
 							"type": "object",
@@ -2428,10 +2086,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"queue_delay": {
 							"type": "object",
@@ -2444,10 +2099,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"assume_bleed_active": {
 							"type": "object",
@@ -2460,10 +2112,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"cannot_shred_target": {
 							"type": "object",
@@ -2476,10 +2125,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"okf_uptime": {
 							"type": "object",
@@ -2492,10 +2138,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"sync_type": {
 							"type": "object",
@@ -2523,20 +2166,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"automatic",
-										"none",
-										"perfect_sync",
-										"delayed_offhand"
-									]
+									"required": ["automatic", "none", "perfect_sync", "delayed_offhand"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip",
-								"values"
-							]
+							"required": ["label", "tooltip", "values"]
 						},
 						"show_1h_weapons": {
 							"type": "object",
@@ -2549,10 +2183,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"show_2h_weapons": {
 							"type": "object",
@@ -2565,10 +2196,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"show_matching_gems": {
 							"type": "object",
@@ -2581,10 +2209,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"show_ep_values": {
 							"type": "object",
@@ -2597,10 +2222,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"phase_selector": {
 							"type": "object",
@@ -2613,10 +2235,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"enable_item_swap": {
 							"type": "object",
@@ -2629,10 +2248,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"item_swap": {
 							"type": "object",
@@ -2645,10 +2261,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"blessings": {
 							"type": "object",
@@ -2661,10 +2274,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"tooltip"
-							]
+							"required": ["title", "tooltip"]
 						},
 						"shaman_shield_procrate": {
 							"type": "object",
@@ -2677,10 +2287,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"warlock_assigned_curse": {
 							"type": "object",
@@ -2693,10 +2300,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"description"
-							]
+							"required": ["title", "description"]
 						}
 					},
 					"additionalProperties": false,
@@ -2769,11 +2373,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"prepop",
-								"combat"
-							]
+							"required": ["title", "prepop", "combat"]
 						},
 						"elixirs": {
 							"type": "object",
@@ -2786,10 +2386,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"separator"
-							]
+							"required": ["title", "separator"]
 						},
 						"food": {
 							"type": "object",
@@ -2799,9 +2396,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title"
-							]
+							"required": ["title"]
 						},
 						"engineering": {
 							"type": "object",
@@ -2814,10 +2409,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"explosives"
-							]
+							"required": ["title", "explosives"]
 						},
 						"pet": {
 							"type": "object",
@@ -2827,9 +2419,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title"
-							]
+							"required": ["title"]
 						},
 						"imbue": {
 							"type": "object",
@@ -2845,11 +2435,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"mhImbue",
-								"ohImbue"
-							]
+							"required": ["title", "mhImbue", "ohImbue"]
 						},
 						"drums": {
 							"type": "object",
@@ -2859,9 +2445,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title"
-							]
+							"required": ["title"]
 						},
 						"scrolls": {
 							"type": "object",
@@ -2871,9 +2455,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title"
-							]
+							"required": ["title"]
 						},
 						"miscellaneous": {
 							"type": "object",
@@ -2883,24 +2465,11 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title"
-							]
+							"required": ["title"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"potions",
-						"elixirs",
-						"food",
-						"engineering",
-						"pet",
-						"imbue",
-						"drums",
-						"scrolls",
-						"miscellaneous"
-					]
+					"required": ["title", "potions", "elixirs", "food", "engineering", "pet", "imbue", "drums", "scrolls", "miscellaneous"]
 				},
 				"encounter": {
 					"type": "object",
@@ -2925,10 +2494,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"spiritual_grasp_frequency": {
 									"type": "object",
@@ -2941,10 +2507,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"jalak_death_time": {
 									"type": "object",
@@ -2957,10 +2520,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"taunt_swap_for_triple_puncture": {
 									"type": "object",
@@ -2973,10 +2533,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"movement_interval": {
 									"type": "object",
@@ -2989,10 +2546,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"reaction_time": {
 									"type": "object",
@@ -3005,10 +2559,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"yards": {
 									"type": "object",
@@ -3021,10 +2572,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"adds_respawn_time": {
 									"type": "object",
@@ -3037,10 +2585,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"adds_lifetime": {
 									"type": "object",
@@ -3053,10 +2598,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"adds_spawn_delay": {
 									"type": "object",
@@ -3069,10 +2611,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"fear_duration": {
 									"type": "object",
@@ -3085,10 +2624,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								}
 							},
 							"additionalProperties": false,
@@ -3118,10 +2654,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"duration_variation": {
 							"type": "object",
@@ -3134,10 +2667,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"execute_duration_20": {
 							"type": "object",
@@ -3150,10 +2680,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"execute_duration_25": {
 							"type": "object",
@@ -3166,10 +2693,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"execute_duration_35": {
 							"type": "object",
@@ -3182,10 +2706,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"execute_duration_45": {
 							"type": "object",
@@ -3198,10 +2719,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"duration_below_high_hp": {
 							"type": "object",
@@ -3214,10 +2732,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"encounter_preset": {
 							"type": "object",
@@ -3230,10 +2745,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"advanced": {
 							"type": "string"
@@ -3252,10 +2764,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"min_base_damage": {
 							"type": "object",
@@ -3268,10 +2777,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"npc": {
 							"type": "object",
@@ -3284,10 +2790,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"ai": {
 							"type": "object",
@@ -3300,10 +2803,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"level": {
 							"type": "string"
@@ -3322,10 +2822,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"swing_speed": {
 							"type": "object",
@@ -3338,10 +2835,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"dual_wield": {
 							"type": "object",
@@ -3354,10 +2848,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"dual_wield_penalty": {
 							"type": "object",
@@ -3370,10 +2861,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"parry_haste": {
 							"type": "object",
@@ -3386,10 +2874,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"can_crush": {
 							"type": "object",
@@ -3402,10 +2887,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"spell_school": {
 							"type": "object",
@@ -3418,10 +2900,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"damage_spread": {
 							"type": "object",
@@ -3434,10 +2913,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"suppress_dodge": {
 							"type": "string"
@@ -3499,12 +2975,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"race",
-						"profession_1",
-						"profession_2"
-					]
+					"required": ["title", "race", "profession_1", "profession_2"]
 				},
 				"saved_encounters": {
 					"type": "object",
@@ -3523,12 +2994,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"encounter",
-						"encounter_name",
-						"save_encounter"
-					]
+					"required": ["title", "encounter", "encounter_name", "save_encounter"]
 				},
 				"saved_settings": {
 					"type": "object",
@@ -3547,12 +3013,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"settings",
-						"settings_name",
-						"save_settings"
-					]
+					"required": ["title", "settings", "settings_name", "save_settings"]
 				}
 			},
 			"additionalProperties": false,
@@ -3588,10 +3049,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"label",
-						"tooltip"
-					]
+					"required": ["label", "tooltip"]
 				},
 				"reset_button": {
 					"type": "object",
@@ -3601,9 +3059,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"tooltip"
-					]
+					"required": ["tooltip"]
 				},
 				"saved_talents": {
 					"type": "object",
@@ -3631,10 +3087,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"confirm",
-								"tooltip"
-							]
+							"required": ["confirm", "tooltip"]
 						},
 						"alerts": {
 							"type": "object",
@@ -3647,21 +3100,11 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"choose_name",
-								"name_exists"
-							]
+							"required": ["choose_name", "name_exists"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"label",
-						"name_label",
-						"save_button",
-						"delete",
-						"alerts"
-					]
+					"required": ["title", "label", "name_label", "save_button", "delete", "alerts"]
 				},
 				"points_remaining": {
 					"type": "string"
@@ -3677,21 +3120,11 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"previous",
-						"next"
-					]
+					"required": ["previous", "next"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"title",
-				"copy_button",
-				"reset_button",
-				"saved_talents",
-				"points_remaining",
-				"carousel"
-			]
+			"required": ["title", "copy_button", "reset_button", "saved_talents", "points_remaining", "carousel"]
 		},
 		"bulk_tab": {
 			"type": "object",
@@ -3719,10 +3152,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"setup",
-						"results"
-					]
+					"required": ["setup", "results"]
 				},
 				"actions": {
 					"type": "object",
@@ -3741,12 +3171,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"import_bags",
-						"import_favorites",
-						"clear_items",
-						"simulate_batch"
-					]
+					"required": ["import_bags", "import_favorites", "clear_items", "simulate_batch"]
 				},
 				"search": {
 					"type": "object",
@@ -3819,10 +3244,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"freeze_ring": {
 							"type": "object",
@@ -3835,10 +3257,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"freeze_trinket": {
 							"type": "object",
@@ -3851,10 +3270,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"freeze_weapon": {
 							"type": "object",
@@ -3867,10 +3283,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"freeze_weapon_types": {
 							"type": "object",
@@ -3886,11 +3299,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"mainhand_label",
-								"offhand_label",
-								"tooltip"
-							]
+							"required": ["mainhand_label", "offhand_label", "tooltip"]
 						}
 					},
 					"additionalProperties": false,
@@ -3976,10 +3385,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"bulk_sim_cancelled",
-						"failed_to_remove_item"
-					]
+					"required": ["bulk_sim_cancelled", "failed_to_remove_item"]
 				},
 				"warning": {
 					"type": "object",
@@ -3989,9 +3395,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"iterations_limit"
-					]
+					"required": ["iterations_limit"]
 				},
 				"picker": {
 					"type": "object",
@@ -4010,12 +3414,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"no_items",
-						"remove_tooltip",
-						"failed_update",
-						"failed_remove"
-					]
+					"required": ["no_items", "remove_tooltip", "failed_update", "failed_remove"]
 				},
 				"results": {
 					"type": "object",
@@ -4040,14 +3439,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"run_simulation",
-						"equip_button",
-						"gear_equipped",
-						"current_gear",
-						"margin_of_error",
-						"tied_group"
-					]
+					"required": ["run_simulation", "equip_button", "gear_equipped", "current_gear", "margin_of_error", "tied_group"]
 				},
 				"import_modal": {
 					"type": "object",
@@ -4063,11 +3455,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description_line1",
-						"description_line2"
-					]
+					"required": ["title", "description_line1", "description_line2"]
 				}
 			},
 			"additionalProperties": false,
@@ -4122,21 +3510,11 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"auto",
-								"simple",
-								"apl",
-								"single_target",
-								"aoe",
-								"custom"
-							]
+							"required": ["label", "auto", "simple", "apl", "single_target", "aoe", "custom"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"rotation_type"
-					]
+					"required": ["rotation_type"]
 				},
 				"apl": {
 					"type": "object",
@@ -4155,10 +3533,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"actions",
-										"name"
-									]
+									"required": ["actions", "name"]
 								},
 								"header": {
 									"type": "string"
@@ -4183,21 +3558,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"actions",
-										"name",
-										"overview"
-									]
+									"required": ["actions", "name", "overview"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"attributes",
-								"header",
-								"name",
-								"newGroupName",
-								"tooltips"
-							]
+							"required": ["attributes", "header", "name", "newGroupName", "tooltips"]
 						},
 						"floatingActionBar": {
 							"type": "object",
@@ -4210,10 +3575,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"new",
-								"reset"
-							]
+							"required": ["new", "reset"]
 						},
 						"nameModal": {
 							"type": "object",
@@ -4235,13 +3597,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"create",
-								"nameConflict",
-								"extract",
-								"rename",
-								"renameConfirm"
-							]
+							"required": ["create", "nameConflict", "extract", "rename", "renameConfirm"]
 						},
 						"prePullActions": {
 							"type": "object",
@@ -4260,17 +3616,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"overview"
-									]
+									"required": ["overview"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"header",
-								"name",
-								"tooltips"
-							]
+							"required": ["header", "name", "tooltips"]
 						},
 						"priorityList": {
 							"type": "object",
@@ -4289,17 +3639,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"overview"
-									]
+									"required": ["overview"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"header",
-								"name",
-								"tooltips"
-							]
+							"required": ["header", "name", "tooltips"]
 						},
 						"tabs": {
 							"type": "object",
@@ -4315,11 +3659,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"actionGroups",
-								"priorityList",
-								"variables"
-							]
+							"required": ["actionGroups", "priorityList", "variables"]
 						},
 						"variables": {
 							"type": "object",
@@ -4341,12 +3681,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"name",
-										"nameTooltip",
-										"value",
-										"valueTooltip"
-									]
+									"required": ["name", "nameTooltip", "value", "valueTooltip"]
 								},
 								"enterVariableName": {
 									"type": "string"
@@ -4377,23 +3712,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"name",
-										"overview",
-										"value"
-									]
+									"required": ["name", "overview", "value"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"attributes",
-								"enterVariableName",
-								"extractToVariable",
-								"header",
-								"name",
-								"newVariableName",
-								"tooltips"
-							]
+							"required": ["attributes", "enterVariableName", "extractToVariable", "header", "name", "newVariableName", "tooltips"]
 						},
 						"variablePlaceholder": {
 							"type": "object",
@@ -4406,10 +3729,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"name",
-								"nameLabel"
-							]
+							"required": ["name", "nameLabel"]
 						},
 						"prepull_actions": {
 							"type": "object",
@@ -4434,23 +3754,14 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"new_action": {
 									"type": "string"
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"tooltip",
-								"item_label",
-								"do_at",
-								"new_action"
-							]
+							"required": ["title", "tooltip", "item_label", "do_at", "new_action"]
 						},
 						"priority_list": {
 							"type": "object",
@@ -4472,13 +3783,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"tooltip",
-								"item_label",
-								"if_label",
-								"new_action"
-							]
+							"required": ["title", "tooltip", "item_label", "if_label", "new_action"]
 						},
 						"actions": {
 							"type": "object",
@@ -4494,10 +3799,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"cast_at_player": {
 									"type": "object",
@@ -4510,10 +3812,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"multi_dot": {
 									"type": "object",
@@ -4535,10 +3834,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"overlap": {
 											"type": "object",
@@ -4551,19 +3847,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"max_dots",
-										"overlap"
-									]
+									"required": ["label", "tooltip", "max_dots", "overlap"]
 								},
 								"strict_multi_dot": {
 									"type": "object",
@@ -4585,10 +3873,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"overlap": {
 											"type": "object",
@@ -4601,19 +3886,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"max_dots",
-										"overlap"
-									]
+									"required": ["label", "tooltip", "max_dots", "overlap"]
 								},
 								"multi_shield": {
 									"type": "object",
@@ -4635,10 +3912,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"overlap": {
 											"type": "object",
@@ -4651,19 +3925,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"max_shields",
-										"overlap"
-									]
+									"required": ["label", "tooltip", "max_shields", "overlap"]
 								},
 								"channel": {
 									"type": "object",
@@ -4688,10 +3954,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"recast": {
 											"type": "object",
@@ -4704,20 +3967,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description",
-										"interrupt_if",
-										"recast"
-									]
+									"required": ["label", "tooltip", "full_description", "interrupt_if", "recast"]
 								},
 								"cast_all_stat_buff_cooldowns": {
 									"type": "object",
@@ -4733,11 +3987,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"autocast_other_cooldowns": {
 									"type": "object",
@@ -4753,11 +4003,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"wait": {
 									"type": "object",
@@ -4770,10 +4016,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"wait_until": {
 									"type": "object",
@@ -4786,10 +4029,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"scheduled_action": {
 									"type": "object",
@@ -4811,18 +4051,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"do_at"
-									]
+									"required": ["label", "tooltip", "do_at"]
 								},
 								"do_at": {
 									"type": "object",
@@ -4835,10 +4068,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"sequence": {
 									"type": "object",
@@ -4854,11 +4084,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"reset_sequence": {
 									"type": "object",
@@ -4874,11 +4100,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"strict_sequence": {
 									"type": "object",
@@ -4894,11 +4116,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"change_target": {
 									"type": "object",
@@ -4911,10 +4129,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"activate_aura": {
 									"type": "object",
@@ -4927,10 +4142,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"activate_aura_with_stacks": {
 									"type": "object",
@@ -4949,12 +4161,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"stacks",
-										"stacks_tooltip"
-									]
+									"required": ["label", "tooltip", "stacks", "stacks_tooltip"]
 								},
 								"activate_all_stat_buff_proc_auras": {
 									"type": "object",
@@ -4967,10 +4174,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"cancel_aura": {
 									"type": "object",
@@ -4983,10 +4187,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"trigger_icd": {
 									"type": "object",
@@ -4999,10 +4200,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"item_swap": {
 									"type": "object",
@@ -5015,10 +4213,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"move": {
 									"type": "object",
@@ -5071,10 +4266,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"warlock_cast_assigned_curse": {
 									"type": "object",
@@ -5087,10 +4279,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								}
 							},
 							"additionalProperties": false,
@@ -5148,11 +4337,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"compare": {
 									"type": "object",
@@ -5165,10 +4350,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"math": {
 									"type": "object",
@@ -5181,10 +4363,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max": {
 									"type": "object",
@@ -5197,10 +4376,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"min": {
 									"type": "object",
@@ -5213,10 +4389,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"all_of": {
 									"type": "object",
@@ -5229,10 +4402,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"any_of": {
 									"type": "object",
@@ -5245,10 +4415,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"not": {
 									"type": "object",
@@ -5261,10 +4428,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_time": {
 									"type": "object",
@@ -5277,10 +4441,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_time_percent": {
 									"type": "object",
@@ -5293,10 +4454,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"remaining_time": {
 									"type": "object",
@@ -5309,10 +4467,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"remaining_time_percent": {
 									"type": "object",
@@ -5325,10 +4480,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"is_execute_phase": {
 									"type": "object",
@@ -5341,10 +4493,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"num_targets": {
 									"type": "object",
@@ -5357,10 +4506,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"spell_is_casting": {
 									"type": "object",
@@ -5373,10 +4519,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"spell_time_to_ready": {
 									"type": "object",
@@ -5389,10 +4532,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"in_front_of_target": {
 									"type": "object",
@@ -5405,10 +4545,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"boss_cast": {
 									"type": "object",
@@ -5421,10 +4558,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"boss_cast_time_to_ready": {
 									"type": "object",
@@ -5437,10 +4571,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"boss_current_target": {
 									"type": "object",
@@ -5453,10 +4584,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"unit_is_moving": {
 									"type": "object",
@@ -5469,10 +4597,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"distance_to_unit": {
 									"type": "object",
@@ -5485,10 +4610,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_health": {
 									"type": "object",
@@ -5501,10 +4623,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_health_percent": {
 									"type": "object",
@@ -5517,10 +4636,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max_health": {
 									"type": "object",
@@ -5533,10 +4649,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_mana": {
 									"type": "object",
@@ -5549,10 +4662,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_mana_percent": {
 									"type": "object",
@@ -5565,10 +4675,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max_mana": {
 									"type": "object",
@@ -5581,10 +4688,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_mana_regen": {
 									"type": "object",
@@ -5597,10 +4701,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_rage": {
 									"type": "object",
@@ -5613,10 +4714,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max_rage": {
 									"type": "object",
@@ -5629,10 +4727,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_focus": {
 									"type": "object",
@@ -5645,10 +4740,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max_focus": {
 									"type": "object",
@@ -5661,10 +4753,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"focus_regen_per_second": {
 									"type": "object",
@@ -5677,10 +4766,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"estimated_time_to_target_focus": {
 									"type": "object",
@@ -5693,10 +4779,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_energy": {
 									"type": "object",
@@ -5709,10 +4792,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max_energy": {
 									"type": "object",
@@ -5725,10 +4805,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"time_to_next_energy_tick": {
 									"type": "object",
@@ -5741,10 +4818,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"estimated_time_to_target_energy": {
 									"type": "object",
@@ -5757,10 +4831,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_combo_points": {
 									"type": "object",
@@ -5773,10 +4844,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"max_combo_points": {
 									"type": "object",
@@ -5789,10 +4857,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"solar_energy": {
 									"type": "object",
@@ -5805,10 +4870,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"lunar_energy": {
 									"type": "object",
@@ -5821,10 +4883,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_eclipse_phase": {
 									"type": "object",
@@ -5837,10 +4896,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"generic_resource": {
 									"type": "object",
@@ -5853,10 +4909,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"gcd_is_ready": {
 									"type": "object",
@@ -5869,10 +4922,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"gcd_time_to_ready": {
 									"type": "object",
@@ -5885,10 +4935,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"auto_swing_time": {
 									"type": "object",
@@ -5901,10 +4948,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"time_to_next_auto": {
 									"type": "object",
@@ -5917,10 +4961,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"time_since_last_auto": {
 									"type": "object",
@@ -5933,10 +4974,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"spell_known": {
 									"type": "object",
@@ -5949,10 +4987,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"current_cost": {
 									"type": "object",
@@ -5965,10 +5000,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"can_cast": {
 									"type": "object",
@@ -5984,11 +5016,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"is_ready": {
 									"type": "object",
@@ -6001,10 +5029,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"time_to_ready": {
 									"type": "object",
@@ -6017,10 +5042,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"cast_time": {
 									"type": "object",
@@ -6033,10 +5055,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"travel_time": {
 									"type": "object",
@@ -6049,10 +5068,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"cpm": {
 									"type": "object",
@@ -6065,10 +5081,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"is_channeling": {
 									"type": "object",
@@ -6081,10 +5094,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"channeled_ticks": {
 									"type": "object",
@@ -6097,10 +5107,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"number_of_charges": {
 									"type": "object",
@@ -6113,10 +5120,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"time_to_next_charge": {
 									"type": "object",
@@ -6129,10 +5133,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"gcd_hasted_duration": {
 									"type": "object",
@@ -6145,10 +5146,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"full_cooldown": {
 									"type": "object",
@@ -6161,10 +5159,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"channel_clip_delay": {
 									"type": "object",
@@ -6177,10 +5172,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"input_delay": {
 									"type": "object",
@@ -6193,10 +5185,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"spell_in_flight": {
 									"type": "object",
@@ -6209,10 +5198,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_known": {
 									"type": "object",
@@ -6225,10 +5211,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_active": {
 									"type": "object",
@@ -6241,10 +5224,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_active_with_reaction_time": {
 									"type": "object",
@@ -6257,10 +5237,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_inactive": {
 									"type": "object",
@@ -6273,10 +5250,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_inactive_with_reaction_time": {
 									"type": "object",
@@ -6289,10 +5263,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_remaining_time": {
 									"type": "object",
@@ -6305,10 +5276,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_num_stacks": {
 									"type": "object",
@@ -6321,10 +5289,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_should_refresh": {
 									"type": "object",
@@ -6340,11 +5305,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"aura_duration": {
 									"type": "object",
@@ -6360,11 +5321,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"all_item_stat_procs_active": {
 									"type": "object",
@@ -6380,11 +5337,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"any_item_stat_procs_active": {
 									"type": "object",
@@ -6400,11 +5353,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"any_item_stat_procs_available": {
 									"type": "object",
@@ -6417,10 +5366,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"item_procs_min_remaining_time": {
 									"type": "object",
@@ -6433,10 +5379,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"item_procs_max_remaining_icd": {
 									"type": "object",
@@ -6449,10 +5392,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"num_equipped_stat_proc_items": {
 									"type": "object",
@@ -6465,10 +5405,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"num_stat_buff_cooldowns": {
 									"type": "object",
@@ -6484,11 +5421,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"any_stat_buff_cooldowns_active": {
 									"type": "object",
@@ -6504,11 +5437,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"any_stat_buff_cooldowns_min_duration": {
 									"type": "object",
@@ -6524,11 +5453,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"full_description"
-									]
+									"required": ["label", "tooltip", "full_description"]
 								},
 								"dot_is_active": {
 									"type": "object",
@@ -6541,10 +5466,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dot_is_active_on_all_targets": {
 									"type": "object",
@@ -6557,10 +5479,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dot_remaining_time": {
 									"type": "object",
@@ -6573,10 +5492,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dot_lowest_remaining_time": {
 									"type": "object",
@@ -6589,10 +5505,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dot_tick_frequency": {
 									"type": "object",
@@ -6605,10 +5518,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dot_time_to_next_tick": {
 									"type": "object",
@@ -6621,10 +5531,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dot_percent_increase": {
 									"type": "object",
@@ -6637,10 +5544,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"sequence_is_complete": {
 									"type": "object",
@@ -6653,10 +5557,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"sequence_is_ready": {
 									"type": "object",
@@ -6669,10 +5570,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"sequence_time_to_ready": {
 									"type": "object",
@@ -6685,10 +5583,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"totem_remaining_time": {
 									"type": "object",
@@ -6701,10 +5596,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"warlock_assigned_curse_is_active": {
 									"type": "object",
@@ -6717,10 +5609,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"warlock_is_assigned_curse": {
 									"type": "object",
@@ -6733,10 +5622,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"protection_paladin_damage_taken_last_global": {
 									"type": "object",
@@ -6749,10 +5635,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_remaining_icd": {
 									"type": "object",
@@ -6765,10 +5648,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_icd_is_ready": {
 									"type": "object",
@@ -6781,10 +5661,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"aura_icd_is_ready_with_reaction_time": {
 									"type": "object",
@@ -6797,10 +5674,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"overlap": {
 									"type": "object",
@@ -6813,10 +5687,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"multiple_cd_usages": {
 									"type": "object",
@@ -6869,10 +5740,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"selected_conjured": {
 									"type": "object",
@@ -6885,10 +5753,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"offset": {
 									"type": "object",
@@ -6901,10 +5766,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								}
 							},
 							"additionalProperties": false,
@@ -7089,13 +5951,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"e20",
-								"e25",
-								"e35",
-								"e45",
-								"e90"
-							]
+							"required": ["e20", "e25", "e35", "e45", "e90"]
 						},
 						"totem_types": {
 							"type": "object",
@@ -7114,12 +5970,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"earth",
-								"air",
-								"fire",
-								"water"
-							]
+							"required": ["earth", "air", "fire", "water"]
 						},
 						"curse_types": {
 							"type": "object",
@@ -7138,12 +5989,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"agony",
-								"doom",
-								"elements",
-								"recklessness"
-							]
+							"required": ["agony", "doom", "elements", "recklessness"]
 						},
 						"submenus": {
 							"type": "object",
@@ -7292,10 +6138,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"main",
-								"swapped"
-							]
+							"required": ["main", "swapped"]
 						},
 						"helpers": {
 							"type": "object",
@@ -7426,11 +6269,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"lunar",
-										"solar",
-										"neutral"
-									]
+									"required": ["lunar", "solar", "neutral"]
 								},
 								"rotation_types": {
 									"type": "object",
@@ -7443,10 +6282,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"single_target",
-										"aoe"
-									]
+									"required": ["single_target", "aoe"]
 								},
 								"hotw_strategies": {
 									"type": "object",
@@ -7462,11 +6298,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"caster",
-										"cat",
-										"hybrid"
-									]
+									"required": ["caster", "cat", "hybrid"]
 								},
 								"unit_labels": {
 									"type": "object",
@@ -7494,15 +6326,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"self",
-										"current_target",
-										"previous_target",
-										"next_target",
-										"player",
-										"target",
-										"pet"
-									]
+									"required": ["self", "current_target", "previous_target", "next_target", "player", "target", "pet"]
 								},
 								"placeholder_tooltip": {
 									"type": "string"
@@ -7533,11 +6357,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"enable_action",
-										"disable_action",
-										"enable_disable"
-									]
+									"required": ["enable_action", "disable_action", "enable_disable"]
 								}
 							},
 							"additionalProperties": false,
@@ -7588,9 +6408,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"description"
-					]
+					"required": ["description"]
 				},
 				"simple": {
 					"type": "object",
@@ -7600,9 +6418,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title"
-					]
+					"required": ["title"]
 				},
 				"cooldowns": {
 					"type": "object",
@@ -7621,12 +6437,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"tooltip",
-						"delete_tooltip",
-						"timings_placeholder"
-					]
+					"required": ["title", "tooltip", "delete_tooltip", "timings_placeholder"]
 				},
 				"saved_rotations": {
 					"type": "object",
@@ -7654,10 +6465,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"confirm",
-								"tooltip"
-							]
+							"required": ["confirm", "tooltip"]
 						},
 						"alerts": {
 							"type": "object",
@@ -7670,21 +6478,11 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"choose_name",
-								"name_exists"
-							]
+							"required": ["choose_name", "name_exists"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"label",
-						"name_label",
-						"save_button",
-						"delete",
-						"alerts"
-					]
+					"required": ["title", "label", "name_label", "save_button", "delete", "alerts"]
 				},
 				"options": {
 					"type": "object",
@@ -7718,19 +6516,11 @@
 														}
 													},
 													"additionalProperties": false,
-													"required": [
-														"rip",
-														"bite",
-														"none"
-													]
+													"required": ["rip", "bite", "none"]
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip",
-												"values"
-											]
+											"required": ["label", "tooltip", "values"]
 										},
 										"biteweave": {
 											"type": "object",
@@ -7743,10 +6533,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"ripweave": {
 											"type": "object",
@@ -7759,10 +6546,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"rip_min_combo_points": {
 											"type": "object",
@@ -7775,10 +6559,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"bite_min_combo_points": {
 											"type": "object",
@@ -7791,10 +6572,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"mangle_trick": {
 											"type": "object",
@@ -7807,10 +6585,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"rake_trick": {
 											"type": "object",
@@ -7823,10 +6598,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"maintain_faerie_fire": {
 											"type": "object",
@@ -7839,10 +6611,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
@@ -7871,10 +6640,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"swipe_usage": {
 											"type": "object",
@@ -7899,19 +6665,11 @@
 														}
 													},
 													"additionalProperties": false,
-													"required": [
-														"never",
-														"with_enough_ap",
-														"spam"
-													]
+													"required": ["never", "with_enough_ap", "spam"]
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip",
-												"values"
-											]
+											"required": ["label", "tooltip", "values"]
 										},
 										"swipe_ap_threshold": {
 											"type": "object",
@@ -7924,10 +6682,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"maintain_demo_roar": {
 											"type": "object",
@@ -7940,10 +6695,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"maintain_faerie_fire": {
 											"type": "object",
@@ -7956,27 +6708,15 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"maul_rage_threshold",
-										"swipe_usage",
-										"swipe_ap_threshold",
-										"maintain_demo_roar",
-										"maintain_faerie_fire"
-									]
+									"required": ["maul_rage_threshold", "swipe_usage", "swipe_ap_threshold", "maintain_demo_roar", "maintain_faerie_fire"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"feral_cat",
-								"feral_bear"
-							]
+							"required": ["feral_cat", "feral_bear"]
 						},
 						"rogue": {
 							"type": "object",
@@ -7992,10 +6732,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"subtlety": {
 									"type": "object",
@@ -8011,23 +6748,15 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"honor_of_thieves_crit_rate"
-									]
+									"required": ["honor_of_thieves_crit_rate"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"apply_poisons_manually",
-								"subtlety"
-							]
+							"required": ["apply_poisons_manually", "subtlety"]
 						},
 						"shaman": {
 							"type": "object",
@@ -8051,22 +6780,15 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"exhale_window"
-									]
+									"required": ["exhale_window"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"affliction"
-							]
+							"required": ["affliction"]
 						},
 						"hunter": {
 							"type": "object",
@@ -8094,19 +6816,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"none",
-												"serpent_sting",
-												"scorpid_sting"
-											]
+											"required": ["none", "serpent_sting", "scorpid_sting"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip",
-										"values"
-									]
+									"required": ["label", "tooltip", "values"]
 								},
 								"melee_weave": {
 									"type": "object",
@@ -8119,10 +6833,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"time_to_weave": {
 									"type": "object",
@@ -8135,10 +6846,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"use_multi": {
 									"type": "object",
@@ -8151,10 +6859,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"use_arcane": {
 									"type": "object",
@@ -8167,10 +6872,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"viper_start_mana_percent": {
 									"type": "object",
@@ -8183,10 +6885,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"viper_stop_mana_percent": {
 									"type": "object",
@@ -8199,10 +6898,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								}
 							},
 							"additionalProperties": false,
@@ -8236,12 +6932,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"none",
-										"help",
-										"maintain"
-									]
+									"required": ["label", "none", "help", "maintain"]
 								},
 								"bloodlust_timing": {
 									"type": "object",
@@ -8254,10 +6945,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dps": {
 									"type": "object",
@@ -8276,11 +6964,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"fury",
-												"arms"
-											]
+											"required": ["label", "fury", "arms"]
 										},
 										"use_recklessness": {
 											"type": "object",
@@ -8290,9 +6974,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label"
-											]
+											"required": ["label"]
 										},
 										"use_overpower": {
 											"type": "object",
@@ -8302,49 +6984,23 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label"
-											]
+											"required": ["label"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"spec",
-										"use_recklessness",
-										"use_overpower"
-									]
+									"required": ["spec", "use_recklessness", "use_overpower"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"sunder_armor",
-								"bloodlust_timing",
-								"dps"
-							]
+							"required": ["sunder_armor", "bloodlust_timing", "dps"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"druid",
-						"rogue",
-						"shaman",
-						"warlock",
-						"hunter",
-						"warrior"
-					]
+					"required": ["druid", "rogue", "shaman", "warlock", "hunter", "warrior"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"title",
-				"common",
-				"apl",
-				"auto",
-				"simple",
-				"cooldowns",
-				"saved_rotations",
-				"options"
-			]
+			"required": ["title", "common", "apl", "auto", "simple", "cooldowns", "saved_rotations", "options"]
 		},
 		"results_tab": {
 			"type": "object",
@@ -8381,9 +7037,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"dps_histogram"
-							]
+							"required": ["dps_histogram"]
 						},
 						"timeline": {
 							"type": "object",
@@ -8408,11 +7062,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"rotation",
-										"dps",
-										"threat"
-									]
+									"required": ["rotation", "dps", "threat"]
 								},
 								"show_gcd": {
 									"type": "string"
@@ -8449,16 +7099,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"time_axis",
-										"waiting_for_data",
-										"reset",
-										"zoom_in",
-										"zoom_out",
-										"pan_left",
-										"pan_right",
-										"chart_label"
-									]
+									"required": ["time_axis", "waiting_for_data", "reset", "zoom_in", "zoom_out", "pan_left", "pan_right", "chart_label"]
 								},
 								"tooltips": {
 									"type": "object",
@@ -8492,17 +7133,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"dps",
-										"dtps",
-										"amount",
-										"player_damage",
-										"player_damage_taken",
-										"before",
-										"after",
-										"threat",
-										"active_auras"
-									]
+									"required": ["dps", "dtps", "amount", "player_damage", "player_damage_taken", "before", "after", "threat", "active_auras"]
 								},
 								"floatingActionBar": {
 									"type": "object",
@@ -8521,24 +7152,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"allShown",
-										"hidden",
-										"showAll",
-										"toggle"
-									]
+									"required": ["allShown", "hidden", "showAll", "toggle"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"disclaimer",
-								"note",
-								"chart_types",
-								"show_gcd",
-								"chart_options",
-								"tooltips",
-								"floatingActionBar"
-							]
+							"required": ["disclaimer", "note", "chart_types", "show_gcd", "chart_options", "tooltips", "floatingActionBar"]
 						},
 						"logs": {
 							"type": "object",
@@ -8584,12 +7202,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"toggle",
-										"none",
-										"active",
-										"clear"
-									]
+									"required": ["toggle", "none", "active", "clear"]
 								},
 								"no_matches": {
 									"type": "string"
@@ -8643,18 +7256,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"damage",
-								"healing",
-								"threat",
-								"damage_taken",
-								"buffs",
-								"debuffs",
-								"casts",
-								"resources",
-								"timeline",
-								"log"
-							]
+							"required": ["damage", "healing", "threat", "damage_taken", "buffs", "debuffs", "casts", "resources", "timeline", "log"]
 						},
 						"columns": {
 							"type": "object",
@@ -9023,14 +7625,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"type",
-								"count",
-								"average",
-								"amount",
-								"per_cast",
-								"per_hit"
-							]
+							"required": ["type", "count", "average", "amount", "per_cast", "per_hit"]
 						}
 					},
 					"additionalProperties": false,
@@ -9053,10 +7648,7 @@
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"title",
-				"details"
-			]
+			"required": ["title", "details"]
 		},
 		"import": {
 			"type": "object",
@@ -9087,14 +7679,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"instructions",
-						"upload_button",
-						"import_button",
-						"error_invalid_json"
-					]
+					"required": ["title", "description", "instructions", "upload_button", "import_button", "error_invalid_json"]
 				},
 				"wowhead": {
 					"type": "object",
@@ -9170,24 +7755,11 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"addon_link",
-						"feature_description",
-						"instructions",
-						"upload_button",
-						"import_button"
-					]
+					"required": ["title", "description", "addon_link", "feature_description", "instructions", "upload_button", "import_button"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"title",
-				"json",
-				"wowhead",
-				"addon"
-			]
+			"required": ["title", "json", "wowhead", "addon"]
 		},
 		"export": {
 			"type": "object",
@@ -9215,13 +7787,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"instructions",
-						"copy_button",
-						"copy_tooltip"
-					]
+					"required": ["title", "description", "instructions", "copy_button", "copy_tooltip"]
 				},
 				"json": {
 					"type": "object",
@@ -9246,14 +7812,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"instructions",
-						"copy_button",
-						"copy_tooltip",
-						"download_button"
-					]
+					"required": ["title", "description", "instructions", "copy_button", "copy_tooltip", "download_button"]
 				},
 				"wowhead": {
 					"type": "object",
@@ -9275,13 +7834,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"instructions",
-						"copy_button",
-						"copy_tooltip"
-					]
+					"required": ["title", "description", "instructions", "copy_button", "copy_tooltip"]
 				},
 				"pawn_ep": {
 					"type": "object",
@@ -9303,13 +7856,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"instructions",
-						"copy_button",
-						"copy_tooltip"
-					]
+					"required": ["title", "description", "instructions", "copy_button", "copy_tooltip"]
 				},
 				"cli": {
 					"type": "object",
@@ -9331,13 +7878,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"description",
-						"instructions",
-						"copy_button",
-						"copy_tooltip"
-					]
+					"required": ["title", "description", "instructions", "copy_button", "copy_tooltip"]
 				},
 				"categories": {
 					"type": "object",
@@ -9353,10 +7894,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"talents": {
 							"type": "object",
@@ -9369,10 +7907,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"rotation": {
 							"type": "object",
@@ -9385,10 +7920,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"consumes": {
 							"type": "object",
@@ -9401,10 +7933,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"external": {
 							"type": "object",
@@ -9417,10 +7946,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"miscellaneous": {
 							"type": "object",
@@ -9433,10 +7959,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"encounter": {
 							"type": "object",
@@ -9449,34 +7972,15 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"gear",
-						"talents",
-						"rotation",
-						"consumes",
-						"external",
-						"miscellaneous",
-						"encounter"
-					]
+					"required": ["gear", "talents", "rotation", "consumes", "external", "miscellaneous", "encounter"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"title",
-				"link",
-				"json",
-				"wowhead",
-				"pawn_ep",
-				"cli",
-				"categories"
-			]
+			"required": ["title", "link", "json", "wowhead", "pawn_ep", "cli", "categories"]
 		},
 		"info": {
 			"type": "object",
@@ -9513,11 +8017,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"unlaunched",
-						"alpha",
-						"beta"
-					]
+					"required": ["unlaunched", "alpha", "beta"]
 				},
 				"options": {
 					"type": "object",
@@ -9539,11 +8039,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip",
-								"last_used"
-							]
+							"required": ["label", "tooltip", "last_used"]
 						},
 						"language": {
 							"type": "object",
@@ -9556,10 +8052,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label",
-								"tooltip"
-							]
+							"required": ["label", "tooltip"]
 						},
 						"feature_toggles": {
 							"type": "object",
@@ -9575,11 +8068,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"show_threat_metrics",
-								"show_experimental",
-								"show_quick_swap"
-							]
+							"required": ["show_threat_metrics", "show_experimental", "show_quick_swap"]
 						},
 						"use_multiple_cpu_cores": {
 							"type": "object",
@@ -9589,9 +8078,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"label"
-							]
+							"required": ["label"]
 						},
 						"restore_defaults": {
 							"type": "object",
@@ -9607,35 +8094,15 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"button",
-								"tooltip",
-								"success_message"
-							]
+							"required": ["button", "tooltip", "success_message"]
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"fixed_rng_seed",
-						"language",
-						"feature_toggles",
-						"use_multiple_cpu_cores",
-						"restore_defaults"
-					]
+					"required": ["title", "fixed_rng_seed", "language", "feature_toggles", "use_multiple_cpu_cores", "restore_defaults"]
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"known_issues",
-				"bug_report",
-				"sim_options",
-				"discord",
-				"patreon",
-				"github",
-				"status",
-				"options"
-			]
+			"required": ["known_issues", "bug_report", "sim_options", "discord", "patreon", "github", "status", "options"]
 		},
 		"sidebar": {
 			"type": "object",
@@ -9666,14 +8133,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"meta_gem_disabled",
-						"profession_requirement",
-						"too_many_jc_gems",
-						"unspent_talent_points",
-						"custom_ep_not_enabled",
-						"label"
-					]
+					"required": ["meta_gem_disabled", "profession_requirement", "too_many_jc_gems", "unspent_talent_points", "custom_ep_not_enabled", "label"]
 				},
 				"buttons": {
 					"type": "object",
@@ -9752,10 +8212,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"dps_ep": {
 											"type": "object",
@@ -9768,10 +8225,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"hps_weight": {
 											"type": "object",
@@ -9784,10 +8238,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"hps_ep": {
 											"type": "object",
@@ -9800,10 +8251,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"tps_weight": {
 											"type": "object",
@@ -9816,10 +8264,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"tps_ep": {
 											"type": "object",
@@ -9832,10 +8277,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"dtps_weight": {
 											"type": "object",
@@ -9848,10 +8290,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"dtps_ep": {
 											"type": "object",
@@ -9864,10 +8303,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"tmi_weight": {
 											"type": "object",
@@ -9880,10 +8316,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"tmi_ep": {
 											"type": "object",
@@ -9896,10 +8329,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"death_weight": {
 											"type": "object",
@@ -9912,10 +8342,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"death_ep": {
 											"type": "object",
@@ -9928,10 +8355,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"current_ep": {
 											"type": "object",
@@ -9944,10 +8368,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"label",
-												"tooltip"
-											]
+											"required": ["label", "tooltip"]
 										},
 										"not_applicable": {
 											"type": "string"
@@ -9969,12 +8390,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"stat",
-												"update",
-												"ep_ratio",
-												"update_ep_button"
-											]
+											"required": ["stat", "update", "ep_ratio", "update_ep_button"]
 										},
 										"tooltips": {
 											"type": "object",
@@ -9993,12 +8409,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"normalized_by",
-												"copy_to_current_ep",
-												"restore_default_ep",
-												"compute_weighted_ep"
-											]
+											"required": ["normalized_by", "copy_to_current_ep", "restore_default_ep", "compute_weighted_ep"]
 										},
 										"progress": {
 											"type": "object",
@@ -10011,10 +8422,7 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"simulations_complete",
-												"iterations_complete"
-											]
+											"required": ["simulations_complete", "iterations_complete"]
 										}
 									},
 									"additionalProperties": false,
@@ -10063,17 +8471,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"title"
-									]
+									"required": ["title"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"title",
-								"modal",
-								"saved_ep_weights"
-							]
+							"required": ["title", "modal", "saved_ep_weights"]
 						},
 						"suggest_reforges": {
 							"type": "object",
@@ -10193,11 +8595,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"simulate",
-						"stat_weights",
-						"suggest_reforges"
-					]
+					"required": ["simulate", "stat_weights", "suggest_reforges"]
 				},
 				"header": {
 					"type": "object",
@@ -10210,10 +8608,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"title",
-						"phase"
-					]
+					"required": ["title", "phase"]
 				},
 				"results": {
 					"type": "object",
@@ -10229,10 +8624,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"presim_running",
-								"iterations_complete"
-							]
+							"required": ["presim_running", "iterations_complete"]
 						},
 						"reference": {
 							"type": "object",
@@ -10260,15 +8652,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"save_as_reference",
-								"use_as_reference",
-								"swap",
-								"swap_reference_with_current",
-								"cancel",
-								"remove_reference",
-								"vs_ref"
-							]
+							"required": ["save_as_reference", "use_as_reference", "swap", "swap_reference_with_current", "cancel", "remove_reference", "vs_ref"]
 						},
 						"metrics": {
 							"type": "object",
@@ -10284,10 +8668,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"hps": {
 									"type": "object",
@@ -10300,10 +8681,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"tps": {
 									"type": "object",
@@ -10316,10 +8694,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dtps": {
 									"type": "object",
@@ -10332,10 +8707,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"tmi": {
 									"type": "object",
@@ -10357,18 +8729,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"title",
-												"description",
-												"note"
-											]
+											"required": ["title", "description", "note"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"cod": {
 									"type": "object",
@@ -10390,18 +8755,11 @@
 												}
 											},
 											"additionalProperties": false,
-											"required": [
-												"title",
-												"description",
-												"note"
-											]
+											"required": ["title", "description", "note"]
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"dur": {
 									"type": "object",
@@ -10414,10 +8772,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"tto": {
 									"type": "object",
@@ -10430,10 +8785,7 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								},
 								"oom": {
 									"type": "object",
@@ -10446,24 +8798,11 @@
 										}
 									},
 									"additionalProperties": false,
-									"required": [
-										"label",
-										"tooltip"
-									]
+									"required": ["label", "tooltip"]
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"dps",
-								"hps",
-								"tps",
-								"dtps",
-								"tmi",
-								"cod",
-								"dur",
-								"tto",
-								"oom"
-							]
+							"required": ["dps", "hps", "tps", "dtps", "tmi", "cod", "dur", "tto", "oom"]
 						},
 						"stop": {
 							"type": "string"
@@ -10473,13 +8812,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": [
-						"progress",
-						"reference",
-						"metrics",
-						"stop",
-						"stopping"
-					]
+					"required": ["progress", "reference", "metrics", "stop", "stopping"]
 				},
 				"character_stats": {
 					"type": "object",
@@ -10588,15 +8921,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"glancing",
-								"suppression",
-								"to_hit_cap",
-								"to_exp_cap",
-								"spec_offsets",
-								"final_crit_cap",
-								"can_raise_by"
-							]
+							"required": ["glancing", "suppression", "to_hit_cap", "to_exp_cap", "spec_offsets", "final_crit_cap", "can_raise_by"]
 						},
 						"crit_cap": {
 							"type": "object",
@@ -10612,11 +8937,7 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": [
-								"exact",
-								"over_by",
-								"under_by"
-							]
+							"required": ["exact", "over_by", "under_by"]
 						},
 						"tank_caps": {
 							"type": "object",
@@ -10699,14 +9020,7 @@
 				}
 			},
 			"additionalProperties": false,
-			"required": [
-				"iterations",
-				"warnings",
-				"buttons",
-				"header",
-				"results",
-				"character_stats"
-			]
+			"required": ["iterations", "warnings", "buttons", "header", "results", "character_stats"]
 		}
 	},
 	"additionalProperties": false,

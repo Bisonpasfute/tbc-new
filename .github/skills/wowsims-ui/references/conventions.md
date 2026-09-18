@@ -140,11 +140,11 @@ whole change.
 
 ## Decisions already made — do not re-litigate without new evidence
 
-| Decision                                                     | Why                                                                                                                  |
-| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| Decision                                                     | Why                                                                                                                                                                                           |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `import/no-cycle` is off                                     | rejected on the source port's equivalent tree at 188 warnings; 63 here (46 `ui/sim`, 17 `ui/features`) — still a triage project, see `references/layers.md`. Cycles are caught by the harness |
-| Aliases are `tsconfig` `paths`, not `package.json` `imports` | `tsc` under `moduleResolution: "bundler"` does not resolve `#foo/*`        |
-| Only `ui/app` may `createRoot`                               | lint-banned in ui-kit and features; createRoot-per-leaf was rejected       |
-| `sections` is the only custom-section shape                  | one renderer, not two; `customSections` was deprecated, then deleted       |
-| The move tool is gone                                        | move by hand and re-sort imports (see `layers.md`)                         |
-| `oxfmt`, not prettier                                        | prettier is not a dependency; do not add a second formatter for `ui/`      |
+| Aliases are `tsconfig` `paths`, not `package.json` `imports` | `tsc` under `moduleResolution: "bundler"` does not resolve `#foo/*`                                                                                                                           |
+| Only `ui/app` may `createRoot`                               | lint-banned in ui-kit and features; createRoot-per-leaf was rejected                                                                                                                          |
+| `sections` is the only custom-section shape                  | one renderer, not two; `customSections` was deprecated, then deleted                                                                                                                          |
+| The move tool is gone                                        | move by hand and re-sort imports (see `layers.md`)                                                                                                                                            |
+| `oxfmt`, not prettier                                        | prettier is not a dependency; do not add a second formatter for `ui/`                                                                                                                         |
