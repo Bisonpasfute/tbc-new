@@ -185,7 +185,7 @@ describe('IconPicker', () => {
 		expect(improved2.hasAttribute('data-active')).toBe(false);
 	});
 
-	it('hides an improved anchor until its own icon resolves', () => {
+	it('hides an improved anchor until its own icon resolves', async () => {
 		const settings = new Settings(2);
 		// Unfilled: `fill()` is mocked to return the same empty id, so its icon never arrives.
 		const unresolved = ActionId.fromSpellId(2);
@@ -193,6 +193,11 @@ describe('IconPicker', () => {
 		const [, improved1, improved2] = allAnchors();
 		expect(improved1.hidden).toBe(true);
 		expect(improved2.hidden).toBe(false);
+
+		// `fill()` still resolves, a microtask later and with nothing new. Draining it inside act is
+		// what keeps that settle from landing as an unwrapped update, and it stays hidden either way.
+		await act(async () => {});
+		expect(improved1.hidden).toBe(true);
 	});
 
 	it('stores the value and zeroes the source when showWhen goes false, and restores it when true again', () => {

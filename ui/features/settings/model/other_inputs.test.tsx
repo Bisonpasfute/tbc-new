@@ -1,6 +1,6 @@
 import { SimHostProvider } from '@sim/context/SimHostContext';
 import { fakeHost } from '@sim/testing';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { NumberPicker } from '@ui-kit/NumberPicker';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -40,9 +40,12 @@ const mount = () => {
 
 const input = () => screen.getByRole('textbox') as HTMLInputElement;
 
+// A real `change` Event, not `fireEvent`, because the picker reads the native value the user
+// typed — and going around `fireEvent` goes around act too. The commit notifies the source, which
+// re-renders the picker, so the dispatch is wrapped rather than the assertions that follow it.
 const commit = (text: string) => {
 	input().value = text;
-	input().dispatchEvent(new Event('change', { bubbles: true }));
+	act(() => void input().dispatchEvent(new Event('change', { bubbles: true })));
 };
 
 beforeEach(() => {

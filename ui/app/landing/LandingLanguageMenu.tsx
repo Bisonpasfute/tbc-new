@@ -29,6 +29,7 @@ export const LandingLanguageMenu = () => {
 					<li key={code} role="none">
 						<BaseMenu.Item
 							render={<button type="button" />}
+							nativeButton
 							className="clear-both block w-full rounded-none border-0 bg-transparent text-start font-normal whitespace-nowrap text-white no-underline"
 							data-active={code === currentLang ? '' : undefined}
 							data-lang={code}
