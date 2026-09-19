@@ -195,6 +195,16 @@ type SpellDataEffect struct {
 	ValueMax float64
 }
 
+// The high end of the effect, which is Value wherever the two agree - ValueMax is only stored where
+// they differ. Seal of the Crusader rank 4's base is a whole number, so it has no ValueMax and its
+// answer is Value; every other rank has both.
+func (e SpellDataEffect) High() float64 {
+	if e.ValueMax != 0 {
+		return e.ValueMax
+	}
+	return e.Value
+}
+
 // Panics when no effect matches, and when two do - 186 ranked spells carry a duplicate aura/misc
 // pair. Index into Effects where the pair cannot tell them apart.
 func (r SpellData) Effect(aura SpellDataAura, misc int32) SpellDataEffect {
