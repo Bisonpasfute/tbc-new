@@ -340,7 +340,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestShadowPriest-AllItems-Coren'sLuckyCoin-38289"
+ key: "TestShadowPriest-AllItems-Coren'sLuckyCoin-281743"
  value: {
   dps: 1705.47439
   tps: 882.03863
@@ -375,10 +375,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestShadowPriest-AllItems-DarkIronSmokingPipe-38290"
+ key: "TestShadowPriest-AllItems-DarkIronSmokingPipe-281735"
  value: {
-  dps: 1761.31682
-  tps: 909.87189
+  dps: 1781.45966
+  tps: 919.88993
  }
 }
 dps_results: {
@@ -403,10 +403,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestShadowPriest-AllItems-DirebrewHops-38288"
+ key: "TestShadowPriest-AllItems-DirebrewHops-281748"
  value: {
-  dps: 1741.50294
-  tps: 899.98892
+  dps: 1753.80651
+  tps: 906.1249
  }
 }
 dps_results: {
@@ -466,7 +466,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestShadowPriest-AllItems-EmptyMugofDirebrew-38287"
+ key: "TestShadowPriest-AllItems-EmptyMugofDirebrew-281739"
  value: {
   dps: 1705.47439
   tps: 882.03863

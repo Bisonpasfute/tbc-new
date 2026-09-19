@@ -449,7 +449,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralCat-AllItems-Coren'sLuckyCoin-38289"
+ key: "TestFeralCat-AllItems-Coren'sLuckyCoin-281743"
  value: {
   dps: 2485.91021
   tps: 1265.64077
@@ -494,7 +494,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralCat-AllItems-DarkIronSmokingPipe-38290"
+ key: "TestFeralCat-AllItems-DarkIronSmokingPipe-281735"
  value: {
   dps: 2485.91021
   tps: 1265.64077
@@ -530,7 +530,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralCat-AllItems-DirebrewHops-38288"
+ key: "TestFeralCat-AllItems-DirebrewHops-281748"
  value: {
   dps: 2485.91021
   tps: 1265.64077
@@ -611,10 +611,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralCat-AllItems-EmptyMugofDirebrew-38287"
+ key: "TestFeralCat-AllItems-EmptyMugofDirebrew-281739"
  value: {
-  dps: 2533.32685
-  tps: 1289.20684
+  dps: 2550.25792
+  tps: 1297.62158
   dtps: 10.57974
   hps: 69.70382
  }
