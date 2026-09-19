@@ -56,13 +56,9 @@ func sealOf(seals, judges shared.SpellDataTable, rank int32, p proc) seal {
 	})
 }
 
-// For the three families whose judgement damage has to be supplied by hand: Light and Wisdom state
-// nothing the tables can reach, and Justice deals none.
-//
-// A seal is three spells for one rank - the aura, the proc it triggers and the judgement - so it
-// keeps its own row rather than becoming a SpellData. The proc is always passed in, because no
-// family has its coefficient in the client. The judgement's spell ID always comes from the table,
-// including Seal of Righteousness, whose seal effect 1 names it: 21084 states 20186+1 = 20187.
+// For the three families whose judgement damage has to be supplied. A seal is three spells for one
+// rank, so it keeps its own row rather than becoming a SpellData. The proc always comes in by hand -
+// no family has its coefficient in the client.
 func sealWithJudgement(seals, judges shared.SpellDataTable, rank int32, p proc, j judge) seal {
 	s := seals.ByRank(rank)
 	j.spellID = judges.ByRank(rank).SpellID
@@ -86,20 +82,9 @@ var SealOfRighteousnessRanks = sealRankMap{
 }
 
 var SealOfLightRanks = sealRankMap{
-	// Judgement of Light and Wisdom state nothing themselves - each is a lone proc-trigger debuff
-	// pointing at a spell this build does not extract. The heal and the mana are on a same-name,
-	// same-rank spell the client never grants, and they derive exactly: 25/34/49/61/95 here and
-	// 33/46/59/74 for Wisdom, checked against all nine by hand.
-	//
-	// They stay literal because no generic rule reaches them safely. Searching siblings by skill line
-	// puts Blizzard's tick damage on the channel; allowing any ungranted same-name spell gives warrior
-	// Enrage and hunter Fire Resistance a Direct off creature abilities; adding a spell-class guard
-	// drops Wisdom, whose hidden half has no SpellClassOptions row where Light's has one, and still
-	// files priest Inspiration's armour percentage as Direct. Three shapes, three different wrong
-	// answers, for nine numbers that are right here.
-	//
-	// The proc values are exact too, against proc spells that carry no rank subtext and so are in no
-	// table.
+	// These derive - the heal is on a same-name spell the client never grants, 20185 to 20267 - but
+	// every rule that reaches it also breaks something: by skill line puts Blizzard's tick damage on
+	// the channel, by ungranted name gives warrior Enrage a Direct off a creature ability.
 	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 1, proc{spellID: 20167, value: 39, coeff: 0.0}, judge{minDamage: 25, maxDamage: 25, coeff: 0.0}),
 	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 2, proc{spellID: 20333, value: 53, coeff: 0.0}, judge{minDamage: 34, maxDamage: 34, coeff: 0.0}),
 	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 3, proc{spellID: 20334, value: 76, coeff: 0.0}, judge{minDamage: 49, maxDamage: 49, coeff: 0.0}),
@@ -134,12 +119,8 @@ var SealOfTheCrusaderRanks = sealRankMap{
 }
 
 var SealOfCommandRanks = sealRankMap{
-	// The proc share and its coefficient both stay literal: the 70 lives on the proc spell 20424,
-	// which carries no rank subtext and so is in no table, and the coefficient is community-derived
-	// and in no column at all.
-	//
-	// The judgement damage is the client's full number. Judgement of Command deals half of it unless
-	// the target is stunned, and registerSealOfCommandRank halves it there rather than here.
+	// The 70 lives on proc spell 20424, which has no rank subtext and so is in no table. The
+	// judgement damage is the client's full number; registerSealOfCommandRank halves it.
 	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 1, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
 	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 2, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
 	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 3, proc{spellID: 20424, value: 0.70, coeff: 0.29}),

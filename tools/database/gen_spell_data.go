@@ -246,10 +246,8 @@ func claimedByClass(byRank map[int32][]rankCandidate, mask int, exclusive map[in
 // skill line and class set, differing only by ClassMask 0. So the class bit wins where it exists, and
 // a ClassMask-0 candidate is taken only when no real one was found - that is how Holy Shield 1-3
 // resolve.
-// Two spells with the same name, the same rank and the same effect shape, which no rule can separate
-// and none should try to: Seal of Righteousness rank 1 is 20154 and 21084, both 20 mana, and the sim
-// has always registered 21084. Named here so the choice is a decision on the record rather than a
-// tie-break that happens to land the right way.
+// Where no rule can separate two candidates and none should try: Seal of Righteousness rank 1 is
+// 20154 and 21084, same name, rank, effect shape and 20 mana. The sim has always used 21084.
 var ladderPins = map[string]map[int32]int32{
 	"Seal of Righteousness": {1: 21084},
 }

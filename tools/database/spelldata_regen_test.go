@@ -1,19 +1,10 @@
 package database
 
-// Regeneration check for the generated spell data tables.
+// Re-derives the families below from the client database and asserts the committed table agrees, so
+// a hand-edited or stale generated file fails. Covers 23 of 809 families; regenerating and checking
+// the diff is empty is the only check that reaches every row.
 //
-// It re-derives every row of the families below straight from the client database and asserts the
-// committed table says the same thing. It began as a calibration gate, proving the derivation rule
-// against 141 hand-transcribed rows; those rows are gone, so both sides now come from one database
-// and the residual bookkeeping that classified a disagreement went with them.
-//
-// What it still catches: a generated file edited by hand, one left stale after the client data moved,
-// and any change to DeriveRankAmount that moves a number.
-//
-// Run:  go test --tags=with_db ./tools/database/ -run GeneratedRankTables
-//
-// Skips when tools/database/wowsims.db is absent - it is gitignored and only produced by `make db`
-// from a local WoW install, so CI and a fresh clone legitimately have no client data.
+// Skips when tools/database/wowsims.db is absent, which is why CI is unaffected.
 
 import (
 	"database/sql"

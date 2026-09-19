@@ -1,8 +1,7 @@
 // Regenerates sim/<class>/spell_data_auto_gen.go from the client database.
 //
-// Deliberately its own binary rather than a mode of gen_db: gen_db imports the sim, and the sim reads
-// the tables this writes, so a stale or missing generated file would stop the generator that fixes it
-// from compiling. Importing only tools/database keeps regeneration possible from any state.
+// Its own binary, not a mode of gen_db: gen_db imports the sim, so a stale generated file would stop
+// the generator that fixes it from compiling.
 //
 //	go run ./tools/database/gen_spelldata
 package main

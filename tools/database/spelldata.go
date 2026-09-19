@@ -84,12 +84,8 @@ type RankSpell struct {
 	Effects []RankEffect
 }
 
-// SpellCastTimes resolves SpellMisc.CastingTimeIndex and is absent from a database extracted before it
-// was added to generator-settings.json. Only the generator insists on it - the regeneration check
-// compares amounts and coefficients, neither of which needs a cast time.
-//
-// Keyed by handle rather than answered once per process: gen_db already opens two databases, and a
-// single answer would let one of them decide for the other.
+// Absent from a database extracted before SpellCastTimes went into generator-settings.json. Keyed by
+// handle, not once per process: gen_db opens two databases and one must not answer for the other.
 var castTimesByDB sync.Map
 
 func castTimesAvailable(db *sql.DB) bool {

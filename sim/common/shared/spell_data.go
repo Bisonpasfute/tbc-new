@@ -183,12 +183,9 @@ type SpellDataEffect struct {
 	// school mask. It stays an int because there is no one enum to name it with.
 	Misc int32
 
-	// The client's own number, in the client's own units. A percentage is an integer here - Improved
-	// Righteous Fury's threat bonus reads 16, not 0.16 - and the conversion stays at the call site,
-	// because whether a value is a percentage depends on the aura rather than on the field.
-	//
-	// Where the effect rolls - a damage effect with die sides - this is the low end only. Read the
-	// role field for the range: Arcane Blast rank 1 reads 668 here against Direct's 668-772.
+	// The client's own number in the client's own units, so a percentage is an integer: Improved
+	// Righteous Fury reads 16, not 0.16. Where the effect rolls this is the low end - Arcane Blast
+	// rank 1 reads 668 here against Direct's 668-772.
 	Value float64
 
 	// The high end, and zero where the two agree, which is 82% of effects. An aura with one die side
@@ -297,13 +294,9 @@ func (t SpellDataTableOf[T]) RegisterAll(factory func(T)) {
 
 type SpellDataTable = SpellDataTableOf[SpellData]
 
-// Threat is hand-supplied in the same way and for the same reason: the client states a flat threat
-// amount only on the four families whose whole purpose is threat - Feint, Cower, Disengage and
-// Distracting Shot, through E_THREAT - and the generator fills those. Every other threat number in
-// the sim is community-derived and has no column to come from.
-//
-// Both forms return a copy and panic if the table already carries a value, so a threat the client
-// does start stating is noticed rather than silently shadowed.
+// Threat, the same way and for the same reason: the client states one only on the abilities whose
+// point is threat, through E_THREAT, and the generator fills those 22 rows. Both forms return a copy
+// and panic if the table already carries a value.
 func WithSpellDataFlatThreat(table SpellDataTable, threat float64) SpellDataTable {
 	return applyFlatThreat(table, func(SpellData) float64 { return threat })
 }
