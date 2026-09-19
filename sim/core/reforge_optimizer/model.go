@@ -202,8 +202,10 @@ func epRelevantStats(preCapEPs core.UnitStats, settings *proto.ReforgeSettings) 
 
 // gemStatIsAllowed reports whether a gem stat keeps the gem eligible. A stat outside the spec's EP
 // list is tolerated when it is Stamina on a multi-stat gem (or on a tank spec) — so a gem whose
-// second stat is Stamina is kept rather than discarded — or when it is healing power on a spec
-// that values spell damage.
+// second stat is Stamina is kept rather than discarded — or when it is one of the two spell power
+// stats on a spec that values the other: every TBC caster gem carries both healing and spell
+// damage (a +18 healing gem is also +6 spell damage), so a healer that lists only healing power
+// would otherwise have no red, orange or purple gem to choose from.
 func gemStatIsAllowed(stat stats.Stat, statCount int, epStats map[stats.Stat]bool, isTank bool) bool {
 	if epStats[stat] {
 		return true
@@ -212,6 +214,9 @@ func gemStatIsAllowed(stat stats.Stat, statCount int, epStats map[stats.Stat]boo
 		return true
 	}
 	if stat == stats.HealingPower && epStats[stats.SpellDamage] {
+		return true
+	}
+	if stat == stats.SpellDamage && epStats[stats.HealingPower] {
 		return true
 	}
 	return false

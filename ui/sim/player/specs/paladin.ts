@@ -20,7 +20,7 @@ export class HolyPaladin extends PlayerSpec<Spec.SpecHolyPaladin> {
 
 	static launch: SimStatus = {
 		phase: Phase.Phase3,
-		status: LaunchStatus.Unlaunched,
+		status: LaunchStatus.GearPlanner,
 	};
 
 	readonly specIndex = HolyPaladin.specIndex;

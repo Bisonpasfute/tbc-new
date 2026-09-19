@@ -1,15 +1,19 @@
-import * as OtherInputs from '@features/settings/model/other_inputs';
+import * as BuffDebuffInputs from '@features/settings/model/buffs_debuffs';
 import { APLRotation } from '@generated/proto/apl';
-import { PseudoStat, Spec, Stat } from '@generated/proto/common';
+import { Debuffs, PseudoStat, Spec, Stat } from '@generated/proto/common';
 import { PlayerClasses } from '@sim/player/classes';
 import { Player } from '@sim/player/player';
-import { DEFAULT_HYBRID_CASTER_GEM_STATS, UnitStat } from '@sim/proto/stats';
+import { DEFAULT_HEALER_GEM_STATS, UnitStat } from '@sim/proto/stats';
+import { defaultHealerIndividualBuffs, defaultHealerPartyBuffs, defaultHealerRaidBuffs } from '@sim/proto/utils';
 import { defineSpec } from '@sim/spec_config';
 
 import * as Presets from './presets';
 
+// Gear planner only: no healing spells are implemented, so there is no simulation for this spec.
 export default defineSpec<Spec.SpecRestorationDruid>({
 	spec: Spec.SpecRestorationDruid,
+	// Nothing is simulated, so the incoming-healing model stays off.
+	enableHealing: false,
 
 	className: 'restoration-druid-sim-ui',
 	cssScheme: PlayerClasses.getCssScheme(PlayerClasses.Druid),
@@ -17,10 +21,11 @@ export default defineSpec<Spec.SpecRestorationDruid>({
 	knownIssues: [],
 
 	// All stats for which EP should be calculated.
-	epStats: [Stat.StatIntellect, Stat.StatSpirit, Stat.StatSpellDamage, Stat.StatMP5],
-	// Reference stat against which to calculate EP. I think all classes use either spell power or attack power.
-	epReferenceStat: Stat.StatSpellDamage,
+	epStats: [Stat.StatIntellect, Stat.StatSpirit, Stat.StatHealingPower, Stat.StatSpellCritRating, Stat.StatSpellHasteRating, Stat.StatMP5],
+	// Reference stat against which to calculate EP.
+	epReferenceStat: Stat.StatHealingPower,
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
+	// The resistances are there for planning resistance sets, the way the hunter sim shows them.
 	displayStats: UnitStat.createDisplayStatArray(
 		[
 			Stat.StatHealth,
@@ -28,6 +33,7 @@ export default defineSpec<Spec.SpecRestorationDruid>({
 			Stat.StatStamina,
 			Stat.StatIntellect,
 			Stat.StatSpirit,
+			Stat.StatHealingPower,
 			Stat.StatSpellDamage,
 			Stat.StatMP5,
 			Stat.StatArcaneResistance,
@@ -38,39 +44,49 @@ export default defineSpec<Spec.SpecRestorationDruid>({
 		],
 		[PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent],
 	),
-	gemStats: DEFAULT_HYBRID_CASTER_GEM_STATS,
+	gemStats: DEFAULT_HEALER_GEM_STATS,
 
 	defaults: {
 		// Default equipped gear.
 		gear: Presets.P3_PRESET.gear,
 		// Default EP weights for sorting gear in the gear picker.
-		epWeights: Presets.P1_EP_PRESET.epWeights,
+		epWeights: Presets.DEFAULT_EP_PRESET.epWeights,
 		// Default consumes settings.
 		consumables: Presets.DefaultConsumables,
 		// Default talents.
-		talents: Presets.CelestialFocusTalents.data,
+		talents: Presets.TreeOfLifeTalents.data,
 		// Default spec-specific settings.
 		specOptions: Presets.DefaultOptions,
-		// Default raid/party buffs settings.
-		raidBuffs: Presets.DefaultRaidBuffs,
-
-		partyBuffs: Presets.DefaultPartyBuffs,
-
-		individualBuffs: Presets.DefaultIndividualBuffs,
-
-		debuffs: Presets.DefaultDebuffs,
-
 		other: Presets.OtherDefaults,
+		// Default raid/party buffs settings.
+		raidBuffs: defaultHealerRaidBuffs(),
+		partyBuffs: defaultHealerPartyBuffs(),
+		individualBuffs: defaultHealerIndividualBuffs(),
+		debuffs: Debuffs.create({}),
 	},
 
 	// IconInputs to include in the 'Player' section on the settings tab.
 	playerIconInputs: [],
 	// Buff and Debuff inputs to include/exclude, overriding the EP-based defaults.
-	includeBuffDebuffInputs: [],
-	excludeBuffDebuffInputs: [],
+	// Stamina is not an EP stat for healers, but the buff still belongs in the stats panel.
+	includeBuffDebuffInputs: [BuffDebuffInputs.PowerWordFortitude],
+	// Nothing is simulated, so buffs that only matter inside an encounter (damage, cooldowns,
+	// mana returns over a fight) would only mislead.
+	excludeBuffDebuffInputs: [
+		BuffDebuffInputs.Bloodlust,
+		BuffDebuffInputs.Thorns,
+		BuffDebuffInputs.BlessingOfSanctuary,
+		BuffDebuffInputs.Innervate,
+		BuffDebuffInputs.PowerInfusion,
+		BuffDebuffInputs.FerociousInspiration,
+		BuffDebuffInputs.ManaTideTotem,
+		BuffDebuffInputs.ShadowPriestDPS,
+		BuffDebuffInputs.SanctityAura,
+		BuffDebuffInputs.DrumsBuff,
+	],
 	// Inputs to include in the 'Other' section on the settings tab.
 	otherInputs: {
-		inputs: [OtherInputs.InputDelay, OtherInputs.TankAssignment],
+		inputs: [],
 	},
 	encounterPicker: {
 		// Whether to include 'Execute Duration (%)' in the 'Encounter' section of the settings tab.
@@ -78,15 +94,19 @@ export default defineSpec<Spec.SpecRestorationDruid>({
 	},
 
 	presets: {
-		epWeights: [Presets.P1_EP_PRESET],
+		epWeights: [Presets.DEFAULT_EP_PRESET],
 		// Preset talents that the user can quickly select.
-		talents: [Presets.CelestialFocusTalents, Presets.ThiccRestoTalents],
+		talents: [Presets.TreeOfLifeTalents, Presets.DreamstateTalents],
+		// Preset rotations that the user can quickly select.
 		rotations: [],
 		// Preset gear configurations that the user can quickly select.
-		gear: [Presets.PRERAID_PRESET, Presets.P1_PRESET, Presets.P2_PRESET, Presets.P3_PRESET, Presets.P4_PRESET],
+		gear: [Presets.PRERAID_PRESET, Presets.P3_PRESET],
 	},
 
-	autoRotation: (_player: Player<Spec.SpecRestorationDruid>): APLRotation => {
+	autoRotation: (_: Player<Spec.SpecRestorationDruid>): APLRotation => {
 		return APLRotation.create();
 	},
+
+	// The gem optimizer.
+	reforge: {},
 });

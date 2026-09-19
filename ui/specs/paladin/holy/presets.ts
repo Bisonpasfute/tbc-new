@@ -1,64 +1,36 @@
 import * as PresetUtils from '@app/preset_utils';
-import { ConsumesSpec, Debuffs, Profession, RaidBuffs, Stat } from '@generated/proto/common';
-import { HolyPaladin_Options as Paladin_Options } from '@generated/proto/paladin';
-import { SavedTalents } from '@generated/proto/ui';
-import { Stats } from '@sim/proto/stats';
-import { defaultRaidBuffMajorDamageCooldowns } from '@sim/proto/utils';
+import { ConsumesSpec, Profession } from '@generated/proto/common';
+import { HolyPaladin_Options as HolyPaladinOptions } from '@generated/proto/paladin';
 
-import P1Gear from './gear_sets/p1.gear.json';
+import P3Gear from './gear_sets/p3.gear.json';
+import PreraidGear from './gear_sets/preraid.gear.json';
+import DefaultEpJson from './presets/ep/default.ep.json';
+import StandardTalentsJson from './presets/talents/standard.talents.json';
 
-// Preset options for this spec.
-// Eventually we will import these values for the raid sim too, so its good to
-// keep them in a separate file.
+export const P3_PRESET = PresetUtils.makePresetGear('P3 BiS', P3Gear);
+export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-raid', PreraidGear);
 
-export const P1_GEAR_PRESET = PresetUtils.makePresetGear('P1 Preset', P1Gear);
+// Stat weights with healing power = 1, ordered after wowhead's TBC stat priority for the spec
+// (healing > Intellect > MP5 > crit > haste > Spirit). Not sim-derived: there is no healing sim, so these only sort the gear picker
+// and drive the gem optimizer.
+export const DEFAULT_EP_PRESET = PresetUtils.makePresetEpWeightsFromJSON(DefaultEpJson);
 
-// Preset options for EP weights
-export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
-	'P1',
-	Stats.fromMap({
-		[Stat.StatIntellect]: 1.375,
-		[Stat.StatSpirit]: 1.125,
-		[Stat.StatSpellDamage]: 1,
-	}),
-);
+// Talent builds from wowhead's TBC guide. Uses the wowhead calculator format, make the talents on
+// https://www.wowhead.com/tbc/talent-calc and copy the numbers in the url.
+export const StandardTalents = PresetUtils.makePresetTalentsFromJSON(StandardTalentsJson);
 
-// Default talents. Uses the wowhead calculator format, make the talents on
-// https://wowhead.com/tbc/talent-calc and copy the numbers in the url.
-
-export const StandardTalents = {
-	name: 'Standard',
-	data: SavedTalents.create({
-		talentsString: '',
-	}),
-};
-
-export const DefaultOptions = Paladin_Options.create({
+export const DefaultOptions = HolyPaladinOptions.create({
 	classOptions: {},
 });
 
-export const DefaultRaidBuffs = RaidBuffs.create({
-	...defaultRaidBuffMajorDamageCooldowns(),
-});
-
 export const DefaultConsumables = ConsumesSpec.create({
-	flaskId: 58086, // Flask of the Draconic Mind
-	foodId: 62290, // Seafood Magnifique Feast
-	potId: 58091, // Volcanic Potion
-});
-
-export const DefaultDebuffs = Debuffs.create({
-	// bloodFrenzy: true,
-	// sunderArmor: true,
-	// ebonPlaguebringer: true,
-	// mangle: true,
-	// criticalMass: true,
-	// demoralizingShout: true,
-	// frostFever: true,
+	flaskId: 22853, // Flask of Mighty Restoration
+	foodId: 27666, // Golden Fish Sticks
+	potId: 22832, // Super Mana Potion
 });
 
 export const OtherDefaults = {
-	distanceFromTarget: 40,
-	profession1: Profession.Engineering,
+	distanceFromTarget: 20,
+	profession1: Profession.Enchanting,
 	profession2: Profession.Jewelcrafting,
 };

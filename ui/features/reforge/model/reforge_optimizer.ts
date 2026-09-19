@@ -86,7 +86,7 @@ export interface ReforgeOptimizerModel {
 	applyDefaults(): void;
 }
 
-const HYBRID_CASTER_SPECS = [Spec.SpecBalanceDruid, Spec.SpecPriest, Spec.SpecElementalShaman];
+const HYBRID_CASTER_SPECS = [Spec.SpecBalanceDruid, Spec.SpecDpsPriest, Spec.SpecElementalShaman];
 
 export const createReforgeOptimizer = (sim: Sim, player: Player<any>, options: ReforgeOptimizerModelOptions): ReforgeOptimizerModel => {
 	const { defaults, epStats, getEPDefaults, updateSoftCaps, updateGearStatsModifier, statSelectionPresets } = options;

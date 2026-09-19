@@ -186,6 +186,9 @@
 						"unlaunched": {
 							"type": "string"
 						},
+						"gear_planner": {
+							"type": "string"
+						},
 						"alpha": {
 							"type": "string"
 						},
@@ -1033,6 +1036,19 @@
 					"additionalProperties": false,
 					"required": ["title", "header"]
 				},
+				"gear_planner": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"message": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["title", "message"]
+				},
 				"unlaunched": {
 					"type": "object",
 					"properties": {
@@ -1047,16 +1063,10 @@
 						},
 						"old_sim_message": {
 							"type": "string"
-						},
-						"healing_message": {
-							"type": "string"
-						},
-						"qe_live_message": {
-							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["title", "contribute_message", "discord_message", "old_sim_message", "healing_message", "qe_live_message"]
+					"required": ["title", "contribute_message", "discord_message", "old_sim_message"]
 				},
 				"notifications": {
 					"type": "object",
@@ -8007,6 +8017,9 @@
 					"type": "object",
 					"properties": {
 						"unlaunched": {
+							"type": "string"
+						},
+						"gear_planner": {
 							"type": "string"
 						},
 						"alpha": {

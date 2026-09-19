@@ -50,6 +50,16 @@ describe('updateIndividualProtoVersion', () => {
 		expect(proto.apiVersion).toBe(CURRENT_API_VERSION);
 	});
 
+	it('stamps a version-14 payload as current without touching it: the priest oneof rename happens before parsing', () => {
+		const proto = settings(14, GREATER_DRUMS_OF_BATTLE);
+
+		updateIndividualProtoVersion(proto);
+
+		expect(proto.apiVersion).toBe(CURRENT_API_VERSION);
+		expect(proto.player?.consumables?.drumsId).toBe(GREATER_DRUMS_OF_BATTLE);
+		expect(added).not.toHaveBeenCalled();
+	});
+
 	it('says nothing when the old payload carried no drums', () => {
 		const proto = settings(6, 0);
 

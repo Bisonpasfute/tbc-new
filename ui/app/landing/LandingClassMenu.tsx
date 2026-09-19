@@ -72,7 +72,7 @@ export const LandingClassMenu = ({ playerClass }: LandingClassMenuProps) => {
 				sideOffset={0}
 				collisionPadding={4}
 				container={container}
-				// `keepMounted`: the 17 spec links are the landing page's only content for a crawler, and an unmounted popup has none of them in the document.
+				// `keepMounted`: the 18 spec links are the landing page's only content for a crawler, and an unmounted popup has none of them in the document.
 				keepMounted
 				className="ui-landing-sim-link-popup">
 				{specs.map(spec => (

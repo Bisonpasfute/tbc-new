@@ -38,12 +38,16 @@ export type PickerStatOptions = IconPickerStatOption | MultiIconPickerStatOption
 export type RenderableStatOptions = IconPickerStatOption | MultiIconPickerStatOption | IconEnumPickerStatOption;
 export type StatOptions<T, Options extends ItemStatOptions<T> | PickerStatOptions> = Array<Options>;
 
+// A spec's includeBuffDebuffInputs / excludeBuffDebuffInputs list holds stats (any option tagged
+// with that stat) and input configs (that one option), so a spec can drop a single buff that shares
+// its stat tag with buffs it wants to keep, e.g. Mana Tide but not Mana Spring.
 export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | PickerStatOptions>(
 	options: StatOptions<T, OptionsType>,
 	simUI: IndividualSimHost<any>,
 ): StatOptions<T, OptionsType> {
 	const individualConfig = simUI.individualConfig;
 	const displayStatSet = new Set(individualConfig.displayStats.map(us => (us.hasRootStat() ? us.getRootStat() : us.getPseudoStat())));
+	const listed = (list: ReadonlyArray<unknown>, option: OptionsType) => list.includes(option.config) || option.stats.some(stat => list.includes(stat));
 
 	return options
 		.filter(
@@ -51,7 +55,7 @@ export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | 
 				option.stats.length === 0 ||
 				option.stats.some(stat => displayStatSet.has(stat)) ||
 				option.stats.some(stat => individualConfig.epStats.includes(stat)) ||
-				option.stats.some(stat => individualConfig.includeBuffDebuffInputs.includes(stat)),
+				listed(individualConfig.includeBuffDebuffInputs, option),
 		)
-		.filter(option => !option.stats.some(stat => individualConfig.excludeBuffDebuffInputs.includes(stat)));
+		.filter(option => !listed(individualConfig.excludeBuffDebuffInputs, option));
 }

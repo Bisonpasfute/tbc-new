@@ -1,6 +1,6 @@
 import * as PresetUtils from '@app/preset_utils';
 import { ConsumesSpec, Debuffs, Drums, IndividualBuffs, PartyBuffs, Profession, PseudoStat, RaidBuffs, Stat, TristateEffect } from '@generated/proto/common';
-import { Priest_Options as Options } from '@generated/proto/priest';
+import { DpsPriest_Options as Options } from '@generated/proto/priest';
 import { SavedTalents } from '@generated/proto/ui';
 import { Stats } from '@sim/proto/stats';
 import { defaultImprovedShadowBoltSettings, defaultRaidBuffMajorDamageCooldowns } from '@sim/proto/utils';

@@ -34,7 +34,16 @@ import {
 	RetributionPaladin_Options,
 	RetributionPaladin_Rotation,
 } from '@generated/proto/paladin';
-import { Priest, Priest_Options, Priest_Rotation, PriestOptions, PriestTalents } from '@generated/proto/priest';
+import {
+	DpsPriest,
+	DpsPriest_Options,
+	DpsPriest_Rotation,
+	HealerPriest,
+	HealerPriest_Options,
+	HealerPriest_Rotation,
+	PriestOptions,
+	PriestTalents,
+} from '@generated/proto/priest';
 import { Rogue, Rogue_Options, Rogue_Rotation, RogueOptions, RogueTalents } from '@generated/proto/rogue';
 import {
 	ElementalShaman,
@@ -87,7 +96,7 @@ export type DruidSpecs = Spec.SpecBalanceDruid | Spec.SpecFeralCatDruid | Spec.S
 export type HunterSpecs = Spec.SpecHunter;
 export type MageSpecs = Spec.SpecMage;
 export type PaladinSpecs = Spec.SpecHolyPaladin | Spec.SpecRetributionPaladin | Spec.SpecProtectionPaladin;
-export type PriestSpecs = Spec.SpecPriest;
+export type PriestSpecs = Spec.SpecDpsPriest | Spec.SpecHealerPriest;
 export type RogueSpecs = Spec.SpecRogue;
 export type ShamanSpecs = Spec.SpecElementalShaman | Spec.SpecEnhancementShaman | Spec.SpecRestorationShaman;
 export type WarlockSpecs = Spec.SpecWarlock;
@@ -169,28 +178,30 @@ export type SpecRotation<T extends Spec> =
 									: T extends Spec.SpecRetributionPaladin
 										? RetributionPaladin_Rotation
 										: // Priest
-											T extends Spec.SpecPriest
-											? Priest_Rotation
-											: // Rogue
-												T extends Spec.SpecRogue
-												? Rogue_Rotation
-												: // Shaman
-													T extends Spec.SpecElementalShaman
-													? ElementalShaman_Rotation
-													: T extends Spec.SpecEnhancementShaman
-														? EnhancementShaman_Rotation
-														: T extends Spec.SpecRestorationShaman
-															? RestorationShaman_Rotation
-															: // Warlock
-																T extends Spec.SpecWarlock
-																? Warlock_Rotation
-																: // Warrior
-																	T extends Spec.SpecDpsWarrior
-																	? DpsWarrior_Rotation
-																	: T extends Spec.SpecProtectionWarrior
-																		? ProtectionWarrior_Rotation
-																		: // Should never reach this case
-																			UnknownRotation;
+											T extends Spec.SpecDpsPriest
+											? DpsPriest_Rotation
+											: T extends Spec.SpecHealerPriest
+												? HealerPriest_Rotation
+												: // Rogue
+													T extends Spec.SpecRogue
+													? Rogue_Rotation
+													: // Shaman
+														T extends Spec.SpecElementalShaman
+														? ElementalShaman_Rotation
+														: T extends Spec.SpecEnhancementShaman
+															? EnhancementShaman_Rotation
+															: T extends Spec.SpecRestorationShaman
+																? RestorationShaman_Rotation
+																: // Warlock
+																	T extends Spec.SpecWarlock
+																	? Warlock_Rotation
+																	: // Warrior
+																		T extends Spec.SpecDpsWarrior
+																		? DpsWarrior_Rotation
+																		: T extends Spec.SpecProtectionWarrior
+																			? ProtectionWarrior_Rotation
+																			: // Should never reach this case
+																				UnknownRotation;
 
 export type SpecTalents<T extends Spec> =
 	// Druid
@@ -278,28 +289,30 @@ export type SpecOptions<T extends Spec> =
 									: T extends Spec.SpecRetributionPaladin
 										? RetributionPaladin_Options
 										: // Priest
-											T extends Spec.SpecPriest
-											? Priest_Options
-											: // Rogue
-												T extends Spec.SpecRogue
-												? Rogue_Options
-												: // Shaman
-													T extends Spec.SpecElementalShaman
-													? ElementalShaman_Options
-													: T extends Spec.SpecEnhancementShaman
-														? EnhancementShaman_Options
-														: T extends Spec.SpecRestorationShaman
-															? RestorationShaman_Options
-															: // Warlock
-																T extends Spec.SpecWarlock
-																? Warlock_Options
-																: // Warrior
-																	T extends Spec.SpecDpsWarrior
-																	? DpsWarrior_Options
-																	: T extends Spec.SpecProtectionWarrior
-																		? ProtectionWarrior_Options
-																		: // Should never reach this case
-																			UnknownSpecOptions;
+											T extends Spec.SpecDpsPriest
+											? DpsPriest_Options
+											: T extends Spec.SpecHealerPriest
+												? HealerPriest_Options
+												: // Rogue
+													T extends Spec.SpecRogue
+													? Rogue_Options
+													: // Shaman
+														T extends Spec.SpecElementalShaman
+														? ElementalShaman_Options
+														: T extends Spec.SpecEnhancementShaman
+															? EnhancementShaman_Options
+															: T extends Spec.SpecRestorationShaman
+																? RestorationShaman_Options
+																: // Warlock
+																	T extends Spec.SpecWarlock
+																	? Warlock_Options
+																	: // Warrior
+																		T extends Spec.SpecDpsWarrior
+																		? DpsWarrior_Options
+																		: T extends Spec.SpecProtectionWarrior
+																			? ProtectionWarrior_Options
+																			: // Should never reach this case
+																				UnknownSpecOptions;
 
 export type SpecType<T extends Spec> =
 	// Druid
@@ -325,28 +338,30 @@ export type SpecType<T extends Spec> =
 									: T extends Spec.SpecRetributionPaladin
 										? RetributionPaladin
 										: // Priest
-											T extends Spec.SpecPriest
-											? Priest
-											: // Rogue
-												T extends Spec.SpecRogue
-												? Rogue
-												: // Shaman
-													T extends Spec.SpecElementalShaman
-													? ElementalShaman
-													: T extends Spec.SpecEnhancementShaman
-														? EnhancementShaman
-														: T extends Spec.SpecRestorationShaman
-															? RestorationShaman
-															: // Warlock
-																T extends Spec.SpecWarlock
-																? Warlock
-																: // Warrior
-																	T extends Spec.SpecDpsWarrior
-																	? DpsWarrior
-																	: T extends Spec.SpecProtectionWarrior
-																		? ProtectionWarrior
-																		: // Should never reach this case
-																			Spec.SpecUnknown;
+											T extends Spec.SpecDpsPriest
+											? DpsPriest
+											: T extends Spec.SpecHealerPriest
+												? HealerPriest
+												: // Rogue
+													T extends Spec.SpecRogue
+													? Rogue
+													: // Shaman
+														T extends Spec.SpecElementalShaman
+														? ElementalShaman
+														: T extends Spec.SpecEnhancementShaman
+															? EnhancementShaman
+															: T extends Spec.SpecRestorationShaman
+																? RestorationShaman
+																: // Warlock
+																	T extends Spec.SpecWarlock
+																	? Warlock
+																	: // Warrior
+																		T extends Spec.SpecDpsWarrior
+																		? DpsWarrior
+																		: T extends Spec.SpecProtectionWarrior
+																			? ProtectionWarrior
+																			: // Should never reach this case
+																				Spec.SpecUnknown;
 
 export type SpecTypeFunctions<SpecType extends Spec> = {
 	rotationCreate: () => SpecRotation<SpecType>;

@@ -59,7 +59,7 @@ export const consumeConfigs = (
 		drums: ConsumablesInputs.makeDrumsInput([...drumsOptions]),
 		petFood: ConsumablesInputs.makeConsumableInput(
 			byType(ConsumableType.ConsumableTypePetFood),
-			{ consumesFieldName: 'petFoodId', showWhen: p => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecPriest].includes(p.getSpec()) },
+			{ consumesFieldName: 'petFoodId', showWhen: p => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecDpsPriest].includes(p.getSpec()) },
 			'',
 		),
 	};

@@ -83,6 +83,14 @@ func (priest *Priest) applyEnlightenment() {
 	priest.MultiplyStat(stats.Spirit, multiplier)
 }
 
+// Spirit of Redemption's passive half: +5% total Spirit. The on-death form is not modelled.
+func (priest *Priest) applySpiritOfRedemption() {
+	if !priest.Talents.SpiritOfRedemption {
+		return
+	}
+	priest.MultiplyStat(stats.Spirit, 1.05)
+}
+
 func (priest *Priest) applyMentalStrength() {
 	if priest.Talents.MentalStrength == 0 {
 		return

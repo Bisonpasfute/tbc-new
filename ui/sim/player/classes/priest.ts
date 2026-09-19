@@ -3,7 +3,7 @@ import { Class } from '@generated/proto/common';
 import type { PriestSpecs } from '../../proto/spec_types';
 import { IconSize, PlayerClass } from '../player_class';
 import { PlayerSpec } from '../player_spec';
-import { Priest as PriestSpec } from '../specs/priest';
+import { DpsPriest, HealerPriest } from '../specs/priest';
 import { getClassArmorTypes, getClassRaces, getClassRangedWeaponTypes, getClassWeaponTypes } from './capabilities';
 
 export class Priest extends PlayerClass<Class.ClassPriest> {
@@ -11,7 +11,8 @@ export class Priest extends PlayerClass<Class.ClassPriest> {
 	static friendlyName = 'Priest';
 	static hexColor = '#fff';
 	static specs: Record<string, PlayerSpec<PriestSpecs>> = {
-		[PriestSpec.friendlyName]: PriestSpec,
+		[DpsPriest.friendlyName]: DpsPriest,
+		[HealerPriest.friendlyName]: HealerPriest,
 	};
 	static races = getClassRaces(Priest.classID);
 	static armorTypes = getClassArmorTypes(Priest.classID);

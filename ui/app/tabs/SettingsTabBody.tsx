@@ -17,6 +17,7 @@ import { useMemo } from 'react';
 import { PresetConfigurationPicker } from '../PresetConfigurationPicker';
 
 const SETTINGS_PRESETS = [PresetConfigurationCategory.Encounter, PresetConfigurationCategory.Settings];
+const GEAR_PLANNER_PRESETS = [PresetConfigurationCategory.Settings];
 
 export const SettingsTabBody = () => {
 	const host = useSimHost();
@@ -41,6 +42,9 @@ export const SettingsTabBody = () => {
 	const itemSwapSlots = config.itemSwapSlots || [];
 	const hasOtherSettings = config.otherInputs.inputs.length > 0 || itemSwapSlots.length > 0;
 	const selector = useSelectorModalState();
+	// A gear planner never runs an encounter, so only the sections that change the character's stats are shown:
+	// no encounter, debuffs or saved encounters, and no potions or explosives.
+	const gearPlanner = host.simDisabled;
 
 	return (
 		<OpenSelectorModalContext value={selector.openTab}>
@@ -48,11 +52,13 @@ export const SettingsTabBody = () => {
 				<TabPanelColumns.Col>
 					{ready && (
 						<>
-							<ContentBlock
-								rootDataAttributes={{ 'data-block': 'encounter-settings' }}
-								config={{ header: { title: i18n.t('settings_tab.encounter.title') } }}>
-								<EncounterPicker showExecuteProportion={config.encounterPicker.showExecuteProportion} />
-							</ContentBlock>
+							{!gearPlanner && (
+								<ContentBlock
+									rootDataAttributes={{ 'data-block': 'encounter-settings' }}
+									config={{ header: { title: i18n.t('settings_tab.encounter.title') } }}>
+									<EncounterPicker showExecuteProportion={config.encounterPicker.showExecuteProportion} />
+								</ContentBlock>
+							)}
 							<ContentBlock
 								rootDataAttributes={{ 'data-block': 'player-settings' }}
 								config={{ header: { title: i18n.t('settings_tab.player.title') } }}>
@@ -77,6 +83,7 @@ export const SettingsTabBody = () => {
 									imbueMHOptions={options.imbueMH}
 									imbueOHOptions={options.imbueOH}
 									drumsOptions={options.drums}
+									encounterConsumes={!gearPlanner}
 								/>
 							</ContentBlock>
 							{hasOtherSettings && (
@@ -121,26 +128,28 @@ export const SettingsTabBody = () => {
 									<RaidBuffs options={options.partyBuffs} miscOptions={[]} />
 								</ContentBlock>
 							)}
-							<ContentBlock
-								rootDataAttributes={{ 'data-block': 'debuffs-settings' }}
-								config={{
-									header: {
-										title: i18n.t('settings_tab.debuffs.title'),
-										tooltip: i18n.t('settings_tab.debuffs.tooltip'),
-										className: 'flex-col',
-									},
-									withoutBody: options.debuffs.length === 0,
-									bodyClassName: 'grid grid-cols-1 xl:grid-cols-2 gap-3 fhd:grid-cols-3',
-								}}>
-								<RaidBuffs options={options.debuffs} miscOptions={options.debuffsMisc} />
-							</ContentBlock>
+							{!gearPlanner && (
+								<ContentBlock
+									rootDataAttributes={{ 'data-block': 'debuffs-settings' }}
+									config={{
+										header: {
+											title: i18n.t('settings_tab.debuffs.title'),
+											tooltip: i18n.t('settings_tab.debuffs.tooltip'),
+											className: 'flex-col',
+										},
+										withoutBody: options.debuffs.length === 0,
+										bodyClassName: 'grid grid-cols-1 xl:grid-cols-2 gap-3 fhd:grid-cols-3',
+									}}>
+									<RaidBuffs options={options.debuffs} miscOptions={options.debuffsMisc} />
+								</ContentBlock>
+							)}
 						</>
 					)}
 				</TabPanelColumns.Col>
 			</TabPanelColumns.Left>
 			<TabPanelColumns.Right>
-				<PresetConfigurationPicker categories={SETTINGS_PRESETS} />
-				<SavedEncounter />
+				<PresetConfigurationPicker categories={gearPlanner ? GEAR_PLANNER_PRESETS : SETTINGS_PRESETS} />
+				{!gearPlanner && <SavedEncounter />}
 				<SavedSettings />
 			</TabPanelColumns.Right>
 			<SelectorModal state={selector} id="item-swap-selector-modal" rail={false} />

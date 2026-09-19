@@ -75,4 +75,5 @@ func (resto *RestorationShaman) Initialize() {
 }
 
 func (resto *RestorationShaman) ApplyTalents() {
+	resto.Shaman.ApplyTalents()
 }

@@ -29,7 +29,8 @@
 			"retribution": "Retribution"
 		},
 		"priest": {
-			"priest": ""
+			"dps": "Shadow",
+			"healer": "Healer"
 		},
 		"rogue": {
 			"rogue": ""

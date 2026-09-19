@@ -13,6 +13,7 @@ import (
 	protPaladin "github.com/wowsims/tbc/sim/paladin/protection"
 	"github.com/wowsims/tbc/sim/paladin/retribution"
 	"github.com/wowsims/tbc/sim/priest"
+	healerPriest "github.com/wowsims/tbc/sim/priest/healer"
 	"github.com/wowsims/tbc/sim/rogue"
 	"github.com/wowsims/tbc/sim/shaman/elemental"
 	"github.com/wowsims/tbc/sim/shaman/enhancement"
@@ -44,6 +45,7 @@ func RegisterAll() {
 	retribution.RegisterRetributionPaladin()
 
 	priest.RegisterPriest()
+	healerPriest.RegisterHealerPriest()
 
 	rogue.RegisterRogue()
 

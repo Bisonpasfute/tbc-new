@@ -220,7 +220,8 @@ export const specI18nKeys: Record<Spec, string> = {
 	[Spec.SpecProtectionPaladin]: 'protection',
 	[Spec.SpecRetributionPaladin]: 'retribution',
 	// Priest
-	[Spec.SpecPriest]: 'priest',
+	[Spec.SpecDpsPriest]: 'dps',
+	[Spec.SpecHealerPriest]: 'healer',
 	// Rogue
 	[Spec.SpecRogue]: 'rogue',
 	// Shaman
@@ -236,6 +237,7 @@ export const specI18nKeys: Record<Spec, string> = {
 
 export const statusI18nKeys: Record<LaunchStatus, string> = {
 	[LaunchStatus.Unlaunched]: 'unlaunched',
+	[LaunchStatus.GearPlanner]: 'gear_planner',
 	[LaunchStatus.Alpha]: 'alpha',
 	[LaunchStatus.Beta]: 'beta',
 	[LaunchStatus.Launched]: 'launched',

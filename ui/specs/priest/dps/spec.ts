@@ -9,8 +9,8 @@ import { defineSpec } from '@sim/spec_config';
 import * as PriestInputs from './inputs';
 import * as Presets from './presets';
 
-export default defineSpec<Spec.SpecPriest>({
-	spec: Spec.SpecPriest,
+export default defineSpec<Spec.SpecDpsPriest>({
+	spec: Spec.SpecDpsPriest,
 
 	className: 'priest-sim-ui',
 	cssScheme: PlayerClasses.getCssScheme(PlayerClasses.Priest),
@@ -116,7 +116,7 @@ export default defineSpec<Spec.SpecPriest>({
 		builds: [],
 	},
 
-	autoRotation: (_: Player<Spec.SpecPriest>): APLRotation => {
+	autoRotation: (_: Player<Spec.SpecDpsPriest>): APLRotation => {
 		return Presets.ROTATION_PRESET_DEFAULT.rotation.rotation!;
 	},
 

@@ -4,9 +4,9 @@ import { getSpecSitePath, LaunchStatus, Phase } from '../../constants/other';
 import { IconSize } from '../player_class';
 import { PlayerSpec, SimStatus } from '../player_spec';
 
-export class Priest extends PlayerSpec<Spec.SpecPriest> {
+export class DpsPriest extends PlayerSpec<Spec.SpecDpsPriest> {
 	static specIndex = 0;
-	static specID = Spec.SpecPriest as Spec.SpecPriest;
+	static specID = Spec.SpecDpsPriest as Spec.SpecDpsPriest;
 	static classID = Class.ClassPriest as Class.ClassPriest;
 	static friendlyName = 'Shadow';
 	static simLink = getSpecSitePath('priest', 'dps');
@@ -22,26 +22,68 @@ export class Priest extends PlayerSpec<Spec.SpecPriest> {
 		status: LaunchStatus.Alpha,
 	};
 
-	readonly specIndex = Priest.specIndex;
-	readonly specID = Priest.specID;
-	readonly classID = Priest.classID;
-	readonly friendlyName = Priest.friendlyName;
-	readonly simLink = Priest.simLink;
+	readonly specIndex = DpsPriest.specIndex;
+	readonly specID = DpsPriest.specID;
+	readonly classID = DpsPriest.classID;
+	readonly friendlyName = DpsPriest.friendlyName;
+	readonly simLink = DpsPriest.simLink;
 
-	readonly isTankSpec = Priest.isTankSpec;
-	readonly isHealingSpec = Priest.isHealingSpec;
-	readonly isRangedDpsSpec = Priest.isRangedDpsSpec;
-	readonly isMeleeDpsSpec = Priest.isMeleeDpsSpec;
+	readonly isTankSpec = DpsPriest.isTankSpec;
+	readonly isHealingSpec = DpsPriest.isHealingSpec;
+	readonly isRangedDpsSpec = DpsPriest.isRangedDpsSpec;
+	readonly isMeleeDpsSpec = DpsPriest.isMeleeDpsSpec;
 
-	readonly canDualWield = Priest.canDualWield;
+	readonly canDualWield = DpsPriest.canDualWield;
 
-	readonly launch = Priest.launch;
+	readonly launch = DpsPriest.launch;
 
 	static getIcon = (size: IconSize): string => {
 		return `https://wow.zamimg.com/images/wow/icons/${size}/spell_shadow_shadowwordpain.jpg`;
 	};
 
 	getIcon = (size: IconSize): string => {
-		return Priest.getIcon(size);
+		return DpsPriest.getIcon(size);
+	};
+}
+
+export class HealerPriest extends PlayerSpec<Spec.SpecHealerPriest> {
+	static specIndex = 1;
+	static specID = Spec.SpecHealerPriest as Spec.SpecHealerPriest;
+	static classID = Class.ClassPriest as Class.ClassPriest;
+	static friendlyName = 'Healer';
+	static simLink = getSpecSitePath('priest', 'healer');
+
+	static isTankSpec = false;
+	static isHealingSpec = true;
+	static isRangedDpsSpec = false;
+	static isMeleeDpsSpec = false;
+	static canDualWield = false;
+
+	static launch: SimStatus = {
+		phase: Phase.Phase3,
+		status: LaunchStatus.GearPlanner,
+	};
+
+	readonly specIndex = HealerPriest.specIndex;
+	readonly specID = HealerPriest.specID;
+	readonly classID = HealerPriest.classID;
+	readonly friendlyName = HealerPriest.friendlyName;
+	readonly simLink = HealerPriest.simLink;
+
+	readonly isTankSpec = HealerPriest.isTankSpec;
+	readonly isHealingSpec = HealerPriest.isHealingSpec;
+	readonly isRangedDpsSpec = HealerPriest.isRangedDpsSpec;
+	readonly isMeleeDpsSpec = HealerPriest.isMeleeDpsSpec;
+
+	readonly canDualWield = HealerPriest.canDualWield;
+
+	readonly launch = HealerPriest.launch;
+
+	static getIcon = (size: IconSize): string => {
+		return `https://wow.zamimg.com/images/wow/icons/${size}/spell_holy_guardianspirit.jpg`;
+	};
+
+	getIcon = (size: IconSize): string => {
+		return HealerPriest.getIcon(size);
 	};
 }

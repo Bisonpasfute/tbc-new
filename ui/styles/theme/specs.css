@@ -34,6 +34,7 @@
 	--theme-color-foreground: var(--color-class-paladin-foreground);
 }
 
+.healer-priest-sim-ui,
 .priest-sim-ui {
 	--theme-color: var(--color-class-priest);
 	--theme-color-foreground: var(--color-class-priest-foreground);
@@ -103,6 +104,10 @@
 
 .retribution-paladin-sim-ui {
 	--theme-background-image: url(/tbc/assets/img/retribution_paladin.jpg);
+}
+
+.healer-priest-sim-ui {
+	--theme-background-image: url(/tbc/assets/img/healing_priest_background.jpg);
 }
 
 .priest-sim-ui {

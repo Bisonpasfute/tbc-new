@@ -29,6 +29,8 @@ export interface EpWeightsTableProps {
 	showThreatMetrics: boolean;
 	showEpRatios: boolean;
 	displayMetrics: DisplayMetrics;
+	// The Update column picks which stats a calculation writes; a gear planner has no calculation.
+	showUpdateColumn?: boolean;
 }
 
 export const EpWeightsTable = ({
@@ -47,6 +49,7 @@ export const EpWeightsTable = ({
 	showThreatMetrics,
 	showEpRatios,
 	displayMetrics,
+	showUpdateColumn = true,
 }: EpWeightsTableProps) => (
 	<div data-testid="results-ep-table-container" className="relative flex-1 overflow-y-auto">
 		<table
@@ -54,7 +57,7 @@ export const EpWeightsTable = ({
 			className={clsx('w-full', showThreatMetrics && 'max-lg:pr-0', `stats-type-${statsType}`)}
 			data-stats-type={statsType}>
 			<thead>
-				<EpWeightsHeader columns={columns} showThreatMetrics={showThreatMetrics} />
+				<EpWeightsHeader columns={columns} showThreatMetrics={showThreatMetrics} showUpdateColumn={showUpdateColumn} />
 				{showEpRatios && <EpRatiosRow columns={columns} player={player} onComputeEp={onComputeEp} showThreatMetrics={showThreatMetrics} />}
 			</thead>
 			<tbody>
@@ -72,6 +75,7 @@ export const EpWeightsTable = ({
 						includable={isEpStat(stat, epStatSet)}
 						showThreatMetrics={showThreatMetrics}
 						displayMetrics={displayMetrics}
+						showUpdateColumn={showUpdateColumn}
 					/>
 				))}
 			</tbody>

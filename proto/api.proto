@@ -56,7 +56,8 @@ message Player {
 		ProtectionPaladin protection_paladin = 22;
 		RetributionPaladin retribution_paladin = 23;
 
-		Priest priest = 24;
+		DpsPriest dps_priest = 24;
+		HealerPriest healer_priest = 55;
 
 		Rogue rogue = 29;
 

@@ -12,10 +12,10 @@ describe('the landing page class list', () => {
 		expect(new Set(LANDING_CLASS_ORDER).size).toBe(LANDING_CLASS_ORDER.length);
 	});
 
-	// The landing page is the only place all 17 spec links exist, so a class that lost its specs
+	// The landing page is the only place all 18 spec links exist, so a class that lost its specs
 	// would drop them silently.
-	it('reaches all seventeen specs', () => {
-		expect(classes().flatMap(playerClass => Object.values(playerClass.specs))).toHaveLength(17);
+	it('reaches all eighteen specs', () => {
+		expect(classes().flatMap(playerClass => Object.values(playerClass.specs))).toHaveLength(18);
 	});
 
 	it('opens with the priest, as the pre-port page did', () => {
@@ -27,5 +27,7 @@ describe('classLaunchStatus', () => {
 	it('reports the furthest-along spec, so one unlaunched spec does not demote the class', () => {
 		expect(classLaunchStatus(PlayerClasses.Druid)).toBe(LaunchStatus.Alpha);
 		expect(classLaunchStatus(PlayerClasses.Paladin)).toBe(LaunchStatus.Alpha);
+		// A gear planner ranks above unlaunched and below alpha, so the class keeps its alpha label.
+		expect(classLaunchStatus(PlayerClasses.Priest)).toBe(LaunchStatus.Alpha);
 	});
 });

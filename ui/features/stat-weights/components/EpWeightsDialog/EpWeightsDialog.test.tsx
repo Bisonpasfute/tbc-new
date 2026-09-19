@@ -312,6 +312,25 @@ describe('EpWeightsDialog', () => {
 		]);
 	});
 
+	// A gear planner never computes weights: no Calculate button, no computed columns, no Update
+	// column, no reference picker. What is left is the editable Current EP column the item pickers sort by.
+	it('gives a gear planner only the editable Current EP column', () => {
+		host.simDisabled = true;
+		host.sim.showThreatMetrics = true;
+		renderDialog();
+
+		expect(popup().querySelector('[data-testid="calc-weights"]')).toBeNull();
+		expect(popup().querySelector('[data-testid="ep-reference-options"]')).toBeNull();
+		const headers = [...table().querySelectorAll('thead tr:first-child th')];
+		expect(headers.map(th => th.textContent)).toEqual([
+			'sidebar.buttons.stat_weights.modal.column_headers.stat',
+			'sidebar.buttons.stat_weights.modal.current_ep.label',
+		]);
+		expect(table().querySelectorAll('thead tr').length).toBe(1);
+		expect(rowFor('Agility').querySelector('[data-testid="swcalc-include-toggle"]')).toBeNull();
+		expect(rowFor('Agility').querySelector('[data-testid="current-ep"] input')).not.toBeNull();
+	});
+
 	// Vanilla's `.sim-type--tank .ep-weights-menu { display: none }` block is commented out, so a tank
 	// gets the whole dialog there. Re-implementing that dead rule in TSX left the three tank specs
 	// with no Calculate button at all and no way to compute weights.
