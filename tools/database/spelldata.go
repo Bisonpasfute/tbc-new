@@ -82,6 +82,12 @@ type RankSpell struct {
 	// rather than on a roll, which is how Flurry and Enrage read.
 	ProcChance int32
 
+	// SpellMisc.SchoolMask, in the client's bit order, which is not the sim's - see schoolName.
+	SchoolMask int32
+
+	// SpellCategories.DefenseType: 1 magic, 2 melee, 3 ranged, 0 none. Same order core uses.
+	DefenseType int32
+
 	Effects []RankEffect
 }
 
@@ -191,6 +197,16 @@ func LoadRankSpell(db *sql.DB, spellID int32) (RankSpell, error) {
 	if err := scanOptional(db,
 		`SELECT COALESCE(ProcChance, 0) FROM SpellAuraOptions WHERE SpellID = ?`, spellID, &s.ProcChance); err != nil {
 		return s, fmt.Errorf("proc chance for spell %d: %w", spellID, err)
+	}
+
+	if err := scanOptional(db,
+		`SELECT COALESCE(SchoolMask, 0) FROM SpellMisc WHERE SpellID = ?`, spellID, &s.SchoolMask); err != nil {
+		return s, fmt.Errorf("school for spell %d: %w", spellID, err)
+	}
+
+	if err := scanOptional(db,
+		`SELECT COALESCE(DefenseType, 0) FROM SpellCategories WHERE SpellID = ?`, spellID, &s.DefenseType); err != nil {
+		return s, fmt.Errorf("defense type for spell %d: %w", spellID, err)
 	}
 
 	if castTimesAvailable(db) {

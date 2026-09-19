@@ -145,10 +145,15 @@ type SpellData struct {
 	// aura fires on its own condition rather than on a roll, as Flurry's does on a crit, so it is
 	// not always the number a ProcTrigger wants.
 	ProcChance int32
-	Direct     SpellDataValue
-	Heal       SpellDataValue
-	Periodic   SpellDataValue
-	Energize   SpellDataValue
+
+	// SpellSchool and DefenseType as core names them. The client's school bits are in a different
+	// order - Holy is 2 there and 32 here - so the generator translates rather than copies.
+	SpellSchool core.SpellSchool
+	DefenseType core.DefenseType
+	Direct      SpellDataValue
+	Heal        SpellDataValue
+	Periodic    SpellDataValue
+	Energize    SpellDataValue
 
 	// Every effect the client states, in index order. A role field above holds one each, which is not
 	// enough for a talent: Improved Righteous Fury raises threat on one effect and cuts damage taken

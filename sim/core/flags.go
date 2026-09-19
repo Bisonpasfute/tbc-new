@@ -216,15 +216,21 @@ const (
 
 type SpellSchool byte
 
+// The bit values are the client's. SpellMisc.SchoolMask uses exactly this order, so a generated spell
+// row carries the number the DBC states rather than a translation of it, and the only school that used
+// to agree on its bit was Frost. Nothing outside this file depends on the numbers: the conversions to
+// stats.SchoolIndex, the resistance stat and the school damage stat are all switches over these names,
+// stats.SchoolIndex is its own enum for array positions, and proto.SpellSchool is separate again.
 const (
 	SpellSchoolNone     SpellSchool = 0
-	SpellSchoolPhysical SpellSchool = 1 << iota
-	SpellSchoolArcane
-	SpellSchoolFire
-	SpellSchoolFrost
-	SpellSchoolHoly
-	SpellSchoolNature
-	SpellSchoolShadow
+	SpellSchoolPhysical SpellSchool = 1
+	SpellSchoolHoly     SpellSchool = 2
+	SpellSchoolFire     SpellSchool = 4
+	SpellSchoolNature   SpellSchool = 8
+	SpellSchoolFrost    SpellSchool = 16
+	SpellSchoolShadow   SpellSchool = 32
+	SpellSchoolArcane   SpellSchool = 64
+
 	SpellSchoolChaos       SpellSchool = SpellSchoolArcane | SpellSchoolFire | SpellSchoolFrost | SpellSchoolHoly | SpellSchoolNature | SpellSchoolShadow
 	SpellSchoolShadowFlame SpellSchool = SpellSchoolFire | SpellSchoolShadow
 	SpellSchoolShadowFrost SpellSchool = SpellSchoolFrost | SpellSchoolShadow
