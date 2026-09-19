@@ -11,6 +11,10 @@ on:
                 description: 'Commit reference to test (defaults to the triggering ref)'
                 required: false
                 type: string
+            proto_baseline:
+                description: 'Commit that TestProtoVersioning diffs the protos against (defaults to remote master)'
+                required: false
+                type: string
 jobs:
     build-ui:
         runs-on: ubuntu-latest
@@ -118,5 +122,9 @@ jobs:
             - name: Test (shard ${{ matrix.shard }})
               env:
                   GOARCH: amd64
+                  # On a master push, master already contains the change under test, so diffing the
+                  # protos against master finds nothing and a legitimate version bump fails. The deploy
+                  # workflow passes the pre-push commit instead; pull requests keep the master default.
+                  PROTO_BASELINE_REF: ${{ inputs.proto_baseline }}
               run: |
                   go list ./sim/... | awk 'NR % 4 == ${{ matrix.shard }}' | xargs -r go test --tags=with_db
