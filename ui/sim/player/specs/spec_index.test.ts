@@ -15,6 +15,7 @@ const EXPECTED_TREE: Partial<Record<Spec, string>> = {
 	[Spec.SpecFeralBearDruid]: 'Feral Combat',
 	[Spec.SpecRestorationDruid]: 'Restoration',
 	[Spec.SpecHolyPaladin]: 'Holy',
+	[Spec.SpecHealerPriest]: 'Holy',
 	[Spec.SpecProtectionPaladin]: 'Protection',
 	[Spec.SpecRetributionPaladin]: 'Retribution',
 	[Spec.SpecElementalShaman]: 'Elemental',
@@ -27,8 +28,8 @@ const EXPECTED_TREE: Partial<Record<Spec, string>> = {
 const ALL_SPECS = (Object.values(Spec) as Array<Spec>).filter((spec): spec is Spec => typeof spec === 'number' && spec !== Spec.SpecUnknown);
 
 describe('specIndex', () => {
-	it('covers all 17 TBC specs', () => {
-		expect(ALL_SPECS.length).toBe(17);
+	it('covers all 18 TBC specs', () => {
+		expect(ALL_SPECS.length).toBe(18);
 	});
 
 	it.each(ALL_SPECS.map(spec => [Spec[spec], spec] as const))('%s indexes a talent tree that exists', (_name, spec) => {

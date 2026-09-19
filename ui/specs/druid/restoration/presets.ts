@@ -1,49 +1,25 @@
 import * as PresetUtils from '@app/preset_utils';
-import { ConsumesSpec, Debuffs, IndividualBuffs, PartyBuffs, RaidBuffs, Stat, UnitReference } from '@generated/proto/common';
+import { ConsumesSpec, Profession, UnitReference } from '@generated/proto/common';
 import { RestorationDruid_Options as RestorationDruidOptions } from '@generated/proto/druid';
-import { SavedTalents } from '@generated/proto/ui';
 
-// Preset options for this spec.
-// Eventually we will import these values for the raid sim too, so its good to
-// keep them in a separate file.
-import PreraidGear from './gear_sets/preraid.gear.json';
-export const PRERAID_PRESET = PresetUtils.makePresetGear('PreRaid', PreraidGear);
-import P1Gear from './gear_sets/p1.gear.json';
-export const P1_PRESET = PresetUtils.makePresetGear('P1 Preset', P1Gear);
-import P2Gear from './gear_sets/p2.gear.json';
-export const P2_PRESET = PresetUtils.makePresetGear('P2 Preset', P2Gear);
 import P3Gear from './gear_sets/p3.gear.json';
-export const P3_PRESET = PresetUtils.makePresetGear('P3 Preset', P3Gear);
-import { Stats } from '@sim/proto/stats';
-import { defaultRaidBuffMajorDamageCooldowns } from '@sim/proto/utils';
+import PreraidGear from './gear_sets/preraid.gear.json';
+import DefaultEpJson from './presets/ep/default.ep.json';
+import DreamstateTalentsJson from './presets/talents/dreamstate.talents.json';
+import TreeOfLifeTalentsJson from './presets/talents/tree_of_life.talents.json';
 
-import P4Gear from './gear_sets/p4.gear.json';
-export const P4_PRESET = PresetUtils.makePresetGear('P4 Preset', P4Gear);
+export const P3_PRESET = PresetUtils.makePresetGear('P3 BiS', P3Gear);
+export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-raid', PreraidGear);
 
-export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
-	'P1',
-	Stats.fromMap({
-		[Stat.StatIntellect]: 0.38,
-		[Stat.StatSpirit]: 0.34,
-		[Stat.StatSpellDamage]: 1,
-		[Stat.StatMP5]: 0.0,
-	}),
-);
+// Stat weights with healing power = 1, ordered after wowhead's TBC stat priority for the spec
+// (healing > Spirit and MP5 > Intellect > haste > crit). Not sim-derived: there is no healing sim, so these only sort the gear picker
+// and drive the gem optimizer.
+export const DEFAULT_EP_PRESET = PresetUtils.makePresetEpWeightsFromJSON(DefaultEpJson);
 
-// Default talents. Uses the wowhead calculator format, make the talents on
-// https://wowhead.com/tbc/talent-calc and copy the numbers in the url.
-export const CelestialFocusTalents = {
-	name: 'Celestial Focus',
-	data: SavedTalents.create({
-		// talentsString: '05320031103--230023312131502331050313051',
-	}),
-};
-export const ThiccRestoTalents = {
-	name: 'Thicc Resto',
-	data: SavedTalents.create({
-		// talentsString: '05320001--230023312331502531053313051',
-	}),
-};
+// Talent builds from wowhead's TBC guide. Uses the wowhead calculator format, make the talents on
+// https://www.wowhead.com/tbc/talent-calc and copy the numbers in the url.
+export const TreeOfLifeTalents = PresetUtils.makePresetTalentsFromJSON(TreeOfLifeTalentsJson);
+export const DreamstateTalents = PresetUtils.makePresetTalentsFromJSON(DreamstateTalentsJson);
 
 export const DefaultOptions = RestorationDruidOptions.create({
 	classOptions: {
@@ -52,28 +28,13 @@ export const DefaultOptions = RestorationDruidOptions.create({
 });
 
 export const DefaultConsumables = ConsumesSpec.create({
-	flaskId: 0, // Flask of the Frost Wyrm (not in list)
-	foodId: 62290, // Seafood Magnifique Feast
-	potId: 57192, // Mythical Mana Potion
-});
-export const DefaultRaidBuffs = RaidBuffs.create({
-	...defaultRaidBuffMajorDamageCooldowns(),
-});
-
-export const DefaultIndividualBuffs = IndividualBuffs.create({});
-
-export const DefaultPartyBuffs = PartyBuffs.create({});
-
-export const DefaultDebuffs = Debuffs.create({
-	// bloodFrenzy: true,
-	// sunderArmor: true,
-	// ebonPlaguebringer: true,
-	// mangle: true,
-	// criticalMass: true,
-	// demoralizingShout: true,
-	// frostFever: true,
+	flaskId: 22853, // Flask of Mighty Restoration
+	foodId: 27666, // Golden Fish Sticks
+	potId: 22832, // Super Mana Potion
 });
 
 export const OtherDefaults = {
-	distanceFromTarget: 18,
+	distanceFromTarget: 20,
+	profession1: Profession.Tailoring,
+	profession2: Profession.Enchanting,
 };

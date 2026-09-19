@@ -1,58 +1,38 @@
 import * as PresetUtils from '@app/preset_utils';
-import { ConsumesSpec, Stat } from '@generated/proto/common';
+import { ConsumesSpec, Profession } from '@generated/proto/common';
 import { RestorationShaman_Options as RestorationShamanOptions } from '@generated/proto/shaman';
-import { SavedTalents } from '@generated/proto/ui';
-import { Stats } from '@sim/proto/stats';
 
-import P1Gear from './gear_sets/p1.gear.json';
-import P2Gear from './gear_sets/p2.gear.json';
 import P3Gear from './gear_sets/p3.gear.json';
-import P4Gear from './gear_sets/p4.gear.json';
 import PreraidGear from './gear_sets/preraid.gear.json';
+import DefaultEpJson from './presets/ep/default.ep.json';
+import ElementalWardingTalentsJson from './presets/talents/elemental_warding.talents.json';
+import EnhancingTotemsTalentsJson from './presets/talents/enhancing_totems.talents.json';
 
-// Preset options for this spec.
-// Eventually we will import these values for the raid sim too, so its good to
-// keep them in a separate file.
+export const P3_PRESET = PresetUtils.makePresetGear('P3 BiS', P3Gear);
+export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-raid', PreraidGear);
 
-export const PRERAID_PRESET = PresetUtils.makePresetGear('PreRaid', PreraidGear);
-export const P1_PRESET = PresetUtils.makePresetGear('P1 Preset', P1Gear);
-export const P2_PRESET = PresetUtils.makePresetGear('P2 Preset', P2Gear);
-export const P3_PRESET = PresetUtils.makePresetGear('P3 Preset', P3Gear);
-export const P4_PRESET = PresetUtils.makePresetGear('P4 Preset', P4Gear);
+// Stat weights with healing power = 1, ordered after wowhead's TBC stat priority for the spec
+// (healing > MP5 > Intellect > haste > crit > Stamina > Spirit). Not sim-derived: there is no healing sim, so these only sort the gear picker
+// and drive the gem optimizer.
+export const DEFAULT_EP_PRESET = PresetUtils.makePresetEpWeightsFromJSON(DefaultEpJson);
 
-// Preset options for EP weights
-export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
-	'P1',
-	Stats.fromMap({
-		[Stat.StatIntellect]: 0.22,
-		[Stat.StatSpirit]: 0.05,
-		[Stat.StatSpellDamage]: 1,
-		[Stat.StatMP5]: 0.08,
-	}),
-);
-
-// Default talents. Uses the wowhead calculator format, make the talents on
-// https://wowhead.com/tbc/talent-calc and copy the numbers in the url.
-export const TankHealingTalents = {
-	name: 'Tank Healing',
-	data: SavedTalents.create({
-		// talentsString: '-30205033-05005331335010501122331251',
-	}),
-};
-export const RaidHealingTalents = {
-	name: 'Raid Healing',
-	data: SavedTalents.create({
-		// talentsString: '-3020503-50005331335310501122331251',
-	}),
-};
+// Talent builds from wowhead's TBC guide. Uses the wowhead calculator format, make the talents on
+// https://www.wowhead.com/tbc/talent-calc and copy the numbers in the url.
+export const ElementalWardingTalents = PresetUtils.makePresetTalentsFromJSON(ElementalWardingTalentsJson);
+export const EnhancingTotemsTalents = PresetUtils.makePresetTalentsFromJSON(EnhancingTotemsTalentsJson);
 
 export const DefaultOptions = RestorationShamanOptions.create({
 	classOptions: {},
-	earthShieldPPM: 0,
 });
 
 export const DefaultConsumables = ConsumesSpec.create({
-	flaskId: 123, // Flask of the Frost Wyrm (not in list)
-	foodId: 62290, // Seafood Magnifique Feast
-	potId: 123, // Runic Mana Injector (not in list)
+	flaskId: 22853, // Flask of Mighty Restoration
+	foodId: 27666, // Golden Fish Sticks
+	potId: 22832, // Super Mana Potion
 });
+
+export const OtherDefaults = {
+	distanceFromTarget: 20,
+	profession1: Profession.Leatherworking,
+	profession2: Profession.Enchanting,
+};

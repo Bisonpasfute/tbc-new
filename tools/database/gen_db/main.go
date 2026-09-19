@@ -719,7 +719,12 @@ func GetAllRotationSpellIds() map[string][]int32 {
 			Class:         proto.Class_ClassPriest,
 			Equipment:     &proto.EquipmentSpec{},
 			TalentsString: "5552323133525122531551-235551332322152531351-553252512251123251551",
-		}, &proto.Player_Priest{Priest: &proto.Priest{Options: &proto.Priest_Options{ClassOptions: &proto.PriestOptions{}}}}), nil, nil, nil)},
+		}, &proto.Player_DpsPriest{DpsPriest: &proto.DpsPriest{Options: &proto.DpsPriest_Options{ClassOptions: &proto.PriestOptions{}}}}), nil, nil, nil)},
+		{Name: "healerPriest", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
+			Class:         proto.Class_ClassPriest,
+			Equipment:     &proto.EquipmentSpec{},
+			TalentsString: "5552323133525122531551-235551332322152531351-553252512251123251551",
+		}, &proto.Player_HealerPriest{HealerPriest: &proto.HealerPriest{Options: &proto.HealerPriest_Options{ClassOptions: &proto.PriestOptions{}}}}), nil, nil, nil)},
 
 		// Rogue
 		{Name: "rogue", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{

@@ -10,16 +10,19 @@ import { EP_TOOLTIP_ID } from './utils';
 export interface EpWeightsHeaderProps {
 	columns: EpColumn[];
 	showThreatMetrics: boolean;
+	showUpdateColumn?: boolean;
 }
 
-export const EpWeightsHeader = ({ columns, showThreatMetrics }: EpWeightsHeaderProps) => (
+export const EpWeightsHeader = ({ columns, showThreatMetrics, showUpdateColumn = true }: EpWeightsHeaderProps) => (
 	<tr>
 		<th className={clsx('ui-ep-weights-table-header-cell', showThreatMetrics && 'lg:max-xl:pr-0')}>
 			{i18n.t('sidebar.buttons.stat_weights.modal.column_headers.stat')}
 		</th>
-		<th className={clsx('ui-ep-weights-table-header-cell', showThreatMetrics && 'lg:max-xl:pr-0')}>
-			{i18n.t('sidebar.buttons.stat_weights.modal.column_headers.update')}
-		</th>
+		{showUpdateColumn && (
+			<th className={clsx('ui-ep-weights-table-header-cell', showThreatMetrics && 'lg:max-xl:pr-0')}>
+				{i18n.t('sidebar.buttons.stat_weights.modal.column_headers.update')}
+			</th>
+		)}
 		{columns.map(column => {
 			const isAction = column.type === 'action';
 			return (

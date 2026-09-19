@@ -50,8 +50,9 @@ describe('the storage keys SimHostObject builds', () => {
 });
 
 describe('the settings envelope version', () => {
-	// `updateProtoVersion` migrates anything below this; the golden capture recorded 14.
-	it('is the version the golden capture was taken at', () => {
-		expect(CURRENT_API_VERSION).toBe(14);
+	// `updateProtoVersion` migrates anything below this; the golden capture recorded 14, and 15 only
+	// renamed the shadow priest oneof (handled before parsing), so the capture still loads.
+	it('is one past the version the golden capture was taken at', () => {
+		expect(CURRENT_API_VERSION).toBe(15);
 	});
 });

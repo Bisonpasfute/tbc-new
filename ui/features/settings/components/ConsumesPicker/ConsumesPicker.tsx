@@ -20,9 +20,20 @@ export interface ConsumesPickerProps {
 	imbueMHOptions: ReadonlyArray<ConsumableStatOption<number>>;
 	imbueOHOptions: ReadonlyArray<ConsumableStatOption<number>>;
 	drumsOptions: ReadonlyArray<ConsumableStatOption<number>>;
+	// Potions, explosives, drums, pet consumables and the combat-only miscellany matter inside an
+	// encounter; a gear planner never runs one and passes false.
+	encounterConsumes?: boolean;
 }
 
-export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOptions, imbueMHOptions, imbueOHOptions, drumsOptions }: ConsumesPickerProps) => {
+export const ConsumesPicker = ({
+	consumableStats,
+	conjuredOptions,
+	explosiveOptions,
+	imbueMHOptions,
+	imbueOHOptions,
+	drumsOptions,
+	encounterConsumes = true,
+}: ConsumesPickerProps) => {
 	const player = usePlayer() as Player<any>;
 	const configs = useMemo(
 		() => consumeConfigs(player, Database.getSync(), consumableStats, conjuredOptions, explosiveOptions, imbueMHOptions, imbueOHOptions, drumsOptions),
@@ -31,12 +42,14 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 
 	return (
 		<div className="grid gap-3 max-lg:grid-cols-3 max-md:grid-cols-1">
-			<ConsumeRow name="potions" configs={[configs.potion, configs.conjured]}>
-				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-potions">
-					<IconEnumPicker modObject={player} config={configs.potion} />
-					<IconEnumPicker modObject={player} config={configs.conjured} />
-				</PickerGroup>
-			</ConsumeRow>
+			{encounterConsumes && (
+				<ConsumeRow name="potions" configs={[configs.potion, configs.conjured]}>
+					<PickerGroup variant="icons" className="justify-end" data-testid="consumes-potions">
+						<IconEnumPicker modObject={player} config={configs.potion} />
+						<IconEnumPicker modObject={player} config={configs.conjured} />
+					</PickerGroup>
+				</ConsumeRow>
+			)}
 			<ConsumeRow name="elixirs">
 				<PickerGroup variant="icons" className="justify-end">
 					<div data-testid="consumes-flasks">
@@ -56,13 +69,15 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					<IconEnumPicker modObject={player} config={configs.food} />
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="engineering" configs={[configs.explosive, ConsumablesInputs.GoblinSapper, ConsumablesInputs.SuperSapper]}>
-				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-engi">
-					<IconEnumPicker modObject={player} config={configs.explosive} />
-					<IconPicker modObject={player} config={ConsumablesInputs.GoblinSapper} />
-					<IconPicker modObject={player} config={ConsumablesInputs.SuperSapper} />
-				</PickerGroup>
-			</ConsumeRow>
+			{encounterConsumes && (
+				<ConsumeRow name="engineering" configs={[configs.explosive, ConsumablesInputs.GoblinSapper, ConsumablesInputs.SuperSapper]}>
+					<PickerGroup variant="icons" className="justify-end" data-testid="consumes-engi">
+						<IconEnumPicker modObject={player} config={configs.explosive} />
+						<IconPicker modObject={player} config={ConsumablesInputs.GoblinSapper} />
+						<IconPicker modObject={player} config={ConsumablesInputs.SuperSapper} />
+					</PickerGroup>
+				</ConsumeRow>
+			)}
 			<ConsumeRow name="imbue">
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-imbue">
 					<IconEnumPicker modObject={player} config={configs.mhImbue} />
@@ -73,10 +88,10 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					{player.getPlayerSpec().canDualWield && <IconEnumPicker modObject={player} config={configs.ohImbue} />}
 				</PickerGroup>
 			</ConsumeRow>
-			{/* Ungated on purpose, the way vanilla's drums row was: the picker has to stay mounted while
+			{/* Never unmounted, the way vanilla's drums row was: the picker has to stay mounted while
 			    it is hidden so that it zeroes a drums selection the player can no longer make, and restores
-			    it if Leatherworking comes back. */}
-			<ConsumeRow name="drums">
+			    it if Leatherworking comes back. A gear planner hides the row for good. */}
+			<ConsumeRow name="drums" hidden={!encounterConsumes}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-drums">
 					<IconEnumPicker modObject={player} config={configs.drums} />
 				</PickerGroup>
@@ -98,14 +113,16 @@ export const ConsumesPicker = ({ consumableStats, conjuredOptions, explosiveOpti
 					<IconPicker modObject={player} config={ConsumablesInputs.ScrollArm} />
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="miscellaneous" configs={[ConsumablesInputs.NightmareSeed, ConsumablesInputs.Bloodthistle, ConsumablesInputs.BoglingRoot]}>
-				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-misc">
-					<IconPicker modObject={player} config={ConsumablesInputs.NightmareSeed} />
-					<IconPicker modObject={player} config={ConsumablesInputs.Bloodthistle} />
-					<IconPicker modObject={player} config={ConsumablesInputs.BoglingRoot} />
-				</PickerGroup>
-			</ConsumeRow>
-			<ConsumeRow name="pet">
+			{encounterConsumes && (
+				<ConsumeRow name="miscellaneous" configs={[ConsumablesInputs.NightmareSeed, ConsumablesInputs.Bloodthistle, ConsumablesInputs.BoglingRoot]}>
+					<PickerGroup variant="icons" className="justify-end" data-testid="consumes-misc">
+						<IconPicker modObject={player} config={ConsumablesInputs.NightmareSeed} />
+						<IconPicker modObject={player} config={ConsumablesInputs.Bloodthistle} />
+						<IconPicker modObject={player} config={ConsumablesInputs.BoglingRoot} />
+					</PickerGroup>
+				</ConsumeRow>
+			)}
+			<ConsumeRow name="pet" hidden={!encounterConsumes}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-pet">
 					<IconEnumPicker modObject={player} config={configs.petFood} />
 					<IconPicker modObject={player} config={ConsumablesInputs.PetScrollAgi} />

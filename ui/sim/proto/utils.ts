@@ -1,5 +1,17 @@
 import { Player } from '@generated/proto/api';
-import { Class, Debuffs, Faction, Race, RaidBuffs, Spec, UnitReference, UnitReference_Type } from '@generated/proto/common';
+import {
+	Class,
+	Debuffs,
+	Faction,
+	IndividualBuffs,
+	PartyBuffs,
+	Race,
+	RaidBuffs,
+	Spec,
+	TristateEffect,
+	UnitReference,
+	UnitReference_Type,
+} from '@generated/proto/common';
 import { ResourceType } from '@generated/proto/spell';
 
 import { CURRENT_PHASE, Phase } from '../constants/other';
@@ -123,6 +135,29 @@ export const defaultRaidBuffMajorDamageCooldowns = (_?: Class): Partial<RaidBuff
 		bloodlust: true,
 	});
 };
+
+// The buffs every healer gear planner starts with: the caster stat buffs, the two caster totems
+// and the blessings. No cooldowns: nothing is simulated, so Bloodlust and the like only mislead.
+// Nothing here depends on the class.
+export const defaultHealerRaidBuffs = (): RaidBuffs =>
+	RaidBuffs.create({
+		arcaneBrilliance: true,
+		giftOfTheWild: TristateEffect.TristateEffectImproved,
+		powerWordFortitude: TristateEffect.TristateEffectImproved,
+		divineSpirit: TristateEffect.TristateEffectImproved,
+	});
+
+export const defaultHealerPartyBuffs = (): PartyBuffs =>
+	PartyBuffs.create({
+		manaSpringTotem: TristateEffect.TristateEffectRegular,
+		wrathOfAirTotem: TristateEffect.TristateEffectRegular,
+	});
+
+export const defaultHealerIndividualBuffs = (): IndividualBuffs =>
+	IndividualBuffs.create({
+		blessingOfKings: true,
+		blessingOfWisdom: TristateEffect.TristateEffectImproved,
+	});
 
 const exposeWeaknessPhaseSettings: Map<Phase, Pick<Debuffs, 'exposeWeaknessUptime' | 'exposeWeaknessHunterAgility'>> = new Map([
 	[Phase.Phase1, { exposeWeaknessUptime: 0.9, exposeWeaknessHunterAgility: 1080 }],

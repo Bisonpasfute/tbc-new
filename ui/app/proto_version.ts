@@ -39,6 +39,12 @@ const TBC_CONVERSION_MAP: ProtoConversionMap<IndividualSimSettings> = new Map([
 			return oldProto;
 		},
 	],
+	// Version 15 renamed the shadow priest's Player oneof from `priest` to `dps_priest` (and the
+	// Spec value to SpecDpsPriest): the sim covers any dps priest, not only shadow. Binary payloads
+	// (share links) carry the field by number, and JSON ones (autosaved settings, the JSON importer)
+	// are renamed before parsing by `parseLegacySettingsJson`, so there is nothing left to convert
+	// here; the entry only stamps the version.
+	[15, (oldProto: IndividualSimSettings) => oldProto],
 ]);
 
 /**

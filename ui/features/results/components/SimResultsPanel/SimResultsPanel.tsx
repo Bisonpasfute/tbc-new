@@ -6,6 +6,7 @@ import { Spinner } from '@ui-kit/Spinner';
 import { useSyncExternalStore } from 'react';
 
 import { AbortButton } from './AbortButton';
+import { GearPlannerNotice } from './GearPlannerNotice';
 import { ResultsPanelStage, type ResultsPanelStore } from './results_panel_store';
 import { SimProgress } from './SimProgress';
 import { SimResultSummary } from './SimResultSummary';
@@ -40,7 +41,8 @@ export const SimResultsPanel = ({ panel, warnings, results }: SimResultsPanelPro
 				{abortHandler && <AbortButton onAbort={abortHandler} />}
 			</div>
 			<SimWarnings warnings={warnings} ready={ready} />
-			{host.disabled && <UnlaunchedNotice isHealingSpec={host.player.getPlayerSpec().isHealingSpec} />}
+			{host.disabled && <UnlaunchedNotice />}
+			{host.simDisabled && !host.disabled && <GearPlannerNotice />}
 		</div>
 	);
 };

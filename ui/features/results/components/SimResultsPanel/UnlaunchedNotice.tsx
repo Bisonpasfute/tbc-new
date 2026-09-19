@@ -2,11 +2,8 @@ import i18n from '@i18n/config';
 import { Button } from '@ui-kit/Button';
 import { Icon } from '@ui-kit/Icon';
 
-export interface UnlaunchedNoticeProps {
-	isHealingSpec: boolean;
-}
-
-export const UnlaunchedNotice = ({ isHealingSpec }: UnlaunchedNoticeProps) => (
+// No pointer to an external healing sim: QE Live covers MoP only.
+export const UnlaunchedNotice = () => (
 	<div
 		className="mt-auto mr-auto mb-auto ml-auto flex max-w-100 flex-col items-center text-center [&_i]:text-danger"
 		data-testid="sim-ui-unlaunched-container">
@@ -21,16 +18,5 @@ export const UnlaunchedNotice = ({ isHealingSpec }: UnlaunchedNoticeProps) => (
 			</Button>
 			!
 		</p>
-		{isHealingSpec && (
-			<p>
-				{i18n.t('sim.unlaunched.healing_message')}
-				<br />
-				{i18n.t('sim.unlaunched.qe_live_message')}{' '}
-				<Button as="a" variant="unstyled" href="https://questionablyepic.com/live/">
-					QE Live
-				</Button>
-				!
-			</p>
-		)}
 	</div>
 );

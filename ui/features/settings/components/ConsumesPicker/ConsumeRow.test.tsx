@@ -43,10 +43,10 @@ const configFor = (shown: (options: Options) => boolean): IconEnumPickerConfig<O
 
 const CHILD_CLASS_NAME = 'picker-group icon-group consumes-row-inputs consumes-engi';
 
-const row = (options: Options, configs?: Array<IconEnumPickerConfig<Options, number>>) => {
+const row = (options: Options, configs?: Array<IconEnumPickerConfig<Options, number>>, hidden?: boolean) => {
 	render(
 		<SimHostProvider host={{ player: options } as never}>
-			<ConsumeRow name="engineering" configs={configs as never}>
+			<ConsumeRow name="engineering" configs={configs as never} hidden={hidden}>
 				<div className={CHILD_CLASS_NAME} />
 			</ConsumeRow>
 		</SimHostProvider>,
@@ -113,6 +113,19 @@ describe('ConsumeRow', () => {
 
 		act(() => options.changeProfession(1));
 		expect(document.body.contains(element)).toBe(true);
+	});
+
+	// A gear planner has no encounter, so it hides the drums and pet rows outright; the pickers
+	// inside still have to stay mounted for the same zeroing reason as above.
+	it('hides a row the caller hides, whatever its pickers say, without unmounting it', () => {
+		const options = new Options();
+		const element = row(options, [configFor(() => true)], true);
+
+		expect(element.hasAttribute('hidden')).toBe(true);
+		expect(document.querySelector('.consumes-engi')).not.toBeNull();
+
+		act(() => options.changeProfession(1));
+		expect(element.hasAttribute('hidden')).toBe(true);
 	});
 
 	it('re-evaluates on any player change, not only a profession change', () => {

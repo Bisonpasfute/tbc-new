@@ -32,7 +32,15 @@ import {
 	RetributionPaladin_Options,
 	RetributionPaladin_Rotation,
 } from '@generated/proto/paladin';
-import { Priest, Priest_Options, Priest_Rotation, PriestTalents } from '@generated/proto/priest';
+import {
+	DpsPriest,
+	DpsPriest_Options,
+	DpsPriest_Rotation,
+	HealerPriest,
+	HealerPriest_Options,
+	HealerPriest_Rotation,
+	PriestTalents,
+} from '@generated/proto/priest';
 import { Rogue, Rogue_Options, Rogue_Rotation, RogueTalents } from '@generated/proto/rogue';
 import {
 	ElementalShaman,
@@ -290,12 +298,12 @@ export const specTypeFunctions: Record<Spec, SpecTypeFunctions<any>> = {
 				: RetributionPaladin_Options.create({ classOptions: {} }),
 	},
 	// Priest
-	[Spec.SpecPriest]: {
-		rotationCreate: () => Priest_Rotation.create(),
-		rotationEquals: (a, b) => Priest_Rotation.equals(a as Priest_Rotation, b as Priest_Rotation),
-		rotationCopy: a => Priest_Rotation.clone(a as Priest_Rotation),
-		rotationToJson: a => Priest_Rotation.toJson(a as Priest_Rotation),
-		rotationFromJson: obj => Priest_Rotation.fromJson(obj),
+	[Spec.SpecDpsPriest]: {
+		rotationCreate: () => DpsPriest_Rotation.create(),
+		rotationEquals: (a, b) => DpsPriest_Rotation.equals(a as DpsPriest_Rotation, b as DpsPriest_Rotation),
+		rotationCopy: a => DpsPriest_Rotation.clone(a as DpsPriest_Rotation),
+		rotationToJson: a => DpsPriest_Rotation.toJson(a as DpsPriest_Rotation),
+		rotationFromJson: obj => DpsPriest_Rotation.fromJson(obj),
 
 		talentsCreate: () => PriestTalents.create(),
 		talentsEquals: (a, b) => PriestTalents.equals(a as PriestTalents, b as PriestTalents),
@@ -303,13 +311,36 @@ export const specTypeFunctions: Record<Spec, SpecTypeFunctions<any>> = {
 		talentsToJson: a => PriestTalents.toJson(a as PriestTalents),
 		talentsFromJson: obj => PriestTalents.fromJson(obj),
 
-		optionsCreate: () => Priest_Options.create({ classOptions: {} }),
-		optionsEquals: (a, b) => Priest_Options.equals(a as Priest_Options, b as Priest_Options),
-		optionsCopy: a => Priest_Options.clone(a as Priest_Options),
-		optionsToJson: a => Priest_Options.toJson(a as Priest_Options),
-		optionsFromJson: obj => Priest_Options.fromJson(obj),
+		optionsCreate: () => DpsPriest_Options.create({ classOptions: {} }),
+		optionsEquals: (a, b) => DpsPriest_Options.equals(a as DpsPriest_Options, b as DpsPriest_Options),
+		optionsCopy: a => DpsPriest_Options.clone(a as DpsPriest_Options),
+		optionsToJson: a => DpsPriest_Options.toJson(a as DpsPriest_Options),
+		optionsFromJson: obj => DpsPriest_Options.fromJson(obj),
 		optionsFromPlayer: player =>
-			player.spec.oneofKind == 'priest' ? player.spec.priest.options || Priest_Options.create() : Priest_Options.create({ classOptions: {} }),
+			player.spec.oneofKind == 'dpsPriest' ? player.spec.dpsPriest.options || DpsPriest_Options.create() : DpsPriest_Options.create({ classOptions: {} }),
+	},
+	[Spec.SpecHealerPriest]: {
+		rotationCreate: () => HealerPriest_Rotation.create(),
+		rotationEquals: (a, b) => HealerPriest_Rotation.equals(a as HealerPriest_Rotation, b as HealerPriest_Rotation),
+		rotationCopy: a => HealerPriest_Rotation.clone(a as HealerPriest_Rotation),
+		rotationToJson: a => HealerPriest_Rotation.toJson(a as HealerPriest_Rotation),
+		rotationFromJson: obj => HealerPriest_Rotation.fromJson(obj),
+
+		talentsCreate: () => PriestTalents.create(),
+		talentsEquals: (a, b) => PriestTalents.equals(a as PriestTalents, b as PriestTalents),
+		talentsCopy: a => PriestTalents.clone(a as PriestTalents),
+		talentsToJson: a => PriestTalents.toJson(a as PriestTalents),
+		talentsFromJson: obj => PriestTalents.fromJson(obj),
+
+		optionsCreate: () => HealerPriest_Options.create({ classOptions: {} }),
+		optionsEquals: (a, b) => HealerPriest_Options.equals(a as HealerPriest_Options, b as HealerPriest_Options),
+		optionsCopy: a => HealerPriest_Options.clone(a as HealerPriest_Options),
+		optionsToJson: a => HealerPriest_Options.toJson(a as HealerPriest_Options),
+		optionsFromJson: obj => HealerPriest_Options.fromJson(obj),
+		optionsFromPlayer: player =>
+			player.spec.oneofKind == 'healerPriest'
+				? player.spec.healerPriest.options || HealerPriest_Options.create()
+				: HealerPriest_Options.create({ classOptions: {} }),
 	},
 	// Rogue
 	[Spec.SpecRogue]: {
@@ -556,11 +587,19 @@ export function withSpec<SpecType extends Spec>(spec: Spec, player: Player, spec
 			};
 			return copy;
 		// Priest
-		case Spec.SpecPriest:
+		case Spec.SpecDpsPriest:
 			copy.spec = {
-				oneofKind: 'priest',
-				priest: Priest.create({
-					options: specOptions as Priest_Options,
+				oneofKind: 'dpsPriest',
+				dpsPriest: DpsPriest.create({
+					options: specOptions as DpsPriest_Options,
+				}),
+			};
+			return copy;
+		case Spec.SpecHealerPriest:
+			copy.spec = {
+				oneofKind: 'healerPriest',
+				healerPriest: HealerPriest.create({
+					options: specOptions as HealerPriest_Options,
 				}),
 			};
 			return copy;

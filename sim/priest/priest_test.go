@@ -24,9 +24,9 @@ func TestShadowPriest(t *testing.T) {
 
 			SpecOptions: core.SpecOptionsCombo{
 				Label: "Shadow",
-				SpecOptions: &proto.Player_Priest{
-					Priest: &proto.Priest{
-						Options: &proto.Priest_Options{
+				SpecOptions: &proto.Player_DpsPriest{
+					DpsPriest: &proto.DpsPriest{
+						Options: &proto.DpsPriest_Options{
 							ClassOptions: &proto.PriestOptions{
 								// Begin the sim already in Shadowform so the opener
 								// doesn't spend a GCD casting it.

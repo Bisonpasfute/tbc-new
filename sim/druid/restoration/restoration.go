@@ -51,7 +51,12 @@ func (resto *RestorationDruid) Initialize() {
 	resto.Druid.Initialize()
 }
 
-func (resto *RestorationDruid) ApplyTalents() {}
+// The stat passives (Living Spirit, Heart of the Wild, Thick Hide) are what a gear planner shows;
+// WCL combatant info from the TBC anniversary realms had every deep-Restoration druid 5-15% short
+// on Spirit while this was empty.
+func (resto *RestorationDruid) ApplyTalents() {
+	resto.Druid.ApplyTalents()
+}
 
 func (resto *RestorationDruid) Reset(sim *core.Simulation) {
 	resto.Druid.Reset(sim)

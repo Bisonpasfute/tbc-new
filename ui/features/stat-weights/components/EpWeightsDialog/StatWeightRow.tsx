@@ -23,6 +23,7 @@ export interface StatWeightRowProps {
 	includable: boolean;
 	showThreatMetrics: boolean;
 	displayMetrics: DisplayMetrics;
+	showUpdateColumn?: boolean;
 }
 
 export const StatWeightRow = ({
@@ -37,6 +38,7 @@ export const StatWeightRow = ({
 	includable,
 	showThreatMetrics,
 	displayMetrics,
+	showUpdateColumn = true,
 }: StatWeightRowProps) => {
 	const rowResult = settings.isUnitStatExcludedFromCalc(stat) ? null : result;
 	const epDelta = scaledEpValue(stat, epRatios, rowResult) - epWeights.getUnitStat(stat);
@@ -55,21 +57,23 @@ export const StatWeightRow = ({
 	return (
 		<tr className="odd:bg-(--table-row-odd-bg) even:bg-(--table-row-even-bg)">
 			<td className={cellClassName}>{fullName}</td>
-			<td data-testid="swcalc-include-toggle" className={cellClassName}>
-				{includable && (
-					<BooleanPicker
-						modObject={settings}
-						config={{
-							id: `sw-stat-toggle-${sanitizeId(fullName)}`,
-							getValue: () => !settings.isUnitStatExcludedFromCalc(stat),
-							setValue: (subject, newValue) => subject.setStatExcluded(stat, !newValue),
-							storeField: 'statWeights:settings',
-							enableWhen: () => !stat.isStat() || epReferenceStat !== stat.getStat(),
-							extraClassNames: ['mb-0'],
-						}}
-					/>
-				)}
-			</td>
+			{showUpdateColumn && (
+				<td data-testid="swcalc-include-toggle" className={cellClassName}>
+					{includable && (
+						<BooleanPicker
+							modObject={settings}
+							config={{
+								id: `sw-stat-toggle-${sanitizeId(fullName)}`,
+								getValue: () => !settings.isUnitStatExcludedFromCalc(stat),
+								setValue: (subject, newValue) => subject.setStatExcluded(stat, !newValue),
+								storeField: 'statWeights:settings',
+								enableWhen: () => !stat.isStat() || epReferenceStat !== stat.getStat(),
+								extraClassNames: ['mb-0'],
+							}}
+						/>
+					)}
+				</td>
+			)}
 			{metrics.map(({ statWeights, ratioIndex }) => (
 				<StatWeightCells
 					key={ratioIndex}

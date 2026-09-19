@@ -28,7 +28,12 @@ describe('LandingClassMenu', () => {
 	});
 
 	it('uses the generic class crest for the priest, not its spell icon', () => {
-		const { getByTestId } = render(<LandingClassMenu playerClass={PlayerClasses.Priest} />);
-		expect(getByTestId('sim-link').querySelector('img')!.getAttribute('src')).toContain('class_priest.jpg');
+		render(<LandingClassMenu playerClass={PlayerClasses.Priest} />);
+		// Two priest specs now, so the crest sits on the menu trigger and each spec link carries its own icon.
+		const trigger = document.querySelector('[data-testid="sim-link-dropdown"] > [data-testid="sim-link"]')!;
+		expect(trigger.querySelector('img')!.getAttribute('src')).toContain('class_priest.jpg');
+		const specIcons = [...document.querySelectorAll('.ui-landing-sim-link-popup img')].map(img => img.getAttribute('src'));
+		expect(specIcons).toEqual(specsOf(PlayerClasses.Priest).map(spec => spec.getIcon('large')));
+		expect(specIcons.some(src => src!.includes('class_priest.jpg'))).toBe(false);
 	});
 });

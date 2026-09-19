@@ -324,13 +324,13 @@ export const makeDrumsInput = makeConsumeInputFactory({
 export const PetScrollAgi = makeBooleanConsumeInput({
 	actionId: ActionId.fromItemId(27498),
 	fieldName: 'petScrollAgi',
-	showWhen: (player: Player<any>) => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecPriest].includes(player.getSpec()),
+	showWhen: (player: Player<any>) => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecDpsPriest].includes(player.getSpec()),
 });
 
 export const PetScrollStr = makeBooleanConsumeInput({
 	actionId: ActionId.fromItemId(27503),
 	fieldName: 'petScrollStr',
-	showWhen: (player: Player<any>) => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecPriest].includes(player.getSpec()),
+	showWhen: (player: Player<any>) => [Spec.SpecHunter, Spec.SpecWarlock, Spec.SpecDpsPriest].includes(player.getSpec()),
 });
 
 ///////////////////////////////////////////////////////////////////////////

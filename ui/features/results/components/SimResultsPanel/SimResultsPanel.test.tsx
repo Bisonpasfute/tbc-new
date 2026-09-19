@@ -22,10 +22,10 @@ vi.mock('@sim/state/subscriptions', async () => mockSubscriptions());
 // under test here is that the content zone renders it and nothing else.
 vi.mock('./SimResultSummary', () => ({ SimResultSummary: () => <div data-testid="sim-result-summary-root" /> }));
 
-const host = (disabled = false, isHealingSpec = false) =>
+const host = (disabled = false, simDisabled = disabled) =>
 	fakeHost({
 		disabled,
-		player: { getPlayerSpec: () => ({ isHealingSpec }) },
+		simDisabled,
 		// The warnings only read the registry once the sim reports ready; every case here is a loaded sim.
 		sim: {
 			waitForInit: () => Promise.resolve(),
@@ -44,12 +44,12 @@ const mount = async (
 	panel: ResultsPanelStore,
 	warnings: WarningsRegistry,
 	disabled = false,
-	isHealingSpec = false,
 	results: SimResultsManager | null = null,
+	simDisabled = disabled,
 ) => {
 	const commits = vi.fn();
 	const view = render(
-		<SimHostProvider host={host(disabled, isHealingSpec)}>
+		<SimHostProvider host={host(disabled, simDisabled)}>
 			<Profiler id="panel" onRender={commits}>
 				<SimResultsPanel panel={panel} warnings={warnings} results={results} />
 			</Profiler>
@@ -121,7 +121,7 @@ describe('SimResultsPanel', () => {
 	it('renders the finished run into the content zone, and leaves it empty without a manager', async () => {
 		expect(zone((await mount(panel, warnings)).view, '[data-testid="results-content"]').childNodes.length).toBe(0);
 
-		const { view } = await mount(panel, warnings, false, false, {} as SimResultsManager);
+		const { view } = await mount(panel, warnings, false, {} as SimResultsManager);
 		expect(zone(view, '[data-testid="results-content"] > [data-testid="sim-result-summary-root"]')).not.toBeNull();
 	});
 
@@ -237,10 +237,32 @@ describe('SimResultsPanel', () => {
 		expect(launched.view.container.querySelector('[data-testid="sim-ui-unlaunched-container"]')).toBeNull();
 		launched.view.unmount();
 
-		const { view } = await mount(new ResultsPanelStore(), new WarningsRegistry(), true, true);
+		const { view } = await mount(new ResultsPanelStore(), new WarningsRegistry(), true);
 		const viewer = zone(view, '[data-testid="results-viewer"]');
 		expect(viewer.lastElementChild!.getAttribute('data-testid')).toBe('sim-ui-unlaunched-container');
-		expect(viewer.querySelectorAll('[data-testid="sim-ui-unlaunched-container"] p').length).toBe(2);
+		// One paragraph: TBC has no external healing sim to point at.
+		expect(viewer.querySelectorAll('[data-testid="sim-ui-unlaunched-container"] p').length).toBe(1);
+		expect(viewer.querySelector('a[href*="questionablyepic"]')).toBeNull();
+	});
+
+	it('renders the gear planner notice for a sim that never runs, and the unlaunched notice instead when the sim is disabled', async () => {
+		const launched = await mount(panel, warnings, false);
+		expect(launched.view.container.querySelector('[data-testid="sim-ui-gear-planner-container"]')).toBeNull();
+		launched.view.unmount();
+
+		const planner = await mount(new ResultsPanelStore(), new WarningsRegistry(), false, null, true);
+		const viewer = zone(planner.view, '[data-testid="results-viewer"]');
+		expect(viewer.lastElementChild!.getAttribute('data-testid')).toBe('sim-ui-gear-planner-container');
+		// One paragraph for every gear planner: TBC has no external healing sim to point at.
+		expect(viewer.querySelectorAll('[data-testid="sim-ui-gear-planner-container"] p').length).toBe(1);
+		expect(viewer.querySelector('a[href*="questionablyepic"]')).toBeNull();
+		expect(viewer.querySelector('[data-testid="sim-ui-unlaunched-container"]')).toBeNull();
+		planner.view.unmount();
+
+		// Unlaunched outside dev mode: both flags are set and only the unlaunched notice shows.
+		const { view } = await mount(new ResultsPanelStore(), new WarningsRegistry(), true, null, true);
+		expect(view.container.querySelector('[data-testid="sim-ui-unlaunched-container"]')).not.toBeNull();
+		expect(view.container.querySelector('[data-testid="sim-ui-gear-planner-container"]')).toBeNull();
 	});
 
 	it('drops its subscriptions and its tooltip on unmount', async () => {

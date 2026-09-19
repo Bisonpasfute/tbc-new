@@ -422,7 +422,10 @@ func getPlayerSpecOptions(player *proto.Player) interface{} {
 	if playerSpec, ok := player.Spec.(*proto.Player_RetributionPaladin); ok {
 		return playerSpec
 	}
-	if playerSpec, ok := player.Spec.(*proto.Player_Priest); ok {
+	if playerSpec, ok := player.Spec.(*proto.Player_DpsPriest); ok {
+		return playerSpec
+	}
+	if playerSpec, ok := player.Spec.(*proto.Player_HealerPriest); ok {
 		return playerSpec
 	}
 	if playerSpec, ok := player.Spec.(*proto.Player_Rogue); ok {

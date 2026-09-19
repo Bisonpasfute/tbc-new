@@ -67,9 +67,13 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 			}),
 	});
 
-	const displayMetrics = useDisplayMetrics(sim);
+	const simDisplayMetrics = useDisplayMetrics(sim);
+	// A gear planner never computes weights, so none of the computed columns apply: only the
+	// editable Current EP column is left (and the calculate button below is dropped).
+	const editOnly = !!host.simDisabled;
+	const displayMetrics = useMemo(() => (editOnly ? { damage: false, healing: false, threat: false } : simDisplayMetrics), [editOnly, simDisplayMetrics]);
 	const { threat: showThreatMetrics } = displayMetrics;
-	const showEpRatios = showsEpRatios(displayMetrics);
+	const showEpRatios = !editOnly && showsEpRatios(displayMetrics);
 	const refStats = useStoreSubscribe(subscribePlayerField(player, 'epRefStat'), () => ({
 		dps: player.getRefStat('dpsRefStat'),
 		heal: player.getRefStat('healRefStat'),
@@ -167,19 +171,26 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 			scrollContents
 			title={i18n.t('sidebar.buttons.stat_weights.modal.title')}
 			footer={
-				<Button data-testid="calc-weights" disabled={isRunning} onClick={() => void onCalculate()}>
-					<Icon name="calculator" className="mr-1" />
-					{i18n.t('sidebar.buttons.stat_weights.modal.calculate')}
-				</Button>
+				// A gear planner keeps the editor and drops the calculation: there is no sim to run it on.
+				host.simDisabled ? undefined : (
+					<Button data-testid="calc-weights" disabled={isRunning} onClick={() => void onCalculate()}>
+						<Icon name="calculator" className="mr-1" />
+						{i18n.t('sidebar.buttons.stat_weights.modal.calculate')}
+					</Button>
+				)
 			}>
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-start">
 				<div className="order-1 w-full lg:order-0">
 					<EpWeightsOptions options={options.current} onStatsTypeChange={setStatsType} onShowAllStatsChange={setShowAllStats} />
-					<EpReferenceOptions epStats={epStats} epReferenceStat={epReferenceStat} displayMetrics={displayMetrics} />
+					{!editOnly && <EpReferenceOptions epStats={epStats} epReferenceStat={epReferenceStat} displayMetrics={displayMetrics} />}
 					<p>
 						{i18n.t('sidebar.buttons.stat_weights.modal.current_ep_description')}
-						<br />
-						{i18n.t('sidebar.buttons.stat_weights.modal.copy_icon_description')}
+						{!editOnly && (
+							<>
+								<br />
+								{i18n.t('sidebar.buttons.stat_weights.modal.copy_icon_description')}
+							</>
+						)}
 					</p>
 					<EpWeightsTable
 						columns={visibleColumns}
@@ -197,6 +208,7 @@ export const EpWeightsDialog = ({ open, onOpenChange, settings }: EpWeightsDialo
 						showThreatMetrics={showThreatMetrics}
 						showEpRatios={showEpRatios}
 						displayMetrics={displayMetrics}
+						showUpdateColumn={!editOnly}
 					/>
 				</div>
 				<div className="ui-ep-weights-sidebar order-0 min-w-42.5 lg:sticky lg:top-0 lg:z-sticky lg:order-1">

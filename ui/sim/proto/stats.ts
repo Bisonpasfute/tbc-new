@@ -782,6 +782,15 @@ export const DEFAULT_CASTER_GEM_STATS = [
 	Stat.StatSpellHasteRating,
 ];
 export const DEFAULT_HYBRID_CASTER_GEM_STATS = [...DEFAULT_CASTER_GEM_STATS, Stat.StatSpirit];
+export const DEFAULT_HEALER_GEM_STATS = [
+	...DEFAULT_GEM_STATS,
+	Stat.StatIntellect,
+	Stat.StatSpirit,
+	Stat.StatHealingPower,
+	Stat.StatSpellCritRating,
+	Stat.StatSpellHasteRating,
+	Stat.StatMP5,
+];
 
 // ---------------------------------------------------------------------------
 // Stat attribution (moved out of components/character_stats.tsx so the math is
