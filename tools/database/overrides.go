@@ -577,6 +577,7 @@ var DenyListNameRegexes = []*regexp.Regexp{
 	regexp.MustCompile(`zzold`),
 	regexp.MustCompile(`Tom's`),
 	regexp.MustCompile(`Stabilized Eternium Scope`),
+	regexp.MustCompile(`Sockety Goodness`), // GM test gear; the only TBC items with a prismatic socket
 }
 
 // Allows manual overriding for Gem fields in case WowHead is wrong.
