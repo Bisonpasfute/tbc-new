@@ -111,6 +111,7 @@ A rank also carries what the client knows about casting it:
 | `CastTime`, `GCD`, `Cooldown` | zero for a channel, whose duration carries it                                                                                              |
 | `MinRange`, `MaxRange`        | `core` gates the cast on both; zero means ungated. `MinRange` is the dead zone on a charge, and is nonzero on only 212 spells in the build |
 | `MissileSpeed`                | yards per second, which `core` turns into the delay before the damage lands. Zero is an instant hit                                        |
+| `SpellSchool`, `DefenseType`  | as `core` names them. The client's school bits are `core`'s bits, so this is the number the DBC states rather than a translation of it     |
 
 `MissileSpeed` is the one to be careful with: giving a spell a speed it did not have delays its damage
 and moves goldens, so check the sim is not already modelling it elsewhere. Arcane Missiles is the case
@@ -205,6 +206,18 @@ ProcChance: spellData.SealFate.ProcChanceAt(rogue.Talents.SealFate)   // 0.20 at
 **A 100 does not always mean a 100% roll.** Flurry and Enrage read 100 because they fire on their own
 condition - a crit - rather than on a chance, and the number the sim wants for those is somewhere else
 entirely. Check what the talent actually does before wiring it.
+
+### The high end of an effect
+
+`SpellDataEffect.Value` is the low end. An aura with one die side and a fractional base has two ends a
+whole number apart, and the game shows the higher: Seal of the Crusader rank 1 states 39.2 attack power
+and buffs for 41. `ValueMax` holds it, and is zero on the 82% of effects where the two agree, so read
+`High()` rather than `ValueMax` - rank 4's base is whole, so it has no `ValueMax` and its answer is
+`Value`.
+
+```go
+spellData.SealOfTheCrusader.ByRank(rank).Effects[0].High()   // 41 at rank 1, 183 at rank 4
+```
 
 ### The Misc value
 
@@ -343,6 +356,26 @@ All four return a copy, so the generated table keeps what the database said. All
 is nil on any rank - check the generated table first, `spellData.Mangle` is the _learn-spell_ entry
 (`Effect = 36`) and carries no value at all - and if the table already carries a coefficient, because a
 value that appears upstream should be noticed, not silently shadowed.
+
+## A row that is more than one spell
+
+A seal is three spells for one rank - the aura, the proc it triggers and the judgement - so it keeps
+its own row type rather than becoming a `SpellData`, and `SpellDataTableOf` is generic for exactly
+that. What the client states is read from the tables; what it does not is passed in, and the shorter
+name goes to the common case so a family that diverges reads differently from one that does not.
+
+```go
+// everything the client states, judgement damage included
+sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, rank, proc{...})
+
+// for the families whose judgement damage has to be supplied by hand
+sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, rank, proc{...}, judge{...})
+```
+
+This is the pattern for any composite that follows - totems, poisons. Two things it taught: put the
+reason for each literal on its own line rather than in a block at the top, and do not trust a golden
+to verify it. The paladin goldens carry no seal spell ID at all, so the port was checked by dumping
+every constructed row against the literals it replaced.
 
 ## Regenerating
 
