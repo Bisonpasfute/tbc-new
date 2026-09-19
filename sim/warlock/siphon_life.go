@@ -12,7 +12,7 @@ var siphonLifeTick = siphonLifeRank.Periodic.(shared.SpellRankPeriodic)
 var siphonLifeCoeff = siphonLifeTick.Coef
 
 func (warlock *Warlock) registerSiphonLifeSpell() {
-	actionID := core.ActionID{SpellID: 30911}
+	actionID := core.ActionID{SpellID: siphonLifeRank.SpellID}
 	baseCost := float64(siphonLifeRank.Cost)
 
 	healthMetrics := warlock.NewHealthMetrics(actionID)

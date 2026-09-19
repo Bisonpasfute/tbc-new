@@ -11,7 +11,7 @@ func (mage *Mage) registerFireballSpell() {
 	fireballTick := fireballRank.Periodic.(shared.SpellRankPeriodic)
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27070},
+		ActionID:       core.ActionID{SpellID: fireballRank.SpellID},
 		SpellSchool:    core.SpellSchoolFire,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

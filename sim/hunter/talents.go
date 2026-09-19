@@ -320,7 +320,7 @@ var aimedShotRank = genRanks.AimedShot.BySpellID(27065)
 
 func (hunter *Hunter) registerAimedShot() {
 	hunter.AimedShot = hunter.RegisterRangedSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27065},
+		ActionID:       core.ActionID{SpellID: aimedShotRank.SpellID},
 		SpellSchool:    core.SpellSchoolPhysical,
 		DefenseType:    core.DefenseTypeRanged,
 		ClassSpellMask: HunterSpellAimedShot,

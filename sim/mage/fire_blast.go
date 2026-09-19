@@ -9,7 +9,7 @@ var fireBlastRank = genRanks.FireBlast.BySpellID(27079)
 func (mage *Mage) registerFireBlastSpell() {
 
 	mage.FireBlast = mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27079},
+		ActionID:       core.ActionID{SpellID: fireBlastRank.SpellID},
 		SpellSchool:    core.SpellSchoolFire,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

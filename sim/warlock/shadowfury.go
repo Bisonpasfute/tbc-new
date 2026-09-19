@@ -10,7 +10,7 @@ var shadowFuryCoeff = shadowFuryRank.Direct.BonusCoefficient()
 func (warlock *Warlock) registerShadowfury() {
 
 	warlock.Shadowfury = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30414},
+		ActionID:       core.ActionID{SpellID: shadowFuryRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,

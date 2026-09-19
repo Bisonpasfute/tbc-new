@@ -19,7 +19,7 @@ func (warlock *Warlock) registerCurseOfAgony() {
 	}
 
 	warlock.CurseOfAgony = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27218},
+		ActionID:       core.ActionID{SpellID: agonyRank.SpellID},
 		Flags:          core.SpellFlagAPL,
 		ProcMask:       core.ProcMaskSpellDamage,
 		SpellSchool:    core.SpellSchoolShadow,

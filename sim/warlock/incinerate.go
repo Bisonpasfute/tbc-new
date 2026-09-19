@@ -9,7 +9,7 @@ var incinerateCoeff = incinerateRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerIncinerate() {
 	warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 32231},
+		ActionID:       core.ActionID{SpellID: incinerateRank.SpellID},
 		SpellSchool:    core.SpellSchoolFire,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,

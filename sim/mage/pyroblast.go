@@ -8,7 +8,7 @@ import (
 var pyroblastRank = genRanks.Pyroblast.BySpellID(33938)
 
 func (mage *Mage) registerPyroblastSpell() {
-	actionID := core.ActionID{SpellID: 33938}
+	actionID := core.ActionID{SpellID: pyroblastRank.SpellID}
 
 	pyroblastDotCoefficient := 0.05000000075
 	pyroblastTick := pyroblastRank.Periodic.(shared.SpellRankPeriodic)

@@ -30,7 +30,7 @@ func (mage *Mage) frostBoltConfig(config core.SpellConfig) core.SpellConfig {
 var frostboltRank = genRanks.Frostbolt.BySpellID(27072)
 
 func (mage *Mage) registerFrostboltSpell() {
-	actionID := core.ActionID{SpellID: 27072}
+	actionID := core.ActionID{SpellID: frostboltRank.SpellID}
 
 	mage.RegisterSpell(mage.frostBoltConfig(core.SpellConfig{
 		ActionID: actionID,

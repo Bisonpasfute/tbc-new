@@ -11,7 +11,7 @@ func (warlock *Warlock) registerCurseOfElements() {
 		return core.CurseOfElementsAura(target, 1, warlock.Talents.Malediction)
 	})
 	warlock.CurseOfElements = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27228},
+		ActionID:       core.ActionID{SpellID: curseOfElementsRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskEmpty,

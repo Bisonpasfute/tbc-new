@@ -11,7 +11,7 @@ func (warlock *Warlock) registerCurseOfRecklessness() {
 		return core.CurseOfRecklessnessAura(target, 1)
 	})
 	warlock.CurseOfRecklessness = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27226},
+		ActionID:       core.ActionID{SpellID: curseOfRecklessnessRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskEmpty,

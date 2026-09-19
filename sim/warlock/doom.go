@@ -17,7 +17,7 @@ func (warlock *Warlock) registerCurseOfDoom() {
 	}
 
 	warlock.CurseOfDoom = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30910},
+		ActionID:       core.ActionID{SpellID: doomRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

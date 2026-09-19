@@ -10,7 +10,7 @@ var shadowBoltCoeff = shadowBoltRank.Direct.BonusCoefficient()
 func (warlock *Warlock) registerShadowBolt() {
 
 	warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27209},
+		ActionID:       core.ActionID{SpellID: shadowBoltRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,

@@ -11,7 +11,7 @@ func (mage *Mage) registerScorchSpell() {
 	procChance := []float64{0, 0.33, 0.66, 1}[mage.Talents.ImprovedScorch]
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27074},
+		ActionID:       core.ActionID{SpellID: scorchRank.SpellID},
 		SpellSchool:    core.SpellSchoolFire,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

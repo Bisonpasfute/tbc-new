@@ -13,7 +13,7 @@ var uaCoeff = uaTick.Coef
 
 func (warlock *Warlock) registerUnstableAffliction() {
 	warlock.UnstableAffliction = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30405},
+		ActionID:       core.ActionID{SpellID: uaRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

@@ -11,7 +11,7 @@ import (
 var aspectOfTheHawkRank = genRanks.AspectOfTheHawk.BySpellID(27044)
 
 func (hunter *Hunter) registerAspectOfTheHawkSpell() {
-	actionID := core.ActionID{SpellID: 27044}
+	actionID := core.ActionID{SpellID: aspectOfTheHawkRank.SpellID}
 
 	hunter.AspectOfTheHawkAura = hunter.applySharedAspectConfig(hunter.RegisterAura(core.Aura{
 		Label:      "Aspect of the Hawk",

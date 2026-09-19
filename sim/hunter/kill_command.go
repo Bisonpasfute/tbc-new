@@ -24,7 +24,7 @@ func (hunter *Hunter) registerKillCommandSpell() {
 	})
 
 	hunter.KillCommand = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 34026},
+		ActionID:    core.ActionID{SpellID: killCommandRank.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		// Kill Command (34026) has no SpellCategories row; the actual damage is dealt by
 		// the pet's Kill Command (34027), which is Melee.

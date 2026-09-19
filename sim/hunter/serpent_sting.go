@@ -11,7 +11,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 	serpentStingTick := serpentStingRank.Periodic.(shared.SpellRankPeriodic)
 
 	hunter.SerpentSting = hunter.RegisterRangedSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 27016},
+		ActionID:    core.ActionID{SpellID: serpentStingRank.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		DefenseType: core.DefenseTypeRanged,
 		// A cast, not a proc, but one that must not read as a ranged hit to on-hit listeners; what

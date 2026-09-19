@@ -11,7 +11,7 @@ func (mage *Mage) registerFrostNovaSpell() {
 	frostNovaCoefficient := 0.18799999356 // Per https://wago.tools/db2/SpellEffect?build=2.5.5.65295&filter%5BSpellID%5D=exact%253A122 Field "EffetBonusCoefficient"
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27088},
+		ActionID:       core.ActionID{SpellID: frostNovaRank.SpellID},
 		SpellSchool:    core.SpellSchoolFrost,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

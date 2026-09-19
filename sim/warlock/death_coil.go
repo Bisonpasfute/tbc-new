@@ -9,7 +9,7 @@ var deathCoilRank = genRanks.DeathCoil.BySpellID(27223)
 func (warlock *Warlock) registerDeathCoil() {
 
 	warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27223},
+		ActionID:       core.ActionID{SpellID: deathCoilRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

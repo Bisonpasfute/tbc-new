@@ -11,7 +11,7 @@ var soulfireCoeff = soulfireRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerSoulfire() {
 	warlock.Soulfire = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30545},
+		ActionID:       core.ActionID{SpellID: soulfireRank.SpellID},
 		SpellSchool:    core.SpellSchoolFire,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,

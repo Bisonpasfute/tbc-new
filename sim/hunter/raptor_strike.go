@@ -10,7 +10,7 @@ var raptorStrikeRank = genRanks.RaptorStrike.BySpellID(27014)
 
 func (hunter *Hunter) registerRaptorStrikeSpell() {
 	hunter.RaptorStrike = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27014},
+		ActionID:       core.ActionID{SpellID: raptorStrikeRank.SpellID},
 		SpellSchool:    core.SpellSchoolPhysical,
 		DefenseType:    core.DefenseTypeMelee,
 		ClassSpellMask: HunterSpellRaptorStrike,
@@ -53,7 +53,7 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 
 	hunter.RegisterAura(core.Aura{
 		Label:    "Raptor Strike",
-		ActionID: core.ActionID{SpellID: 27014}.WithTag(2),
+		ActionID: core.ActionID{SpellID: raptorStrikeRank.SpellID}.WithTag(2),
 		Icd:      &hunter.RaptorStrike.CD,
 	})
 }

@@ -16,7 +16,7 @@ func (warlock *Warlock) registerCorruption() *core.Spell {
 	warlock.CorruptionTickBaseDamage = corruptionTick.Tick
 
 	warlock.Corruption = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27216},
+		ActionID:       core.ActionID{SpellID: corruptionRank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

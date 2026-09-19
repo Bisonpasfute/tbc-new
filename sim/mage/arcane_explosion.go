@@ -10,7 +10,7 @@ func (mage *Mage) registerArcaneExplosionSpell() {
 	arcaneExplosionCoefficient := 0.21400000155
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27082},
+		ActionID:       core.ActionID{SpellID: arcaneExplosionRank.SpellID},
 		SpellSchool:    core.SpellSchoolArcane,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

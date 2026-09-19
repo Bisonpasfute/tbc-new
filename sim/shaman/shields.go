@@ -42,7 +42,7 @@ func (shaman *Shaman) registerWaterShieldSpell() {
 		bonusManaReturned = 56
 	}
 
-	actionID := core.ActionID{SpellID: 33736}
+	actionID := core.ActionID{SpellID: waterShieldRank.SpellID}
 	waterShieldManaMetrics := shaman.NewManaMetrics(actionID)
 
 	shaman.WaterShieldAura = shaman.RegisterAura(core.Aura{
@@ -84,10 +84,10 @@ var lightningShieldRank = genRanks.LightningShield.BySpellID(25472)
 var waterShieldRank = genRanks.WaterShield.BySpellID(33736)
 
 func (shaman *Shaman) registerLightningShieldSpell() {
-	actionID := core.ActionID{SpellID: 25472}
+	actionID := core.ActionID{SpellID: lightningShieldRank.SpellID}
 
 	lsDamage := shaman.RegisterSpell(core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: 25472},
+		ActionID:         core.ActionID{SpellID: lightningShieldRank.SpellID},
 		SpellSchool:      core.SpellSchoolNature,
 		DefenseType:      core.DefenseTypeMagic,
 		ProcMask:         core.ProcMaskEmpty,

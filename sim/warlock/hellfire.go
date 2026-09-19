@@ -10,7 +10,7 @@ var hellfireTick = hellfireRank.Periodic.(shared.SpellRankPeriodic)
 var hellFireCoeff = hellfireTick.Coef
 
 func (warlock *Warlock) registerHellfire() *core.Spell {
-	hellfireActionID := core.ActionID{SpellID: 27213}
+	hellfireActionID := core.ActionID{SpellID: hellfireRank.SpellID}
 
 	manaCost := hellfireRank.Cost
 	warlock.Hellfire = warlock.RegisterSpell(core.SpellConfig{

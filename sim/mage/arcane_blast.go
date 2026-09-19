@@ -12,7 +12,7 @@ func (mage *Mage) registerArcaneBlastSpell() {
 	arcaneBlastCoefficient := 0.71399998665
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30451},
+		ActionID:       core.ActionID{SpellID: arcaneBlastRank.SpellID},
 		SpellSchool:    core.SpellSchoolArcane,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,

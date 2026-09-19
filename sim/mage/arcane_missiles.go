@@ -11,7 +11,7 @@ var arcaneMissilesRank = genRanks.ArcaneMissiles.BySpellID(38699)
 func (mage *Mage) registerArcaneMissilesSpell() {
 	// Values found at https://wago.tools/db2/SpellEffect?build=2.5.5.65295&filter%5BSpellID%5D=exact%253A7268
 	arcaneMissilesCoefficient := 0.28600001335
-	actionID := core.ActionID{SpellID: 38699}
+	actionID := core.ActionID{SpellID: arcaneMissilesRank.SpellID}
 
 	arcaneMissilesTickSpell := mage.GetOrRegisterSpell(core.SpellConfig{
 		ActionID:       actionID.WithTag(1),

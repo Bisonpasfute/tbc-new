@@ -14,7 +14,7 @@ func (warlock *Warlock) registerConflagrate() {
 	}
 
 	warlock.Conflagrate = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30912},
+		ActionID:       core.ActionID{SpellID: conflagrateRank.SpellID},
 		SpellSchool:    core.SpellSchoolFire,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,

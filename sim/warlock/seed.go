@@ -16,7 +16,7 @@ var seedTriggerBaseDamage = seedTick.Tick * float64(seedTick.NumberOfTicks)
 func (warlock *Warlock) registerSeed() {
 	warlock.SeedOfCorruptionBonusDamage = 0
 
-	actionID := core.ActionID{SpellID: 27243}
+	actionID := core.ActionID{SpellID: seedRank.SpellID}
 	type seedOptions struct {
 		damageTaken float64
 		isSoulBurn  bool

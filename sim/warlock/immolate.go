@@ -13,7 +13,7 @@ var immolateCoeff = immolateRank.Direct.BonusCoefficient()
 var immolateDotCoeff = immolateTick.Coef
 
 func (warlock *Warlock) registerImmolate() {
-	actionID := core.ActionID{SpellID: 27215}
+	actionID := core.ActionID{SpellID: immolateRank.SpellID}
 	tickCount := immolateTick.NumberOfTicks
 	warlock.ImmolateTickBaseDamage = immolateTick.Tick
 
