@@ -2,9 +2,11 @@ package shared
 
 import "fmt"
 
-// The Misc value of an A_ADD_PCT_MODIFIER or A_ADD_FLAT_MODIFIER effect: which part of the spell it
-// changes. Untyped - Misc is a stat under A_MOD_TOTAL_STAT_PERCENTAGE, a school mask under
-// A_MOD_DAMAGE_DONE. Hand-written; the client ships no name list, so each carries its evidence.
+// What a modifier aura applies to. The client ships no name list, so these were read off the talents
+// that use them and then checked against TrinityCore's SpellModOp (3.3.5) and cmangos-tbc's (2.4.3):
+// all 23 agree on value, and on name too except 24 and 27, where cmangos says SPELL_BONUS_DAMAGE and
+// MULTIPLE_VALUE. Every modifier effect in the generated tables uses one of these 23 - the values the
+// cores name and TBC does not use are 13, 17, 20, 21 and 26.
 const (
 	SPELLMOD_DAMAGE             = 0  // Fire Power, Piercing Ice, Contagion
 	SPELLMOD_DURATION           = 1  // Permafrost, Improved Gouge, Brutal Impact
@@ -26,7 +28,7 @@ const (
 	SPELLMOD_EFFECT3            = 23 // Improved Faerie Fire, Savage Fury
 	SPELLMOD_BONUS_MULTIPLIER   = 24 // Empowered Arcane Missiles / Fireball / Frostbolt / Corruption
 
-	// Read off one or two talents each, so likelier to be wrong than the ones above.
+	// Read off one or two talents each, and confirmed against the cores afterwards.
 	SPELLMOD_NOT_LOSE_CASTING_TIME = 9  // Burning Soul, Fel Concentration, Intensity
 	SPELLMOD_CHANCE_OF_SUCCESS     = 18 // Improved Poisons, Improved Nature's Grasp
 	SPELLMOD_VALUE_MULTIPLIER      = 27 // Improved Mana Shield

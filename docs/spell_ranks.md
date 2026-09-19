@@ -213,9 +213,14 @@ under `A_ADD_PCT_MODIFIER` and `A_ADD_FLAT_MODIFIER`, a stat under `A_MOD_TOTAL_
 school mask under `A_MOD_DAMAGE_DONE`. There is no single enum for it, so it stays an int.
 
 For the two modifier auras the `SPELLMOD_*` constants name it. Those are hand-written in
-`sim/common/shared/spell_rank_talents.go`, not mirrored from the client, which ships no name list for
-them - each carries the talents it was read off, and the four resting on one or two talents each are
-marked as thinner. Audit the comment before trusting the name.
+`sim/common/shared/spell_rank_talents.go`, because the client ships no name list - each carries the
+talents it was read off. All 23 were then checked against [TrinityCore's `SpellModOp`][tc] (3.3.5) and
+[cmangos-tbc's][cm] (2.4.3), which agree with every value, and with every name except 24 and 27 where
+cmangos says `SPELL_BONUS_DAMAGE` and `MULTIPLE_VALUE`. No modifier effect in the tables uses a value
+outside those 23; the ones the cores name and TBC does not use are 13, 17, 20, 21 and 26.
+
+[tc]: https://github.com/TrinityCore/TrinityCore/blob/3.3.5/src/server/game/Spells/SpellDefines.h
+[cm]: https://github.com/cmangos/mangos-tbc/blob/master/src/game/Spells/SpellDefines.h
 
 ## Worked examples
 
