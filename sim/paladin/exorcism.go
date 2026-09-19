@@ -22,8 +22,6 @@ func (paladin *Paladin) getExorcismTimer() *core.Timer {
 func (paladin *Paladin) registerExorcism(rankConfig shared.SpellRank) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minDamage := shared.SpellRankMin(rankConfig.Direct)
-	maxDamage := shared.SpellRankMax(rankConfig.Direct)
 	coefficient := rankConfig.Direct.BonusCoefficient()
 
 	paladin.RegisterSpell(core.SpellConfig{
@@ -60,7 +58,7 @@ func (paladin *Paladin) registerExorcism(rankConfig shared.SpellRank) {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			spell.CalcAndDealDamage(sim, target, sim.Roll(minDamage, maxDamage), spell.OutcomeMagicHitAndCrit)
+			spell.CalcAndDealDamage(sim, target, rankConfig.Direct.Damage(sim), spell.OutcomeMagicHitAndCrit)
 		},
 	})
 }

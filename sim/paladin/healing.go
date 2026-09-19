@@ -22,8 +22,6 @@ var HolyLightRankMap = genRanks.HolyLight
 func (paladin *Paladin) registerHolyLight(rankConfig shared.SpellRank) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minHealing := shared.SpellRankMin(rankConfig.Heal)
-	maxHealing := shared.SpellRankMax(rankConfig.Heal)
 	coefficient := rankConfig.Heal.BonusCoefficient()
 
 	paladin.RegisterSpell(core.SpellConfig{
@@ -53,7 +51,7 @@ func (paladin *Paladin) registerHolyLight(rankConfig shared.SpellRank) {
 		BonusCoefficient: coefficient,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			spell.CalcAndDealHealing(sim, target, sim.Roll(minHealing, maxHealing), spell.OutcomeHealingCrit)
+			spell.CalcAndDealHealing(sim, target, rankConfig.Heal.Damage(sim), spell.OutcomeHealingCrit)
 		},
 	})
 }
@@ -67,8 +65,6 @@ var FlashOfLightRankMap = genRanks.FlashOfLight
 func (paladin *Paladin) registerFlashOfLight(rankConfig shared.SpellRank) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minHealing := shared.SpellRankMin(rankConfig.Heal)
-	maxHealing := shared.SpellRankMax(rankConfig.Heal)
 	coefficient := rankConfig.Heal.BonusCoefficient()
 
 	paladin.RegisterSpell(core.SpellConfig{
@@ -98,7 +94,7 @@ func (paladin *Paladin) registerFlashOfLight(rankConfig shared.SpellRank) {
 		BonusCoefficient: coefficient,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			spell.CalcAndDealHealing(sim, target, sim.Roll(minHealing, maxHealing), spell.OutcomeHealingCrit)
+			spell.CalcAndDealHealing(sim, target, rankConfig.Heal.Damage(sim), spell.OutcomeHealingCrit)
 		},
 	})
 }

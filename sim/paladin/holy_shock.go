@@ -22,8 +22,6 @@ var HolyShockRankMap = genRanks.HolyShock
 func (paladin *Paladin) registerHolyShock(rankConfig shared.SpellRank) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minDamage := shared.SpellRankMin(rankConfig.Direct)
-	maxDamage := shared.SpellRankMax(rankConfig.Direct)
 	coefficient := rankConfig.Direct.BonusCoefficient()
 
 	// Holy Shock heals for 1.267x the damage component of the spell.
@@ -62,7 +60,7 @@ func (paladin *Paladin) registerHolyShock(rankConfig shared.SpellRank) {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			if spell.Unit.IsOpponent(target) {
-				damage := sim.Roll(minDamage, maxDamage)
+				damage := rankConfig.Direct.Damage(sim)
 				spell.CalcAndDealDamage(sim, target, damage, spell.OutcomeMagicHitAndCrit)
 			} else {
 				// Temporarily configure the spell as a healing spell
@@ -71,7 +69,7 @@ func (paladin *Paladin) registerHolyShock(rankConfig shared.SpellRank) {
 				spell.ProcMask = core.ProcMaskSpellHealing
 
 				// TODO: Use healing power instead of holy power for healing calculations
-				healing := sim.Roll(minDamage, maxDamage) * healingCoeff
+				healing := rankConfig.Direct.Damage(sim) * healingCoeff
 				spell.CalcAndDealHealing(sim, target, healing, spell.OutcomeHealingCrit)
 
 				// Reset the spell to its original configuration

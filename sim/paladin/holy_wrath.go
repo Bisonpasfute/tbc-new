@@ -24,8 +24,6 @@ var HolyWrathRankMap = genRanks.HolyWrath
 func (paladin *Paladin) registerHolyWrath(rankConfig shared.SpellRank) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minDamage := shared.SpellRankMin(rankConfig.Direct)
-	maxDamage := shared.SpellRankMax(rankConfig.Direct)
 	coefficient := rankConfig.Direct.BonusCoefficient()
 
 	paladin.RegisterSpell(core.SpellConfig{
@@ -67,7 +65,7 @@ func (paladin *Paladin) registerHolyWrath(rankConfig shared.SpellRank) {
 			results := []*core.SpellResult{}
 			for _, aoeTarget := range sim.Encounter.ActiveTargetUnits {
 				if aoeTarget.MobType == proto.MobType_MobTypeUndead || aoeTarget.MobType == proto.MobType_MobTypeDemon {
-					damage := sim.Roll(minDamage, maxDamage)
+					damage := rankConfig.Direct.Damage(sim)
 					results = append(results, spell.CalcDamage(sim, aoeTarget, damage, spell.OutcomeMagicHitAndCrit))
 				}
 			}

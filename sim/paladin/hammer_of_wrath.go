@@ -22,8 +22,6 @@ var HammerOfWrathRankMap = genRanks.HammerOfWrath
 func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRank) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minDamage := shared.SpellRankMin(rankConfig.Direct)
-	maxDamage := shared.SpellRankMax(rankConfig.Direct)
 	coefficient := rankConfig.Direct.BonusCoefficient()
 
 	paladin.RegisterSpell(core.SpellConfig{
@@ -69,7 +67,7 @@ func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRank) {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			result := spell.CalcDamage(sim, target, sim.Roll(minDamage, maxDamage), spell.OutcomeRangedHitAndCrit)
+			result := spell.CalcDamage(sim, target, rankConfig.Direct.Damage(sim), spell.OutcomeRangedHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)
 			})
