@@ -354,9 +354,11 @@ lines and emits a table for every spell in them whose subtext reads `Rank N`. A 
 its own; if one you expect is missing, look at the `// Not generated:` comment at the head of the class
 file, which names every family that could not be resolved and why.
 
-`go test ./tools/database/ -run GeneratedRankTables` re-derives every value from the database and
-compares it to the committed tables, so a hand-edited or stale generated file fails the build. It skips
-when `wowsims.db` is absent.
+`go test ./tools/database/ -run GeneratedRankTables` re-derives amounts and coefficients from the
+database and compares them to the committed tables. It covers the 23 families listed in
+`spellranks_regen_test.go` - 514 of the 3327 rows - so it is not a substitute for regenerating and
+checking the diff is empty, which is the only check that covers every row. It skips when `wowsims.db`
+is absent.
 
 ## Traps
 
