@@ -39,8 +39,8 @@ type generatedRow struct {
 
 type generatedEffect struct {
 	Index    int32
-	Effect   int32
-	Aura     int32
+	Effect   dbc.SpellEffectType
+	Aura     dbc.EffectAuraType
 	Misc     int32
 	Value    float64
 	ValueMax float64
@@ -346,7 +346,7 @@ func resolveLadder(db *sql.DB, name string, byRank map[int32][]rankCandidate, ma
 func dispatcherOf(db *sql.DB, ids map[int32]bool) (int32, error) {
 	var dummy, damage int32
 	for id := range ids {
-		var effect int32
+		var effect dbc.SpellEffectType
 		err := db.QueryRow(
 			`SELECT Effect FROM SpellEffect WHERE SpellID = ? ORDER BY EffectIndex LIMIT 1`, id).Scan(&effect)
 		if errors.Is(err, sql.ErrNoRows) {
@@ -356,12 +356,12 @@ func dispatcherOf(db *sql.DB, ids map[int32]bool) (int32, error) {
 			return 0, err
 		}
 		switch effect {
-		case effDummy:
+		case dbc.E_DUMMY:
 			if dummy != 0 {
 				return 0, nil
 			}
 			dummy = id
-		case effSchoolDamage:
+		case dbc.E_SCHOOL_DAMAGE:
 			if damage != 0 {
 				return 0, nil
 			}
@@ -441,11 +441,11 @@ func buildRow(db *sql.DB, rank int32, spellID int32, mask int) (generatedRow, er
 
 	for _, e := range candidates {
 		switch {
-		case (e.Effect == effSchoolDamage || IsWeaponDamageEffect(e.Effect)) && row.Direct == nil:
+		case (e.Effect == dbc.E_SCHOOL_DAMAGE || IsWeaponDamageEffect(e.Effect)) && row.Direct == nil:
 			row.Direct = amountOf(e)
-		case e.Effect == effHeal && row.Heal == nil:
+		case e.Effect == dbc.E_HEAL && row.Heal == nil:
 			row.Heal = amountOf(e)
-		case e.Effect == effEnergize && row.Energize == nil:
+		case e.Effect == dbc.E_ENERGIZE && row.Energize == nil:
 			row.Energize = amountOf(e)
 		case IsPeriodicAura(e.Aura) && row.Periodic == nil:
 			row.Periodic = amountOf(e)

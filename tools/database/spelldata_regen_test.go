@@ -28,6 +28,7 @@ import (
 	"github.com/wowsims/tbc/sim/paladin"
 	"github.com/wowsims/tbc/sim/priest"
 	"github.com/wowsims/tbc/sim/shaman"
+	"github.com/wowsims/tbc/tools/database/dbc"
 )
 
 const (
@@ -185,7 +186,7 @@ func compareRow(t *testing.T, db *sql.DB, fam rankFamily, row shared.SpellData) 
 func directCandidates(effects []RankEffect) []RankEffect {
 	var out []RankEffect
 	for _, e := range effects {
-		if e.Effect == effSchoolDamage || e.Effect == effHeal || e.Effect == effEnergize || e.Aura != 0 {
+		if e.Effect == dbc.E_SCHOOL_DAMAGE || e.Effect == dbc.E_HEAL || e.Effect == dbc.E_ENERGIZE || e.Aura != 0 {
 			out = append(out, e)
 		}
 	}

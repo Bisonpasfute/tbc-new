@@ -7,6 +7,8 @@ import (
 	"math"
 	"slices"
 	"sync"
+
+	"github.com/wowsims/tbc/tools/database/dbc"
 )
 
 const RankLevel = 70
@@ -21,36 +23,21 @@ func NormalizePowerCost(cost int32, powerType int32) int32 {
 	return cost
 }
 
-const (
-	effDummy             = 3
-	effSchoolDamage      = 2
-	effHeal              = 10
-	effEnergize          = 30
-	effAuraPeriodic      = 3
-	effAuraPeriodicLeech = 53
-
-	// A melee ability states its bonus as weapon damage rather than school damage: Sinister Strike's
-	// +98 is E_NORMALIZED_WEAPON_DMG, not E_SCHOOL_DAMAGE. E_WEAPON_PERCENT_DAMAGE is deliberately
-	// absent - it is a multiplier on the weapon swing, not an amount a rank can carry.
-	effWeaponDamageNoSchool = 17
-	effWeaponDamage         = 58
-	effNormalizedWeaponDmg  = 121
-)
-
-func IsWeaponDamageEffect(effect int32) bool {
-	return effect == effWeaponDamageNoSchool || effect == effWeaponDamage || effect == effNormalizedWeaponDmg
+func IsWeaponDamageEffect(effect dbc.SpellEffectType) bool {
+	return effect == dbc.E_WEAPON_DAMAGE_NOSCHOOL || effect == dbc.E_WEAPON_DAMAGE ||
+		effect == dbc.E_NORMALIZED_WEAPON_DMG
 }
 
 // Devouring Plague ticks as a leech rather than as plain periodic damage, so "is this a DoT" cannot be
 // a single aura check.
-func IsPeriodicAura(aura int32) bool {
-	return aura == effAuraPeriodic || aura == effAuraPeriodicLeech
+func IsPeriodicAura(aura dbc.EffectAuraType) bool {
+	return aura == dbc.A_PERIODIC_DAMAGE || aura == dbc.A_PERIODIC_LEECH
 }
 
 type RankEffect struct {
 	Index        int32
-	Effect       int32
-	Aura         int32
+	Effect       dbc.SpellEffectType
+	Aura         dbc.EffectAuraType
 	BasePoints   int32
 	DieSides     int32
 	PointsPerLvl float64
@@ -262,7 +249,7 @@ func RankEffectsOf(db *sql.DB, spellID int32) ([]RankEffect, error) {
 // the rank subtext, which is what is checked before its effects are taken. Following the pointer
 // rather than widening the name search keeps Blizzard's tick spell out of its parent's Direct.
 func dummyTargetEffects(db *sql.DB, spell RankSpell) ([]RankEffect, error) {
-	if len(spell.Effects) != 1 || spell.Effects[0].Effect != effDummy {
+	if len(spell.Effects) != 1 || spell.Effects[0].Effect != dbc.E_DUMMY {
 		return nil, nil
 	}
 	target, _ := DeriveRankAmount(spell.Effects[0], spell.SpellLevel, spell.MaxLevel)
@@ -332,7 +319,7 @@ func SiblingRankEffects(db *sql.DB, spellID int32, classBit int) ([]RankEffect, 
 
 func HasValueEffect(effects []RankEffect) bool {
 	for _, e := range effects {
-		if e.Effect == effSchoolDamage || e.Effect == effHeal || e.Effect == effEnergize ||
+		if e.Effect == dbc.E_SCHOOL_DAMAGE || e.Effect == dbc.E_HEAL || e.Effect == dbc.E_ENERGIZE ||
 			IsWeaponDamageEffect(e.Effect) || IsPeriodicAura(e.Aura) {
 			return true
 		}

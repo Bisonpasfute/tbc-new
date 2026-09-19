@@ -9,6 +9,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/wowsims/tbc/tools/database/dbc"
 )
 
 // Where the aura and effect names live. They are Go constants rather than a client table, so the only
@@ -123,9 +125,13 @@ func (n *rankEnumNamer) name(dbcType string, value int32) string {
 	return "shared." + n.byType[dbcType][value]
 }
 
-func (n *rankEnumNamer) Effect(value int32) string { return n.name("SpellEffectType", value) }
+func (n *rankEnumNamer) Effect(value dbc.SpellEffectType) string {
+	return n.name("SpellEffectType", int32(value))
+}
 
-func (n *rankEnumNamer) Aura(value int32) string { return n.name("EffectAuraType", value) }
+func (n *rankEnumNamer) Aura(value dbc.EffectAuraType) string {
+	return n.name("EffectAuraType", int32(value))
+}
 
 func (n *rankEnumNamer) render() ([]byte, error) {
 	var b strings.Builder
