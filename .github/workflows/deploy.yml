@@ -6,6 +6,10 @@ on:
 jobs:
     tests:
         uses: ./.github/workflows/run_tests.yml
+        with:
+            # The master tip before this push: what is deployed, and what the protos must stay
+            # compatible with unless the version is bumped.
+            proto_baseline: ${{ github.event.before }}
 
     build-and-deploy:
         needs: tests
