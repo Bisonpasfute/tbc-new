@@ -4930,2977 +4930,2977 @@ dps_results: {
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 720.58332
-  tps: 358.12991
-  hps: 70.29386
+  dps: 719.61378
+  tps: 357.64805
+  hps: 70.27328
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 720.58332
-  tps: 358.12991
-  hps: 70.29386
+  dps: 719.61378
+  tps: 357.64805
+  hps: 70.27328
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 811.12216
-  tps: 403.12771
-  hps: 72.37356
+  dps: 810.52242
+  tps: 402.82964
+  hps: 72.49536
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 223.22924
-  tps: 158.49276
-  hps: 40.13851
+  dps: 222.4502
+  tps: 157.93964
+  hps: 40.15235
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 223.22924
-  tps: 158.49276
-  hps: 40.13851
+  dps: 222.4502
+  tps: 157.93964
+  hps: 40.15235
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 222.93066
-  tps: 158.28077
-  hps: 39.68853
+  dps: 222.35329
+  tps: 157.87083
+  hps: 39.79143
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2773.93741
-  tps: 1981.89382
+  dps: 2769.75961
+  tps: 1979.61236
   dtps: 9.45478
-  hps: 72.65085
+  hps: 72.63424
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2502.33229
-  tps: 1273.82149
+  dps: 2498.24726
+  tps: 1271.78098
   dtps: 10.57974
-  hps: 72.65085
+  hps: 72.63424
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2633.06814
-  tps: 1338.50357
+  dps: 2631.07293
+  tps: 1337.51202
   dtps: 20.96813
-  hps: 74.45326
+  hps: 74.57856
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 799.61379
-  tps: 570.25102
-  hps: 41.21847
+  dps: 801.1796
+  tps: 571.38878
+  hps: 41.68626
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 799.61379
-  tps: 570.25102
-  hps: 41.21847
+  dps: 801.1796
+  tps: 571.38878
+  hps: 41.68626
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 942.25196
-  tps: 672.12289
-  hps: 44.00837
+  dps: 940.60948
+  tps: 670.95673
+  hps: 44.12247
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 720.58332
-  tps: 358.12991
+  dps: 719.61378
+  tps: 357.64805
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 720.58332
-  tps: 358.12991
+  dps: 719.61378
+  tps: 357.64805
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 811.12216
-  tps: 403.12771
+  dps: 810.52242
+  tps: 402.82964
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 223.22924
-  tps: 158.49276
+  dps: 222.4502
+  tps: 157.93964
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 223.22924
-  tps: 158.49276
+  dps: 222.4502
+  tps: 157.93964
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 222.93066
-  tps: 158.28077
+  dps: 222.35329
+  tps: 157.87083
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2805.60902
-  tps: 1997.63461
+  dps: 2801.47287
+  tps: 1995.37385
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2534.0039
-  tps: 1289.56228
+  dps: 2529.96052
+  tps: 1287.54247
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2666.22681
-  tps: 1354.98343
+  dps: 2664.2136
+  tps: 1353.98294
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 805.4568
-  tps: 574.39956
+  dps: 807.16117
+  tps: 575.6357
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 805.4568
-  tps: 574.39956
+  dps: 807.16117
+  tps: 575.6357
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 952.63882
-  tps: 679.49756
+  dps: 950.98671
+  tps: 678.32457
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 711.83317
-  tps: 353.78108
-  hps: 70.74555
+  dps: 710.93144
+  tps: 353.33293
+  hps: 70.86361
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 711.83317
-  tps: 353.78108
-  hps: 70.74555
+  dps: 710.93144
+  tps: 353.33293
+  hps: 70.86361
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 800.86211
-  tps: 398.02847
-  hps: 72.98256
+  dps: 799.98567
+  tps: 397.59288
+  hps: 73.10436
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 224.28881
-  tps: 159.24505
-  hps: 40.24263
+  dps: 223.85615
+  tps: 158.93787
+  hps: 40.1632
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 224.28881
-  tps: 159.24505
-  hps: 40.24263
+  dps: 223.85615
+  tps: 158.93787
+  hps: 40.1632
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 225.18309
-  tps: 159.87999
-  hps: 41.51728
+  dps: 224.75967
+  tps: 159.57937
+  hps: 41.34984
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2746.96816
-  tps: 1967.46233
+  dps: 2744.20493
+  tps: 1966.29501
   dtps: 9.45478
-  hps: 73.26219
+  hps: 73.5245
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2475.08369
-  tps: 1260.22755
+  dps: 2472.41323
+  tps: 1258.91064
   dtps: 10.57974
-  hps: 73.26219
+  hps: 73.5245
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2604.86945
-  tps: 1324.39632
+  dps: 2602.19311
+  tps: 1323.06625
   dtps: 20.96813
-  hps: 75.07976
+  hps: 75.20506
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 804.01109
-  tps: 573.37311
-  hps: 41.79042
+  dps: 810.58044
+  tps: 578.06338
+  hps: 41.80624
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 804.01109
-  tps: 573.37311
-  hps: 41.79042
+  dps: 810.58044
+  tps: 578.06338
+  hps: 41.80624
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 948.85173
-  tps: 676.80873
-  hps: 43.7024
+  dps: 947.6546
+  tps: 675.95877
+  hps: 43.8144
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 711.83317
-  tps: 353.78108
+  dps: 710.93144
+  tps: 353.33293
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 711.83317
-  tps: 353.78108
+  dps: 710.93144
+  tps: 353.33293
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 800.86211
-  tps: 398.02847
+  dps: 799.98567
+  tps: 397.59288
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 224.28881
-  tps: 159.24505
+  dps: 223.85615
+  tps: 158.93787
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 224.28881
-  tps: 159.24505
+  dps: 223.85615
+  tps: 158.93787
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 225.18309
-  tps: 159.87999
+  dps: 224.75967
+  tps: 159.57937
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2778.30032
-  tps: 1983.03442
+  dps: 2775.71625
+  tps: 1981.95614
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2506.41586
-  tps: 1275.79964
+  dps: 2503.92455
+  tps: 1274.57176
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2637.66651
-  tps: 1340.69646
+  dps: 2634.96362
+  tps: 1339.35319
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 810.0433
-  tps: 577.65598
+  dps: 815.9623
+  tps: 581.8845
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 810.0433
-  tps: 577.65598
+  dps: 815.9623
+  tps: 581.8845
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_alt_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 958.59193
-  tps: 683.72427
+  dps: 957.38873
+  tps: 682.87
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 722.65743
-  tps: 359.16074
-  hps: 66.22719
+  dps: 721.14164
+  tps: 358.40739
+  hps: 66.21804
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 722.65743
-  tps: 359.16074
-  hps: 66.22719
+  dps: 721.14164
+  tps: 358.40739
+  hps: 66.21804
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 811.54245
-  tps: 403.3366
-  hps: 67.6445
+  dps: 809.36061
+  tps: 402.25222
+  hps: 67.767
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 222.31647
-  tps: 157.84469
-  hps: 36.5085
+  dps: 222.06876
+  tps: 157.66882
+  hps: 36.6135
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 222.31647
-  tps: 157.84469
-  hps: 36.5085
+  dps: 222.06876
+  tps: 157.66882
+  hps: 36.6135
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 222.98222
-  tps: 158.31738
-  hps: 36.5085
+  dps: 222.73358
+  tps: 158.14084
+  hps: 36.6135
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2788.02213
-  tps: 1987.9272
+  dps: 2787.8408
+  tps: 1988.27467
   dtps: 9.45478
-  hps: 68.03104
+  hps: 68.15424
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2518.80017
-  tps: 1281.95769
+  dps: 2518.61884
+  tps: 1281.88945
   dtps: 10.57974
-  hps: 68.03104
+  hps: 68.15424
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2714.00136
-  tps: 1378.76738
+  dps: 2709.09732
+  tps: 1376.33403
   dtps: 20.96813
-  hps: 69.96374
+  hps: 70.09044
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 797.84364
-  tps: 569.04629
-  hps: 37.80658
+  dps: 796.25575
+  tps: 567.91889
+  hps: 38.32213
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 797.84364
-  tps: 569.04629
-  hps: 37.80658
+  dps: 796.25575
+  tps: 567.91889
+  hps: 38.32213
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 940.19094
-  tps: 670.65957
-  hps: 39.42918
+  dps: 937.29394
+  tps: 668.6027
+  hps: 40.03076
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 722.65743
-  tps: 359.16074
+  dps: 721.14164
+  tps: 358.40739
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 722.65743
-  tps: 359.16074
+  dps: 721.14164
+  tps: 358.40739
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 811.54245
-  tps: 403.3366
+  dps: 809.36061
+  tps: 402.25222
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 222.31647
-  tps: 157.84469
+  dps: 222.06876
+  tps: 157.66882
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 222.31647
-  tps: 157.84469
+  dps: 222.06876
+  tps: 157.66882
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 222.98222
-  tps: 158.31738
+  dps: 222.73358
+  tps: 158.14084
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2820.44915
-  tps: 2004.04344
+  dps: 2820.43012
+  tps: 2004.47156
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2551.22719
-  tps: 1298.07392
+  dps: 2551.20816
+  tps: 1298.08634
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2749.87781
-  tps: 1396.59797
+  dps: 2744.70761
+  tps: 1394.03235
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 802.80492
-  tps: 572.56879
+  dps: 801.23196
+  tps: 571.45199
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 802.80492
-  tps: 572.56879
+  dps: 801.23196
+  tps: 571.45199
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 949.39079
-  tps: 677.19146
+  dps: 946.54967
+  tps: 675.17427
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 713.78611
-  tps: 354.7517
-  hps: 67.04469
+  dps: 712.4308
+  tps: 354.07811
+  hps: 67.16416
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 713.78611
-  tps: 354.7517
-  hps: 67.04469
+  dps: 712.4308
+  tps: 354.07811
+  hps: 67.16416
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 801.56029
-  tps: 398.37546
-  hps: 68.747
+  dps: 800.43975
+  tps: 397.81856
+  hps: 68.47596
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 224.34386
-  tps: 159.28414
-  hps: 37.2655
+  dps: 223.78504
+  tps: 158.88738
+  hps: 37.28704
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 224.34386
-  tps: 159.28414
-  hps: 37.2655
+  dps: 223.78504
+  tps: 158.88738
+  hps: 37.28704
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 225.7925
-  tps: 160.31268
-  hps: 38.84244
+  dps: 225.04765
+  tps: 159.78383
+  hps: 38.95164
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2763.97298
-  tps: 1976.18033
+  dps: 2760.52887
+  tps: 1974.70064
   dtps: 9.45478
-  hps: 69.00889
+  hps: 69.00068
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2494.75102
-  tps: 1270.01554
+  dps: 2491.30691
+  tps: 1268.31542
   dtps: 10.57974
-  hps: 69.00889
+  hps: 69.00068
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2686.4445
-  tps: 1365.07161
+  dps: 2678.94393
+  tps: 1361.3478
   dtps: 20.96813
-  hps: 70.7112
+  hps: 70.44366
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 804.55729
-  tps: 573.81298
-  hps: 39.34042
+  dps: 795.78705
+  tps: 567.56007
+  hps: 38.86841
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 804.55729
-  tps: 573.81298
-  hps: 39.34042
+  dps: 795.78705
+  tps: 567.56007
+  hps: 38.86841
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 948.82532
-  tps: 676.78998
-  hps: 41.08335
+  dps: 946.71378
+  tps: 675.29079
+  hps: 40.69947
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 713.78611
-  tps: 354.7517
+  dps: 712.4308
+  tps: 354.07811
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 713.78611
-  tps: 354.7517
+  dps: 712.4308
+  tps: 354.07811
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 801.56029
-  tps: 398.37546
+  dps: 800.43975
+  tps: 397.81856
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 224.34386
-  tps: 159.28414
+  dps: 223.78504
+  tps: 158.88738
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 224.34386
-  tps: 159.28414
+  dps: 223.78504
+  tps: 158.88738
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 225.7925
-  tps: 160.31268
+  dps: 225.04765
+  tps: 159.78383
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2795.86238
-  tps: 1992.02937
+  dps: 2792.39824
+  tps: 1990.53971
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2526.64043
-  tps: 1285.86458
+  dps: 2523.17628
+  tps: 1284.1545
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2721.52869
-  tps: 1382.50846
+  dps: 2714.00538
+  tps: 1378.77334
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 809.80105
-  tps: 577.53604
+  dps: 801.40057
+  tps: 571.54567
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 809.80105
-  tps: 577.53604
+  dps: 801.40057
+  tps: 571.54567
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_bis_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 958.53759
-  tps: 683.68569
+  dps: 956.69623
+  tps: 682.37832
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 732.79165
-  tps: 364.19745
-  hps: 70.92827
+  dps: 731.64707
+  tps: 363.6286
+  hps: 70.91247
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 732.79165
-  tps: 364.19745
-  hps: 70.92827
+  dps: 731.64707
+  tps: 363.6286
+  hps: 70.91247
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 822.88574
-  tps: 408.97422
-  hps: 72.15824
+  dps: 821.3618
+  tps: 408.21681
+  hps: 72.28144
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 226.67395
-  tps: 160.93851
-  hps: 40.76996
+  dps: 226.35553
+  tps: 160.71243
+  hps: 40.78928
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 226.67395
-  tps: 160.93851
-  hps: 40.76996
+  dps: 226.35553
+  tps: 160.71243
+  hps: 40.78928
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 227.25007
-  tps: 161.34755
-  hps: 40.76996
+  dps: 226.99703
+  tps: 161.16789
+  hps: 40.87776
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2801.02334
-  tps: 1994.99973
+  dps: 2800.01626
+  tps: 1994.32267
   dtps: 9.45478
-  hps: 72.56823
+  hps: 72.55523
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2531.80138
-  tps: 1288.44984
+  dps: 2530.7943
+  tps: 1287.9405
   dtps: 10.57974
-  hps: 72.56823
+  hps: 72.55523
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2676.08107
-  tps: 1359.95096
+  dps: 2674.60605
+  tps: 1359.22223
   dtps: 20.96813
-  hps: 73.7982
+  hps: 73.9242
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 801.12564
-  tps: 571.3765
-  hps: 42.00541
+  dps: 801.42956
+  tps: 571.59229
+  hps: 42.64736
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 801.12564
-  tps: 571.3765
-  hps: 42.00541
+  dps: 801.42956
+  tps: 571.59229
+  hps: 42.64736
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 933.43454
-  tps: 665.86252
-  hps: 43.6821
+  dps: 930.54627
+  tps: 663.81185
+  hps: 44.32848
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 732.79165
-  tps: 364.19745
+  dps: 731.64707
+  tps: 363.6286
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 732.79165
-  tps: 364.19745
+  dps: 731.64707
+  tps: 363.6286
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 822.88574
-  tps: 408.97422
+  dps: 821.3618
+  tps: 408.21681
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 226.67395
-  tps: 160.93851
+  dps: 226.35553
+  tps: 160.71243
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 226.67395
-  tps: 160.93851
+  dps: 226.35553
+  tps: 160.71243
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 227.25007
-  tps: 161.34755
+  dps: 226.99703
+  tps: 161.16789
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2834.04225
-  tps: 2011.41013
+  dps: 2833.2978
+  tps: 2010.8636
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2564.82029
-  tps: 1304.86024
+  dps: 2564.07585
+  tps: 1304.48142
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2712.78625
-  tps: 1378.19343
+  dps: 2711.29182
+  tps: 1377.45506
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 806.11068
-  tps: 574.91588
+  dps: 806.43591
+  tps: 575.14679
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 806.11068
-  tps: 574.91588
+  dps: 806.43591
+  tps: 575.14679
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 942.56413
-  tps: 672.34453
+  dps: 939.73155
+  tps: 670.3334
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 723.26344
-  tps: 359.46193
-  hps: 71.74064
+  dps: 722.57862
+  tps: 359.12158
+  hps: 71.86128
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 723.26344
-  tps: 359.46193
-  hps: 71.74064
+  dps: 722.57862
+  tps: 359.12158
+  hps: 71.86128
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 811.53377
-  tps: 403.33228
-  hps: 73.26704
+  dps: 810.46326
+  tps: 402.80024
+  hps: 73.39024
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 228.14818
-  tps: 161.9852
-  hps: 41.18179
+  dps: 227.46094
+  tps: 161.49726
+  hps: 41.19808
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 228.14818
-  tps: 161.9852
-  hps: 41.18179
+  dps: 227.46094
+  tps: 161.49726
+  hps: 41.19808
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 229.15886
-  tps: 162.70279
-  hps: 42.17304
+  dps: 228.30881
+  tps: 162.09926
+  hps: 42.28224
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2773.37281
-  tps: 1980.8463
+  dps: 2775.17968
+  tps: 1982.18445
   dtps: 9.45478
-  hps: 73.4058
+  hps: 73.25124
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2504.15085
-  tps: 1274.68697
+  dps: 2505.95772
+  tps: 1275.60699
   dtps: 10.57974
-  hps: 73.4058
+  hps: 73.25124
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2650.66091
-  tps: 1347.31714
+  dps: 2648.05627
+  tps: 1346.02699
   dtps: 20.96813
-  hps: 74.51591
+  hps: 74.64121
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 809.34455
-  tps: 577.21193
-  hps: 43.16429
+  dps: 800.85739
+  tps: 571.16002
+  hps: 42.82432
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 809.34455
-  tps: 577.21193
-  hps: 43.16429
+  dps: 800.85739
+  tps: 571.16002
+  hps: 42.82432
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 943.06678
-  tps: 672.70141
-  hps: 45.14678
+  dps: 942.04748
+  tps: 671.97771
+  hps: 44.7216
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 723.26344
-  tps: 359.46193
+  dps: 722.57862
+  tps: 359.12158
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 723.26344
-  tps: 359.46193
+  dps: 722.57862
+  tps: 359.12158
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 811.53377
-  tps: 403.33228
+  dps: 810.46326
+  tps: 402.80024
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 228.14818
-  tps: 161.9852
+  dps: 227.46094
+  tps: 161.49726
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 228.14818
-  tps: 161.9852
+  dps: 227.46094
+  tps: 161.49726
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 229.15886
-  tps: 162.70279
+  dps: 228.30881
+  tps: 162.09926
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2806.10332
-  tps: 1997.11337
+  dps: 2808.20176
+  tps: 1998.59642
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2536.88136
-  tps: 1290.95404
+  dps: 2538.9798
+  tps: 1292.01897
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2686.57266
-  tps: 1365.16528
+  dps: 2683.94823
+  tps: 1363.86529
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 814.56371
-  tps: 580.91754
+  dps: 806.35014
+  tps: 575.05987
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 814.56371
-  tps: 580.91754
+  dps: 806.35014
+  tps: 575.05987
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p1_realistic_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 952.65947
-  tps: 679.51223
+  dps: 951.91233
+  tps: 678.98175
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 798.55043
-  tps: 396.87956
-  hps: 75.11406
+  dps: 797.85195
+  tps: 396.53242
+  hps: 75.23586
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 798.55043
-  tps: 396.87956
-  hps: 75.11406
+  dps: 797.85195
+  tps: 396.53242
+  hps: 75.23586
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 900.54238
-  tps: 447.56956
-  hps: 76.84082
+  dps: 899.94682
+  tps: 447.27357
+  hps: 76.96542
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 257.69474
-  tps: 182.96327
-  hps: 44.45182
+  dps: 257.32677
+  tps: 182.70201
+  hps: 44.56125
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 257.69474
-  tps: 182.96327
-  hps: 44.45182
+  dps: 257.32677
+  tps: 182.70201
+  hps: 44.56125
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 259.77552
-  tps: 184.44062
-  hps: 44.92572
+  dps: 259.51239
+  tps: 184.25379
+  hps: 45.03632
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2869.0391
-  tps: 2025.13546
+  dps: 2857.37951
+  tps: 2018.75356
   dtps: 9.45478
-  hps: 77.5603
+  hps: 77.39781
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2600.223
-  tps: 1322.27198
+  dps: 2588.5634
+  tps: 1316.44781
   dtps: 10.57974
-  hps: 77.5603
+  hps: 77.39781
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2754.49728
-  tps: 1398.68194
+  dps: 2751.22069
+  tps: 1397.05791
   dtps: 20.96813
-  hps: 78.99927
+  hps: 79.12737
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 849.94831
-  tps: 606.0406
-  hps: 45.87352
+  dps: 842.18134
+  tps: 600.52605
+  hps: 46.27149
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 849.94831
-  tps: 606.0406
-  hps: 45.87352
+  dps: 842.18134
+  tps: 600.52605
+  hps: 46.27149
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 981.46594
-  tps: 699.96482
-  hps: 48.3378
+  dps: 978.97862
+  tps: 698.19882
+  hps: 47.88672
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 798.55043
-  tps: 396.87956
+  dps: 797.85195
+  tps: 396.53242
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 798.55043
-  tps: 396.87956
+  dps: 797.85195
+  tps: 396.53242
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 900.54238
-  tps: 447.56956
+  dps: 899.94682
+  tps: 447.27357
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 257.69474
-  tps: 182.96327
+  dps: 257.32677
+  tps: 182.70201
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 257.69474
-  tps: 182.96327
+  dps: 257.32677
+  tps: 182.70201
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 259.77552
-  tps: 184.44062
+  dps: 259.51239
+  tps: 184.25379
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2905.2218
-  tps: 2043.11826
+  dps: 2892.8401
+  tps: 2036.37748
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2636.40569
-  tps: 1340.25478
+  dps: 2624.024
+  tps: 1334.07173
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2792.95508
-  tps: 1417.79547
+  dps: 2789.65886
+  tps: 1416.16168
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 855.66918
-  tps: 610.10242
+  dps: 848.12326
+  tps: 604.74482
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 855.66918
-  tps: 610.10242
+  dps: 848.12326
+  tps: 604.74482
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 991.10021
-  tps: 706.80515
+  dps: 989.05232
+  tps: 705.35115
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 781.71494
-  tps: 388.51232
-  hps: 74.15893
+  dps: 780.89689
+  tps: 388.10575
+  hps: 74.28027
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 781.71494
-  tps: 388.51232
-  hps: 74.15893
+  dps: 780.89689
+  tps: 388.10575
+  hps: 74.28027
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 880.09276
-  tps: 437.4061
-  hps: 76.15552
+  dps: 879.01678
+  tps: 436.87134
+  hps: 76.28012
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 256.55758
-  tps: 182.15588
-  hps: 43.43659
+  dps: 256.22571
+  tps: 181.92025
+  hps: 43.54485
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 256.55758
-  tps: 182.15588
-  hps: 43.43659
+  dps: 256.22571
+  tps: 181.92025
+  hps: 43.54485
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 260.06331
-  tps: 184.64495
-  hps: 44.37272
+  dps: 259.79611
+  tps: 184.45524
+  hps: 44.48332
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2829.47182
-  tps: 2005.21274
+  dps: 2820.53834
+  tps: 2000.18851
   dtps: 9.45478
-  hps: 76.72597
+  hps: 76.70866
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2560.65572
-  tps: 1302.59415
+  dps: 2551.72224
+  tps: 1298.125
   dtps: 10.57974
-  hps: 76.72597
+  hps: 76.70866
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2719.88497
-  tps: 1381.44095
+  dps: 2716.92418
+  tps: 1379.97429
   dtps: 20.96813
-  hps: 78.29472
+  hps: 78.42282
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 840.30817
-  tps: 599.1961
-  hps: 45.21524
+  dps: 839.03942
+  tps: 598.26926
+  hps: 45.70333
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 840.30817
-  tps: 599.1961
-  hps: 45.21524
+  dps: 839.03942
+  tps: 598.26926
+  hps: 45.70333
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 978.31251
-  tps: 697.72588
-  hps: 46.90028
+  dps: 977.49706
+  tps: 697.14691
+  hps: 47.01718
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 781.71494
-  tps: 388.51232
+  dps: 780.89689
+  tps: 388.10575
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 781.71494
-  tps: 388.51232
+  dps: 780.89689
+  tps: 388.10575
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 880.09276
-  tps: 437.4061
+  dps: 879.01678
+  tps: 436.87134
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 256.55758
-  tps: 182.15588
+  dps: 256.22571
+  tps: 181.92025
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 256.55758
-  tps: 182.15588
+  dps: 256.22571
+  tps: 181.92025
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 260.06331
-  tps: 184.64495
+  dps: 259.79611
+  tps: 184.45524
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2864.56658
-  tps: 2022.65483
+  dps: 2854.97499
+  tps: 2017.30353
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2595.75047
-  tps: 1320.03625
+  dps: 2586.15889
+  tps: 1315.24001
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2758.0254
-  tps: 1400.39674
+  dps: 2755.04503
+  tps: 1398.92035
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 846.64037
-  tps: 603.69197
+  dps: 845.34916
+  tps: 602.74917
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 846.64037
-  tps: 603.69197
+  dps: 845.34916
+  tps: 602.74917
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 989.4205
-  tps: 705.61256
+  dps: 988.87185
+  tps: 705.22301
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 788.90497
-  tps: 392.08577
-  hps: 75.27408
+  dps: 787.78598
+  tps: 391.52963
+  hps: 75.39448
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 788.90497
-  tps: 392.08577
-  hps: 75.27408
+  dps: 787.78598
+  tps: 391.52963
+  hps: 75.39448
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 888.50702
-  tps: 441.58799
-  hps: 77.46228
+  dps: 886.53351
+  tps: 440.60715
+  hps: 77.58618
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 253.47752
-  tps: 179.96904
-  hps: 44.74741
+  dps: 253.15356
+  tps: 179.73903
+  hps: 44.85544
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 253.47752
-  tps: 179.96904
-  hps: 44.74741
+  dps: 253.15356
+  tps: 179.73903
+  hps: 44.85544
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 255.21622
-  tps: 181.20352
-  hps: 44.9407
+  dps: 254.95803
+  tps: 181.0202
+  hps: 45.0492
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2798.05273
-  tps: 1979.2838
+  dps: 2792.88028
+  tps: 1976.71354
   dtps: 9.45478
-  hps: 77.46228
+  hps: 77.58618
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2527.7383
-  tps: 1285.71852
+  dps: 2522.56585
+  tps: 1283.14783
   dtps: 10.57974
-  hps: 77.46228
+  hps: 77.58618
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2722.26922
-  tps: 1382.40471
+  dps: 2718.9724
+  tps: 1380.76626
   dtps: 20.96813
-  hps: 79.21284
+  hps: 79.33954
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 826.80804
-  tps: 589.611
-  hps: 47.45351
+  dps: 828.71502
+  tps: 590.96496
+  hps: 47.18056
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 826.80804
-  tps: 589.611
-  hps: 47.45351
+  dps: 828.71502
+  tps: 590.96496
+  hps: 47.18056
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 958.53599
-  tps: 683.68455
-  hps: 48.13004
+  dps: 956.66728
+  tps: 682.35777
+  hps: 48.24624
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 788.90497
-  tps: 392.08577
+  dps: 787.78598
+  tps: 391.52963
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 788.90497
-  tps: 392.08577
+  dps: 787.78598
+  tps: 391.52963
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 888.50702
-  tps: 441.58799
+  dps: 886.53351
+  tps: 440.60715
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 253.47752
-  tps: 179.96904
+  dps: 253.15356
+  tps: 179.73903
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 253.47752
-  tps: 179.96904
+  dps: 253.15356
+  tps: 179.73903
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 255.21622
-  tps: 181.20352
+  dps: 254.95803
+  tps: 181.0202
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2829.15201
-  tps: 1994.74014
+  dps: 2824.1598
+  tps: 1992.25946
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2558.83758
-  tps: 1301.17486
+  dps: 2553.84537
+  tps: 1298.69375
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2758.682
-  tps: 1400.50186
+  dps: 2755.36668
+  tps: 1398.85421
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 831.84948
-  tps: 593.19043
+  dps: 833.55733
+  tps: 594.403
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 831.84948
-  tps: 593.19043
+  dps: 833.55733
+  tps: 594.403
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 967.914
-  tps: 690.34294
+  dps: 966.36112
+  tps: 689.24039
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 780.96646
-  tps: 388.14033
-  hps: 75.54059
+  dps: 779.67392
+  tps: 387.49794
+  hps: 75.72154
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 780.96646
-  tps: 388.14033
-  hps: 75.54059
+  dps: 779.67392
+  tps: 387.49794
+  hps: 75.72154
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 877.44234
-  tps: 436.08884
-  hps: 77.14784
+  dps: 875.76001
+  tps: 435.25273
+  hps: 77.33264
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 255.08315
-  tps: 181.10903
-  hps: 44.75856
+  dps: 254.56354
+  tps: 180.74011
+  hps: 44.86636
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 255.08315
-  tps: 181.10903
-  hps: 44.75856
+  dps: 254.56354
+  tps: 180.74011
+  hps: 44.86636
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 257.65395
-  tps: 182.9343
-  hps: 45.33984
+  dps: 257.1871
+  tps: 182.60284
+  hps: 45.44904
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2796.61109
-  tps: 1981.85619
+  dps: 2789.21785
+  tps: 1978.1822
   dtps: 9.45478
-  hps: 78.46286
+  hps: 78.21142
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2526.29666
-  tps: 1285.16647
+  dps: 2518.90342
+  tps: 1281.49204
   dtps: 10.57974
-  hps: 78.46286
+  hps: 78.21142
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2691.48064
-  tps: 1367.16445
+  dps: 2683.36281
+  tps: 1363.06829
   dtps: 20.96813
-  hps: 80.21622
+  hps: 80.40837
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 832.89288
-  tps: 593.90521
-  hps: 46.9868
+  dps: 832.17594
+  tps: 593.39618
+  hps: 46.80863
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 832.89288
-  tps: 593.90521
-  hps: 46.9868
+  dps: 832.17594
+  tps: 593.39618
+  hps: 46.80863
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 963.1749
-  tps: 686.97818
-  hps: 47.66496
+  dps: 961.27357
+  tps: 685.62823
+  hps: 47.48842
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 780.96646
-  tps: 388.14033
+  dps: 779.67392
+  tps: 387.49794
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 780.96646
-  tps: 388.14033
+  dps: 779.67392
+  tps: 387.49794
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 877.44234
-  tps: 436.08884
+  dps: 875.76001
+  tps: 435.25273
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 255.08315
-  tps: 181.10903
+  dps: 254.56354
+  tps: 180.74011
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 255.08315
-  tps: 181.10903
+  dps: 254.56354
+  tps: 180.74011
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 257.65395
-  tps: 182.9343
+  dps: 257.1871
+  tps: 182.60284
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2828.87123
-  tps: 1997.88948
+  dps: 2820.98557
+  tps: 1993.97076
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2558.5568
-  tps: 1301.19976
+  dps: 2550.67114
+  tps: 1297.2806
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2726.83179
-  tps: 1384.73397
+  dps: 2718.27185
+  tps: 1380.41808
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 837.77116
-  tps: 597.36879
+  dps: 837.23784
+  tps: 596.99013
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 837.77116
-  tps: 597.36879
+  dps: 837.23784
+  tps: 596.99013
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p2_alt_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 972.18432
-  tps: 693.37487
+  dps: 970.28105
+  tps: 692.02355
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 859.86141
-  tps: 427.35112
-  hps: 80.74563
+  dps: 858.76936
+  tps: 426.80837
+  hps: 80.93148
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 859.86141
-  tps: 427.35112
-  hps: 80.74563
+  dps: 858.76936
+  tps: 426.80837
+  hps: 80.93148
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 961.09035
-  tps: 477.6619
-  hps: 80.74563
+  dps: 959.9517
+  tps: 477.09599
+  hps: 80.93148
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 281.80131
-  tps: 200.07893
-  hps: 48.66941
+  dps: 281.53578
+  tps: 199.89041
+  hps: 48.78048
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 281.80131
-  tps: 200.07893
-  hps: 48.66941
+  dps: 281.53578
+  tps: 199.89041
+  hps: 48.78048
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 284.02681
-  tps: 201.65903
-  hps: 48.77166
+  dps: 283.7593
+  tps: 201.46911
+  hps: 48.88296
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3098.61013
-  tps: 2148.38719
+  dps: 3095.63036
+  tps: 2146.90647
   dtps: 9.45478
-  hps: 82.57039
+  hps: 82.91285
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2826.46505
-  tps: 1435.17203
+  dps: 2823.48528
+  tps: 1433.69109
   dtps: 10.57974
-  hps: 82.57039
+  hps: 82.91285
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2965.47223
-  tps: 1504.04639
+  dps: 2962.22655
+  tps: 1502.43332
   dtps: 20.96813
-  hps: 85.76372
+  hps: 85.96112
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 961.53219
-  tps: 685.21309
-  hps: 51.12333
+  dps: 953.87157
+  tps: 679.77405
+  hps: 51.44496
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 961.53219
-  tps: 685.21309
-  hps: 51.12333
+  dps: 953.87157
+  tps: 679.77405
+  hps: 51.44496
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1139.57865
-  tps: 812.22484
-  hps: 52.75928
+  dps: 1135.33777
+  tps: 809.21382
+  hps: 52.87968
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 859.86141
-  tps: 427.35112
+  dps: 858.76936
+  tps: 426.80837
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 859.86141
-  tps: 427.35112
+  dps: 858.76936
+  tps: 426.80837
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 961.09035
-  tps: 477.6619
+  dps: 959.9517
+  tps: 477.09599
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 281.80131
-  tps: 200.07893
+  dps: 281.53578
+  tps: 199.89041
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 281.80131
-  tps: 200.07893
+  dps: 281.53578
+  tps: 199.89041
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 284.02681
-  tps: 201.65903
+  dps: 283.7593
+  tps: 201.46911
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3136.93038
-  tps: 2167.43235
+  dps: 3133.61358
+  tps: 2165.78413
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2864.7853
-  tps: 1454.21719
+  dps: 2861.4685
+  tps: 1452.56875
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 3005.17187
-  tps: 1523.77711
+  dps: 3002.02016
+  tps: 1522.21075
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 967.4288
-  tps: 689.39968
+  dps: 959.54107
+  tps: 683.79939
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 967.4288
-  tps: 689.39968
+  dps: 959.54107
+  tps: 683.79939
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1152.25111
-  tps: 821.22229
+  dps: 1148.00299
+  tps: 818.20612
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 851.12867
-  tps: 423.01095
-  hps: 80.10805
+  dps: 850.04117
+  tps: 422.47046
+  hps: 80.23078
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 851.12867
-  tps: 423.01095
-  hps: 80.10805
+  dps: 850.04117
+  tps: 422.47046
+  hps: 80.23078
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 951.15211
-  tps: 472.7226
-  hps: 80.86953
+  dps: 949.97477
+  tps: 472.13746
+  hps: 80.99343
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 284.80297
-  tps: 202.21011
-  hps: 49.44149
+  dps: 284.53241
+  tps: 202.01801
+  hps: 49.55419
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 284.80297
-  tps: 202.21011
-  hps: 49.44149
+  dps: 284.53241
+  tps: 202.01801
+  hps: 49.55419
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 288.73528
-  tps: 205.00205
-  hps: 50.66985
+  dps: 288.46123
+  tps: 204.80747
+  hps: 50.78535
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3071.48409
-  tps: 2134.90555
+  dps: 3068.39646
+  tps: 2133.37122
   dtps: 9.45478
-  hps: 82.3925
+  hps: 82.51873
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2799.33901
-  tps: 1421.69039
+  dps: 2796.25138
+  tps: 1420.15585
   dtps: 10.57974
-  hps: 82.3925
+  hps: 82.51873
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2947.44409
-  tps: 1495.08641
+  dps: 2945.33464
+  tps: 1494.03805
   dtps: 20.96813
-  hps: 85.43843
+  hps: 85.56933
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 964.01612
-  tps: 686.97668
-  hps: 50.77221
+  dps: 957.18052
+  tps: 682.1234
+  hps: 50.68275
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 964.01612
-  tps: 686.97668
-  hps: 50.77221
+  dps: 957.18052
+  tps: 682.1234
+  hps: 50.68275
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1143.23328
-  tps: 814.81963
-  hps: 52.2053
+  dps: 1140.22279
+  tps: 812.68218
+  hps: 52.01651
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 851.12867
-  tps: 423.01095
+  dps: 850.04117
+  tps: 422.47046
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 851.12867
-  tps: 423.01095
+  dps: 850.04117
+  tps: 422.47046
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 951.15211
-  tps: 472.7226
+  dps: 949.97477
+  tps: 472.13746
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 284.80297
-  tps: 202.21011
+  dps: 284.53241
+  tps: 202.01801
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 284.80297
-  tps: 202.21011
+  dps: 284.53241
+  tps: 202.01801
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 288.73528
-  tps: 205.00205
+  dps: 288.46123
+  tps: 204.80747
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3108.72339
-  tps: 2153.41348
+  dps: 3105.60502
+  tps: 2151.86388
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2836.57831
-  tps: 1440.19832
+  dps: 2833.45994
+  tps: 1438.6485
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2986.89255
-  tps: 1514.69229
+  dps: 2984.76294
+  tps: 1513.63391
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 970.0161
-  tps: 691.23666
+  dps: 962.96237
+  tps: 686.22852
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 970.0161
-  tps: 691.23666
+  dps: 962.96237
+  tps: 686.22852
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p3_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1156.02983
-  tps: 823.90518
+  dps: 1153.01198
+  tps: 821.76251
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 869.92913
-  tps: 432.35478
-  hps: 80.93148
+  dps: 868.57131
+  tps: 431.67994
+  hps: 81.05538
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 869.92913
-  tps: 432.35478
-  hps: 80.93148
+  dps: 868.57131
+  tps: 431.67994
+  hps: 81.05538
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 972.3574
-  tps: 483.26163
-  hps: 80.93148
+  dps: 971.63528
+  tps: 482.90274
+  hps: 81.05538
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 285.466
-  tps: 202.68086
-  hps: 48.78048
+  dps: 285.07033
+  tps: 202.39994
+  hps: 48.89155
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 285.466
-  tps: 202.68086
-  hps: 48.78048
+  dps: 285.07033
+  tps: 202.39994
+  hps: 48.89155
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 287.62039
-  tps: 204.21048
-  hps: 48.88296
+  dps: 287.15329
+  tps: 203.87883
+  hps: 48.99426
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3135.64355
-  tps: 2166.7928
+  dps: 3130.96557
+  tps: 2164.46807
   dtps: 9.45478
-  hps: 82.91285
+  hps: 83.03979
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2863.49847
-  tps: 1453.57764
+  dps: 2858.82049
+  tps: 1451.25269
   dtps: 10.57974
-  hps: 82.91285
+  hps: 83.03979
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 3006.9794
-  tps: 1524.67545
+  dps: 3005.15074
+  tps: 1523.76664
   dtps: 20.96813
-  hps: 85.96112
+  hps: 86.09272
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 973.8725
-  tps: 693.97471
-  hps: 51.13752
+  dps: 964.85999
+  tps: 687.57582
+  hps: 51.76752
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 973.8725
-  tps: 693.97471
-  hps: 51.13752
+  dps: 964.85999
+  tps: 687.57582
+  hps: 51.76752
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1156.41309
-  tps: 824.17729
-  hps: 52.87968
+  dps: 1150.60141
+  tps: 820.051
+  hps: 53.00008
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 869.92913
-  tps: 432.35478
+  dps: 868.57131
+  tps: 431.67994
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 869.92913
-  tps: 432.35478
+  dps: 868.57131
+  tps: 431.67994
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 972.3574
-  tps: 483.26163
+  dps: 971.63528
+  tps: 482.90274
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 285.466
-  tps: 202.68086
+  dps: 285.07033
+  tps: 202.39994
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 285.466
-  tps: 202.68086
+  dps: 285.07033
+  tps: 202.39994
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 287.62039
-  tps: 204.21048
+  dps: 287.15329
+  tps: 203.87883
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3174.23734
-  tps: 2185.97391
+  dps: 3169.38727
+  tps: 2183.56365
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2902.09226
-  tps: 1472.75875
+  dps: 2897.24219
+  tps: 1470.34828
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 3047.42122
-  tps: 1544.77504
+  dps: 3045.5688
+  tps: 1543.85442
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 979.86751
-  tps: 698.23117
+  dps: 970.48886
+  tps: 691.57232
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 979.86751
-  tps: 698.23117
+  dps: 970.48886
+  tps: 691.57232
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_6p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1169.30991
-  tps: 833.33404
+  dps: 1162.99287
+  tps: 828.84894
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 856.63385
-  tps: 425.74702
-  hps: 79.18755
+  dps: 855.39342
+  tps: 425.13053
+  hps: 79.1595
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 856.63385
-  tps: 425.74702
-  hps: 79.18755
+  dps: 855.39342
+  tps: 425.13053
+  hps: 79.1595
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 956.8569
-  tps: 475.55788
-  hps: 79.94028
+  dps: 956.25118
+  tps: 475.25684
+  hps: 80.06418
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 285.95455
-  tps: 203.02773
-  hps: 48.70894
+  dps: 285.61155
+  tps: 202.7842
+  hps: 48.72056
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 285.95455
-  tps: 203.02773
-  hps: 48.70894
+  dps: 285.61155
+  tps: 202.7842
+  hps: 48.72056
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 289.83056
-  tps: 205.7797
-  hps: 49.9191
+  dps: 289.55459
+  tps: 205.58376
+  hps: 50.0346
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3095.3219
-  tps: 2146.75294
+  dps: 3091.59482
+  tps: 2144.9008
   dtps: 9.45478
-  hps: 81.44575
+  hps: 81.57198
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2823.17682
-  tps: 1433.53778
+  dps: 2819.44974
+  tps: 1431.68543
   dtps: 10.57974
-  hps: 81.44575
+  hps: 81.57198
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2976.39117
-  tps: 1509.47311
+  dps: 2974.8484
+  tps: 1508.70638
   dtps: 20.96813
-  hps: 84.45668
+  hps: 84.58758
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 970.13532
-  tps: 691.32131
-  hps: 50.01995
+  dps: 963.53392
+  tps: 686.63432
+  hps: 49.93352
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 970.13532
-  tps: 691.32131
-  hps: 50.01995
+  dps: 963.53392
+  tps: 686.63432
+  hps: 49.93352
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1152.68059
-  tps: 821.52722
-  hps: 51.4318
+  dps: 1149.4377
+  tps: 819.22477
+  hps: 51.24756
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 856.63385
-  tps: 425.74702
+  dps: 855.39342
+  tps: 425.13053
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 856.63385
-  tps: 425.74702
+  dps: 855.39342
+  tps: 425.13053
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 956.8569
-  tps: 475.55788
+  dps: 956.25118
+  tps: 475.25684
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 285.95455
-  tps: 203.02773
+  dps: 285.61155
+  tps: 202.7842
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 285.95455
-  tps: 203.02773
+  dps: 285.61155
+  tps: 202.7842
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 289.83056
-  tps: 205.7797
+  dps: 289.55459
+  tps: 205.58376
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3132.97898
-  tps: 2165.46851
+  dps: 3129.22137
+  tps: 2163.6012
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2860.83391
-  tps: 1452.25335
+  dps: 2857.07629
+  tps: 1450.38583
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 3016.35745
-  tps: 1529.33635
+  dps: 3014.79513
+  tps: 1528.5599
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 976.20365
-  tps: 695.62982
+  dps: 969.38372
+  tps: 690.78768
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 976.20365
-  tps: 695.62982
+  dps: 969.38372
+  tps: 690.78768
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p4_9p-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1165.65556
-  tps: 830.73945
+  dps: 1162.40525
+  tps: 828.43173
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1189.68696
-  tps: 591.27442
-  hps: 87.14648
+  dps: 1188.55171
+  tps: 590.7102
+  hps: 87.26944
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1189.68696
-  tps: 591.27442
-  hps: 87.14648
+  dps: 1188.55171
+  tps: 590.7102
+  hps: 87.26944
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1337.22371
-  tps: 664.60018
-  hps: 90.78447
+  dps: 1336.43902
+  tps: 664.21019
+  hps: 90.91257
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 402.33046
-  tps: 285.65463
-  hps: 54.96066
+  dps: 401.63327
+  tps: 285.15962
+  hps: 55.0729
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 402.33046
-  tps: 285.65463
-  hps: 54.96066
+  dps: 401.63327
+  tps: 285.15962
+  hps: 55.0729
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 408.76281
-  tps: 290.2216
-  hps: 56.56035
+  dps: 407.8759
+  tps: 289.59189
+  hps: 56.67585
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3532.29364
-  tps: 2365.37242
+  dps: 3526.41258
+  tps: 2362.24442
   dtps: 9.50383
-  hps: 90.45374
+  hps: 90.25018
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 3260.12281
-  tps: 1650.77216
+  dps: 3254.24176
+  tps: 1647.83902
   dtps: 10.67046
-  hps: 90.45374
+  hps: 90.25018
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 3481.39954
-  tps: 1761.14144
+  dps: 3478.38495
+  tps: 1759.64326
   dtps: 21.15525
-  hps: 96.24146
+  hps: 96.37726
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1162.07941
-  tps: 827.62765
-  hps: 56.78888
+  dps: 1164.86087
+  tps: 829.60248
+  hps: 57.24833
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1162.07941
-  tps: 827.62765
-  hps: 56.78888
+  dps: 1164.86087
+  tps: 829.60248
+  hps: 57.24833
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1332.46948
-  tps: 949.17733
-  hps: 59.98825
+  dps: 1328.8592
+  tps: 946.61403
+  hps: 60.11075
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1189.68696
-  tps: 591.27442
+  dps: 1188.55171
+  tps: 590.7102
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1189.68696
-  tps: 591.27442
+  dps: 1188.55171
+  tps: 590.7102
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1337.22371
-  tps: 664.60018
+  dps: 1336.43902
+  tps: 664.21019
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 402.33046
-  tps: 285.65463
+  dps: 401.63327
+  tps: 285.15962
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 402.33046
-  tps: 285.65463
+  dps: 401.63327
+  tps: 285.15962
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 408.76281
-  tps: 290.2216
+  dps: 407.8759
+  tps: 289.59189
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 3577.2487
-  tps: 2387.71508
+  dps: 3570.41534
+  tps: 2384.11379
   dtps: 9.50383
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 3305.07787
-  tps: 1673.11483
+  dps: 3298.24452
+  tps: 1669.70839
   dtps: 10.67046
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 3529.16523
-  tps: 1784.88099
+  dps: 3526.12878
+  tps: 1783.37194
   dtps: 21.15525
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1169.52754
-  tps: 832.91582
+  dps: 1172.09021
+  tps: 834.73531
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1169.52754
-  tps: 832.91582
+  dps: 1172.09021
+  tps: 834.73531
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-p5-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1347.28998
-  tps: 959.69988
+  dps: 1343.67674
+  tps: 957.13449
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 702.74425
-  tps: 349.26389
-  hps: 65.85003
+  dps: 701.7972
+  tps: 348.79321
+  hps: 65.96949
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 702.74425
-  tps: 349.26389
-  hps: 65.85003
+  dps: 701.7972
+  tps: 348.79321
+  hps: 65.96949
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 790.02599
-  tps: 392.64292
-  hps: 67.522
+  dps: 789.03128
+  tps: 392.14855
+  hps: 67.6445
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 214.12592
-  tps: 152.0294
-  hps: 36.24171
+  dps: 213.87903
+  tps: 151.85411
+  hps: 36.34624
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 214.12592
-  tps: 152.0294
-  hps: 36.24171
+  dps: 213.87903
+  tps: 151.85411
+  hps: 36.34624
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 214.25966
-  tps: 152.12436
-  hps: 35.91812
+  dps: 214.01223
+  tps: 151.94868
+  hps: 36.02172
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2612.6124
-  tps: 1891.48968
+  dps: 2610.43879
+  tps: 1890.43722
   dtps: 9.45478
-  hps: 68.55091
+  hps: 68.54643
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2342.35126
-  tps: 1193.79964
+  dps: 2340.24951
+  tps: 1192.75647
   dtps: 10.57974
-  hps: 68.55091
+  hps: 68.54643
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2487.55836
-  tps: 1266.03887
+  dps: 2485.14339
+  tps: 1264.8428
   dtps: 20.96813
-  hps: 69.83704
+  hps: 69.96374
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 725.91893
-  tps: 517.97974
-  hps: 37.85964
+  dps: 727.01997
+  tps: 518.76148
+  hps: 37.48206
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 725.91893
-  tps: 517.97974
-  hps: 37.85964
+  dps: 727.01997
+  tps: 518.76148
+  hps: 37.48206
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-DefaultTalents-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 833.43599
-  tps: 594.86355
-  hps: 38.8304
+  dps: 833.13588
+  tps: 594.65047
+  hps: 38.69901
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-Simple-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 702.74425
-  tps: 349.26389
+  dps: 701.7972
+  tps: 348.79321
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-Simple-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 702.74425
-  tps: 349.26389
+  dps: 701.7972
+  tps: 348.79321
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-Simple-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 790.02599
-  tps: 392.64292
+  dps: 789.03128
+  tps: 392.14855
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-Simple-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 214.12592
-  tps: 152.0294
+  dps: 213.87903
+  tps: 151.85411
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-Simple-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 214.12592
-  tps: 152.0294
+  dps: 213.87903
+  tps: 151.85411
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-Simple-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 214.25966
-  tps: 152.12436
+  dps: 214.01223
+  tps: 151.94868
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2641.60312
-  tps: 1905.89806
+  dps: 2639.28503
+  tps: 1904.77381
   dtps: 9.45478
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2371.35566
-  tps: 1208.21483
+  dps: 2369.11071
+  tps: 1207.10048
   dtps: 10.57974
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2518.9108
-  tps: 1281.62103
+  dps: 2516.43117
+  tps: 1280.39283
   dtps: 20.96813
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 729.67368
-  tps: 520.64561
+  dps: 731.13175
+  tps: 521.68084
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 729.67368
-  tps: 520.64561
+  dps: 731.13175
+  tps: 521.68084
  }
 }
 dps_results: {
  key: "TestFeralCat-Settings-Tauren-pre_raid-Monocat-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 840.77115
-  tps: 600.07152
+  dps: 840.36081
+  tps: 599.78017
  }
 }
 dps_results: {

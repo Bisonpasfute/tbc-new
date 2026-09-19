@@ -3094,1123 +3094,1123 @@ dps_results: {
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 770.59075
-  tps: 1203.01763
-  dtps: 21870.29801
-  hps: 76.38806
+  dps: 771.71298
+  tps: 1204.72892
+  dtps: 21961.31576
+  hps: 76.50076
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 465.51623
-  tps: 717.70519
-  dtps: 1123.46254
-  hps: 76.38806
+  dps: 465.61078
+  tps: 717.84938
+  dtps: 1130.56806
+  hps: 76.50076
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 474.77936
-  tps: 733.09921
-  dtps: 1179.50593
-  hps: 78.99759
+  dps: 474.65438
+  tps: 732.90863
+  dtps: 1188.2188
+  hps: 79.11414
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 161.02438
-  tps: 245.54608
-  dtps: 47328.85842
-  hps: 38.44017
+  dps: 160.80832
+  tps: 245.2166
+  dtps: 47407.91942
+  hps: 38.52347
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 161.02438
-  tps: 245.58957
-  dtps: 2393.23319
-  hps: 38.44017
+  dps: 160.80832
+  tps: 245.26008
+  dtps: 2402.40886
+  hps: 38.52347
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 165.4114
-  tps: 252.36631
-  dtps: 2370.88979
-  hps: 39.73228
+  dps: 164.97013
+  tps: 251.69339
+  dtps: 2379.06008
+  hps: 39.81838
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 770.59075
-  tps: 1203.01763
-  dtps: 21870.29801
+  dps: 771.71298
+  tps: 1204.72892
+  dtps: 21961.31576
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 465.51623
-  tps: 717.70519
-  dtps: 1123.46254
+  dps: 465.61078
+  tps: 717.84938
+  dtps: 1130.56806
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 474.77936
-  tps: 733.09921
-  dtps: 1179.50593
+  dps: 474.65438
+  tps: 732.90863
+  dtps: 1188.2188
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 161.02438
-  tps: 245.54608
-  dtps: 47328.85842
+  dps: 160.80832
+  tps: 245.2166
+  dtps: 47407.91942
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 161.02438
-  tps: 245.58957
-  dtps: 2393.23319
+  dps: 160.80832
+  tps: 245.26008
+  dtps: 2402.40886
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p1-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 165.4114
-  tps: 252.36631
-  dtps: 2370.88979
+  dps: 164.97013
+  tps: 251.69339
+  dtps: 2379.06008
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 783.91739
-  tps: 1222.69134
-  dtps: 19352.27081
-  hps: 78.61784
+  dps: 784.34976
+  tps: 1223.35066
+  dtps: 19410.94492
+  hps: 78.51338
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 533.9824
-  tps: 821.18042
-  dtps: 1001.54636
-  hps: 78.61784
+  dps: 533.19717
+  tps: 819.98302
+  dtps: 1002.95795
+  hps: 78.51338
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 536.96322
-  tps: 825.70874
-  dtps: 993.38996
-  hps: 80.65106
+  dps: 536.74418
+  tps: 825.37471
+  dtps: 995.17898
+  hps: 80.77601
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 196.7694
-  tps: 300.05365
-  dtps: 44434.04161
-  hps: 42.19782
+  dps: 196.52186
+  tps: 299.67618
+  dtps: 44526.64826
+  hps: 42.14387
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 196.7694
-  tps: 300.0925
-  dtps: 2192.05495
-  hps: 42.19782
+  dps: 196.52186
+  tps: 299.71504
+  dtps: 2196.3807
+  hps: 42.14387
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 199.68019
-  tps: 304.60885
-  dtps: 2231.7126
-  hps: 44.46652
+  dps: 199.16933
+  tps: 303.8299
+  dtps: 2235.06328
+  hps: 44.11463
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 783.91739
-  tps: 1222.69134
-  dtps: 19352.27081
+  dps: 784.34976
+  tps: 1223.35066
+  dtps: 19410.94492
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 533.9824
-  tps: 821.18042
-  dtps: 1001.54636
+  dps: 533.19717
+  tps: 819.98302
+  dtps: 1002.95795
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 536.96322
-  tps: 825.70874
-  dtps: 993.38996
+  dps: 536.74418
+  tps: 825.37471
+  dtps: 995.17898
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 196.7694
-  tps: 300.05365
-  dtps: 44434.04161
+  dps: 196.52186
+  tps: 299.67618
+  dtps: 44526.64826
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 196.7694
-  tps: 300.0925
-  dtps: 2192.05495
+  dps: 196.52186
+  tps: 299.71504
+  dtps: 2196.3807
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_balanced-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 199.68019
-  tps: 304.60885
-  dtps: 2231.7126
+  dps: 199.16933
+  tps: 303.8299
+  dtps: 2235.06328
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 776.47462
-  tps: 1188.7113
-  dtps: 45139.39236
-  hps: 55.99001
+  dps: 777.44804
+  tps: 1190.16657
+  dtps: 45291.10576
+  hps: 56.09536
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 392.41994
-  tps: 595.67253
-  dtps: 2237.04618
-  hps: 55.99001
+  dps: 392.10652
+  tps: 595.24134
+  dtps: 2246.49384
+  hps: 56.09536
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 401.98706
-  tps: 611.16608
-  dtps: 2373.43282
-  hps: 57.47812
+  dps: 401.87984
+  tps: 611.1179
+  dtps: 2380.70367
+  hps: 57.58627
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 129.73524
-  tps: 193.95419
-  dtps: 94228.11461
-  hps: 24.94704
+  dps: 129.54678
+  tps: 193.67243
+  dtps: 94410.27222
+  hps: 25.02299
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 129.73524
-  tps: 193.96113
-  dtps: 4719.26545
-  hps: 24.94704
+  dps: 129.54678
+  tps: 193.67938
+  dtps: 4729.07377
+  hps: 25.02299
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 131.50668
-  tps: 196.62332
-  dtps: 4735.94663
-  hps: 25.17697
+  dps: 131.13448
+  tps: 196.06688
+  dtps: 4740.94644
+  hps: 25.25362
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 776.47462
-  tps: 1188.7113
-  dtps: 45139.39236
+  dps: 777.44804
+  tps: 1190.16657
+  dtps: 45291.10576
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 392.41994
-  tps: 595.67253
-  dtps: 2237.04618
+  dps: 392.10652
+  tps: 595.24134
+  dtps: 2246.49384
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 401.98706
-  tps: 611.16608
-  dtps: 2373.43282
+  dps: 401.87984
+  tps: 611.1179
+  dtps: 2380.70367
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 129.73524
-  tps: 193.95419
-  dtps: 94228.11461
+  dps: 129.54678
+  tps: 193.67243
+  dtps: 94410.27222
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 129.73524
-  tps: 193.96113
-  dtps: 4719.26545
+  dps: 129.54678
+  tps: 193.67938
+  dtps: 4729.07377
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_frost-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 131.50668
-  tps: 196.62332
-  dtps: 4735.94663
+  dps: 131.13448
+  tps: 196.06688
+  dtps: 4740.94644
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 799.86999
-  tps: 1223.76214
-  dtps: 49300.12974
-  hps: 61.42103
+  dps: 800.45065
+  tps: 1224.63023
+  dtps: 49441.90874
+  hps: 61.52253
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 382.54446
-  tps: 581.28243
-  dtps: 2429.07902
-  hps: 61.42103
+  dps: 382.144
+  tps: 580.68376
+  dtps: 2432.96569
+  hps: 61.52253
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 390.36728
-  tps: 594.243
-  dtps: 2483.76084
-  hps: 62.26822
+  dps: 389.44057
+  tps: 592.85756
+  dtps: 2480.36885
+  hps: 62.37112
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 125.69311
-  tps: 187.9112
-  dtps: 100491.20501
-  hps: 28.92839
+  dps: 125.48577
+  tps: 187.60122
+  dtps: 100684.65367
+  hps: 28.86277
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 125.69311
-  tps: 187.9112
-  dtps: 5024.96414
-  hps: 28.92839
+  dps: 125.48577
+  tps: 187.60122
+  dtps: 5025.8052
+  hps: 28.86277
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 128.21828
-  tps: 191.68633
-  dtps: 5087.60197
-  hps: 29.89728
+  dps: 128.12081
+  tps: 191.54061
+  dtps: 5079.06811
+  hps: 29.97288
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 799.86999
-  tps: 1223.76214
-  dtps: 49300.12974
+  dps: 800.45065
+  tps: 1224.63023
+  dtps: 49441.90874
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 382.54446
-  tps: 581.28243
-  dtps: 2429.07902
+  dps: 382.144
+  tps: 580.68376
+  dtps: 2432.96569
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 390.36728
-  tps: 594.243
-  dtps: 2483.76084
+  dps: 389.44057
+  tps: 592.85756
+  dtps: 2480.36885
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 125.69311
-  tps: 187.9112
-  dtps: 100491.20501
+  dps: 125.48577
+  tps: 187.60122
+  dtps: 100684.65367
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 125.69311
-  tps: 187.9112
-  dtps: 5024.96414
+  dps: 125.48577
+  tps: 187.60122
+  dtps: 5025.8052
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_hydross_nature-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 128.21828
-  tps: 191.68633
-  dtps: 5087.60197
+  dps: 128.12081
+  tps: 191.54061
+  dtps: 5079.06811
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 823.54501
-  tps: 1283.57697
-  dtps: 22915.43235
-  hps: 78.17124
+  dps: 824.60102
+  tps: 1285.18728
+  dtps: 23008.18185
+  hps: 78.33364
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 550.85981
-  tps: 847.41238
-  dtps: 1195.17477
-  hps: 78.17124
+  dps: 550.73492
+  tps: 847.22193
+  dtps: 1203.57331
+  hps: 78.33364
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 555.62995
-  tps: 855.08857
-  dtps: 1190.69182
-  hps: 80.19291
+  dps: 555.49018
+  tps: 854.87543
+  dtps: 1199.06182
+  hps: 80.35951
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 204.61738
-  tps: 312.02104
-  dtps: 51916.74993
-  hps: 42.47264
+  dps: 204.4997
+  tps: 311.84159
+  dtps: 52014.05669
+  hps: 42.60471
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 204.61738
-  tps: 312.05116
-  dtps: 2588.46817
-  hps: 42.47264
+  dps: 204.4997
+  tps: 311.87173
+  dtps: 2593.17628
+  hps: 42.60471
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 208.30129
-  tps: 317.72901
-  dtps: 2584.23987
-  hps: 44.12352
+  dps: 208.18142
+  tps: 317.54627
+  dtps: 2591.068
+  hps: 44.26072
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 823.54501
-  tps: 1283.57697
-  dtps: 22915.43235
+  dps: 824.60102
+  tps: 1285.18728
+  dtps: 23008.18185
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 550.85981
-  tps: 847.41238
-  dtps: 1195.17477
+  dps: 550.73492
+  tps: 847.22193
+  dtps: 1203.57331
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 555.62995
-  tps: 855.08857
-  dtps: 1190.69182
+  dps: 555.49018
+  tps: 854.87543
+  dtps: 1199.06182
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 204.61738
-  tps: 312.02104
-  dtps: 51916.74993
+  dps: 204.4997
+  tps: 311.84159
+  dtps: 52014.05669
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 204.61738
-  tps: 312.05116
-  dtps: 2588.46817
+  dps: 204.4997
+  tps: 311.87173
+  dtps: 2593.17628
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_offensive-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 208.30129
-  tps: 317.72901
-  dtps: 2584.23987
+  dps: 208.18142
+  tps: 317.54627
+  dtps: 2591.068
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 753.06328
-  tps: 1176.09938
-  dtps: 18246.66694
-  hps: 80.98188
+  dps: 753.14847
+  tps: 1176.22929
+  dtps: 18300.02842
+  hps: 81.09423
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 476.49936
-  tps: 734.01318
-  dtps: 950.18572
-  hps: 80.98188
+  dps: 475.84348
+  tps: 733.01303
+  dtps: 951.68945
+  hps: 81.09423
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 482.39575
-  tps: 743.3929
-  dtps: 941.40907
-  hps: 83.2524
+  dps: 482.27232
+  tps: 743.20468
+  dtps: 942.03572
+  hps: 83.3679
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 170.17245
-  tps: 259.49597
-  dtps: 40273.05641
-  hps: 42.38953
+  dps: 170.0657
+  tps: 259.33319
+  dtps: 40361.40757
+  hps: 42.47423
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 170.17245
-  tps: 259.52955
-  dtps: 2003.90088
-  hps: 42.38953
+  dps: 170.0657
+  tps: 259.36679
+  dtps: 2013.24971
+  hps: 42.47423
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 174.75618
-  tps: 266.58645
-  dtps: 2005.73085
-  hps: 43.09018
+  dps: 174.64587
+  tps: 266.4183
+  dtps: 2014.35748
+  hps: 43.17628
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 753.06328
-  tps: 1176.09938
-  dtps: 18246.66694
+  dps: 753.14847
+  tps: 1176.22929
+  dtps: 18300.02842
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 476.49936
-  tps: 734.01318
-  dtps: 950.18572
+  dps: 475.84348
+  tps: 733.01303
+  dtps: 951.68945
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 482.39575
-  tps: 743.3929
-  dtps: 941.40907
+  dps: 482.27232
+  tps: 743.20468
+  dtps: 942.03572
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 170.17245
-  tps: 259.49597
-  dtps: 40273.05641
+  dps: 170.0657
+  tps: 259.33319
+  dtps: 40361.40757
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 170.17245
-  tps: 259.52955
-  dtps: 2003.90088
+  dps: 170.0657
+  tps: 259.36679
+  dtps: 2013.24971
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_survival-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 174.75618
-  tps: 266.58645
-  dtps: 2005.73085
+  dps: 174.64587
+  tps: 266.4183
+  dtps: 2014.35748
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 805.17466
-  tps: 1230.94511
-  dtps: 23686.20608
-  hps: 70.74114
+  dps: 805.20528
+  tps: 1230.99089
+  dtps: 23770.8417
+  hps: 70.66024
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 531.50756
-  tps: 801.87274
-  dtps: 1237.77521
-  hps: 70.74114
+  dps: 530.39724
+  tps: 800.2128
+  dtps: 1240.34855
+  hps: 70.66024
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 536.90369
-  tps: 810.35006
-  dtps: 1225.25133
-  hps: 72.9708
+  dps: 535.79033
+  tps: 808.68559
+  dtps: 1227.58289
+  hps: 73.0968
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 199.36665
-  tps: 298.05315
-  dtps: 53669.9746
-  hps: 38.12809
+  dps: 199.251
+  tps: 297.88025
+  dtps: 53793.74934
+  hps: 38.23064
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 199.36665
-  tps: 298.0902
-  dtps: 2673.48631
-  hps: 38.12809
+  dps: 199.251
+  tps: 297.91732
+  dtps: 2677.60077
+  hps: 38.23064
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 207.60604
-  tps: 310.4822
-  dtps: 2675.245
-  hps: 40.60056
+  dps: 207.48591
+  tps: 310.30266
+  dtps: 2674.56358
+  hps: 40.70976
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 805.17466
-  tps: 1230.94511
-  dtps: 23686.20608
+  dps: 805.20528
+  tps: 1230.99089
+  dtps: 23770.8417
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 531.50756
-  tps: 801.87274
-  dtps: 1237.77521
+  dps: 530.39724
+  tps: 800.2128
+  dtps: 1240.34855
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 536.90369
-  tps: 810.35006
-  dtps: 1225.25133
+  dps: 535.79033
+  tps: 808.68559
+  dtps: 1227.58289
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 199.36665
-  tps: 298.05315
-  dtps: 53669.9746
+  dps: 199.251
+  tps: 297.88025
+  dtps: 53793.74934
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 199.36665
-  tps: 298.0902
-  dtps: 2673.48631
+  dps: 199.251
+  tps: 297.91732
+  dtps: 2677.60077
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p2_warden-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 207.60604
-  tps: 310.4822
-  dtps: 2675.245
+  dps: 207.48591
+  tps: 310.30266
+  dtps: 2674.56358
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 730.00661
-  tps: 1139.72033
-  dtps: 14429.77986
-  hps: 86.59103
+  dps: 730.43842
+  tps: 1140.41693
+  dtps: 14481.35149
+  hps: 86.74829
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 518.42653
-  tps: 796.6726
-  dtps: 734.23838
-  hps: 86.59103
+  dps: 517.94296
+  tps: 795.9352
+  dtps: 736.30124
+  hps: 86.74829
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 526.53152
-  tps: 808.69942
-  dtps: 725.145
-  hps: 89.41744
+  dps: 526.40022
+  tps: 808.49921
+  dtps: 726.85728
+  hps: 89.57984
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 189.18712
-  tps: 288.49144
-  dtps: 34293.75884
-  hps: 48.28012
+  dps: 189.07622
+  tps: 288.32232
+  dtps: 34355.78651
+  hps: 48.37427
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 189.18712
-  tps: 288.52915
-  dtps: 1686.5922
-  hps: 48.28012
+  dps: 189.07622
+  tps: 288.36005
+  dtps: 1690.27302
+  hps: 48.37427
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 194.8763
-  tps: 297.27998
-  dtps: 1758.75383
-  hps: 50.07492
+  dps: 194.76196
+  tps: 297.10569
+  dtps: 1761.82511
+  hps: 50.17257
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 730.00661
-  tps: 1139.72033
-  dtps: 14429.77986
+  dps: 730.43842
+  tps: 1140.41693
+  dtps: 14481.35149
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 518.42653
-  tps: 796.6726
-  dtps: 734.23838
+  dps: 517.94296
+  tps: 795.9352
+  dtps: 736.30124
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 526.53152
-  tps: 808.69942
-  dtps: 725.145
+  dps: 526.40022
+  tps: 808.49921
+  dtps: 726.85728
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 189.18712
-  tps: 288.49144
-  dtps: 34293.75884
+  dps: 189.07622
+  tps: 288.32232
+  dtps: 34355.78651
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 189.18712
-  tps: 288.52915
-  dtps: 1686.5922
+  dps: 189.07622
+  tps: 288.36005
+  dtps: 1690.27302
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p3-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 194.8763
-  tps: 297.27998
-  dtps: 1758.75383
+  dps: 194.76196
+  tps: 297.10569
+  dtps: 1761.82511
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 743.57645
-  tps: 1160.2605
-  dtps: 15061.63396
-  hps: 88.6466
+  dps: 744.38439
+  tps: 1161.49253
+  dtps: 15118.00218
+  hps: 88.8076
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 537.23631
-  tps: 825.32444
-  dtps: 758.53611
-  hps: 88.6466
+  dps: 537.06235
+  tps: 825.05918
+  dtps: 761.83299
+  hps: 88.8076
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 543.39659
-  tps: 834.32343
-  dtps: 763.07212
-  hps: 91.72996
+  dps: 543.18057
+  tps: 833.99402
+  dtps: 763.14101
+  hps: 91.89656
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 198.90292
-  tps: 303.30707
-  dtps: 36301.79694
-  hps: 49.89544
+  dps: 198.78809
+  tps: 303.13197
+  dtps: 36382.78021
+  hps: 49.99274
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 198.90292
-  tps: 303.35749
-  dtps: 1799.07775
-  hps: 49.89544
+  dps: 198.78809
+  tps: 303.1824
+  dtps: 1798.479
+  hps: 49.99274
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 205.67808
-  tps: 313.78975
-  dtps: 1879.2446
-  hps: 52.76712
+  dps: 205.55931
+  tps: 313.60871
+  dtps: 1879.42388
+  hps: 52.87002
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 743.57645
-  tps: 1160.2605
-  dtps: 15061.63396
+  dps: 744.38439
+  tps: 1161.49253
+  dtps: 15118.00218
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 537.23631
-  tps: 825.32444
-  dtps: 758.53611
+  dps: 537.06235
+  tps: 825.05918
+  dtps: 761.83299
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 543.39659
-  tps: 834.32343
-  dtps: 763.07212
+  dps: 543.18057
+  tps: 833.99402
+  dtps: 763.14101
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 198.90292
-  tps: 303.30707
-  dtps: 36301.79694
+  dps: 198.78809
+  tps: 303.13197
+  dtps: 36382.78021
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 198.90292
-  tps: 303.35749
-  dtps: 1799.07775
+  dps: 198.78809
+  tps: 303.1824
+  dtps: 1798.479
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p4-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 205.67808
-  tps: 313.78975
-  dtps: 1879.2446
+  dps: 205.55931
+  tps: 313.60871
+  dtps: 1879.42388
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 772.15094
-  tps: 1204.55806
-  dtps: 15666.73811
-  hps: 113.04664
+  dps: 773.33567
+  tps: 1206.40278
+  dtps: 15744.43897
+  hps: 113.16844
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 540.56545
-  tps: 830.85157
-  dtps: 781.09725
-  hps: 113.04664
+  dps: 540.48988
+  tps: 830.77447
+  dtps: 788.25107
+  hps: 113.16844
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 550.80062
-  tps: 846.05048
-  dtps: 762.59674
-  hps: 116.9448
+  dps: 550.73421
+  tps: 845.94921
+  dtps: 766.33933
+  hps: 117.0708
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 199.74099
-  tps: 304.58503
-  dtps: 36095.42974
-  hps: 69.22344
+  dps: 199.49827
+  tps: 304.21491
+  dtps: 36164.40005
+  hps: 69.32389
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 199.74099
-  tps: 304.63715
-  dtps: 1772.02181
-  hps: 69.22344
+  dps: 199.49827
+  tps: 304.26705
+  dtps: 1777.59534
+  hps: 69.32389
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 207.6262
-  tps: 316.76555
-  dtps: 1830.46286
-  hps: 73.80618
+  dps: 207.50115
+  tps: 316.57493
+  dtps: 1833.11327
+  hps: 73.91328
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 772.15094
-  tps: 1204.55806
-  dtps: 15666.73811
+  dps: 773.33567
+  tps: 1206.40278
+  dtps: 15744.43897
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 540.56545
-  tps: 830.85157
-  dtps: 781.09725
+  dps: 540.48988
+  tps: 830.77447
+  dtps: 788.25107
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 550.80062
-  tps: 846.05048
-  dtps: 762.59674
+  dps: 550.73421
+  tps: 845.94921
+  dtps: 766.33933
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 199.74099
-  tps: 304.58503
-  dtps: 36095.42974
+  dps: 199.49827
+  tps: 304.21491
+  dtps: 36164.40005
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 199.74099
-  tps: 304.63715
-  dtps: 1772.02181
+  dps: 199.49827
+  tps: 304.26705
+  dtps: 1777.59534
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-p5-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 207.6262
-  tps: 316.76555
-  dtps: 1830.46286
+  dps: 207.50115
+  tps: 316.57493
+  dtps: 1833.11327
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 747.42674
-  tps: 1167.88545
-  dtps: 29214.59798
-  hps: 73.42785
+  dps: 748.31217
+  tps: 1169.23564
+  dtps: 29287.86826
+  hps: 73.53775
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DefaultTalents-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 422.80287
-  tps: 653.00128
-  dtps: 1473.48037
-  hps: 73.42785
+  dps: 422.6399
+  tps: 652.82901
+  dtps: 1477.57354
+  hps: 73.53775
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DefaultTalents-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 426.60263
-  tps: 659.77992
-  dtps: 1555.47292
-  hps: 75.06478
+  dps: 426.3986
+  tps: 659.46879
+  dtps: 1555.66046
+  hps: 75.17713
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 139.44424
-  tps: 212.63852
-  dtps: 62822.97687
-  hps: 37.55976
+  dps: 139.33651
+  tps: 212.47424
+  dtps: 62942.0516
+  hps: 37.64271
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DefaultTalents-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 139.44424
-  tps: 212.65241
-  dtps: 3193.07654
-  hps: 37.55976
+  dps: 139.33651
+  tps: 212.48813
+  dtps: 3201.6789
+  hps: 37.64271
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DefaultTalents-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 142.80712
-  tps: 217.80825
-  dtps: 3134.17807
-  hps: 38.98608
+  dps: 142.69685
+  tps: 217.64009
+  dtps: 3145.03024
+  hps: 39.07218
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 747.42674
-  tps: 1167.88545
-  dtps: 29214.59798
+  dps: 748.31217
+  tps: 1169.23564
+  dtps: 29287.86826
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DemoRoar-Standard-Default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 422.80287
-  tps: 653.00128
-  dtps: 1473.48037
+  dps: 422.6399
+  tps: 652.82901
+  dtps: 1477.57354
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DemoRoar-Standard-Default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 426.60263
-  tps: 659.77992
-  dtps: 1555.47292
+  dps: 426.3986
+  tps: 659.46879
+  dtps: 1555.66046
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 139.44424
-  tps: 212.63852
-  dtps: 62822.97687
+  dps: 139.33651
+  tps: 212.47424
+  dtps: 62942.0516
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DemoRoar-Standard-Default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 139.44424
-  tps: 212.65241
-  dtps: 3193.07654
+  dps: 139.33651
+  tps: 212.48813
+  dtps: 3201.6789
  }
 }
 dps_results: {
  key: "TestFeralBear-Settings-Tauren-preraid-DemoRoar-Standard-Default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 142.80712
-  tps: 217.80825
-  dtps: 3134.17807
+  dps: 142.69685
+  tps: 217.64009
+  dtps: 3145.03024
  }
 }
 dps_results: {

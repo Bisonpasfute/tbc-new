@@ -19,10 +19,14 @@ var BaseStats = map[BaseStatsKey]stats.Stats{}
 // spirit 89 shows as 97; multipliers (racial, Kings, %-stat talents) stack
 // multiplicatively on the unfloored value with a single floor at the end.
 //
-// Values verified against WCL TBC-anniversary COMBATANT_INFO audit snapshots
-// (420 players, ≥2 independent players per race/class where available) plus
-// naked-character screenshots for human paladin. Hunter rows could not be
-// pinned precisely (consumable noise) and remain wowhead-era values.
+// The game keeps one attribute row per race and class, but that table is a
+// class row plus a race offset that is the same for every class, so the two
+// maps below reproduce it exactly. Values come from WCL TBC-anniversary
+// combatant info (Hyjal, 2026-09-18/19: 256 players across seven classes,
+// each fitted through ComputeStats with the race, buffs, talents and
+// consumables enumerated; warrior and rogue rows are unchanged). The hunter
+// row was previously a wowhead-era guess; 38 hunters pin it, with strength
+// verified on players without Strength of Earth or Kings.
 
 // Base Spell Crit is calculated by
 //   1. Take as-shown value (troll shaman have 3.5%)
@@ -47,17 +51,17 @@ var RaceOffsets = map[proto.Race]stats.Stats{
 	},
 	proto.Race_RaceDwarf: {
 		stats.Agility:   -4,
-		stats.Strength:  5,
+		stats.Strength:  2,
 		stats.Intellect: -1,
 		stats.Spirit:    -1,
-		stats.Stamina:   1,
+		stats.Stamina:   3,
 	},
 	proto.Race_RaceNightElf: {
-		stats.Agility:   4,
-		stats.Strength:  -4,
+		stats.Agility:   5,
+		stats.Strength:  -3,
 		stats.Intellect: 0,
 		stats.Spirit:    0,
-		stats.Stamina:   0,
+		stats.Stamina:   -1,
 	},
 	proto.Race_RaceUndead: {
 		stats.Agility:   -2,
@@ -67,18 +71,18 @@ var RaceOffsets = map[proto.Race]stats.Stats{
 		stats.Stamina:   1,
 	},
 	proto.Race_RaceTauren: {
-		stats.Agility:   -4,
+		stats.Agility:   -5,
 		stats.Strength:  5,
-		stats.Intellect: -4,
+		stats.Intellect: -5,
 		stats.Spirit:    2,
-		stats.Stamina:   1,
+		stats.Stamina:   2,
 	},
 	proto.Race_RaceGnome: {
 		stats.Agility:   3,
 		stats.Strength:  -5,
 		stats.Intellect: 3,
 		stats.Spirit:    0,
-		stats.Stamina:   0,
+		stats.Stamina:   -1,
 	},
 	proto.Race_RaceTroll: {
 		stats.Agility:   2,
@@ -92,14 +96,14 @@ var RaceOffsets = map[proto.Race]stats.Stats{
 		stats.Strength:  -3,
 		stats.Intellect: 4,
 		stats.Spirit:    -1,
-		stats.Stamina:   0,
+		stats.Stamina:   -2,
 	},
 	proto.Race_RaceDraenei: {
 		stats.Agility:   -3,
 		stats.Strength:  1,
-		stats.Intellect: 0,
+		stats.Intellect: 1,
 		stats.Spirit:    2,
-		stats.Stamina:   0,
+		stats.Stamina:   -1,
 	},
 }
 
@@ -126,10 +130,10 @@ var ClassBaseStats = map[proto.Class]stats.Stats{
 	proto.Class_ClassHunter: {
 		stats.Health:            3388,
 		stats.Agility:           151,
-		stats.Strength:          89,
-		stats.Intellect:         81,
-		stats.Spirit:            80,
-		stats.Stamina:           106,
+		stats.Strength:          64,
+		stats.Intellect:         77,
+		stats.Spirit:            83,
+		stats.Stamina:           108,
 		stats.AttackPower:       float64(CharacterLevel)*2.0 - 20,
 		stats.RangedAttackPower: float64(CharacterLevel)*2.0 - 20,
 	},
@@ -154,9 +158,9 @@ var ClassBaseStats = map[proto.Class]stats.Stats{
 		stats.Health:      2979,
 		stats.Agility:     64,
 		stats.Strength:    102,
-		stats.Intellect:   109,
+		stats.Intellect:   108,
 		stats.Spirit:      120,
-		stats.Stamina:     113,
+		stats.Stamina:     114,
 		stats.AttackPower: float64(CharacterLevel) * 2.0,
 	},
 	proto.Class_ClassMage: {
@@ -172,17 +176,17 @@ var ClassBaseStats = map[proto.Class]stats.Stats{
 		stats.Agility:     58,
 		stats.Strength:    51,
 		stats.Intellect:   133,
-		stats.Spirit:      143,
+		stats.Spirit:      139,
 		stats.Stamina:     76,
 		stats.AttackPower: -10,
 	},
 	proto.Class_ClassDruid: {
 		stats.Health:      3434,
-		stats.Agility:     71,
-		stats.Strength:    77,
+		stats.Agility:     70,
+		stats.Strength:    76,
 		stats.Intellect:   120,
 		stats.Spirit:      133,
-		stats.Stamina:     82,
+		stats.Stamina:     83,
 		stats.AttackPower: -20,
 	},
 }
