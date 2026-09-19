@@ -5,6 +5,7 @@ import (
 )
 
 var pummelRank = genRanks.Pummel.BySpellID(6554)
+var pummelBaseDamage, _ = pummelRank.Direct.Range()
 
 func (war *Warrior) registerPummel() {
 	war.RegisterSpell(core.SpellConfig{
@@ -36,8 +37,7 @@ func (war *Warrior) registerPummel() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage, _ := pummelRank.Direct.Range()
-			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
+			result := spell.CalcAndDealDamage(sim, target, pummelBaseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 
 			if !result.Landed() {
 				spell.IssueRefund(sim)

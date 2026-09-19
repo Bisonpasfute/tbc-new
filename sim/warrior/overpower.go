@@ -7,6 +7,7 @@ import (
 )
 
 var overpowerRank = genRanks.Overpower.BySpellID(11585)
+var overpowerBaseDamage, _ = overpowerRank.Direct.Range()
 
 func (war *Warrior) registerOverpower() {
 	actionID := core.ActionID{SpellID: overpowerRank.SpellID}
@@ -59,8 +60,7 @@ func (war *Warrior) registerOverpower() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			overpowerVal, _ := overpowerRank.Direct.Range()
-			baseDamage := overpowerVal + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
+			baseDamage := overpowerBaseDamage + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialNoBlockDodgeParry)
 			aura.Deactivate(sim)
 

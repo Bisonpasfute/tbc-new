@@ -5,6 +5,7 @@ import (
 )
 
 var heroicStrikeRank = genRanks.HeroicStrike.BySpellID(29707)
+var heroicStrikeBaseDamage, _ = heroicStrikeRank.Direct.Range()
 var cleaveRank = genRanks.Cleave.BySpellID(25231)
 
 func (war *Warrior) registerHeroicStrike() {
@@ -33,8 +34,7 @@ func (war *Warrior) registerHeroicStrike() {
 		FlatThreatBonus:  194,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			heroicStrikeVal, _ := heroicStrikeRank.Direct.Range()
-			baseDamage := heroicStrikeVal + war.MHWeaponDamage(sim, spell.MeleeAttackPower(target))
+			baseDamage := heroicStrikeBaseDamage + war.MHWeaponDamage(sim, spell.MeleeAttackPower(target))
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
 
 			if !result.Landed() {

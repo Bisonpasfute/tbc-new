@@ -5,6 +5,7 @@ import (
 )
 
 var slamRank = genRanks.Slam.BySpellID(25242)
+var slamBaseDamage, _ = slamRank.Direct.Range()
 
 func (war *Warrior) registerSlam() {
 
@@ -40,8 +41,7 @@ func (war *Warrior) registerSlam() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			slamVal, _ := slamRank.Direct.Range()
-			baseDamage := slamVal + spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower(target))
+			baseDamage := slamBaseDamage + spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower(target))
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
 
 			if !result.Landed() {

@@ -5,6 +5,7 @@ import (
 )
 
 var hamstringRank = genRanks.Hamstring.BySpellID(25212)
+var hamstringBaseDamage, _ = hamstringRank.Direct.Range()
 
 func (war *Warrior) registerHamstring() {
 	war.RegisterSpell(core.SpellConfig{
@@ -36,8 +37,7 @@ func (war *Warrior) registerHamstring() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage, _ := hamstringRank.Direct.Range()
-			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
+			result := spell.CalcAndDealDamage(sim, target, hamstringBaseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 
 			if !result.Landed() {
 				spell.IssueRefund(sim)

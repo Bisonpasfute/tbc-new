@@ -5,6 +5,7 @@ import (
 )
 
 var thunderClapRank = genRanks.ThunderClap.BySpellID(25264)
+var thunderClapBaseDamage, _ = thunderClapRank.Direct.Range()
 
 func (war *Warrior) registerThunderClap() {
 	auras := war.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
@@ -41,8 +42,7 @@ func (war *Warrior) registerThunderClap() {
 		ThreatMultiplier: 1.75,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage, _ := thunderClapRank.Direct.Range()
-			results := spell.CalcCleaveDamage(sim, target, 4, baseDamage, spell.OutcomeMagicHitAndCrit)
+			results := spell.CalcCleaveDamage(sim, target, 4, thunderClapBaseDamage, spell.OutcomeMagicHitAndCrit)
 			war.CastNormalizedSweepingStrikesAttack(results, sim)
 
 			for _, result := range results {

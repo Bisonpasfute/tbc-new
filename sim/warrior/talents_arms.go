@@ -510,6 +510,7 @@ func (war *Warrior) registerBloodFrenzy() {
 }
 
 var mortalStrikeRank = genRanks.MortalStrike.BySpellID(30330)
+var mortalStrikeBaseDamage, _ = mortalStrikeRank.Direct.Range()
 
 func (war *Warrior) registerMortalStrike() {
 	if !war.Talents.MortalStrike {
@@ -545,8 +546,7 @@ func (war *Warrior) registerMortalStrike() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			mortalStrikeVal, _ := mortalStrikeRank.Direct.Range()
-			baseDamage := mortalStrikeVal + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
+			baseDamage := mortalStrikeBaseDamage + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
 
 			if !result.Landed() {
