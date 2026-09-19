@@ -38,11 +38,12 @@ type generatedRow struct {
 }
 
 type generatedEffect struct {
-	Index  int32
-	Effect int32
-	Aura   int32
-	Misc   int32
-	Value  float64
+	Index    int32
+	Effect   int32
+	Aura     int32
+	Misc     int32
+	Value    float64
+	ValueMax float64
 }
 
 type generatedAmount struct {
@@ -177,7 +178,7 @@ func discoverLadders(db *sql.DB, class dbc.DbcClass) ([]rankLadder, []string, er
 			continue
 		}
 
-		ladder, err := resolveLadder(db, byName[name], mask)
+		ladder, err := resolveLadder(db, name, byName[name], mask)
 		if err != nil {
 			skipped = append(skipped, fmt.Sprintf("%s: %s", name, err))
 			continue
@@ -244,7 +245,15 @@ func claimedByClass(byRank map[int32][]rankCandidate, mask int, exclusive map[in
 // skill line and class set, differing only by ClassMask 0. So the class bit wins where it exists, and
 // a ClassMask-0 candidate is taken only when no real one was found - that is how Holy Shield 1-3
 // resolve.
-func resolveLadder(db *sql.DB, byRank map[int32][]rankCandidate, mask int) (map[int32]int32, error) {
+// Two spells with the same name, the same rank and the same effect shape, which no rule can separate
+// and none should try to: Seal of Righteousness rank 1 is 20154 and 21084, both 20 mana, and the sim
+// has always registered 21084. Named here so the choice is a decision on the record rather than a
+// tie-break that happens to land the right way.
+var ladderPins = map[string]map[int32]int32{
+	"Seal of Righteousness": {1: 21084},
+}
+
+func resolveLadder(db *sql.DB, name string, byRank map[int32][]rankCandidate, mask int) (map[int32]int32, error) {
 	ladder := map[int32]int32{}
 
 	// Sorted, so that when several ranks are ambiguous the one named in the skipped list is always the
@@ -294,6 +303,10 @@ func resolveLadder(db *sql.DB, byRank map[int32][]rankCandidate, mask int) (map[
 			if err != nil {
 				return nil, err
 			}
+		}
+		if pinned, ok := ladderPins[name][rank]; ok && ids[pinned] {
+			ladder[rank] = pinned
+			continue
 		}
 		if castable == 0 {
 			// Every ambiguous rank is collected rather than returning on the first, so the skipped
@@ -417,9 +430,12 @@ func buildRow(db *sql.DB, rank int32, spellID int32, mask int) (generatedRow, er
 	}
 
 	for _, e := range spell.Effects {
-		min, _ := DeriveRankAmount(e, spell.SpellLevel, spell.MaxLevel)
+		min, max := DeriveRankAmount(e, spell.SpellLevel, spell.MaxLevel)
+		if max == min {
+			max = 0
+		}
 		row.Effects = append(row.Effects, generatedEffect{
-			Index: e.Index, Effect: e.Effect, Aura: e.Aura, Misc: e.MiscValue, Value: min,
+			Index: e.Index, Effect: e.Effect, Aura: e.Aura, Misc: e.MiscValue, Value: min, ValueMax: max,
 		})
 	}
 
@@ -672,8 +688,12 @@ func formatRow(row generatedRow, namer *rankEnumNamer) string {
 	if len(row.Effects) > 0 {
 		var es []string
 		for _, e := range row.Effects {
-			es = append(es, fmt.Sprintf("{Index: %d, Effect: %s, Aura: %s, Misc: %d, Value: %s}",
-				e.Index, namer.Effect(e.Effect), namer.Aura(e.Aura), e.Misc, num(e.Value)))
+			f := fmt.Sprintf("{Index: %d, Effect: %s, Aura: %s, Misc: %d, Value: %s",
+				e.Index, namer.Effect(e.Effect), namer.Aura(e.Aura), e.Misc, num(e.Value))
+			if e.ValueMax > 0 {
+				f += ", ValueMax: " + num(e.ValueMax)
+			}
+			es = append(es, f+"}")
 		}
 		parts = append(parts, "Effects: []shared.SpellDataEffect{"+strings.Join(es, ", ")+"}")
 	}

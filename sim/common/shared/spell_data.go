@@ -187,6 +187,12 @@ type SpellDataEffect struct {
 	// Where the effect rolls - a damage effect with die sides - this is the low end only. Read the
 	// role field for the range: Arcane Blast rank 1 reads 668 here against Direct's 668-772.
 	Value float64
+
+	// The high end, and zero where the two agree, which is 82% of effects. An aura with one die side
+	// and a fractional base has two ends a whole number apart and the game shows the higher: Seal of
+	// the Crusader rank 1 states 39.2 attack power and buffs for 41, not 40. ValueAt reads Value, so
+	// an effect wanting the other end has to say so.
+	ValueMax float64
 }
 
 // Panics when no effect matches, and when two do - 186 ranked spells carry a duplicate aura/misc
