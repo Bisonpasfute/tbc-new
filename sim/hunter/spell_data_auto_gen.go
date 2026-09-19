@@ -9,10 +9,10 @@ import (
 )
 
 // Not generated:
-//   Improved Mend Pet: rank 1 is ambiguous between spells 19572, 24406
-//   Master Tactician: rank 1 is ambiguous between spells 34506, 34833
-//   Natural Armor: rank 1 is ambiguous between spells 24545, 24547
-//   Rapid Killing: rank 1 is ambiguous between spells 34948, 35098
+//   Improved Mend Pet: ambiguous rank 1 between spells 19572, 24406
+//   Master Tactician: ambiguous rank 1 between spells 34506, 34833; rank 2 between spells 34507, 34834; rank 3 between spells 34508, 34835; rank 4 between spells 34836, 34838; rank 5 between spells 34837, 34839
+//   Natural Armor: ambiguous rank 1 between spells 24545, 24547; rank 2 between spells 24549, 24556; rank 3 between spells 24550, 24557; rank 4 between spells 24551, 24558; rank 5 between spells 24552, 24559; rank 6 between spells 24553, 24560; rank 7 between spells 24554, 24561; rank 8 between spells 24555, 24562
+//   Rapid Killing: ambiguous rank 1 between spells 34948, 35098; rank 2 between spells 34949, 35099
 
 type generatedSpellData struct {
 	AimedShot                  shared.SpellDataTable

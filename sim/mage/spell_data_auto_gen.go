@@ -9,7 +9,7 @@ import (
 )
 
 // Not generated:
-//   Impact: rank 1 is ambiguous between spells 11103, 12355
+//   Impact: ambiguous rank 1 between spells 11103, 12355
 
 type generatedSpellData struct {
 	AmplifyMagic            shared.SpellDataTable

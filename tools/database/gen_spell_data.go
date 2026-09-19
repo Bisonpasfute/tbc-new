@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"go/format"
 	"os"
@@ -252,6 +253,7 @@ func resolveLadder(db *sql.DB, byRank map[int32][]rankCandidate, mask int) (map[
 	}
 	sort.Slice(rankNums, func(i, j int) bool { return rankNums[i] < rankNums[j] })
 
+	var ambiguous []string
 	for _, rank := range rankNums {
 		cands := byRank[rank]
 		var chosen []rankCandidate
@@ -282,14 +284,30 @@ func resolveLadder(db *sql.DB, byRank map[int32][]rankCandidate, mask int) (map[
 			return nil, err
 		}
 		if castable == 0 {
+			// Judgement of Command is the same dispatcher shape with no mana on either half - the
+			// parent Judgement pays - so SpellPower cannot separate them. One E_DUMMY against one
+			// E_SCHOOL_DAMAGE can: the dummy is what the seal triggers and what the sim registers,
+			// and the damage spell rides along as a sibling, exactly as Holy Shock does.
+			castable, err = dispatcherOf(db, ids)
+			if err != nil {
+				return nil, err
+			}
+		}
+		if castable == 0 {
+			// Every ambiguous rank is collected rather than returning on the first, so the skipped
+			// list in the class file names all of them. Judgement of Command is ambiguous on all six.
 			var list []string
 			for id := range ids {
 				list = append(list, strconv.Itoa(int(id)))
 			}
 			sort.Strings(list)
-			return nil, fmt.Errorf("rank %d is ambiguous between spells %s", rank, strings.Join(list, ", "))
+			ambiguous = append(ambiguous, fmt.Sprintf("rank %d between spells %s", rank, strings.Join(list, ", ")))
+			continue
 		}
 		ladder[rank] = castable
+	}
+	if len(ambiguous) > 0 {
+		return nil, fmt.Errorf("ambiguous %s", strings.Join(ambiguous, "; "))
 	}
 
 	maxRank := int32(0)
@@ -304,6 +322,43 @@ func resolveLadder(db *sql.DB, byRank map[int32][]rankCandidate, mask int) (map[
 		}
 	}
 	return ladder, nil
+}
+
+// The one spell among these whose first effect is a dummy, when exactly one other is a direct
+// damage effect. That pairing is the client's dispatcher shape: the dummy is the spell the game
+// grants and triggers, the damage spell is never exposed. Anything else returns 0 rather than
+// guessing - two talent auras that merely differ somewhere are not a dispatcher.
+func dispatcherOf(db *sql.DB, ids map[int32]bool) (int32, error) {
+	var dummy, damage int32
+	for id := range ids {
+		var effect int32
+		err := db.QueryRow(
+			`SELECT Effect FROM SpellEffect WHERE SpellID = ? ORDER BY EffectIndex LIMIT 1`, id).Scan(&effect)
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, nil
+		}
+		if err != nil {
+			return 0, err
+		}
+		switch effect {
+		case effDummy:
+			if dummy != 0 {
+				return 0, nil
+			}
+			dummy = id
+		case effSchoolDamage:
+			if damage != 0 {
+				return 0, nil
+			}
+			damage = id
+		default:
+			return 0, nil
+		}
+	}
+	if dummy == 0 || damage == 0 {
+		return 0, nil
+	}
+	return dummy, nil
 }
 
 // The one spell among these that has a mana cost, or 0 when that does not single one out.

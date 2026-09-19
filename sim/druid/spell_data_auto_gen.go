@@ -9,7 +9,7 @@ import (
 )
 
 // Not generated:
-//   Focused Starlight: rank 1 is ambiguous between spells 35363, 35364
+//   Focused Starlight: ambiguous rank 1 between spells 35363, 35364
 
 type generatedSpellData struct {
 	BalanceOfPower          shared.SpellDataTable

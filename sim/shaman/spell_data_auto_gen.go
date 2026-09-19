@@ -9,8 +9,8 @@ import (
 )
 
 // Not generated:
-//   Elemental Devastation: rank 2 is ambiguous between spells 29177, 29179
-//   Unleashed Rage: rank 1 is ambiguous between spells 30802, 30803
+//   Elemental Devastation: ambiguous rank 2 between spells 29177, 29179; rank 3 between spells 29178, 29180
+//   Unleashed Rage: ambiguous rank 1 between spells 30802, 30803; rank 2 between spells 30804, 30808; rank 3 between spells 30805, 30809; rank 4 between spells 30806, 30810; rank 5 between spells 30807, 30811
 
 type generatedSpellData struct {
 	AncestralFortitude      shared.SpellDataTable

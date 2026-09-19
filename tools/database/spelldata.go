@@ -22,6 +22,7 @@ func NormalizePowerCost(cost int32, powerType int32) int32 {
 }
 
 const (
+	effDummy             = 3
 	effSchoolDamage      = 2
 	effHeal              = 10
 	effEnergize          = 30
@@ -239,6 +240,38 @@ func RankEffectsOf(db *sql.DB, spellID int32) ([]RankEffect, error) {
 	return out, rows.Err()
 }
 
+// Judgement of Command's rows sit on the Retribution skill line with ClassMask 0, so the sibling
+// search by name finds nothing. The dummy names its target itself: base points plus the one die side
+// derive to the damage spell's ID - 20425 states 20466+1 = 20467 - and that spell shares the name and
+// the rank subtext, which is what is checked before its effects are taken. Following the pointer
+// rather than widening the name search keeps Blizzard's tick spell out of its parent's Direct.
+func dummyTargetEffects(db *sql.DB, spell RankSpell) ([]RankEffect, error) {
+	if len(spell.Effects) != 1 || spell.Effects[0].Effect != effDummy {
+		return nil, nil
+	}
+	target, _ := DeriveRankAmount(spell.Effects[0], spell.SpellLevel, spell.MaxLevel)
+	id := int32(target)
+	if float64(id) != target || id <= 0 {
+		return nil, nil
+	}
+
+	var same int
+	if err := db.QueryRow(`
+		SELECT count(*)
+		FROM Spell s
+		JOIN SpellName n ON n.ID = s.ID
+		WHERE s.ID = ?
+		  AND n.Name_lang = (SELECT Name_lang FROM SpellName WHERE ID = ?)
+		  AND s.NameSubtext_lang = (SELECT NameSubtext_lang FROM Spell WHERE ID = ?)`,
+		id, spell.SpellID, spell.SpellID).Scan(&same); err != nil {
+		return nil, err
+	}
+	if same == 0 {
+		return nil, nil
+	}
+	return RankEffectsOf(db, id)
+}
+
 // Holy Shock's registered spells carry only Effect=3 (dummy) and have no EffectTriggerSpell edge to the
 // damage and heal spells that share their name and rank - the association exists nowhere but the name.
 // Restricted to the family's class so an NPC copy of the name cannot be picked up.
@@ -304,6 +337,12 @@ func RankCandidates(db *sql.DB, spellID int32, classBit int) (RankSpell, []RankE
 		sibs, err := SiblingRankEffects(db, spellID, classBit)
 		if err != nil {
 			return spell, nil, err
+		}
+		if len(sibs) == 0 {
+			sibs, err = dummyTargetEffects(db, spell)
+			if err != nil {
+				return spell, nil, err
+			}
 		}
 		candidates = slices.Concat(spell.Effects, sibs)
 	}

@@ -9,10 +9,9 @@ import (
 )
 
 // Not generated:
-//   Eye for an Eye: rank 1 is ambiguous between spells 25997, 9799
-//   Judgement of Command: rank 1 is ambiguous between spells 20425, 20467
-//   Seal of Righteousness: rank 1 is ambiguous between spells 20154, 21084
-//   Vindication: rank 1 is ambiguous between spells 67, 9452
+//   Eye for an Eye: ambiguous rank 1 between spells 25997, 9799
+//   Seal of Righteousness: ambiguous rank 1 between spells 20154, 21084
+//   Vindication: ambiguous rank 1 between spells 67, 9452; rank 2 between spells 26016, 26017; rank 3 between spells 26018, 26021
 
 type generatedSpellData struct {
 	Anticipation                  shared.SpellDataTable
@@ -66,6 +65,7 @@ type generatedSpellData struct {
 	ImprovedSanctityAura          shared.SpellDataTable
 	ImprovedSealOfTheCrusader     shared.SpellDataTable
 	JudgementOfBlood              shared.SpellDataTable
+	JudgementOfCommand            shared.SpellDataTable
 	JudgementOfCorruption         shared.SpellDataTable
 	JudgementOfJustice            shared.SpellDataTable
 	JudgementOfLight              shared.SpellDataTable
@@ -416,6 +416,14 @@ var spellData = generatedSpellData{
 	},
 	JudgementOfBlood: shared.SpellDataTable{
 		{Rank: 1, SpellID: 31898, MaxRange: 50000, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_SCHOOL_DAMAGE, Aura: shared.A_NONE, Misc: 0, Value: 331}}, Direct: shared.SpellDataRange{Min: 331, Max: 362, Coef: 0.42899999022483826}},
+	},
+	JudgementOfCommand: shared.SpellDataTable{
+		{Rank: 1, SpellID: 20425, MaxRange: 100, ProcChance: 100, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_DUMMY, Aura: shared.A_NONE, Misc: 0, Value: 20467}}, Direct: shared.SpellDataRange{Min: 137, Max: 146, Coef: 0.42899999022483826}},
+		{Rank: 2, SpellID: 20962, MaxRange: 100, ProcChance: 100, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_DUMMY, Aura: shared.A_NONE, Misc: 0, Value: 20963}}, Direct: shared.SpellDataRange{Min: 194, Max: 209, Coef: 0.42899999022483826}},
+		{Rank: 3, SpellID: 20961, MaxRange: 100, ProcChance: 100, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_DUMMY, Aura: shared.A_NONE, Misc: 0, Value: 20964}}, Direct: shared.SpellDataRange{Min: 248, Max: 269, Coef: 0.42899999022483826}},
+		{Rank: 4, SpellID: 20967, MaxRange: 100, ProcChance: 100, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_DUMMY, Aura: shared.A_NONE, Misc: 0, Value: 20965}}, Direct: shared.SpellDataRange{Min: 309, Max: 336, Coef: 0.42899999022483826}},
+		{Rank: 5, SpellID: 20968, MaxRange: 100, ProcChance: 100, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_DUMMY, Aura: shared.A_NONE, Misc: 0, Value: 20966}}, Direct: shared.SpellDataRange{Min: 387, Max: 422, Coef: 0.42899999022483826}},
+		{Rank: 6, SpellID: 27172, MaxRange: 100, ProcChance: 100, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_DUMMY, Aura: shared.A_NONE, Misc: 0, Value: 27171}}, Direct: shared.SpellDataRange{Min: 456, Max: 504, Coef: 0.42899999022483826}},
 	},
 	JudgementOfCorruption: shared.SpellDataTable{
 		{Rank: 1, SpellID: 356112, MaxRange: 100, ProcChance: 101, Effects: []shared.SpellDataEffect{{Index: 0, Effect: shared.E_SCHOOL_DAMAGE, Aura: shared.A_NONE, Misc: 0, Value: 120}}, Direct: shared.SpellDataFlat{Value: 120, Coef: 0.42899999022483826}},

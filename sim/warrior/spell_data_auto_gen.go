@@ -9,11 +9,11 @@ import (
 )
 
 // Not generated:
-//   Flurry: rank 1 is ambiguous between spells 12319, 12966
-//   Rampage: rank 1 is ambiguous between spells 29801, 30029
-//   Second Wind: rank 1 is ambiguous between spells 29834, 29841
-//   Sweeping Strikes: rank 1 is ambiguous between spells 12723, 26654
-//   Unbridled Wrath: rank 1 is ambiguous between spells 12322, 12964
+//   Flurry: ambiguous rank 1 between spells 12319, 12966; rank 2 between spells 12967, 12971; rank 3 between spells 12968, 12972; rank 4 between spells 12969, 12973; rank 5 between spells 12970, 12974
+//   Rampage: ambiguous rank 1 between spells 29801, 30029; rank 2 between spells 30030, 30031; rank 3 between spells 30032, 30033
+//   Second Wind: ambiguous rank 1 between spells 29834, 29841; rank 2 between spells 29838, 29842
+//   Sweeping Strikes: ambiguous rank 1 between spells 12723, 26654
+//   Unbridled Wrath: ambiguous rank 1 between spells 12322, 12964
 
 type generatedSpellData struct {
 	Anticipation                  shared.SpellDataTable

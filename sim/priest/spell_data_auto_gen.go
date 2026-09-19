@@ -9,11 +9,11 @@ import (
 )
 
 // Not generated:
-//   Blessed Recovery: rank 1 is ambiguous between spells 27811, 27813
-//   Blessed Resilience: rank 1 is ambiguous between spells 33142, 33143
-//   Focused Will: rank 1 is ambiguous between spells 45234, 45237
-//   Misery: rank 1 is ambiguous between spells 33191, 33196
-//   Surge of Light: rank 1 is ambiguous between spells 33150, 33151
+//   Blessed Recovery: ambiguous rank 1 between spells 27811, 27813; rank 2 between spells 27815, 27817; rank 3 between spells 27816, 27818
+//   Blessed Resilience: ambiguous rank 1 between spells 33142, 33143
+//   Focused Will: ambiguous rank 1 between spells 45234, 45237; rank 2 between spells 45241, 45243; rank 3 between spells 45242, 45244
+//   Misery: ambiguous rank 1 between spells 33191, 33196; rank 2 between spells 33192, 33197; rank 3 between spells 33193, 33198; rank 4 between spells 33194, 33199; rank 5 between spells 33195, 33200
+//   Surge of Light: ambiguous rank 1 between spells 33150, 33151
 
 type generatedSpellData struct {
 	Absolution                 shared.SpellDataTable

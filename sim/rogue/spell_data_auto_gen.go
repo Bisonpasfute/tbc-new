@@ -16,9 +16,9 @@ import (
 //   Deadly Poison V: missing rank 1 of 5
 //   Deadly Poison VI: missing rank 1 of 6
 //   Deadly Poison VII: missing rank 1 of 7
-//   Envenom: rank 2 is ambiguous between spells 32684, 39967
-//   Find Weakness: rank 1 is ambiguous between spells 31233, 31234
-//   Initiative: rank 1 is ambiguous between spells 13976, 13977
+//   Envenom: ambiguous rank 2 between spells 32684, 39967
+//   Find Weakness: ambiguous rank 1 between spells 31233, 31234; rank 2 between spells 31235, 31239; rank 3 between spells 31236, 31240; rank 4 between spells 31237, 31241; rank 5 between spells 31238, 31242
+//   Initiative: ambiguous rank 1 between spells 13976, 13977
 //   Instant Poison II: missing rank 1 of 2
 //   Instant Poison III: missing rank 1 of 3
 //   Instant Poison IV: missing rank 1 of 4
