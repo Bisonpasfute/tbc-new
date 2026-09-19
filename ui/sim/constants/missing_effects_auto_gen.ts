@@ -2108,7 +2108,7 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 	[
 		32489, // Ashtongue Talisman of Zeal
 		[
-			"Flash of Light and Holy Light have a 15% chance to grant your target 0 healing over 12s, and your Judgements have a 50% chance to inflict 0 damage on their target over 8s.", // 40470 - https://www.wowhead.com/tbc/spell=40470
+			"Flash of Light and Holy Light have a 15% chance to grant your target 760 healing over 12s, and your Judgements have a 50% chance to inflict 480 damage on their target over 8s.", // 40470 - https://www.wowhead.com/tbc/spell=40470
 		]
 	],
 	[

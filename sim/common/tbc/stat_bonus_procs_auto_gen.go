@@ -5193,8 +5193,8 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Flash of Light and Holy Light have a 15% chance to grant your target 0 healing over 12s, and your Judgements
-	// have a 50% chance to inflict 0 damage on their target over 8s.
+	// Flash of Light and Holy Light have a 15% chance to grant your target 760 healing over 12s, and your Judgements
+	// have a 50% chance to inflict 480 damage on their target over 8s.
 	// https://www.wowhead.com/tbc/spell=40470
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
@@ -6816,7 +6816,7 @@ func RegisterAllProcs() {
 		{ItemID: 24122, ItemName: "Coronet of Verdant Flame"},
 	})
 
-	// 2% chance on successful spellcast to increase your spell damage by up to 1 for 15s.
+	// 2% chance on successful spellcast to increase your spell damage by up to 120 for 15s.
 	// https://www.wowhead.com/tbc/spell=31037
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 		Callback:           core.CallbackOnCastComplete,
