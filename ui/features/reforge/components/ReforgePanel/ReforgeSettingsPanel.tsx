@@ -15,18 +15,21 @@ import { trackEvent } from '../../../../tracking/utils';
 import { useReforgeField } from '../../hooks/useReforgeField';
 import { ReforgeBreakpointLimits } from './ReforgeBreakpointLimits';
 import { ReforgeFrozenSlots } from './ReforgeFrozenSlots';
+import { DEFAULT_REFORGE_ID_PREFIX, ReforgeIdPrefixContext } from './ReforgeIdPrefixContext';
 import { ReforgeStatCaps } from './ReforgeStatCaps';
 import { buildStatTooltips } from './utils';
 
 export interface ReforgeSettingsPanelProps {
 	model: ReforgeOptimizerModel;
 	options?: ReforgeOptimizerOptions;
-	/** Closes the popover when the EP weights dialog opens over it. */
-	onClose: () => void;
+	/** Closes the popover when the EP weights dialog opens over it. Omitted where the panel is inline and has nothing to close. */
+	onClose?: () => void;
+	/** Scopes every DOM id, so a second mount does not collide with the sidebar popover's. */
+	idPrefix?: string;
 }
 
-/** The popover's body. Mounted only while the popover is open, so every section is built per open. */
-export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSettingsPanelProps) => {
+/** The reforge settings body, shared by the sidebar popover and the Batch Sim sidebar. In the popover it is mounted only while that is open, so every section is built per open. */
+export const ReforgeSettingsPanel = ({ model, options, onClose, idPrefix = DEFAULT_REFORGE_ID_PREFIX }: ReforgeSettingsPanelProps) => {
 	const host = useSimHost();
 	const player = host.player;
 	const individualConfig = useSpecConfig();
@@ -53,12 +56,12 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 	const hasSoftCaps = !!softCapsConfig?.length;
 
 	return (
-		<>
+		<ReforgeIdPrefixContext.Provider value={idPrefix}>
 			<BooleanPicker
 				modObject={player}
 				config={{
 					extraClassNames: ['mb-2'],
-					id: 'reforge-optimizer-enable-custom-ep-weights',
+					id: `${idPrefix}-enable-custom-ep-weights`,
 					label: i18n.t('sidebar.buttons.suggest_reforges.use_custom'),
 					layout: 'inline',
 					storeField: 'reforge:useCustomEPValues',
@@ -88,7 +91,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 					modObject={player}
 					config={{
 						extraClassNames: ['mb-2'],
-						id: 'reforge-optimizer-enable-soft-cap-breakpoints',
+						id: `${idPrefix}-enable-soft-cap-breakpoints`,
 						label: i18n.t('sidebar.buttons.suggest_reforges.use_soft_cap_breakpoints'),
 						layout: 'inline',
 						storeField: 'reforge:useSoftCapBreakpoints',
@@ -107,7 +110,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 				modObject={player}
 				config={{
 					extraClassNames: ['mb-2'],
-					id: 'reforge-optimizer-disable-unique-gems',
+					id: `${idPrefix}-disable-unique-gems`,
 					label: i18n.t('sidebar.buttons.suggest_reforges.disable_unique_gems'),
 					layout: 'inline',
 					storeField: 'reforge:disableUniqueGems',
@@ -122,7 +125,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 				modObject={player}
 				config={{
 					extraClassNames: ['mb-2'],
-					id: 'reforge-optimizer-max-gem-phase',
+					id: `${idPrefix}-max-gem-phase`,
 					label: i18n.t('sidebar.buttons.suggest_reforges.max_gem_phase'),
 					defaultValue: model.getMaxGemPhase(),
 					values: phaseValues,
@@ -138,7 +141,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 				modObject={player}
 				config={{
 					extraClassNames: ['mb-2'],
-					id: 'reforge-optimizer-max-gem-quality',
+					id: `${idPrefix}-max-gem-quality`,
 					label: i18n.t('sidebar.buttons.suggest_reforges.max_gem_quality'),
 					defaultValue: model.getMaxGemQuality(),
 					values: qualityValues,
@@ -154,7 +157,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 				modObject={player}
 				config={{
 					extraClassNames: ['mb-2'],
-					id: 'reforge-optimizer-freeze-item-slots',
+					id: `${idPrefix}-freeze-item-slots`,
 					label: i18n.t('sidebar.buttons.suggest_reforges.freeze_item_slots'),
 					labelTooltip: i18n.t('sidebar.buttons.suggest_reforges.freeze_item_slots_tooltip'),
 					layout: 'inline',
@@ -174,10 +177,10 @@ export const ReforgeSettingsPanel = ({ model, options, onClose }: ReforgeSetting
 				data-testid="reforge-edit-weights"
 				onClick={() => {
 					openEpWeights();
-					onClose();
+					onClose?.();
 				}}>
 				{i18n.t('sidebar.buttons.suggest_reforges.edit_weights')}
 			</Button>
-		</>
+		</ReforgeIdPrefixContext.Provider>
 	);
 };
