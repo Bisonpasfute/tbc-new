@@ -1,10 +1,12 @@
 package druid
 
 import (
-	"time"
-
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
+
+var ripRank = spellData.Rip.BySpellID(27008)
+var ripTick = ripRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerRipSpell() {
 	idolBonus := func(cp int32) float64 {
@@ -12,19 +14,19 @@ func (druid *Druid) registerRipSpell() {
 	}
 
 	druid.Rip = druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27008},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: ripRank.SpellID},
+		SpellSchool:    ripRank.SpellSchool,
+		DefenseType:    ripRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellRip,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 
 		EnergyCost: core.EnergyCostOptions{
-			Cost: 30,
+			Cost: ripRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: time.Second,
+				GCD: ripRank.GCD,
 			},
 			IgnoreHaste: true,
 		},
@@ -40,8 +42,8 @@ func (druid *Druid) registerRipSpell() {
 			Aura: core.Aura{
 				Label: "Rip",
 			},
-			NumberOfTicks: 6,
-			TickLength:    time.Second * 2,
+			NumberOfTicks: ripTick.NumberOfTicks,
+			TickLength:    ripTick.TickLength,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				cp := druid.ComboPoints()

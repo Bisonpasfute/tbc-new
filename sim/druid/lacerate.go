@@ -3,35 +3,38 @@ package druid
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var lacerateRank = shared.WithSpellDataFlatThreat(spellData.Lacerate, 267).BySpellID(33745)
+var lacerateTick = lacerateRank.Periodic.(shared.SpellDataPeriodic)
+
 func (druid *Druid) registerLacerateSpell() {
-	// Base: 155 damage over 5 ticks = 31 per tick per stack.
-	tickDamageBase := 155.0 / 5
+	tickDamageBase := lacerateTick.Tick
 
 	druid.Lacerate = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 33745},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: lacerateRank.SpellID},
+		SpellSchool:    lacerateRank.SpellSchool,
+		DefenseType:    lacerateRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellLacerate,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 
 		RageCost: core.RageCostOptions{
-			Cost:   15,
+			Cost:   lacerateRank.Cost,
 			Refund: 0.8,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: lacerateRank.GCD,
 			},
 			IgnoreHaste: true,
 		},
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 0.5,
-		FlatThreatBonus:  267,
+		FlatThreatBonus:  lacerateRank.FlatThreatBonus,
 		MaxRange:         core.MaxMeleeRange,
 
 		Dot: core.DotConfig{
@@ -40,8 +43,8 @@ func (druid *Druid) registerLacerateSpell() {
 				MaxStacks: 5,
 				Duration:  time.Second * 15,
 			},
-			NumberOfTicks: 5,
-			TickLength:    time.Second * 3,
+			NumberOfTicks: lacerateTick.NumberOfTicks,
+			TickLength:    lacerateTick.TickLength,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				perStack := tickDamageBase + druid.IdolLacerateBonus + druid.LacerateTickBonus + 0.01*dot.Spell.MeleeAttackPower(target)

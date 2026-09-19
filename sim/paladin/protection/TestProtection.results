@@ -144,7 +144,7 @@ dps_results: {
  key: "TestProtection-AllItems-ArgentDefender-13243"
  value: {
   dps: 927.4097
-  tps: 1668.50137
+  tps: 1668.50138
   dtps: 1488.86597
  }
 }
@@ -240,7 +240,7 @@ dps_results: {
  key: "TestProtection-AllItems-Battlemaster'sAudacity-34049"
  value: {
   dps: 905.36833
-  tps: 1621.94729
+  tps: 1621.9473
   dtps: 1291.18048
  }
 }
@@ -248,7 +248,7 @@ dps_results: {
  key: "TestProtection-AllItems-Battlemaster'sCruelty-34163"
  value: {
   dps: 894.51964
-  tps: 1596.26825
+  tps: 1596.26826
   dtps: 1291.18048
  }
 }
@@ -376,7 +376,7 @@ dps_results: {
  key: "TestProtection-AllItems-BulwarkofAzzinoth-32375"
  value: {
   dps: 930.66009
-  tps: 1670.73306
+  tps: 1670.73307
   dtps: 1217.35431
  }
 }
@@ -424,7 +424,7 @@ dps_results: {
  key: "TestProtection-AllItems-CircletofArcaneMight-24123"
  value: {
   dps: 927.23712
-  tps: 1667.15305
+  tps: 1667.15306
   dtps: 1403.93952
  }
 }
@@ -440,7 +440,7 @@ dps_results: {
  key: "TestProtection-AllItems-CommendationofKael'thas-34473"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -537,7 +537,7 @@ dps_results: {
  key: "TestProtection-AllItems-DirebrewHops-38288"
  value: {
   dps: 908.30906
-  tps: 1627.58966
+  tps: 1627.58967
   dtps: 1291.18048
  }
 }
@@ -592,7 +592,7 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-EarringofSoulfulMeditation-30665"
  value: {
-  dps: 899.22772
+  dps: 899.22773
   tps: 1609.61847
   dtps: 1291.18048
  }
@@ -609,7 +609,7 @@ dps_results: {
  key: "TestProtection-AllItems-EmblemofPerseverance-25996"
  value: {
   dps: 889.11434
-  tps: 1589.66918
+  tps: 1589.66919
   dtps: 1290.9044
  }
 }
@@ -625,7 +625,7 @@ dps_results: {
  key: "TestProtection-AllItems-Enchant2HWeapon-GreaterImpact-963"
  value: {
   dps: 919.58125
-  tps: 1645.43105
+  tps: 1645.43106
   dtps: 1291.18048
  }
 }
@@ -689,7 +689,7 @@ dps_results: {
  key: "TestProtection-AllItems-EssenceoftheMartyr-29376"
  value: {
   dps: 908.30906
-  tps: 1627.58966
+  tps: 1627.58967
   dtps: 1291.18048
  }
 }
@@ -729,7 +729,7 @@ dps_results: {
  key: "TestProtection-AllItems-FelscaleArmor"
  value: {
   dps: 900.25789
-  tps: 1587.4895
+  tps: 1587.48951
   dtps: 1483.62596
  }
 }
@@ -801,7 +801,7 @@ dps_results: {
  key: "TestProtection-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
   hps: 4.63333
  }
@@ -873,7 +873,7 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-HandofJustice-11815"
  value: {
-  dps: 895.03712
+  dps: 895.03713
   tps: 1598.64405
   dtps: 1300.98961
  }
@@ -898,7 +898,7 @@ dps_results: {
  key: "TestProtection-AllItems-Hazza'rah'sCharmofMagic-19959"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -906,7 +906,7 @@ dps_results: {
  key: "TestProtection-AllItems-HeartoftheScale-13164"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -930,7 +930,7 @@ dps_results: {
  key: "TestProtection-AllItems-HibernationCrystal-20636"
  value: {
   dps: 896.51009
-  tps: 1604.89855
+  tps: 1604.89856
   dtps: 1291.18048
  }
 }
@@ -961,7 +961,7 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-ImbuedNetherweave"
  value: {
-  dps: 931.45463
+  dps: 931.45464
   tps: 1678.78033
   dtps: 1587.33972
  }
@@ -1114,7 +1114,7 @@ dps_results: {
  key: "TestProtection-AllItems-Loatheb'sReflection-23042"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -1130,7 +1130,7 @@ dps_results: {
  key: "TestProtection-AllItems-Mana-EtchedRegalia"
  value: {
   dps: 927.70191
-  tps: 1678.88903
+  tps: 1678.88904
   dtps: 1954.6791
  }
 }
@@ -1138,7 +1138,7 @@ dps_results: {
  key: "TestProtection-AllItems-MarkoftheChampion-23206"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -1146,7 +1146,7 @@ dps_results: {
  key: "TestProtection-AllItems-MarkoftheChampion-23207"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -1185,7 +1185,7 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-MindQuickeningGem-19339"
  value: {
-  dps: 890.17529
+  dps: 890.1753
   tps: 1593.15725
   dtps: 1287.29535
  }
@@ -1225,7 +1225,7 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-NetherstrikeArmor"
  value: {
-  dps: 964.11482
+  dps: 964.11483
   tps: 1742.3783
   dtps: 1521.14111
  }
@@ -1306,7 +1306,7 @@ dps_results: {
  key: "TestProtection-AllItems-PrimalIntent"
  value: {
   dps: 949.45877
-  tps: 1678.53495
+  tps: 1678.53496
   dtps: 1466.36825
  }
 }
@@ -1322,7 +1322,7 @@ dps_results: {
  key: "TestProtection-AllItems-Prismcharm-15867"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -1330,7 +1330,7 @@ dps_results: {
  key: "TestProtection-AllItems-PrismofInnerCalm-30621"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
  }
 }
@@ -1506,7 +1506,7 @@ dps_results: {
  key: "TestProtection-AllItems-SpyglassoftheHiddenFleet-30620"
  value: {
   dps: 887.43905
-  tps: 1587.48961
+  tps: 1587.48962
   dtps: 1291.18048
   hps: 15.16667
  }
@@ -1658,7 +1658,7 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Timbal'sFocusingCrystal-34470"
  value: {
-  dps: 929.22103
+  dps: 929.22104
   tps: 1646.78289
   dtps: 1291.18048
  }
@@ -1810,8 +1810,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-Settings-BloodElf-p2-Protection-default-FullBuffs-5.0yards-LongMultiTarget"
  value: {
-  dps: 2114.89894
-  tps: 3630.27525
+  dps: 2114.89895
+  tps: 3630.27527
   dtps: 45006.20904
  }
 }
@@ -1827,7 +1827,7 @@ dps_results: {
  key: "TestProtection-Settings-BloodElf-p2-Protection-default-FullBuffs-5.0yards-ShortSingleTarget"
  value: {
   dps: 1122.37461
-  tps: 1968.66969
+  tps: 1968.6697
   dtps: 1325.97301
  }
 }
@@ -1835,7 +1835,7 @@ dps_results: {
  key: "TestProtection-Settings-BloodElf-p2-Protection-default-NoBuffs-5.0yards-LongMultiTarget"
  value: {
   dps: 765.66533
-  tps: 2212.28499
+  tps: 2212.285
   dtps: 46514.55637
  }
 }
@@ -1859,7 +1859,7 @@ dps_results: {
  key: "TestProtection-Settings-Human-p2-Protection-default-FullBuffs-5.0yards-LongMultiTarget"
  value: {
   dps: 2146.51006
-  tps: 3672.14003
+  tps: 3672.14005
   dtps: 45029.21353
  }
 }
@@ -1875,7 +1875,7 @@ dps_results: {
  key: "TestProtection-Settings-Human-p2-Protection-default-FullBuffs-5.0yards-ShortSingleTarget"
  value: {
   dps: 1152.78085
-  tps: 2014.32242
+  tps: 2014.32243
   dtps: 1326.17281
  }
 }

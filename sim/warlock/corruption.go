@@ -3,29 +3,32 @@ package warlock
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-const corruptionCoeff = 0.156
+var corruptionRank = spellData.Corruption.BySpellID(27216)
+var corruptionTick = corruptionRank.Periodic.(shared.SpellDataPeriodic)
+var corruptionCoeff = corruptionTick.Coef
 
 func (warlock *Warlock) registerCorruption() *core.Spell {
-	tickCount := int32(6)
-	warlock.CorruptionTickBaseDamage = float64(900 / tickCount)
+	tickCount := corruptionTick.NumberOfTicks
+	warlock.CorruptionTickBaseDamage = corruptionTick.Tick
 
 	warlock.Corruption = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27216},
-		SpellSchool:    core.SpellSchoolShadow,
-		DefenseType:    core.DefenseTypeMagic,
+		ActionID:       core.ActionID{SpellID: corruptionRank.SpellID},
+		SpellSchool:    corruptionRank.SpellSchool,
+		DefenseType:    corruptionRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellCorruption,
 
 		DamageMultiplier: 1,
-		ManaCost:         core.ManaCostOptions{FlatCost: 370},
+		ManaCost:         core.ManaCostOptions{FlatCost: corruptionRank.Cost},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
-				CastTime: time.Millisecond * 2000,
+				GCD:      corruptionRank.GCD,
+				CastTime: corruptionRank.CastTime,
 			},
 		},
 
@@ -45,7 +48,7 @@ func (warlock *Warlock) registerCorruption() *core.Spell {
 				Tag:   "Affliction",
 			},
 			NumberOfTicks:    tickCount,
-			TickLength:       3 * time.Second,
+			TickLength:       corruptionTick.TickLength,
 			BonusCoefficient: corruptionCoeff,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				dot.Snapshot(target, warlock.CorruptionTickBaseDamage)
@@ -61,7 +64,7 @@ func (warlock *Warlock) registerCorruption() *core.Spell {
 				result.Damage /= dot.TickPeriod().Seconds()
 				return result
 			} else {
-				result := spell.CalcPeriodicDamage(sim, target, 900, spell.OutcomeExpectedMagicHit)
+				result := spell.CalcPeriodicDamage(sim, target, corruptionTick.Tick*float64(corruptionTick.NumberOfTicks), spell.OutcomeExpectedMagicHit)
 				result.Damage /= dot.CalcTickPeriod().Round(time.Millisecond).Seconds()
 				return result
 			}

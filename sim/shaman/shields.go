@@ -36,13 +36,13 @@ func (shaman *Shaman) startShieldProcPeriodicAction(sim *core.Simulation) {
 }
 
 func (shaman *Shaman) registerWaterShieldSpell() {
-	manaReturned := 204.0
+	bonusManaReturned := 0.0
 	mp5 := 50.0
 	if shaman.CouldHaveSetBonus(ItemSetTidefuryRaiment, 4) {
-		manaReturned += 56
+		bonusManaReturned = 56
 	}
 
-	actionID := core.ActionID{SpellID: 33736}
+	actionID := core.ActionID{SpellID: waterShieldRank.SpellID}
 	waterShieldManaMetrics := shaman.NewManaMetrics(actionID)
 
 	shaman.WaterShieldAura = shaman.RegisterAura(core.Aura{
@@ -57,7 +57,7 @@ func (shaman *Shaman) registerWaterShieldSpell() {
 		ClassSpellMask: SpellMaskShieldSelfProc,
 		Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 			shaman.WaterShieldAura.RemoveStack(sim)
-			shaman.AddMana(sim, manaReturned, waterShieldManaMetrics)
+			shaman.AddMana(sim, waterShieldRank.Direct.Damage(sim)+bonusManaReturned, waterShieldManaMetrics)
 		},
 	}).AttachStatBuff(stats.MP5, mp5)
 
@@ -68,7 +68,7 @@ func (shaman *Shaman) registerWaterShieldSpell() {
 		Flags:       core.SpellFlagAPL | SpellFlagInstant,
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: waterShieldRank.GCD,
 			},
 		},
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
@@ -80,21 +80,24 @@ func (shaman *Shaman) registerWaterShieldSpell() {
 	})
 }
 
+var lightningShieldRank = spellData.LightningShield.BySpellID(25472)
+var waterShieldRank = spellData.WaterShield.BySpellID(33736)
+
 func (shaman *Shaman) registerLightningShieldSpell() {
-	actionID := core.ActionID{SpellID: 25472}
+	actionID := core.ActionID{SpellID: lightningShieldRank.SpellID}
 
 	lsDamage := shaman.RegisterSpell(core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: 25472},
-		SpellSchool:      core.SpellSchoolNature,
-		DefenseType:      core.DefenseTypeMagic,
+		ActionID:         core.ActionID{SpellID: lightningShieldRank.SpellID},
+		SpellSchool:      lightningShieldRank.SpellSchool,
+		DefenseType:      lightningShieldRank.DefenseType,
 		ProcMask:         core.ProcMaskEmpty,
 		Flags:            SpellFlagShamanSpell,
 		ClassSpellMask:   SpellMaskLightningShield,
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
-		BonusCoefficient: 0.26699998975,
+		BonusCoefficient: lightningShieldRank.Direct.BonusCoefficient(),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 287.0
+			baseDamage := lightningShieldRank.Direct.Damage(sim)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})
@@ -121,11 +124,11 @@ func (shaman *Shaman) registerLightningShieldSpell() {
 		DefenseType: core.DefenseTypeMagic,
 		Flags:       core.SpellFlagAPL | SpellFlagInstant,
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 400,
+			FlatCost: lightningShieldRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: lightningShieldRank.GCD,
 			},
 		},
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {

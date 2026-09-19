@@ -5,8 +5,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var sunderArmorRank = shared.WithSpellDataFlatThreat(spellData.SunderArmor, 301.5).BySpellID(25225)
+
 func (war *Warrior) registerSunderArmor() {
-	actionId := core.ActionID{SpellID: 25225}
+	actionId := core.ActionID{SpellID: sunderArmorRank.SpellID}
 
 	war.SunderArmorAuras = war.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
 		return core.SunderArmorAura(target)
@@ -30,7 +32,7 @@ func (war *Warrior) registerSunderArmor() {
 
 			DamageMultiplier: 1,
 			ThreatMultiplier: 1,
-			FlatThreatBonus:  301.5,
+			FlatThreatBonus:  sunderArmorRank.FlatThreatBonus,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				result := spell.CalcOutcome(sim, target, shared.GetOutcome(spell, outcome))
@@ -55,12 +57,12 @@ func (war *Warrior) registerSunderArmor() {
 		Flags:    core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 
 		RageCost: core.RageCostOptions{
-			Cost:   15,
+			Cost:   sunderArmorRank.Cost,
 			Refund: 0.8,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: sunderArmorRank.GCD,
 			},
 			IgnoreHaste: true,
 		},

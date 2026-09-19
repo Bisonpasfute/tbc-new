@@ -1,17 +1,18 @@
 package warlock
 
 import (
-	"time"
-
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-const hellFireCoeff = 0.095
+var hellfireRank = spellData.Hellfire.BySpellID(27213)
+var hellfireTick = hellfireRank.Periodic.(shared.SpellDataPeriodic)
+var hellFireCoeff = hellfireTick.Coef
 
 func (warlock *Warlock) registerHellfire() *core.Spell {
-	hellfireActionID := core.ActionID{SpellID: 27213}
+	hellfireActionID := core.ActionID{SpellID: hellfireRank.SpellID}
 
-	manaCost := int32(1665)
+	manaCost := hellfireRank.Cost
 	warlock.Hellfire = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:         hellfireActionID,
 		SpellSchool:      core.SpellSchoolFire,
@@ -24,7 +25,7 @@ func (warlock *Warlock) registerHellfire() *core.Spell {
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: hellfireRank.GCD,
 			},
 		},
 		ManaCost: core.ManaCostOptions{FlatCost: manaCost},
@@ -35,20 +36,23 @@ func (warlock *Warlock) registerHellfire() *core.Spell {
 			},
 
 			IsAOE:                true,
-			TickLength:           time.Second,
-			NumberOfTicks:        14,
+			TickLength:           hellfireTick.TickLength,
+			NumberOfTicks:        hellfireTick.NumberOfTicks,
 			HasteReducesDuration: true,
 			AffectedByCastSpeed:  true,
 			BonusCoefficient:     hellFireCoeff,
 
 			OnTick: func(sim *core.Simulation, _ *core.Unit, dot *core.Dot) {
-				resultSlice := dot.Spell.CalcPeriodicAoeDamage(sim, 308, dot.Spell.OutcomeTickMagicHitNoHitCounter)
+				// Rolled once: the warlock burns exactly what it deals.
+				tickDamage := hellfireTick.Damage(sim)
+
+				resultSlice := dot.Spell.CalcPeriodicAoeDamage(sim, tickDamage, dot.Spell.OutcomeTickMagicHitNoHitCounter)
 				if resultSlice[0].Damage > warlock.CurrentHealth() {
 					dot.Deactivate(sim)
 				}
 
 				dot.Spell.DealBatchedPeriodicDamage(sim)
-				warlock.RemoveHealth(sim, 308)
+				warlock.RemoveHealth(sim, tickDamage)
 
 			},
 		},

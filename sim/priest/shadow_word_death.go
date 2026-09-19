@@ -1,48 +1,44 @@
 package priest
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var ShadowWordDeathRankMap = shared.SpellRankMap{
-	{Rank: 1, SpellID: 32379, Cost: 243, MinDamage: 450, MaxDamage: 522, Coefficient: 0.429},
-	{Rank: 2, SpellID: 32996, Cost: 309, MinDamage: 572, MaxDamage: 664, Coefficient: 0.429},
-}
+var ShadowWordDeathRankMap = spellData.ShadowWordDeath
 
-func (priest *Priest) registerShadowWordDeathSpell(rankConfig shared.SpellRankConfig, cdTimer *core.Timer) {
-	spell := priest.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
+func (priest *Priest) registerShadowWordDeathSpell(rank shared.SpellData, cdTimer *core.Timer) {
+	priest.RegisterSpell(core.SpellConfig{
+		ActionID:       core.ActionID{SpellID: rank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: PriestSpellShadowWordDeath,
-		Rank:           rankConfig.Rank,
+		Rank:           rank.Rank,
+		MaxRange:       rank.MaxRange,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: rankConfig.Cost,
+			FlatCost: rank.Cost,
 		},
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: rank.GCD,
 			},
 			CD: core.Cooldown{
 				Timer:    cdTimer,
-				Duration: 12 * time.Second, // TODO: verify from wago.tools
+				Duration: rank.Cooldown,
 			},
 		},
 
 		DamageMultiplier:         1,
 		DamageMultiplierAdditive: 1,
-		BonusCoefficient:         rankConfig.Coefficient,
+		BonusCoefficient:         rank.Direct.BonusCoefficient(),
 		ThreatMultiplier:         1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := priest.CalcAndRollDamageRange(sim, rankConfig.MinDamage, rankConfig.MaxDamage)
+			baseDamage := rank.Direct.Damage(sim)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.DealDamage(sim, result)
 
@@ -50,6 +46,4 @@ func (priest *Priest) registerShadowWordDeathSpell(rankConfig shared.SpellRankCo
 			priest.RemoveHealth(sim, result.Damage)
 		},
 	})
-
-	priest.ShadowWordDeath = append(priest.ShadowWordDeath, spell)
 }

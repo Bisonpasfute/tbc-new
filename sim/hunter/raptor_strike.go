@@ -6,11 +6,13 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var raptorStrikeRank = spellData.RaptorStrike.BySpellID(27014)
+
 func (hunter *Hunter) registerRaptorStrikeSpell() {
 	hunter.RaptorStrike = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27014},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: raptorStrikeRank.SpellID},
+		SpellSchool:    raptorStrikeRank.SpellSchool,
+		DefenseType:    raptorStrikeRank.DefenseType,
 		ClassSpellMask: HunterSpellRaptorStrike,
 		ProcMask:       core.ProcMaskMeleeMH,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagNoOnCastComplete,
@@ -18,7 +20,7 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 		MaxRange: core.MaxMeleeRange,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 120,
+			FlatCost: raptorStrikeRank.Cost,
 		},
 
 		Cast: core.CastConfig{
@@ -27,7 +29,7 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 			},
 			CD: core.Cooldown{
 				Timer:    hunter.NewTimer(),
-				Duration: time.Second * 6,
+				Duration: raptorStrikeRank.Cooldown,
 			},
 		},
 
@@ -44,14 +46,14 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 				hunter.Log(sim, "%s delayed by %s, was ready at %s", spell.ActionID, delay, readyAt)
 			}
 
-			baseDamage := hunter.MHWeaponDamage(sim, spell.MeleeAttackPower(target)) + 170
+			baseDamage := hunter.MHWeaponDamage(sim, spell.MeleeAttackPower(target)) + raptorStrikeRank.Direct.Damage(sim)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 		},
 	})
 
 	hunter.RegisterAura(core.Aura{
 		Label:    "Raptor Strike",
-		ActionID: core.ActionID{SpellID: 27014}.WithTag(2),
+		ActionID: core.ActionID{SpellID: raptorStrikeRank.SpellID}.WithTag(2),
 		Icd:      &hunter.RaptorStrike.CD,
 	})
 }

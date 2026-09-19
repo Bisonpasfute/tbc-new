@@ -3,6 +3,7 @@ package warrior
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
@@ -70,7 +71,7 @@ func (war *Warrior) registerDeflection() {
 		return
 	}
 
-	war.PseudoStats.BaseParryChance += 0.01 * float64(war.Talents.Deflection)
+	war.PseudoStats.BaseParryChance += spellData.Deflection.FractionAt(war.Talents.Deflection)
 }
 
 func (war *Warrior) registerImprovedRend() {
@@ -81,7 +82,7 @@ func (war *Warrior) registerImprovedRend() {
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask:  SpellMaskRend,
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.25 * float64(war.Talents.ImprovedRend),
+		FloatValue: spellData.ImprovedRend.FractionAt(war.Talents.ImprovedRend),
 	})
 }
 
@@ -127,7 +128,7 @@ func (war *Warrior) registerImprovedOverpower() {
 	})).AttachSpellMod(core.SpellModConfig{
 		ClassMask:  SpellMaskOverpower,
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		FloatValue: 25 * float64(war.Talents.ImprovedOverpower),
+		FloatValue: spellData.ImprovedOverpower.ValueAt(war.Talents.ImprovedOverpower),
 	})
 }
 
@@ -217,7 +218,7 @@ func (war *Warrior) registerTwoHandedWeaponSpecialization() {
 		ClassMask:  SpellMaskDirectDamageSpells,
 		School:     core.SpellSchoolPhysical,
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: 0.02 * float64(war.Talents.TwoHandedWeaponSpecialization),
+		FloatValue: spellData.TwoHandedWeaponSpecialization.Effect(shared.A_MOD_DAMAGE_PERCENT_DONE, 1).FractionAt(war.Talents.TwoHandedWeaponSpecialization),
 	})
 
 	if war.GetMainHandType() == proto.HandType_HandTypeTwoHand {
@@ -241,7 +242,7 @@ func (war *Warrior) registerImpale() {
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask:  SpellMaskDamageSpells,
 		Kind:       core.SpellMod_CritMultiplier_Flat,
-		FloatValue: 0.1 * float64(war.Talents.Impale),
+		FloatValue: spellData.Impale.FractionAt(war.Talents.Impale),
 	})
 }
 
@@ -254,28 +255,30 @@ func (war *Warrior) registerPoleaxeSpecialization() {
 		return handItem != nil && (handItem.WeaponType == proto.WeaponType_WeaponTypeAxe || handItem.WeaponType == proto.WeaponType_WeaponTypePolearm)
 	}
 
+	critPercent := spellData.PoleaxeSpecialization.ValueAt(war.Talents.PoleaxeSpecialization)
+
 	mhCritMod := war.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ProcMask:   core.ProcMaskMeleeMH,
-		FloatValue: 1 * float64(war.Talents.PoleaxeSpecialization),
+		FloatValue: critPercent,
 	})
 
 	ohCritMod := war.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ProcMask:   core.ProcMaskMeleeOH,
-		FloatValue: 1 * float64(war.Talents.PoleaxeSpecialization),
+		FloatValue: critPercent,
 	})
 
 	mainhandWWOhCritMod := war.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ClassMask:  SpellMaskWhirlwindOh,
-		FloatValue: 1 * float64(war.Talents.PoleaxeSpecialization),
+		FloatValue: critPercent,
 	})
 
 	offhandWWOhCritMod := war.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ClassMask:  SpellMaskWhirlwindOh,
-		FloatValue: -1 * float64(war.Talents.PoleaxeSpecialization),
+		FloatValue: -critPercent,
 	})
 
 	handleEquippedWeapons := func() {
@@ -405,7 +408,7 @@ func (war *Warrior) registerSwordSpecialization() {
 	}
 
 	var swordSpecializationSpell *core.Spell
-	procChance := 0.01 * float64(war.Talents.SwordSpecialization)
+	procChance := spellData.SwordSpecialization.ProcChanceAt(war.Talents.SwordSpecialization)
 
 	newSwordSpecializationDPM := func() *core.DynamicProcManager {
 		return war.NewFixedProcChanceManager(
@@ -506,32 +509,35 @@ func (war *Warrior) registerBloodFrenzy() {
 	})
 }
 
+var mortalStrikeRank = spellData.MortalStrike.BySpellID(30330)
+var mortalStrikeBaseDamage, _ = mortalStrikeRank.Direct.Range()
+
 func (war *Warrior) registerMortalStrike() {
 	if !war.Talents.MortalStrike {
 		return
 	}
 
 	war.MortalStrike = war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30330},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: mortalStrikeRank.SpellID},
+		SpellSchool:    mortalStrikeRank.SpellSchool,
+		DefenseType:    mortalStrikeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagAPL | core.SpellFlagMeleeMetrics,
 		ClassSpellMask: SpellMaskMortalStrike,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{
-			Cost:   30,
+			Cost:   mortalStrikeRank.Cost,
 			Refund: 0.8,
 		},
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: mortalStrikeRank.GCD,
 			},
 			CD: core.Cooldown{
 				Timer:    war.NewTimer(),
-				Duration: time.Second * 6,
+				Duration: mortalStrikeRank.Cooldown,
 			},
 			IgnoreHaste: true,
 		},
@@ -540,7 +546,7 @@ func (war *Warrior) registerMortalStrike() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 210 + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
+			baseDamage := mortalStrikeBaseDamage + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower(target))
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
 
 			if !result.Landed() {
@@ -564,7 +570,7 @@ func (war *Warrior) registerImprovedMortalStrike() {
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask:  SpellMaskMortalStrike,
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.01 * float64(war.Talents.ImprovedMortalStrike),
+		FloatValue: spellData.ImprovedMortalStrike.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(war.Talents.ImprovedMortalStrike),
 	})
 }
 

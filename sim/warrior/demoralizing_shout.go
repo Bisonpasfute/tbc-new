@@ -1,8 +1,11 @@
 package warrior
 
 import (
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
+
+var demoralizingShoutRank = shared.WithSpellDataFlatThreat(spellData.DemoralizingShout, 56).BySpellID(25203)
 
 func (war *Warrior) registerDemoralizingShout() {
 	war.DemoralizingShoutAuras = war.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
@@ -10,25 +13,25 @@ func (war *Warrior) registerDemoralizingShout() {
 	})
 
 	war.DemoralizingShout = war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 25203},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMagic,
+		ActionID:       core.ActionID{SpellID: demoralizingShoutRank.SpellID},
+		SpellSchool:    demoralizingShoutRank.SpellSchool,
+		DefenseType:    demoralizingShoutRank.DefenseType,
 		ClassSpellMask: SpellMaskDemoralizingShout,
 		ProcMask:       core.ProcMaskEmpty,
 		Flags:          core.SpellFlagAPL,
 
 		RageCost: core.RageCostOptions{
-			Cost: 10,
+			Cost: demoralizingShoutRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: demoralizingShoutRank.GCD,
 			},
 			IgnoreHaste: true,
 		},
 
 		ThreatMultiplier: 1,
-		FlatThreatBonus:  56,
+		FlatThreatBonus:  demoralizingShoutRank.FlatThreatBonus,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.ActiveTargetUnits {

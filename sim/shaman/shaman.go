@@ -86,11 +86,9 @@ type Shaman struct {
 	// The expiration time of each totem (earth, air, fire, water).
 	TotemExpirations [4]time.Duration
 
-	LightningBolts         []*core.Spell
-	LightningBoltOverloads []*core.Spell
+	LightningBoltOverloads map[int32]*core.Spell
 
-	ChainLightnings         []*core.Spell
-	ChainLightningOverloads [][]*core.Spell
+	ChainLightningOverloads map[int32][]*core.Spell
 
 	Stormstrike           *core.Spell
 	StormstrikeCastResult *core.SpellResult
@@ -180,7 +178,7 @@ func (shaman *Shaman) GetOverloadChance() float64 {
 	if shaman.Talents.LightningOverload == 0 {
 		return 0.0
 	}
-	return 0.04 * float64(shaman.Talents.LightningOverload)
+	return spellData.LightningOverload.FractionAt(shaman.Talents.LightningOverload)
 }
 
 const (

@@ -1,11 +1,11 @@
 package rogue
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 )
+
+var shivRank = spellData.Shiv.BySpellID(5938)
 
 func (rogue *Rogue) registerShivSpell() {
 	shivCostMod := rogue.AddDynamicMod(core.SpellModConfig{
@@ -16,19 +16,19 @@ func (rogue *Rogue) registerShivSpell() {
 	shivCostMod.Activate()
 
 	rogue.Shiv = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 5938},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: shivRank.SpellID},
+		SpellSchool:    shivRank.SpellSchool,
+		DefenseType:    shivRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeOHSpecial,
 		Flags:          core.SpellFlagCannotBeDodged | core.SpellFlagMeleeMetrics | SpellFlagBuilder | core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellShiv,
 
 		EnergyCost: core.EnergyCostOptions{
-			Cost: 20,
+			Cost: shivRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: time.Second,
+				GCD: shivRank.GCD,
 			},
 			IgnoreHaste: true,
 		},

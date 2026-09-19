@@ -1,16 +1,19 @@
 package hunter
 
 import (
-	"time"
-
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var serpentStingRank = spellData.SerpentSting.BySpellID(27016)
+
 func (hunter *Hunter) registerSerpentStingSpell() {
+	serpentStingTick := serpentStingRank.Periodic.(shared.SpellDataPeriodic)
+
 	hunter.SerpentSting = hunter.RegisterRangedSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 27016},
-		SpellSchool: core.SpellSchoolNature,
-		DefenseType: core.DefenseTypeRanged,
+		ActionID:    core.ActionID{SpellID: serpentStingRank.SpellID},
+		SpellSchool: serpentStingRank.SpellSchool,
+		DefenseType: serpentStingRank.DefenseType,
 		// A cast, not a proc, but one that must not read as a ranged hit to on-hit listeners; what
 		// the sting's application should count as is a separate question. Matches only listeners
 		// that state no mask.
@@ -19,7 +22,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 		Flags:          core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 275,
+			FlatCost: serpentStingRank.Cost,
 		},
 
 		Dot: core.DotConfig{
@@ -28,10 +31,10 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 				Tag:   "Sting",
 			},
 
-			NumberOfTicks: 5,
-			TickLength:    time.Second * 3,
+			NumberOfTicks: serpentStingTick.NumberOfTicks,
+			TickLength:    serpentStingTick.TickLength,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseDmg := dot.Spell.RangedAttackPower(target)*0.02 + 132
+				baseDmg := dot.Spell.RangedAttackPower(target)*0.02 + serpentStingTick.Damage(sim)
 				dot.Snapshot(target, baseDmg)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

@@ -6,6 +6,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var killCommandRank = spellData.KillCommand.BySpellID(34026)
+
 func (hunter *Hunter) registerKillCommandSpell() {
 	if hunter.Pet == nil {
 		return
@@ -22,8 +24,8 @@ func (hunter *Hunter) registerKillCommandSpell() {
 	})
 
 	hunter.KillCommand = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 34026},
-		SpellSchool: core.SpellSchoolPhysical,
+		ActionID:    core.ActionID{SpellID: killCommandRank.SpellID},
+		SpellSchool: killCommandRank.SpellSchool,
 		// Kill Command (34026) has no SpellCategories row; the actual damage is dealt by
 		// the pet's Kill Command (34027), which is Melee.
 		DefenseType:    core.DefenseTypeMelee,
@@ -31,10 +33,10 @@ func (hunter *Hunter) registerKillCommandSpell() {
 		ClassSpellMask: HunterSpellKillCommand,
 		Flags:          core.SpellFlagAPL | core.SpellFlagMeleeMetrics,
 
-		MaxRange: 45,
+		MaxRange: killCommandRank.MaxRange,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 75,
+			FlatCost: killCommandRank.Cost,
 		},
 
 		Cast: core.CastConfig{
@@ -43,7 +45,7 @@ func (hunter *Hunter) registerKillCommandSpell() {
 			},
 			CD: core.Cooldown{
 				Timer:    hunter.NewTimer(),
-				Duration: time.Second * 5,
+				Duration: killCommandRank.Cooldown,
 			},
 		},
 

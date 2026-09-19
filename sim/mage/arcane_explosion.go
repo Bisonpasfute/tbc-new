@@ -4,23 +4,25 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var arcaneExplosionRank = spellData.ArcaneExplosion.BySpellID(27082)
+
 func (mage *Mage) registerArcaneExplosionSpell() {
 	arcaneExplosionCoefficient := 0.21400000155
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27082},
-		SpellSchool:    core.SpellSchoolArcane,
-		DefenseType:    core.DefenseTypeMagic,
+		ActionID:       core.ActionID{SpellID: arcaneExplosionRank.SpellID},
+		SpellSchool:    arcaneExplosionRank.SpellSchool,
+		DefenseType:    arcaneExplosionRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: MageSpellArcaneExplosion,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 545,
+			FlatCost: arcaneExplosionRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: arcaneExplosionRank.GCD,
 			},
 		},
 
@@ -29,7 +31,7 @@ func (mage *Mage) registerArcaneExplosionSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := mage.CalcAndRollDamageRange(sim, 377, 407)
+			baseDamage := arcaneExplosionRank.Direct.Damage(sim)
 			spell.CalcAndDealAoeDamage(sim, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

@@ -3,6 +3,7 @@ package warlock
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
@@ -78,7 +79,7 @@ func (warlock *Warlock) applySuppression() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusHit_Percent,
-		FloatValue: 2.0 * float64(warlock.Talents.Suppression),
+		FloatValue: spellData.Suppression.ValueAt(warlock.Talents.Suppression),
 		ClassMask:  WarlockAfflictionSpells,
 	})
 }
@@ -144,7 +145,7 @@ func (warlock *Warlock) applyImprovedCurseOfAgony() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DotDamageDone_Pct,
-		FloatValue: 0.05 * float64(warlock.Talents.ImprovedCurseOfAgony),
+		FloatValue: spellData.ImprovedCurseOfAgony.FractionAt(warlock.Talents.ImprovedCurseOfAgony),
 		ClassMask:  WarlockSpellCurseOfAgony,
 	})
 
@@ -175,7 +176,7 @@ func (warlock *Warlock) applyNightfall() {
 	warlock.MakeProcTriggerAura(core.ProcTrigger{
 		Name:           "Nightfall",
 		ClassSpellMask: WarlockSpellCorruption | WarlockSpellDrainLife,
-		ProcChance:     0.02 * float64(warlock.Talents.Nightfall),
+		ProcChance:     spellData.Nightfall.ProcChanceAt(warlock.Talents.Nightfall),
 		Callback:       core.CallbackOnPeriodicDamageDealt,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			warlock.NightfallProcAura.Activate(sim)
@@ -190,7 +191,7 @@ func (warlock *Warlock) applyEmpoweredCorruption() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DotBonusCoeffecient_Flat,
-		FloatValue: (0.12 * float64(warlock.Talents.EmpoweredCorruption)) / 6,
+		FloatValue: spellData.EmpoweredCorruption.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_BONUS_MULTIPLIER).FractionAt(warlock.Talents.EmpoweredCorruption),
 		ClassMask:  WarlockSpellCorruption,
 	})
 }
@@ -220,7 +221,7 @@ func (warlock *Warlock) applyShadowMastery() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.02 * float64(warlock.Talents.ShadowMastery),
+		FloatValue: spellData.ShadowMastery.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(warlock.Talents.ShadowMastery),
 		ClassMask:  WarlockShadowDamage,
 	})
 }
@@ -232,7 +233,7 @@ func (warlock *Warlock) applyContagion() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.01 * float64(warlock.Talents.Contagion),
+		FloatValue: spellData.Contagion.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DOT).FractionAt(warlock.Talents.Contagion),
 		ClassMask:  WarlockContagionSpells,
 	})
 }
@@ -260,7 +261,7 @@ func (warlock *Warlock) appyImprovedImp() {
 
 	warlock.Imp.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.1 * float64(warlock.Talents.ImprovedImp),
+		FloatValue: spellData.ImprovedImp.FractionAt(warlock.Talents.ImprovedImp),
 		ClassMask:  WarlockSpellImpFireBolt,
 	})
 }
@@ -304,7 +305,7 @@ func (warlock *Warlock) applyFelStamina() {
 		return
 	}
 
-	warlock.MultiplyStat(stats.Health, 1.0+0.01*float64(warlock.Talents.FelStamina))
+	warlock.MultiplyStat(stats.Health, spellData.FelStamina.Effect(shared.A_MOD_INCREASE_HEALTH_PERCENT, 0).MultiplierAt(warlock.Talents.FelStamina))
 	for _, pet := range warlock.Pets {
 		pet.MultiplyStat(stats.Health, 1+(0.05)*float64(warlock.Talents.FelStamina))
 	}
@@ -318,13 +319,13 @@ func (warlock *Warlock) applyUnholyPower() {
 
 	for _, pet := range warlock.Pets {
 		if pet != &warlock.Imp.Pet {
-			pet.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexPhysical] *= 1.0 + 0.04*float64(warlock.Talents.UnholyPower)
+			pet.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexPhysical] *= spellData.UnholyPower.MultiplierAt(warlock.Talents.UnholyPower)
 		}
 	}
 
 	warlock.Imp.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.04 * float64(warlock.Talents.UnholyPower),
+		FloatValue: spellData.UnholyPower.FractionAt(warlock.Talents.UnholyPower),
 		ClassMask:  WarlockSpellImpFireBolt,
 	})
 }
@@ -472,7 +473,7 @@ func (warlock *Warlock) updateDemonicKnowledge(sim *core.Simulation) {
 		return
 	}
 
-	coeff := 0.04 * float64(warlock.Talents.DemonicKnowledge)
+	coeff := spellData.DemonicKnowledge.FractionAt(warlock.Talents.DemonicKnowledge)
 	bonus := coeff * (warlock.ActivePet.GetStat(stats.Stamina) + warlock.ActivePet.GetStat(stats.Intellect))
 
 	warlock.DemonicKnowledgeBonus = bonus
@@ -623,7 +624,7 @@ func (warlock *Warlock) applyImprovedImmolate() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.05 * float64(warlock.Talents.ImprovedImmolate),
+		FloatValue: spellData.ImprovedImmolate.FractionAt(warlock.Talents.ImprovedImmolate),
 		ClassMask:  WarlockSpellImmolate,
 	})
 }
@@ -647,13 +648,13 @@ func (warlock *Warlock) applyEmberstorm() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: 0.02 * float64(warlock.Talents.Emberstorm),
+		FloatValue: spellData.Emberstorm.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(warlock.Talents.Emberstorm),
 		ClassMask:  WarlockFireDamage,
 	})
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_CastTime_Pct,
-		FloatValue: -0.02 * float64(warlock.Talents.Emberstorm),
+		FloatValue: spellData.Emberstorm.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_CASTING_TIME).FractionAt(warlock.Talents.Emberstorm),
 		ClassMask:  WarlockSpellIncinerate,
 	})
 }
@@ -683,7 +684,7 @@ func (warlock *Warlock) applySoulLeech() {
 		Name:           "Soul Leech",
 		ClassSpellMask: WarlockSoulLeechSpells,
 		Callback:       core.CallbackOnSpellHitDealt,
-		ProcChance:     0.10 * float64(warlock.Talents.SoulLeech),
+		ProcChance:     spellData.SoulLeech.ProcChanceAt(warlock.Talents.SoulLeech),
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			warlock.GainHealth(sim, result.Damage*0.2*warlock.PseudoStats.SelfHealingMultiplier, healthMetric)
 		},
@@ -697,7 +698,7 @@ func (warlock *Warlock) applyShadowAndFlame() {
 
 	warlock.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCoeffecient_Flat,
-		FloatValue: 0.04 * float64(warlock.Talents.ShadowAndFlame),
+		FloatValue: spellData.ShadowAndFlame.FractionAt(warlock.Talents.ShadowAndFlame),
 		ClassMask:  WarlockSpellShadowBolt | WarlockSpellIncinerate,
 	})
 }

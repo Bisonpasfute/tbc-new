@@ -1,35 +1,35 @@
 package hunter
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var arcaneShotRank = spellData.ArcaneShot.BySpellID(27019)
+
 func (hunter *Hunter) registerArcaneShotSpell() {
 	hunter.ArcaneShot = hunter.RegisterRangedSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27019},
-		SpellSchool:    core.SpellSchoolArcane,
-		DefenseType:    core.DefenseTypeRanged,
+		ActionID:       core.ActionID{SpellID: arcaneShotRank.SpellID},
+		SpellSchool:    arcaneShotRank.SpellSchool,
+		DefenseType:    arcaneShotRank.DefenseType,
 		ClassSpellMask: HunterSpellArcaneShot,
 		ProcMask:       core.ProcMaskRangedSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 230,
+			FlatCost: arcaneShotRank.Cost,
 		},
 
 		Cast: core.CastConfig{
 			CD: core.Cooldown{
 				Timer:    hunter.NewTimer(),
-				Duration: time.Second * 6,
+				Duration: arcaneShotRank.Cooldown,
 			},
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := spell.RangedAttackPower(target)*0.15 +
 				hunter.talonOfAlarBonus() +
-				273
+				arcaneShotRank.Direct.Damage(sim)
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 

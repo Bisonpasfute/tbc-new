@@ -2,18 +2,16 @@ package mage
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var FlameStrikeRankMap = shared.SpellRankMap{
-	{Rank: 7, SpellID: 27086, Cost: 1175, MinDamage: 480, MaxDamage: 585, DotTickDamage: 106, ThreatMultiplier: 1},
-	{Rank: 6, SpellID: 10216, Cost: 990, MinDamage: 383, MaxDamage: 468, DotTickDamage: 85, ThreatMultiplier: 1},
-}
+var FlameStrikeRankMap = spellData.Flamestrike.Ranks(7, 6)
 
-func (mage *Mage) registerFlamestrike(rankConfig shared.SpellRankConfig) {
+func (mage *Mage) registerFlamestrike(rankConfig shared.SpellData) {
+	tick := rankConfig.Periodic.(shared.SpellDataPeriodic)
+
 	flameStrikeCoefficient := 0.23600000143 // Per https://wago.tools/db2/SpellEffect?build=2.5.5.65295&filter%5BSpellID%5D=exact%253A2120 Field: "BonusCoefficient"
 	flameStrikeDotCoefficient := 0.02999999933
 
@@ -31,26 +29,26 @@ func (mage *Mage) registerFlamestrike(rankConfig shared.SpellRankConfig) {
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
-				CastTime: time.Second * 3,
+				GCD:      rankConfig.GCD,
+				CastTime: rankConfig.CastTime,
 			},
 		},
 
 		DamageMultiplier: 1,
 		BonusCoefficient: flameStrikeCoefficient,
-		ThreatMultiplier: rankConfig.ThreatMultiplier,
+		ThreatMultiplier: 1,
 
 		Dot: core.DotConfig{
 			IsAOE: true,
 			Aura: core.Aura{
 				Label: fmt.Sprintf("Flamestrike DoT %s", rankConfig.GetRankLabel()),
 			},
-			NumberOfTicks:    4,
-			TickLength:       time.Second * 2,
+			NumberOfTicks:    tick.NumberOfTicks,
+			TickLength:       tick.TickLength,
 			BonusCoefficient: flameStrikeDotCoefficient,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, rankConfig.DotTickDamage)
+				dot.Snapshot(target, tick.Tick)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				for _, aoeTarget := range sim.Encounter.ActiveTargetUnits {
@@ -60,7 +58,7 @@ func (mage *Mage) registerFlamestrike(rankConfig shared.SpellRankConfig) {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-			baseDamage := mage.CalcAndRollDamageRange(sim, rankConfig.MinDamage, rankConfig.MaxDamage)
+			baseDamage := rankConfig.Direct.Damage(sim)
 			spell.CalcAndDealAoeDamage(sim, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.AOEDot().Apply(sim)
 		},

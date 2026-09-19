@@ -2,7 +2,6 @@ package priest
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
@@ -10,27 +9,20 @@ import (
 
 // Starshards - Night Elf Racial
 // Arcane school DoT, 0 mana cost, 30s cooldown, 15s duration
-var StarshardsRankMap = shared.SpellRankMap{
-	{Rank: 1, SpellID: 10797, Cost: 0, DotTickDamage: 12, Coefficient: 0.167},
-	{Rank: 2, SpellID: 19296, Cost: 0, DotTickDamage: 23, Coefficient: 0.167},
-	{Rank: 3, SpellID: 19299, Cost: 0, DotTickDamage: 40, Coefficient: 0.167},
-	{Rank: 4, SpellID: 19302, Cost: 0, DotTickDamage: 58, Coefficient: 0.167},
-	{Rank: 5, SpellID: 19303, Cost: 0, DotTickDamage: 79, Coefficient: 0.167},
-	{Rank: 6, SpellID: 19304, Cost: 0, DotTickDamage: 105, Coefficient: 0.167},
-	{Rank: 7, SpellID: 19305, Cost: 0, DotTickDamage: 130, Coefficient: 0.167},
-	{Rank: 8, SpellID: 25446, Cost: 0, DotTickDamage: 157, Coefficient: 0.167},
-}
+var StarshardsRankMap = spellData.Starshards
 
-func (priest *Priest) registerStarshardsSpell(rankConfig shared.SpellRankConfig, cdTimer *core.Timer) {
+func (priest *Priest) registerStarshardsSpell(rank shared.SpellData, cdTimer *core.Timer) {
+	tick := rank.Periodic.(shared.SpellDataPeriodic)
 
-	spell := priest.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
+	priest.RegisterSpell(core.SpellConfig{
+		ActionID:       core.ActionID{SpellID: rank.SpellID},
 		SpellSchool:    core.SpellSchoolArcane,
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: PriestSpellStarshards,
-		Rank:           rankConfig.Rank,
+		Rank:           rank.Rank,
+		MaxRange:       rank.MaxRange,
 
 		ManaCost: core.ManaCostOptions{
 			FlatCost: 0,
@@ -38,11 +30,11 @@ func (priest *Priest) registerStarshardsSpell(rankConfig shared.SpellRankConfig,
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: rank.GCD,
 			},
 			CD: core.Cooldown{
 				Timer:    cdTimer,
-				Duration: 30 * time.Second,
+				Duration: rank.Cooldown,
 			},
 		},
 
@@ -52,15 +44,15 @@ func (priest *Priest) registerStarshardsSpell(rankConfig shared.SpellRankConfig,
 
 		Dot: core.DotConfig{
 			Aura: core.Aura{
-				Label: fmt.Sprintf("Starshards-%d", rankConfig.Rank),
+				Label: fmt.Sprintf("Starshards-%d", rank.Rank),
 			},
-			NumberOfTicks:       5,
-			TickLength:          3 * time.Second,
+			NumberOfTicks:       tick.NumberOfTicks,
+			TickLength:          tick.TickLength,
 			AffectedByCastSpeed: false,
-			BonusCoefficient:    rankConfig.Coefficient,
+			BonusCoefficient:    tick.Coef,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, rankConfig.DotTickDamage)
+				dot.Snapshot(target, tick.Tick)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
@@ -80,9 +72,7 @@ func (priest *Priest) registerStarshardsSpell(rankConfig shared.SpellRankConfig,
 				dot := spell.Dot(target)
 				return dot.CalcSnapshotDamage(sim, target, spell.OutcomeExpectedMagicHit)
 			}
-			return spell.CalcPeriodicDamage(sim, target, rankConfig.DotTickDamage, spell.OutcomeExpectedMagicHit)
+			return spell.CalcPeriodicDamage(sim, target, tick.Tick, spell.OutcomeExpectedMagicHit)
 		},
 	})
-
-	priest.Starshards = append(priest.Starshards, spell)
 }

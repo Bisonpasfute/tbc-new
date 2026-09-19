@@ -3,11 +3,14 @@ package warrior
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var revengeRank = shared.WithSpellDataFlatThreat(spellData.Revenge, 200).BySpellID(30357)
+
 func (war *Warrior) registerRevenge() {
-	actionID := core.ActionID{SpellID: 30357}
+	actionID := core.ActionID{SpellID: revengeRank.SpellID}
 
 	aura := war.RegisterAura(core.Aura{
 		Label:    "Revenge",
@@ -36,30 +39,30 @@ func (war *Warrior) registerRevenge() {
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: revengeRank.GCD,
 			},
 			IgnoreHaste: true,
 			CD: core.Cooldown{
 				Timer:    war.NewTimer(),
-				Duration: time.Second * 5,
+				Duration: revengeRank.Cooldown,
 			},
 		},
 
 		RageCost: core.RageCostOptions{
-			Cost:   5,
+			Cost:   revengeRank.Cost,
 			Refund: 0.8,
 		},
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
-		FlatThreatBonus:  200,
+		FlatThreatBonus:  revengeRank.FlatThreatBonus,
 
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return war.StanceMatches(DefensiveStance) && aura.IsActive()
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(414, 506)
+			baseDamage := revengeRank.Direct.Damage(sim)
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 			aura.Deactivate(sim)
 

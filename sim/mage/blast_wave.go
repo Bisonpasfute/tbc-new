@@ -1,12 +1,12 @@
 package mage
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
 const blastWaveCoefficient = 0.1930000037
+
+var blastWaveRank = spellData.BlastWave.BySpellID(33933)
 
 func (mage *Mage) registerBlastWaveSpell() {
 	if !mage.Talents.BlastWave {
@@ -14,33 +14,33 @@ func (mage *Mage) registerBlastWaveSpell() {
 	}
 
 	mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 33933},
+		ActionID:       core.ActionID{SpellID: blastWaveRank.SpellID},
 		Flags:          core.SpellFlagAPL,
-		SpellSchool:    core.SpellSchoolFire,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    blastWaveRank.SpellSchool,
+		DefenseType:    blastWaveRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: MageSpellBlastWave,
 
-		BonusCoefficient: blastWaveCoefficient,
+		BonusCoefficient: blastWaveRank.Direct.BonusCoefficient(),
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 620,
+			FlatCost: blastWaveRank.Cost,
 		},
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: blastWaveRank.GCD,
 			},
 			CD: core.Cooldown{
 				Timer:    mage.NewTimer(),
-				Duration: time.Second * 30,
+				Duration: blastWaveRank.Cooldown,
 			},
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := mage.CalcAndRollDamageRange(sim, 616, 724)
+			baseDamage := blastWaveRank.Direct.Damage(sim)
 			spell.CalcAndDealAoeDamage(sim, baseDamage, spell.OutcomeMagicHitAndCrit)
 			//The above returns a result slice if you want to implement the daze on the targets hit
 		},

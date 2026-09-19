@@ -6,9 +6,11 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var blizzardRank = spellData.Blizzard.BySpellID(27085)
+
 func (mage *Mage) registerBlizzardSpell() {
 
-	blizzardActionId := core.ActionID{SpellID: 27085}
+	blizzardActionId := core.ActionID{SpellID: blizzardRank.SpellID}
 
 	// https://wago.tools/db2/SpellEffect?build=2.5.5.65295&filter%5BSpellID%5D=42208
 	blizzardCoefficient := 0.11900000274
@@ -37,11 +39,11 @@ func (mage *Mage) registerBlizzardSpell() {
 		Flags:          core.SpellFlagChanneled | core.SpellFlagAPL,
 		ClassSpellMask: MageSpellBlizzard,
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 1645,
+			FlatCost: blizzardRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: blizzardRank.GCD,
 			},
 		},
 		Dot: core.DotConfig{

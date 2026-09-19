@@ -1,20 +1,12 @@
 package druid
 
 import (
-	"time"
-
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-const (
-	MoonfireDotBonusCoeff    = 0.12999999523
-	MoonfireDotTickLength    = time.Second * 3
-	MoonfireDotNumberOfTicks = 4
-
-	MoonfireImpactBonusCoeff = 0.15000000596
-	MoonfireImpactMinDmg     = 305
-	MoonfireImpactMaxDmg     = 357
-)
+var moonfireRank = spellData.Moonfire.BySpellID(26988)
+var moonfireTick = moonfireRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerMoonfireSpell() {
 	druid.registerMoonfireImpactSpell()
@@ -23,9 +15,9 @@ func (druid *Druid) registerMoonfireSpell() {
 
 func (druid *Druid) registerMoonfireDoTSpell() {
 	druid.Moonfire.RelatedDotSpell = druid.Unit.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 26988}.WithTag(1),
-		SpellSchool:    core.SpellSchoolArcane,
-		DefenseType:    core.DefenseTypeMagic,
+		ActionID:       core.ActionID{SpellID: moonfireRank.SpellID}.WithTag(1),
+		SpellSchool:    moonfireRank.SpellSchool,
+		DefenseType:    moonfireRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: DruidSpellMoonfireDoT,
 		Flags:          core.SpellFlagPassiveSpell,
@@ -37,13 +29,13 @@ func (druid *Druid) registerMoonfireDoTSpell() {
 			Aura: core.Aura{
 				Label: "Moonfire",
 			},
-			NumberOfTicks:       MoonfireDotNumberOfTicks,
-			TickLength:          MoonfireDotTickLength,
+			NumberOfTicks:       moonfireTick.NumberOfTicks,
+			TickLength:          moonfireTick.TickLength,
 			AffectedByCastSpeed: false,
-			BonusCoefficient:    MoonfireDotBonusCoeff,
+			BonusCoefficient:    moonfireTick.Coef,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, 150)
+				dot.Snapshot(target, moonfireTick.Tick)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
@@ -61,28 +53,29 @@ func (druid *Druid) registerMoonfireDoTSpell() {
 
 func (druid *Druid) registerMoonfireImpactSpell() {
 	druid.Moonfire = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 26988},
-		SpellSchool:    core.SpellSchoolArcane,
-		DefenseType:    core.DefenseTypeMagic,
+		ActionID:       core.ActionID{SpellID: moonfireRank.SpellID},
+		SpellSchool:    moonfireRank.SpellSchool,
+		DefenseType:    moonfireRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: DruidSpellMoonfire,
 		Flags:          core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 495,
+			FlatCost: moonfireRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: moonfireRank.GCD,
 			},
 		},
 
-		BonusCoefficient: MoonfireImpactBonusCoeff,
+		BonusCoefficient: moonfireRank.Direct.BonusCoefficient(),
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
+		MaxRange:         moonfireRank.MaxRange,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := druid.CalcAndRollDamageRange(sim, MoonfireImpactMinDmg, MoonfireImpactMaxDmg)
+			baseDamage := moonfireRank.Direct.Damage(sim)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 
 			if result.Landed() {

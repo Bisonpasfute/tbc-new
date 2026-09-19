@@ -6,19 +6,21 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var multiShotRank = spellData.MultiShot.BySpellID(27021)
+
 func (hunter *Hunter) registerMultiShotSpell() {
 	hunter.MultiShot = hunter.RegisterRangedSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27021},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeRanged,
+		ActionID:       core.ActionID{SpellID: multiShotRank.SpellID},
+		SpellSchool:    multiShotRank.SpellSchool,
+		DefenseType:    multiShotRank.DefenseType,
 		ProcMask:       core.ProcMaskRangedSpecial,
 		ClassSpellMask: HunterSpellMultiShot,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 
-		MissileSpeed: 30,
+		MissileSpeed: multiShotRank.MissileSpeed,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 275,
+			FlatCost: multiShotRank.Cost,
 		},
 
 		Cast: core.CastConfig{
@@ -27,17 +29,17 @@ func (hunter *Hunter) registerMultiShotSpell() {
 			},
 			CD: core.Cooldown{
 				Timer:    hunter.NewTimer(),
-				Duration: time.Second * 10,
+				Duration: multiShotRank.Cooldown,
 			},
 		},
 
-		BonusCoefficient: 1,
+		BonusCoefficient: multiShotRank.Direct.BonusCoefficient(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := spell.RangedAttackPower(target)*0.2 +
 				hunter.AutoAttacks.Ranged().BaseDamage(sim) +
 				hunter.talonOfAlarBonus() +
-				205
+				multiShotRank.Direct.Damage(sim)
 
 			spell.CalcAoeDamage(sim, baseDamage, spell.OutcomeRangedHitAndCrit)
 

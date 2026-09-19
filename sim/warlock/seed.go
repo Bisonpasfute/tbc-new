@@ -1,21 +1,22 @@
 package warlock
 
 import (
-	"time"
-
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
-const seedTickCoeff = 0.25
-const seedPopCoeff = 0.214
-const seedExplosionCoeff = 0.143
-const seedTriggerBaseDamage = 1044.0
+var seedRank = spellData.SeedOfCorruption.BySpellID(27243)
+var seedTick = seedRank.Periodic.(shared.SpellDataPeriodic)
+var seedTickCoeff = seedTick.Coef
+var seedPopCoeff = 0.214
+var seedExplosionCoeff = 0.143
+var seedTriggerBaseDamage = seedTick.Tick * float64(seedTick.NumberOfTicks)
 
 func (warlock *Warlock) registerSeed() {
 	warlock.SeedOfCorruptionBonusDamage = 0
 
-	actionID := core.ActionID{SpellID: 27243}
+	actionID := core.ActionID{SpellID: seedRank.SpellID}
 	type seedOptions struct {
 		damageTaken float64
 		isSoulBurn  bool
@@ -108,12 +109,12 @@ func (warlock *Warlock) registerSeed() {
 				},
 			},
 
-			NumberOfTicks:    6,
-			TickLength:       3 * time.Second,
+			NumberOfTicks:    seedTick.NumberOfTicks,
+			TickLength:       seedTick.TickLength,
 			BonusCoefficient: seedTickCoeff,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, seedTriggerBaseDamage/float64(dot.BaseTickCount))
+				dot.Snapshot(target, seedTick.Tick)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				result := dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
@@ -154,14 +155,14 @@ func getSeedSpellConfig(config core.SpellConfig) core.SpellConfig {
 		DefenseType:    core.DefenseTypeMagic,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
-		MissileSpeed:   28,
+		MissileSpeed:   seedRank.MissileSpeed,
 		ClassSpellMask: WarlockSpellSeedOfCorruption,
 
-		ManaCost: core.ManaCostOptions{FlatCost: 882},
+		ManaCost: core.ManaCostOptions{FlatCost: seedRank.Cost},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
-				CastTime: 2000 * time.Millisecond,
+				GCD:      seedRank.GCD,
+				CastTime: seedRank.CastTime,
 			},
 		},
 

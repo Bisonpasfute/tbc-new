@@ -1,30 +1,30 @@
 package rogue
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var backstabRank = spellData.Backstab.BySpellID(26863)
+
 func (rogue *Rogue) registerBackstabSpell() {
-	baseDamage := 170.0
+	baseDamage, _ := backstabRank.Direct.Range()
 	weaponDamage := 1.5
 
 	rogue.Backstab = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 26863},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: backstabRank.SpellID},
+		SpellSchool:    backstabRank.SpellSchool,
+		DefenseType:    backstabRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | SpellFlagBuilder | core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellBackstab,
 
 		EnergyCost: core.EnergyCostOptions{
-			Cost:   60,
+			Cost:   backstabRank.Cost,
 			Refund: 0.8,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: time.Second,
+				GCD: backstabRank.GCD,
 			},
 			IgnoreHaste: true,
 		},
@@ -36,7 +36,7 @@ func (rogue *Rogue) registerBackstabSpell() {
 		DamageMultiplier:         1,
 		ThreatMultiplier:         1,
 
-		BonusCoefficient: 1,
+		BonusCoefficient: backstabRank.Direct.BonusCoefficient(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			rogue.BreakStealth(sim)

@@ -1,8 +1,6 @@
 package paladin
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
@@ -14,24 +12,19 @@ func (paladin *Paladin) getConsecrationTimer() *core.Timer {
 	return paladin.consecrationTimer
 }
 
-var ConsecrationRankMap = shared.SpellRankMap{
-	{Rank: 1, SpellID: 26573, Cost: 120, MinDamage: 8, MaxDamage: 8, Coefficient: 0.119},
-	{Rank: 2, SpellID: 20116, Cost: 205, MinDamage: 15, MaxDamage: 15, Coefficient: 0.119},
-	{Rank: 3, SpellID: 20922, Cost: 290, MinDamage: 24, MaxDamage: 24, Coefficient: 0.119},
-	{Rank: 4, SpellID: 20923, Cost: 390, MinDamage: 35, MaxDamage: 35, Coefficient: 0.119},
-	{Rank: 5, SpellID: 20924, Cost: 505, MinDamage: 48, MaxDamage: 48, Coefficient: 0.119},
-	{Rank: 6, SpellID: 27173, Cost: 660, MinDamage: 64, MaxDamage: 64, Coefficient: 0.119},
-}
+var ConsecrationRankMap = spellData.Consecration
 
 // Consecration
 // https://www.wowhead.com/tbc/spell=26573
 //
 // Consecrates the land beneath the Paladin, doing X Holy damage over 8 sec to enemies who enter the area.
-func (paladin *Paladin) registerConsecration(rankConfig shared.SpellRankConfig) {
+func (paladin *Paladin) registerConsecration(rankConfig shared.SpellData) {
+	tick := rankConfig.Periodic.(shared.SpellDataPeriodic)
+
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minDamage := rankConfig.MinDamage
-	coefficient := rankConfig.Coefficient
+	minDamage := tick.Tick
+	coefficient := tick.Coef
 
 	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: spellID},
@@ -52,11 +45,11 @@ func (paladin *Paladin) registerConsecration(rankConfig shared.SpellRankConfig) 
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: rankConfig.GCD,
 			},
 			CD: core.Cooldown{
 				Timer:    paladin.getConsecrationTimer(),
-				Duration: 8 * time.Second,
+				Duration: rankConfig.Cooldown,
 			},
 		},
 
@@ -66,8 +59,8 @@ func (paladin *Paladin) registerConsecration(rankConfig shared.SpellRankConfig) 
 				ActionID: core.ActionID{SpellID: spellID},
 				Label:    "Consecration" + paladin.Label + " " + rankConfig.GetRankLabel(),
 			},
-			NumberOfTicks:    7,
-			TickLength:       time.Second * 1,
+			NumberOfTicks:    7, // the table says 8; the sim adds an immediate tick below
+			TickLength:       tick.TickLength,
 			BonusCoefficient: coefficient,
 			OnTick: func(sim *core.Simulation, _ *core.Unit, dot *core.Dot) {
 				dot.Spell.CalcAndDealPeriodicAoeDamage(sim, minDamage, dot.OutcomeTickMagicHit)

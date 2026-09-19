@@ -4,6 +4,7 @@ import (
 	"math"
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/stats"
 )
@@ -109,7 +110,7 @@ func (mage *Mage) registerArcaneFocus() {
 		return
 	}
 
-	mage.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexArcane] += 2 * float64(mage.Talents.ArcaneFocus)
+	mage.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexArcane] += spellData.ArcaneFocus.ValueAt(mage.Talents.ArcaneFocus)
 }
 
 func (mage *Mage) registerArcaneConcentration() {
@@ -166,7 +167,7 @@ func (mage *Mage) registerArcaneConcentration() {
 				return
 			}
 
-			procChance := 0.02 * float64(mage.Talents.ArcaneConcentration)
+			procChance := spellData.ArcaneConcentration.ProcChanceAt(mage.Talents.ArcaneConcentration)
 			if sim.Proc(procChance, "Arcane Concentration") {
 				proccedAt = sim.CurrentTime
 				proccedSpell = spell
@@ -183,7 +184,7 @@ func (mage *Mage) registerArcaneImpact() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellArcaneBlast | MageSpellArcaneExplosion,
-		FloatValue: 2 * float64(mage.Talents.ArcaneImpact),
+		FloatValue: spellData.ArcaneImpact.ValueAt(mage.Talents.ArcaneImpact),
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 }
@@ -212,13 +213,13 @@ func (mage *Mage) registerArcaneInstability() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellsAll,
-		FloatValue: 1 * float64(mage.Talents.ArcaneInstability),
+		FloatValue: spellData.ArcaneInstability.Effect(shared.A_MOD_SPELL_CRIT_CHANCE_SCHOOL, 126).ValueAt(mage.Talents.ArcaneInstability),
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellsAll,
-		FloatValue: 0.01 * float64(mage.Talents.ArcaneInstability),
+		FloatValue: spellData.ArcaneInstability.Effect(shared.A_MOD_DAMAGE_PERCENT_DONE, 126).FractionAt(mage.Talents.ArcaneInstability),
 		Kind:       core.SpellMod_DamageDone_Pct,
 	})
 
@@ -231,13 +232,13 @@ func (mage *Mage) registerEmpoweredArcaneMissiles() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellArcaneMissilesTick,
-		FloatValue: .03 * float64(mage.Talents.EmpoweredArcaneMissiles),
+		FloatValue: spellData.EmpoweredArcaneMissiles.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_BONUS_MULTIPLIER).FractionAt(mage.Talents.EmpoweredArcaneMissiles),
 		Kind:       core.SpellMod_BonusCoeffecient_Flat,
 	})
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellArcaneMissilesCast,
-		FloatValue: .02 * float64(mage.Talents.EmpoweredArcaneMissiles),
+		FloatValue: spellData.EmpoweredArcaneMissiles.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_COST).FractionAt(mage.Talents.EmpoweredArcaneMissiles),
 		Kind:       core.SpellMod_PowerCost_Pct_Add,
 	})
 }
@@ -249,7 +250,7 @@ func (mage *Mage) registerSpellPower() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellsAll,
-		FloatValue: .25 * float64(mage.Talents.SpellPower),
+		FloatValue: spellData.SpellPower.FractionAt(mage.Talents.SpellPower),
 		Kind:       core.SpellMod_CritMultiplier_Flat,
 	})
 }
@@ -259,7 +260,7 @@ func (mage *Mage) registerMindMastery() {
 		return
 	}
 
-	mage.AddStatDependency(stats.Intellect, stats.SpellDamage, .05*float64(mage.Talents.MindMastery))
+	mage.AddStatDependency(stats.Intellect, stats.SpellDamage, spellData.MindMastery.FractionAt(mage.Talents.MindMastery))
 }
 
 // ------ FIRE TALENTS ------
@@ -271,7 +272,7 @@ func (mage *Mage) registerImprovedFireball() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask: MageSpellFireball,
-		TimeValue: time.Millisecond * time.Duration(-100*float64(mage.Talents.ImprovedFireball)),
+		TimeValue: time.Millisecond * time.Duration(spellData.ImprovedFireball.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CASTING_TIME).ValueAt(mage.Talents.ImprovedFireball)),
 		Kind:      core.SpellMod_CastTime_Flat,
 	})
 }
@@ -353,7 +354,7 @@ func (mage *Mage) registerImprovedFireBlast() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask: MageSpellFireBlast,
-		TimeValue: time.Millisecond * time.Duration(-500*float64(mage.Talents.ImprovedFireBlast)),
+		TimeValue: time.Millisecond * time.Duration(spellData.ImprovedFireBlast.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_COOLDOWN).ValueAt(mage.Talents.ImprovedFireBlast)),
 		Kind:      core.SpellMod_Cooldown_Flat,
 	})
 }
@@ -365,7 +366,7 @@ func (mage *Mage) registerIncineration() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFireBlast | MageSpellScorch,
-		FloatValue: 2 * float64(mage.Talents.Incineration),
+		FloatValue: spellData.Incineration.ValueAt(mage.Talents.Incineration),
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 }
@@ -377,7 +378,7 @@ func (mage *Mage) registerImprovedFlamestrike() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFlamestrike,
-		FloatValue: .05 * float64(mage.Talents.ImprovedFlamestrike),
+		FloatValue: spellData.ImprovedFlamestrike.ValueAt(mage.Talents.ImprovedFlamestrike),
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 }
@@ -399,7 +400,7 @@ func (mage *Mage) registerMasterOfElements() {
 		return
 	}
 
-	refundCoeff := 0.1 * float64(mage.Talents.MasterOfElements)
+	refundCoeff := spellData.MasterOfElements.FractionAt(mage.Talents.MasterOfElements)
 	manaMetrics := mage.NewManaMetrics(core.ActionID{SpellID: 29076})
 
 	mage.MakeProcTriggerAura(core.ProcTrigger{
@@ -423,7 +424,7 @@ func (mage *Mage) registerPlayingWithFire() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellsAll,
-		FloatValue: .01 * float64(mage.Talents.PlayingWithFire),
+		FloatValue: spellData.PlayingWithFire.Effect(shared.A_MOD_DAMAGE_PERCENT_DONE, 126).FractionAt(mage.Talents.PlayingWithFire),
 		Kind:       core.SpellMod_DamageDone_Pct,
 	})
 }
@@ -435,7 +436,7 @@ func (mage *Mage) registerCriticalMass() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		SpellFlag:  core.SpellFlag(core.SpellSchoolFire),
-		FloatValue: 2 * float64(mage.Talents.CriticalMass),
+		FloatValue: spellData.CriticalMass.ValueAt(mage.Talents.CriticalMass),
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 }
@@ -447,7 +448,7 @@ func (mage *Mage) registerFirePower() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		School:     core.SpellSchoolFire,
-		FloatValue: .02 * float64(mage.Talents.FirePower),
+		FloatValue: spellData.FirePower.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(mage.Talents.FirePower),
 		Kind:       core.SpellMod_DamageDone_Flat,
 	})
 }
@@ -500,7 +501,7 @@ func (mage *Mage) registerEmpoweredFireball() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFireball,
-		FloatValue: .03 * float64(mage.Talents.EmpoweredFireball),
+		FloatValue: spellData.EmpoweredFireball.FractionAt(mage.Talents.EmpoweredFireball),
 		Kind:       core.SpellMod_BonusCoeffecient_Flat,
 	})
 }
@@ -514,7 +515,7 @@ func (mage *Mage) registerImprovedFrostbolt() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask: MageSpellFrostbolt,
-		TimeValue: time.Millisecond * time.Duration(-100*float64(mage.Talents.ImprovedFrostbolt)),
+		TimeValue: time.Millisecond * time.Duration(spellData.ImprovedFrostbolt.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CASTING_TIME).ValueAt(mage.Talents.ImprovedFrostbolt)),
 		Kind:      core.SpellMod_CastTime_Flat,
 	})
 }
@@ -523,7 +524,7 @@ func (mage *Mage) registerElementalPrecision() {
 	if mage.Talents.ElementalPrecision == 0 {
 		return
 	}
-	percent := 1 * float64(mage.Talents.ElementalPrecision)
+	percent := spellData.ElementalPrecision.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_RESIST_MISS_CHANCE).ValueAt(mage.Talents.ElementalPrecision)
 	mage.AddStaticMod(core.SpellModConfig{
 		School:     core.SpellSchoolFrostfire,
 		FloatValue: -percent / 100,
@@ -543,7 +544,7 @@ func (mage *Mage) registerIceShards() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		School:     core.SpellSchoolFrost,
-		FloatValue: .2 * float64(mage.Talents.IceShards),
+		FloatValue: spellData.IceShards.FractionAt(mage.Talents.IceShards),
 		Kind:       core.SpellMod_CritMultiplier_Flat,
 	})
 }
@@ -567,7 +568,7 @@ func (mage *Mage) registerPiercingIce() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFrost,
-		FloatValue: .02 * float64(mage.Talents.PiercingIce),
+		FloatValue: spellData.PiercingIce.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(mage.Talents.PiercingIce),
 		Kind:       core.SpellMod_DamageDone_Flat,
 	})
 }
@@ -610,7 +611,7 @@ func (mage *Mage) registerIceFloes() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellColdSnap | MageSpellConeOfCold | MageSpellIceBarrier | MageSpellIceBlock,
-		FloatValue: 1 - .1*float64(mage.Talents.IceFloes),
+		FloatValue: spellData.IceFloes.MultiplierAt(mage.Talents.IceFloes),
 		Kind:       core.SpellMod_Cooldown_Multiplier,
 	})
 }
@@ -620,7 +621,7 @@ func (mage *Mage) registerWinterChill() {
 		return
 	}
 
-	procChance := 0.20 * float64(mage.Talents.WintersChill)
+	procChance := spellData.WintersChill.ProcChanceAt(mage.Talents.WintersChill)
 
 	wcAuras := mage.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
 		return core.WintersChillAura(target, 0)
@@ -653,7 +654,7 @@ func (mage *Mage) registerArcticWinds() {
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFrost,
-		FloatValue: .01 * float64(mage.Talents.ArcticWinds),
+		FloatValue: spellData.ArcticWinds.Effect(shared.A_MOD_DAMAGE_PERCENT_DONE, 16).FractionAt(mage.Talents.ArcticWinds),
 		Kind:       core.SpellMod_DamageDone_Pct,
 	})
 }
@@ -664,14 +665,14 @@ func (mage *Mage) registerEmpoweredFrostbolt() {
 	}
 
 	mage.AddStaticMod(core.SpellModConfig{
-		ClassMask:  MageSpellFireball,
-		FloatValue: .02 * float64(mage.Talents.EmpoweredFrostbolt),
+		ClassMask:  MageSpellFrostbolt,
+		FloatValue: spellData.EmpoweredFrostbolt.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_BONUS_MULTIPLIER).FractionAt(mage.Talents.EmpoweredFrostbolt),
 		Kind:       core.SpellMod_BonusCoeffecient_Flat,
 	})
 
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFrostbolt,
-		FloatValue: .01 * float64(mage.Talents.EmpoweredFrostbolt),
+		FloatValue: spellData.EmpoweredFrostbolt.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CRITICAL_CHANCE).ValueAt(mage.Talents.EmpoweredFrostbolt),
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 }

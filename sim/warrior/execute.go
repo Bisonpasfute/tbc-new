@@ -4,26 +4,28 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var executeRank = spellData.Execute.BySpellID(25236)
+
 func (war *Warrior) registerExecute() {
 
 	var rageMetrics *core.ResourceMetrics
 
 	spell := war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 25236},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: executeRank.SpellID},
+		SpellSchool:    executeRank.SpellSchool,
+		DefenseType:    executeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		ClassSpellMask: SpellMaskExecute,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{
-			Cost:   15,
+			Cost:   executeRank.Cost,
 			Refund: 0.8,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: executeRank.GCD,
 			},
 			IgnoreHaste: true,
 		},

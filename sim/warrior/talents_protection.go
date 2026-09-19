@@ -3,6 +3,7 @@ package warrior
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
@@ -63,9 +64,12 @@ func (war *Warrior) registerTacticalMastery() {
 
 		spell.RelatedSelfBuff.
 			AttachSpellMod(core.SpellModConfig{
-				ClassMask:  SpellMaskMortalStrike | SpellMaskBloodthirst,
-				Kind:       core.SpellMod_ThreatMultiplier_Pct,
-				FloatValue: 0.21 * float64(war.Talents.TacticalMastery),
+				ClassMask: SpellMaskMortalStrike | SpellMaskBloodthirst,
+				Kind:      core.SpellMod_ThreatMultiplier_Pct,
+				// Both threat effects are A_ADD_PCT_MODIFIER/SPELLMOD_THREAT, one masked to Mortal
+				// Strike and one to Bloodthirst, so Effect cannot tell them apart. They carry the
+				// same 21/42/63.
+				FloatValue: spellData.TacticalMastery.EffectAt(1).FractionAt(war.Talents.TacticalMastery),
 			})
 	})
 }
@@ -75,13 +79,13 @@ func (war *Warrior) registerDefiance() {
 		return
 	}
 
-	war.AddStat(stats.ExpertiseRating, 2*float64(war.Talents.Defiance)*core.ExpertisePerQuarterPercentReduction)
+	war.AddStat(stats.ExpertiseRating, spellData.Defiance.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).ValueAt(war.Talents.Defiance)*core.ExpertisePerQuarterPercentReduction)
 	war.OnSpellRegistered(func(spell *core.Spell) {
 		if !spell.Matches(SpellMaskDefensiveStance) {
 			return
 		}
 		spell.RelatedSelfBuff.
-			AttachMultiplicativePseudoStatBuff(&war.PseudoStats.ThreatMultiplier, 1+0.05*float64(war.Talents.Defiance))
+			AttachMultiplicativePseudoStatBuff(&war.PseudoStats.ThreatMultiplier, spellData.Defiance.Effect(shared.A_MOD_THREAT, 127).MultiplierAt(war.Talents.Defiance))
 	})
 }
 
@@ -90,20 +94,7 @@ func (war *Warrior) registerAnticipation() {
 		return
 	}
 
-	war.AddStat(stats.DefenseRating, 4*float64(war.Talents.Anticipation)*core.DefenseRatingPerDefenseLevel)
-
-	war.OnSpellRegistered(func(spell *core.Spell) {
-		if !spell.Matches(SpellMaskDefensiveStance) {
-			return
-		}
-
-		spell.RelatedSelfBuff.
-			AttachSpellMod(core.SpellModConfig{
-				ClassMask:  SpellMaskMortalStrike | SpellMaskBloodthirst,
-				Kind:       core.SpellMod_ThreatMultiplier_Pct,
-				FloatValue: 0.05 * float64(war.Talents.Defiance),
-			})
-	})
+	war.AddStat(stats.DefenseRating, spellData.Anticipation.ValueAt(war.Talents.Anticipation)*core.DefenseRatingPerDefenseLevel)
 }
 
 func (war *Warrior) registerShieldSpecialization() {
@@ -111,13 +102,13 @@ func (war *Warrior) registerShieldSpecialization() {
 		return
 	}
 
-	war.AddStat(stats.BlockPercent, 0.01*float64(war.Talents.ShieldSpecialization))
+	war.AddStat(stats.BlockPercent, spellData.ShieldSpecialization.Effect(shared.A_MOD_BLOCK_PERCENT, 0).FractionAt(war.Talents.ShieldSpecialization))
 
 	rageMetrics := war.NewRageMetrics(core.ActionID{SpellID: 23602})
 
 	war.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Shield Specialization",
-		ProcChance:         0.2 * float64(war.Talents.ShieldSpecialization),
+		ProcChance:         spellData.ShieldSpecialization.ProcChanceAt(war.Talents.ShieldSpecialization),
 		TriggerImmediately: true,
 		Outcome:            core.OutcomeBlock,
 		Callback:           core.CallbackOnSpellHitTaken,
@@ -132,7 +123,7 @@ func (war *Warrior) registerToughness() {
 		return
 	}
 
-	war.MultiplyStat(stats.Armor, 1+0.02*float64(war.Talents.Toughness))
+	war.MultiplyStat(stats.Armor, spellData.Toughness.MultiplierAt(war.Talents.Toughness))
 }
 
 func (war *Warrior) registerLastStand() {
@@ -280,7 +271,7 @@ func (war *Warrior) registerShieldMastery() {
 		return
 	}
 
-	war.PseudoStats.BlockValueMultiplier *= 1 + 0.1*float64(war.Talents.ShieldMastery)
+	war.PseudoStats.BlockValueMultiplier *= spellData.ShieldMastery.MultiplierAt(war.Talents.ShieldMastery)
 }
 
 func (war *Warrior) registerOneHandedWeaponSpecialization() {
@@ -291,7 +282,7 @@ func (war *Warrior) registerOneHandedWeaponSpecialization() {
 	weaponMod := war.AddDynamicMod(core.SpellModConfig{
 		School:     core.SpellSchoolPhysical,
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: 0.02 * float64(war.Talents.OneHandedWeaponSpecialization),
+		FloatValue: spellData.OneHandedWeaponSpecialization.FractionAt(war.Talents.OneHandedWeaponSpecialization),
 	})
 
 	hasOneHandEquipped := func() bool {
@@ -320,7 +311,7 @@ func (war *Warrior) registerOneHandedWeaponSpecialization() {
 }
 
 func (war *Warrior) registerImprovedDefensiveStance() {
-	impDefStanceMultiplier := 1 - 0.02*float64(war.Talents.ImprovedDefensiveStance)
+	impDefStanceMultiplier := spellData.ImprovedDefensiveStance.MultiplierAt(war.Talents.ImprovedDefensiveStance)
 
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask: SpellMaskDefensiveStance,
@@ -344,32 +335,35 @@ func (war *Warrior) registerImprovedDefensiveStance() {
 	})
 }
 
+var shieldSlamRank = spellData.ShieldSlam.BySpellID(30356)
+var devastateRank = spellData.Devastate.BySpellID(30022)
+
 func (war *Warrior) registerShieldSlam() {
 	if !war.Talents.ShieldSlam {
 		return
 	}
 
 	war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30356},
+		ActionID:       core.ActionID{SpellID: shieldSlamRank.SpellID},
 		ClassSpellMask: SpellMaskShieldSlam,
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    shieldSlamRank.SpellSchool,
+		DefenseType:    shieldSlamRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{
-			Cost:   20,
+			Cost:   shieldSlamRank.Cost,
 			Refund: 0.8,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: shieldSlamRank.GCD,
 			},
 			IgnoreHaste: true,
 			CD: core.Cooldown{
 				Timer:    war.NewTimer(),
-				Duration: time.Second * 6,
+				Duration: shieldSlamRank.Cooldown,
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
@@ -381,7 +375,7 @@ func (war *Warrior) registerShieldSlam() {
 		FlatThreatBonus:  305,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(381, 399) + war.BlockDamageReduction()
+			baseDamage := shieldSlamRank.Direct.Damage(sim) + war.BlockDamageReduction()
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 
 			if !result.Landed() {
@@ -408,8 +402,8 @@ func (war *Warrior) registerVitality() {
 		return
 	}
 
-	war.MultiplyStat(stats.Stamina, 1+0.01*float64(war.Talents.Vitality))
-	war.MultiplyStat(stats.Strength, 1+0.02*float64(war.Talents.Vitality))
+	war.MultiplyStat(stats.Stamina, spellData.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(war.Talents.Vitality))
+	war.MultiplyStat(stats.Strength, spellData.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 0).MultiplierAt(war.Talents.Vitality))
 }
 
 func (war *Warrior) registerDevastate() {
@@ -418,21 +412,21 @@ func (war *Warrior) registerDevastate() {
 	}
 
 	war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30022},
+		ActionID:       core.ActionID{SpellID: devastateRank.SpellID},
 		ClassSpellMask: SpellMaskDevastate,
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    devastateRank.SpellSchool,
+		DefenseType:    devastateRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{
-			Cost:   15,
+			Cost:   devastateRank.Cost,
 			Refund: 0.8,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: devastateRank.GCD,
 			},
 			IgnoreHaste: true,
 		},

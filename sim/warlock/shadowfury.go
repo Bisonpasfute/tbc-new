@@ -1,42 +1,42 @@
 package warlock
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shadowFuryCoeff = 0.193
+var shadowFuryRank = spellData.Shadowfury.BySpellID(30414)
+var shadowFuryCoeff = shadowFuryRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerShadowfury() {
 
 	warlock.Shadowfury = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 30414},
-		SpellSchool:    core.SpellSchoolShadow,
+		ActionID:       core.ActionID{SpellID: shadowFuryRank.SpellID},
+		SpellSchool:    shadowFuryRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellShadowFury,
 
-		ManaCost: core.ManaCostOptions{FlatCost: 710},
+		ManaCost: core.ManaCostOptions{FlatCost: shadowFuryRank.Cost},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      500 * time.Millisecond,
-				GCDMin:   500 * time.Millisecond,
-				CastTime: 500 * time.Millisecond,
+				GCD: shadowFuryRank.GCD,
+				// Below core's 1s floor, so it has to be named as the floor too - see GCDTime.
+				GCDMin:   shadowFuryRank.GCD,
+				CastTime: shadowFuryRank.CastTime,
 			},
 			CD: core.Cooldown{
 				Timer:    warlock.NewTimer(),
-				Duration: time.Second * 20,
+				Duration: shadowFuryRank.Cooldown,
 			},
 		},
 
 		DamageMultiplier: 1,
-		DefenseType:      core.DefenseTypeMagic,
+		DefenseType:      shadowFuryRank.DefenseType,
 		ThreatMultiplier: 1,
 		BonusCoefficient: shadowFuryCoeff,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			dmgRoll := warlock.CalcAndRollDamageRange(sim, 612, 728)
+			dmgRoll := shadowFuryRank.Direct.Damage(sim)
 			result := spell.CalcDamage(sim, target, dmgRoll, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)

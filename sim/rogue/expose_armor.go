@@ -1,10 +1,11 @@
 package rogue
 
 import (
-	"time"
-
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
+
+var exposeArmorRank = spellData.ExposeArmor.BySpellID(26866)
 
 func (rogue *Rogue) registerExposeArmorSpell() {
 	rogue.ExposeArmorAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
@@ -12,22 +13,22 @@ func (rogue *Rogue) registerExposeArmorSpell() {
 	})
 
 	rogue.ExposeArmor = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 26866},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: exposeArmorRank.SpellID},
+		SpellSchool:    exposeArmorRank.SpellSchool,
+		DefenseType:    exposeArmorRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MetricSplits:   6,
 		ClassSpellMask: RogueSpellExposeArmor,
 
 		EnergyCost: core.EnergyCostOptions{
-			Cost:          25.0,
-			Refund:        0.4 * float64(rogue.Talents.QuickRecovery),
+			Cost:          exposeArmorRank.Cost,
+			Refund:        spellData.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
 			RefundMetrics: rogue.EnergyRefundMetrics,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: time.Second,
+				GCD: exposeArmorRank.GCD,
 			},
 			IgnoreHaste: true,
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
@@ -59,7 +60,7 @@ func (rogue *Rogue) registerExposeArmorSpell() {
 }
 
 func (rogue *Rogue) GetExposeArmorValue() float64 {
-	return 410.0 * float64(rogue.ComboPoints()) * (1 + 0.25*float64(rogue.Talents.ImprovedExposeArmor))
+	return 410.0 * float64(rogue.ComboPoints()) * spellData.ImprovedExposeArmor.MultiplierAt(rogue.Talents.ImprovedExposeArmor)
 }
 
 func (rogue *Rogue) CanApplyExposeArmorAura(target *core.Unit) bool {

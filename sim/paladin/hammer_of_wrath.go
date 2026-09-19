@@ -1,8 +1,6 @@
 package paladin
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
@@ -14,24 +12,17 @@ func (paladin *Paladin) getHammerOfWrathTimer() *core.Timer {
 	return paladin.hammerOfWrathTimer
 }
 
-var HammerOfWrathRankMap = shared.SpellRankMap{
-	{Rank: 1, SpellID: 24275, Cost: 235, MinDamage: 316, MaxDamage: 348, Coefficient: 0.429},
-	{Rank: 2, SpellID: 24274, Cost: 290, MinDamage: 412, MaxDamage: 455, Coefficient: 0.429},
-	{Rank: 3, SpellID: 24239, Cost: 340, MinDamage: 519, MaxDamage: 572, Coefficient: 0.429},
-	{Rank: 4, SpellID: 27180, Cost: 440, MinDamage: 672, MaxDamage: 742, Coefficient: 0.429},
-}
+var HammerOfWrathRankMap = spellData.HammerOfWrath
 
 // Hammer of Wrath
 // https://www.wowhead.com/tbc/spell=27180
 //
 // Hurls a hammer that strikes an enemy for Holy damage.
 // Only usable on enemies that have 20% or less health.
-func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRankConfig) {
+func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellData) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	minDamage := rankConfig.MinDamage
-	maxDamage := rankConfig.MaxDamage
-	coefficient := rankConfig.Coefficient
+	coefficient := rankConfig.Direct.BonusCoefficient()
 
 	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: spellID},
@@ -45,21 +36,23 @@ func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRankConfig)
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 
-		MaxRange:     30,
-		MissileSpeed: 35,
+		MaxRange:     rankConfig.MaxRange,
+		MissileSpeed: rankConfig.MissileSpeed,
 
 		ManaCost: core.ManaCostOptions{
 			FlatCost: cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCDMin:   time.Millisecond * 500,
-				GCD:      time.Millisecond * 500,
-				CastTime: time.Millisecond * 500,
+				// The client's 500ms is below core's 1s floor, so it has to be named as the floor
+				// too or GCDTime clamps it straight back up.
+				GCDMin:   rankConfig.GCD,
+				GCD:      rankConfig.GCD,
+				CastTime: rankConfig.CastTime,
 			},
 			CD: core.Cooldown{
 				Timer:    paladin.getHammerOfWrathTimer(),
-				Duration: time.Second * 6,
+				Duration: rankConfig.Cooldown,
 			},
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
 				castTime := paladin.ApplyCastSpeedForSpell(cast.CastTime, spell)
@@ -74,7 +67,7 @@ func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRankConfig)
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			result := spell.CalcDamage(sim, target, sim.Roll(minDamage, maxDamage), spell.OutcomeRangedHitAndCrit)
+			result := spell.CalcDamage(sim, target, rankConfig.Direct.Damage(sim), spell.OutcomeRangedHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)
 			})

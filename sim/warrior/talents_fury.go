@@ -3,6 +3,7 @@ package warrior
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
@@ -54,7 +55,7 @@ func (war *Warrior) registerCruelty() {
 		return
 	}
 
-	war.AddStat(stats.PhysicalCritPercent, 1*float64(war.Talents.Cruelty))
+	war.AddStat(stats.PhysicalCritPercent, spellData.Cruelty.ValueAt(war.Talents.Cruelty))
 }
 
 func (war *Warrior) registerUnbridledWrath() {
@@ -84,7 +85,7 @@ func (war *Warrior) registerDualWieldSpecialization() {
 	war.AddStaticMod(core.SpellModConfig{
 		ProcMask:   core.ProcMaskMeleeOH,
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: 0.05 * float64(war.Talents.DualWieldSpecialization),
+		FloatValue: spellData.DualWieldSpecialization.FractionAt(war.Talents.DualWieldSpecialization),
 	})
 }
 
@@ -324,7 +325,7 @@ func (war *Warrior) registerPrecision() {
 		return
 	}
 
-	war.AddStat(stats.PhysicalHitPercent, 1*float64(war.Talents.Precision))
+	war.AddStat(stats.PhysicalHitPercent, spellData.Precision.ValueAt(war.Talents.Precision))
 }
 
 func (war *Warrior) registerBloodthirst() {
@@ -389,7 +390,7 @@ func (war *Warrior) registerImprovedBerserkerStance() {
 		return
 	}
 
-	apDep := war.NewDynamicMultiplyStat(stats.AttackPower, 1+0.02*float64(war.Talents.ImprovedBerserkerStance))
+	apDep := war.NewDynamicMultiplyStat(stats.AttackPower, spellData.ImprovedBerserkerStance.Effect(shared.A_MOD_ATTACK_POWER_PCT, 0).MultiplierAt(war.Talents.ImprovedBerserkerStance))
 	aura := war.RegisterAura(core.Aura{
 		Label:      "Improved Berserker Stance",
 		Duration:   core.NeverExpires,

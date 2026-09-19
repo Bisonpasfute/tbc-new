@@ -1,8 +1,6 @@
 package mage
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
@@ -16,40 +14,42 @@ func (mage *Mage) frostBoltConfig(config core.SpellConfig) core.SpellConfig {
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          config.Flags,
 		ClassSpellMask: MageSpellFrostbolt,
-		MissileSpeed:   28,
+		MissileSpeed:   frostboltRank.MissileSpeed,
 
 		ManaCost: config.ManaCost,
 		Cast:     config.Cast,
 
 		DamageMultiplier: config.DamageMultiplier,
-		BonusCoefficient: frostboltCoefficient,
+		BonusCoefficient: frostboltRank.Direct.BonusCoefficient(),
 		ThreatMultiplier: 1,
 
 		ApplyEffects: config.ApplyEffects,
 	}
 }
 
+var frostboltRank = spellData.Frostbolt.BySpellID(27072)
+
 func (mage *Mage) registerFrostboltSpell() {
-	actionID := core.ActionID{SpellID: 27072}
+	actionID := core.ActionID{SpellID: frostboltRank.SpellID}
 
 	mage.RegisterSpell(mage.frostBoltConfig(core.SpellConfig{
 		ActionID: actionID,
 		Flags:    core.SpellFlagAPL | core.SpellFlagBinary,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 330,
+			FlatCost: frostboltRank.Cost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
-				CastTime: time.Second * 3,
+				GCD:      frostboltRank.GCD,
+				CastTime: frostboltRank.CastTime,
 			},
 		},
 
 		DamageMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := mage.CalcAndRollDamageRange(sim, 600, 647)
+			baseDamage := frostboltRank.Direct.Damage(sim)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {

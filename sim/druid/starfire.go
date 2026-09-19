@@ -1,18 +1,13 @@
 package druid
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var StarfireRankMap = shared.SpellRankMap{
-	{Rank: 6, SpellID: 9876, Cost: 315, MinDamage: 463, MaxDamage: 543, Coefficient: 1},
-	{Rank: 8, SpellID: 26986, Cost: 370, MinDamage: 550, MaxDamage: 647, Coefficient: 1},
-}
+var StarfireRankMap = spellData.Starfire.Ranks(6, 8)
 
-func (druid *Druid) registerStarfireSpell(rankConfig shared.SpellRankConfig) {
+func (druid *Druid) registerStarfireSpell(rankConfig shared.SpellData) {
 	spell := druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
 		SpellSchool:    core.SpellSchoolArcane,
@@ -21,6 +16,7 @@ func (druid *Druid) registerStarfireSpell(rankConfig shared.SpellRankConfig) {
 		ClassSpellMask: DruidSpellStarfire,
 		Flags:          core.SpellFlagAPL,
 		Rank:           rankConfig.Rank,
+		MaxRange:       rankConfig.MaxRange,
 
 		ManaCost: core.ManaCostOptions{
 			FlatCost: rankConfig.Cost,
@@ -28,17 +24,17 @@ func (druid *Druid) registerStarfireSpell(rankConfig shared.SpellRankConfig) {
 
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
-				CastTime: time.Millisecond * 3500,
+				GCD:      rankConfig.GCD,
+				CastTime: rankConfig.CastTime,
 			},
 		},
 
-		BonusCoefficient: rankConfig.Coefficient,
+		BonusCoefficient: rankConfig.Direct.BonusCoefficient(),
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := druid.CalcAndRollDamageRange(sim, rankConfig.MinDamage, rankConfig.MaxDamage)
+			baseDamage := rankConfig.Direct.Damage(sim)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

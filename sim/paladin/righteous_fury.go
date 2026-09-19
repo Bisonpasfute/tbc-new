@@ -1,6 +1,9 @@
 package paladin
 
-import "github.com/wowsims/tbc/sim/core"
+import (
+	"github.com/wowsims/tbc/sim/common/shared"
+	"github.com/wowsims/tbc/sim/core"
+)
 
 // Righteous Fury
 // https://www.wowhead.com/tbc/spell=25780
@@ -10,9 +13,11 @@ import "github.com/wowsims/tbc/sim/core"
 func (paladin *Paladin) registerRighteousFury() {
 	actionID := core.ActionID{SpellID: 25780}
 
-	// Base RF = 60% threat. Improved RF multiplies this by (1 + rank/6):
-	// Rank 0: 60%, Rank 1: 70%, Rank 2: 80%, Rank 3: 90%
-	threatBonus := 0.6 * (1 + float64(paladin.Talents.ImprovedRighteousFury)/6)
+	// Base 60% threat, raised by the talent's own 16/33/50 to 69.6% / 79.8% / 90%. Named by aura
+	// because the talent's other effect cuts damage taken, and either could land in Direct.
+	threatBonus := 0.6 * spellData.ImprovedRighteousFury.
+		Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).
+		MultiplierAt(paladin.Talents.ImprovedRighteousFury)
 
 	rfAura := paladin.RegisterAura(core.Aura{
 		Label:    "Righteous Fury",

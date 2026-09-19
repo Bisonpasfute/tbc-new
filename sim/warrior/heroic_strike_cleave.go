@@ -4,18 +4,22 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var heroicStrikeRank = spellData.HeroicStrike.BySpellID(29707)
+var heroicStrikeBaseDamage, _ = heroicStrikeRank.Direct.Range()
+var cleaveRank = spellData.Cleave.BySpellID(25231)
+
 func (war *Warrior) registerHeroicStrike() {
 	spell := war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 29707},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: heroicStrikeRank.SpellID},
+		SpellSchool:    heroicStrikeRank.SpellSchool,
+		DefenseType:    heroicStrikeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMH,
 		Flags:          core.SpellFlagMeleeMetrics,
 		ClassSpellMask: SpellMaskHeroicStrike,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{
-			Cost:   15,
+			Cost:   heroicStrikeRank.Cost,
 			Refund: 0.8,
 		},
 
@@ -30,7 +34,7 @@ func (war *Warrior) registerHeroicStrike() {
 		FlatThreatBonus:  194,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 176 + war.MHWeaponDamage(sim, spell.MeleeAttackPower(target))
+			baseDamage := heroicStrikeBaseDamage + war.MHWeaponDamage(sim, spell.MeleeAttackPower(target))
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
 
 			if !result.Landed() {
@@ -47,19 +51,20 @@ func (war *Warrior) registerHeroicStrike() {
 
 func (war *Warrior) registerCleave() {
 	const maxTargets int32 = 2
-	flatDamage := 70 * (1 + 0.4*float64(war.Talents.ImprovedCleave))
+	cleaveVal, _ := cleaveRank.Direct.Range()
+	flatDamage := cleaveVal * spellData.ImprovedCleave.MultiplierAt(war.Talents.ImprovedCleave)
 
 	spell := war.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 25231},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: cleaveRank.SpellID},
+		SpellSchool:    cleaveRank.SpellSchool,
+		DefenseType:    cleaveRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMH,
 		Flags:          core.SpellFlagMeleeMetrics,
 		ClassSpellMask: SpellMaskCleave,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{
-			Cost: 20,
+			Cost: cleaveRank.Cost,
 		},
 
 		Cast: core.CastConfig{

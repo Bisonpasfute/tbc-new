@@ -78,6 +78,7 @@ type Rogue struct {
 	WoundPoisonDebuffAuras core.AuraArray
 
 	ruthlessnessMetrics      *core.ResourceMetrics
+	ruthlessnessChance       float64
 	relentlessStrikesMetrics *core.ResourceMetrics
 
 	HasPvpEnergy              bool
@@ -117,7 +118,7 @@ func (rogue *Rogue) ApplyFinisher(sim *core.Simulation, spell *core.Spell) {
 	}
 
 	// Ruthlessness
-	if rogue.Talents.Ruthlessness > 0 && sim.Proc(0.2*float64(rogue.Talents.Ruthlessness), "Ruthlessness") {
+	if rogue.Talents.Ruthlessness > 0 && sim.Proc(rogue.ruthlessnessChance, "Ruthlessness") {
 		rogue.AddComboPoints(sim, 1, rogue.ruthlessnessMetrics)
 	}
 }
@@ -144,6 +145,7 @@ func (rogue *Rogue) Initialize() {
 	rogue.registerStealthAura()
 
 	rogue.ruthlessnessMetrics = rogue.NewComboPointMetrics(core.ActionID{SpellID: 14161})
+	rogue.ruthlessnessChance = spellData.Ruthlessness.ProcChanceAt(rogue.Talents.Ruthlessness)
 	rogue.relentlessStrikesMetrics = rogue.NewEnergyMetrics(core.ActionID{SpellID: 14179})
 }
 

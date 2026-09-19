@@ -3,6 +3,7 @@ package rogue
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/stats"
@@ -98,12 +99,12 @@ func (rogue *Rogue) registerDaggerSpecialization() {
 	mhMod := rogue.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ProcMask:   core.ProcMaskMeleeMH,
-		FloatValue: 1.0 * float64(rogue.Talents.DaggerSpecialization),
+		FloatValue: spellData.DaggerSpecialization.ValueAt(rogue.Talents.DaggerSpecialization),
 	})
 	ohMod := rogue.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ProcMask:   core.ProcMaskMeleeOH,
-		FloatValue: 1.0 * float64(rogue.Talents.DaggerSpecialization),
+		FloatValue: spellData.DaggerSpecialization.ValueAt(rogue.Talents.DaggerSpecialization),
 	})
 
 	if rogue.HasDagger(true) {
@@ -136,7 +137,7 @@ func (rogue *Rogue) registerDualWieldSpecialization() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ProcMask:   core.ProcMaskMeleeOH,
-		FloatValue: 0.1 * float64(rogue.Talents.DualWieldSpecialization),
+		FloatValue: spellData.DualWieldSpecialization.FractionAt(rogue.Talents.DualWieldSpecialization),
 	})
 }
 
@@ -145,15 +146,17 @@ func (rogue *Rogue) registerMaceSpecialization() {
 		return
 	}
 
+	critDamage := spellData.MaceSpecialization.Effect(shared.A_MOD_CRIT_DAMAGE_BONUS, 1).FractionAt(rogue.Talents.MaceSpecialization)
+
 	mhMod := rogue.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_CritMultiplier_Pct,
 		ProcMask:   core.ProcMaskMeleeMH,
-		FloatValue: 0.01 * float64(rogue.Talents.MaceSpecialization),
+		FloatValue: critDamage,
 	})
 	ohMod := rogue.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_CritMultiplier_Pct,
 		ProcMask:   core.ProcMaskMeleeOH,
-		FloatValue: 0.01 * float64(rogue.Talents.MaceSpecialization),
+		FloatValue: critDamage,
 	})
 
 	if rogue.GetMHWeapon() != nil && rogue.GetMHWeapon().WeaponType == proto.WeaponType_WeaponTypeMace {
@@ -253,7 +256,7 @@ func (rogue *Rogue) registerSwordSpecialization() {
 	}
 
 	swordSpecDPM := func() *core.DynamicProcManager {
-		return rogue.NewFixedProcChanceManager(0.01*float64(rogue.Talents.SwordSpecialization), rogue.GetProcMaskForTypes(proto.WeaponType_WeaponTypeSword))
+		return rogue.NewFixedProcChanceManager(spellData.SwordSpecialization.FractionAt(rogue.Talents.SwordSpecialization), rogue.GetProcMaskForTypes(proto.WeaponType_WeaponTypeSword))
 	}
 
 	var swordSpecializationSpell *core.Spell
@@ -290,12 +293,12 @@ func (rogue *Rogue) registerFistWeaponSpecialization() {
 	mhMod := rogue.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ProcMask:   core.ProcMaskMeleeMH,
-		FloatValue: 1 * float64(rogue.Talents.FistWeaponSpecialization),
+		FloatValue: spellData.FistWeaponSpecialization.ValueAt(rogue.Talents.FistWeaponSpecialization),
 	})
 	ohMod := rogue.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ProcMask:   core.ProcMaskMeleeOH,
-		FloatValue: 1 * float64(rogue.Talents.FistWeaponSpecialization),
+		FloatValue: spellData.FistWeaponSpecialization.ValueAt(rogue.Talents.FistWeaponSpecialization),
 	})
 
 	if rogue.GetMHWeapon() != nil && rogue.GetMHWeapon().WeaponType == proto.WeaponType_WeaponTypeFist {
@@ -325,7 +328,7 @@ func (rogue *Rogue) registerWeaponExpertise() {
 		return
 	}
 
-	rogue.AddStat(stats.ExpertiseRating, core.ExpertisePerQuarterPercentReduction*5*float64(rogue.Talents.WeaponExpertise))
+	rogue.AddStat(stats.ExpertiseRating, core.ExpertisePerQuarterPercentReduction*spellData.WeaponExpertise.ValueAt(rogue.Talents.WeaponExpertise))
 }
 
 func (rogue *Rogue) registerAggression() {
@@ -336,7 +339,7 @@ func (rogue *Rogue) registerAggression() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ClassMask:  RogueSpellSinisterStrike | RogueSpellBackstab | RogueSpellEviscerate,
-		FloatValue: 0.02 * float64(rogue.Talents.Aggression),
+		FloatValue: spellData.Aggression.FractionAt(rogue.Talents.Aggression),
 	})
 }
 
@@ -345,8 +348,8 @@ func (rogue *Rogue) registerVitality() {
 		return
 	}
 
-	rogue.MultiplyStat(stats.Agility, 1+0.01*float64(rogue.Talents.Vitality))
-	rogue.MultiplyStat(stats.Stamina, 1+0.02*float64(rogue.Talents.Vitality))
+	rogue.MultiplyStat(stats.Agility, spellData.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 1).MultiplierAt(rogue.Talents.Vitality))
+	rogue.MultiplyStat(stats.Stamina, spellData.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(rogue.Talents.Vitality))
 }
 
 func (rogue *Rogue) registerAdrenalineRush() {

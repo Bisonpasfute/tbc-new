@@ -1,31 +1,31 @@
 package rogue
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
+var ambushRank = spellData.Ambush.BySpellID(27441)
+
 func (rogue *Rogue) registerAmbushSpell() {
-	baseDamage := 134.0
+	baseDamage, _ := ambushRank.Direct.Range()
 	weaponDamage := 2.75
 
 	rogue.Ambush = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27441},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		ActionID:       core.ActionID{SpellID: ambushRank.SpellID},
+		SpellSchool:    ambushRank.SpellSchool,
+		DefenseType:    ambushRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | SpellFlagBuilder | core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellAmbush,
 		MaxRange:       core.MaxMeleeRange,
 
 		EnergyCost: core.EnergyCostOptions{
-			Cost:   60,
+			Cost:   ambushRank.Cost,
 			Refund: 0,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: time.Second,
+				GCD: ambushRank.GCD,
 			},
 			IgnoreHaste: true,
 		},
@@ -37,7 +37,7 @@ func (rogue *Rogue) registerAmbushSpell() {
 		DamageMultiplierAdditive: 1,
 		ThreatMultiplier:         1,
 
-		BonusCoefficient: 1,
+		BonusCoefficient: ambushRank.Direct.BonusCoefficient(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			rogue.BreakStealth(sim)
