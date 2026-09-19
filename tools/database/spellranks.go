@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"slices"
 	"sync"
 )
 
@@ -86,20 +87,22 @@ type RankSpell struct {
 // SpellCastTimes resolves SpellMisc.CastingTimeIndex and is absent from a database extracted before it
 // was added to generator-settings.json. Only the generator insists on it - the regeneration check
 // compares amounts and coefficients, neither of which needs a cast time.
-// Answered once per database rather than once per row: LoadRankSpell runs 3327 times and the schema
-// cannot change underneath it.
-var castTimesOnce sync.Once
-var castTimesPresent bool
+//
+// Keyed by handle rather than answered once per process: gen_db already opens two databases, and a
+// single answer would let one of them decide for the other.
+var castTimesByDB sync.Map
 
 func castTimesAvailable(db *sql.DB) bool {
-	castTimesOnce.Do(func() {
-		var n int
-		if err := db.QueryRow(
-			`SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'SpellCastTimes'`).Scan(&n); err == nil {
-			castTimesPresent = n > 0
-		}
-	})
-	return castTimesPresent
+	if cached, ok := castTimesByDB.Load(db); ok {
+		return cached.(bool)
+	}
+
+	var n int
+	err := db.QueryRow(
+		`SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'SpellCastTimes'`).Scan(&n)
+	available := err == nil && n > 0
+	castTimesByDB.Store(db, available)
+	return available
 }
 
 func RequireSpellCastTimes(db *sql.DB) error {
@@ -302,7 +305,7 @@ func RankCandidates(db *sql.DB, spellID int32, classBit int) (RankSpell, []RankE
 		if err != nil {
 			return spell, nil, err
 		}
-		candidates = append(candidates, sibs...)
+		candidates = slices.Concat(spell.Effects, sibs)
 	}
 	return spell, candidates, nil
 }

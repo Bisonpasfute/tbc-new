@@ -463,18 +463,19 @@ func renderClassFile(db *sql.DB, pkg string, class dbc.DbcClass, namer *rankEnum
 		return nil, err
 	}
 
-	var b strings.Builder
-
 	// Named rather than dropped silently, so a family the resolver could not make sense of is visible
-	// here instead of merely absent.
+	// here instead of merely absent. Kept out of the body below, whose text decides which imports the
+	// file needs - a family name containing "time." would otherwise add an unused one.
+	var notGenerated strings.Builder
 	if len(skipped) > 0 {
-		b.WriteString("// Not generated:\n")
+		notGenerated.WriteString("// Not generated:\n")
 		for _, s := range skipped {
-			fmt.Fprintf(&b, "//   %s\n", s)
+			fmt.Fprintf(&notGenerated, "//   %s\n", s)
 		}
-		b.WriteString("\n")
+		notGenerated.WriteString("\n")
 	}
 
+	var b strings.Builder
 	b.WriteString("type generatedRanks struct {\n")
 	for _, l := range ladders {
 		fmt.Fprintf(&b, "\t%s shared.SpellRankTable\n", l.Field)
@@ -514,7 +515,7 @@ func renderClassFile(db *sql.DB, pkg string, class dbc.DbcClass, namer *rankEnum
 		head.WriteString("import \"github.com/wowsims/tbc/sim/common/shared\"\n\n")
 	}
 
-	out, err := format.Source([]byte(head.String() + body))
+	out, err := format.Source([]byte(head.String() + notGenerated.String() + body))
 	if err != nil {
 		return nil, fmt.Errorf("generated %s file does not parse, refusing to write it: %w", pkg, err)
 	}
