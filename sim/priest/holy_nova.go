@@ -5,9 +5,9 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var HolyNovaRankMap = genRanks.HolyNova
+var HolyNovaRankMap = spellData.HolyNova
 
-func (priest *Priest) registerHolyNovaSpell(rank shared.SpellRank) {
+func (priest *Priest) registerHolyNovaSpell(rank shared.SpellData) {
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},
 		SpellSchool:    core.SpellSchoolHoly,

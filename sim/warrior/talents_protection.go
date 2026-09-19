@@ -69,7 +69,7 @@ func (war *Warrior) registerTacticalMastery() {
 				// Both threat effects are A_ADD_PCT_MODIFIER/SPELLMOD_THREAT, one masked to Mortal
 				// Strike and one to Bloodthirst, so Effect cannot tell them apart. They carry the
 				// same 21/42/63.
-				FloatValue: genRanks.TacticalMastery.EffectAt(1).FractionAt(war.Talents.TacticalMastery),
+				FloatValue: spellData.TacticalMastery.EffectAt(1).FractionAt(war.Talents.TacticalMastery),
 			})
 	})
 }
@@ -79,13 +79,13 @@ func (war *Warrior) registerDefiance() {
 		return
 	}
 
-	war.AddStat(stats.ExpertiseRating, genRanks.Defiance.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).ValueAt(war.Talents.Defiance)*core.ExpertisePerQuarterPercentReduction)
+	war.AddStat(stats.ExpertiseRating, spellData.Defiance.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).ValueAt(war.Talents.Defiance)*core.ExpertisePerQuarterPercentReduction)
 	war.OnSpellRegistered(func(spell *core.Spell) {
 		if !spell.Matches(SpellMaskDefensiveStance) {
 			return
 		}
 		spell.RelatedSelfBuff.
-			AttachMultiplicativePseudoStatBuff(&war.PseudoStats.ThreatMultiplier, genRanks.Defiance.Effect(shared.A_MOD_THREAT, 127).MultiplierAt(war.Talents.Defiance))
+			AttachMultiplicativePseudoStatBuff(&war.PseudoStats.ThreatMultiplier, spellData.Defiance.Effect(shared.A_MOD_THREAT, 127).MultiplierAt(war.Talents.Defiance))
 	})
 }
 
@@ -94,7 +94,7 @@ func (war *Warrior) registerAnticipation() {
 		return
 	}
 
-	war.AddStat(stats.DefenseRating, genRanks.Anticipation.ValueAt(war.Talents.Anticipation)*core.DefenseRatingPerDefenseLevel)
+	war.AddStat(stats.DefenseRating, spellData.Anticipation.ValueAt(war.Talents.Anticipation)*core.DefenseRatingPerDefenseLevel)
 }
 
 func (war *Warrior) registerShieldSpecialization() {
@@ -102,13 +102,13 @@ func (war *Warrior) registerShieldSpecialization() {
 		return
 	}
 
-	war.AddStat(stats.BlockPercent, genRanks.ShieldSpecialization.Effect(shared.A_MOD_BLOCK_PERCENT, 0).FractionAt(war.Talents.ShieldSpecialization))
+	war.AddStat(stats.BlockPercent, spellData.ShieldSpecialization.Effect(shared.A_MOD_BLOCK_PERCENT, 0).FractionAt(war.Talents.ShieldSpecialization))
 
 	rageMetrics := war.NewRageMetrics(core.ActionID{SpellID: 23602})
 
 	war.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Shield Specialization",
-		ProcChance:         genRanks.ShieldSpecialization.ProcChanceAt(war.Talents.ShieldSpecialization),
+		ProcChance:         spellData.ShieldSpecialization.ProcChanceAt(war.Talents.ShieldSpecialization),
 		TriggerImmediately: true,
 		Outcome:            core.OutcomeBlock,
 		Callback:           core.CallbackOnSpellHitTaken,
@@ -123,7 +123,7 @@ func (war *Warrior) registerToughness() {
 		return
 	}
 
-	war.MultiplyStat(stats.Armor, genRanks.Toughness.MultiplierAt(war.Talents.Toughness))
+	war.MultiplyStat(stats.Armor, spellData.Toughness.MultiplierAt(war.Talents.Toughness))
 }
 
 func (war *Warrior) registerLastStand() {
@@ -271,7 +271,7 @@ func (war *Warrior) registerShieldMastery() {
 		return
 	}
 
-	war.PseudoStats.BlockValueMultiplier *= genRanks.ShieldMastery.MultiplierAt(war.Talents.ShieldMastery)
+	war.PseudoStats.BlockValueMultiplier *= spellData.ShieldMastery.MultiplierAt(war.Talents.ShieldMastery)
 }
 
 func (war *Warrior) registerOneHandedWeaponSpecialization() {
@@ -282,7 +282,7 @@ func (war *Warrior) registerOneHandedWeaponSpecialization() {
 	weaponMod := war.AddDynamicMod(core.SpellModConfig{
 		School:     core.SpellSchoolPhysical,
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: genRanks.OneHandedWeaponSpecialization.FractionAt(war.Talents.OneHandedWeaponSpecialization),
+		FloatValue: spellData.OneHandedWeaponSpecialization.FractionAt(war.Talents.OneHandedWeaponSpecialization),
 	})
 
 	hasOneHandEquipped := func() bool {
@@ -311,7 +311,7 @@ func (war *Warrior) registerOneHandedWeaponSpecialization() {
 }
 
 func (war *Warrior) registerImprovedDefensiveStance() {
-	impDefStanceMultiplier := genRanks.ImprovedDefensiveStance.MultiplierAt(war.Talents.ImprovedDefensiveStance)
+	impDefStanceMultiplier := spellData.ImprovedDefensiveStance.MultiplierAt(war.Talents.ImprovedDefensiveStance)
 
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask: SpellMaskDefensiveStance,
@@ -335,8 +335,8 @@ func (war *Warrior) registerImprovedDefensiveStance() {
 	})
 }
 
-var shieldSlamRank = genRanks.ShieldSlam.BySpellID(30356)
-var devastateRank = genRanks.Devastate.BySpellID(30022)
+var shieldSlamRank = spellData.ShieldSlam.BySpellID(30356)
+var devastateRank = spellData.Devastate.BySpellID(30022)
 
 func (war *Warrior) registerShieldSlam() {
 	if !war.Talents.ShieldSlam {
@@ -402,8 +402,8 @@ func (war *Warrior) registerVitality() {
 		return
 	}
 
-	war.MultiplyStat(stats.Stamina, genRanks.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(war.Talents.Vitality))
-	war.MultiplyStat(stats.Strength, genRanks.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 0).MultiplierAt(war.Talents.Vitality))
+	war.MultiplyStat(stats.Stamina, spellData.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(war.Talents.Vitality))
+	war.MultiplyStat(stats.Strength, spellData.Vitality.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 0).MultiplierAt(war.Talents.Vitality))
 }
 
 func (war *Warrior) registerDevastate() {

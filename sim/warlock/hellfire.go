@@ -5,8 +5,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var hellfireRank = genRanks.Hellfire.BySpellID(27213)
-var hellfireTick = hellfireRank.Periodic.(shared.SpellRankPeriodic)
+var hellfireRank = spellData.Hellfire.BySpellID(27213)
+var hellfireTick = hellfireRank.Periodic.(shared.SpellDataPeriodic)
 var hellFireCoeff = hellfireTick.Coef
 
 func (warlock *Warlock) registerHellfire() *core.Spell {

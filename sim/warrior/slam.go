@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var slamRank = genRanks.Slam.BySpellID(25242)
+var slamRank = spellData.Slam.BySpellID(25242)
 var slamBaseDamage, _ = slamRank.Direct.Range()
 
 func (war *Warrior) registerSlam() {

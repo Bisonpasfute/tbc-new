@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var hurricaneRank = genRanks.Hurricane.BySpellID(27012)
+var hurricaneRank = spellData.Hurricane.BySpellID(27012)
 
 func (druid *Druid) registerHurricaneSpell() {
 	druid.Hurricane = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{

@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var raptorStrikeRank = genRanks.RaptorStrike.BySpellID(27014)
+var raptorStrikeRank = spellData.RaptorStrike.BySpellID(27014)
 
 func (hunter *Hunter) registerRaptorStrikeSpell() {
 	hunter.RaptorStrike = hunter.RegisterSpell(core.SpellConfig{

@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var deathCoilRank = genRanks.DeathCoil.BySpellID(27223)
+var deathCoilRank = spellData.DeathCoil.BySpellID(27223)
 
 func (warlock *Warlock) registerDeathCoil() {
 

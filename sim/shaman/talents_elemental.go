@@ -8,7 +8,7 @@ import (
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
-var totemOfWrathRank = genRanks.TotemOfWrath.BySpellID(30706)
+var totemOfWrathRank = spellData.TotemOfWrath.BySpellID(30706)
 
 func (shaman *Shaman) ApplyElementalTalents() {
 	shaman.applyCallOfFlame()
@@ -34,7 +34,7 @@ func (shaman *Shaman) applyCallOfFlame() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.CallOfFlame.FractionAt(shaman.Talents.CallOfFlame),
+		FloatValue: spellData.CallOfFlame.FractionAt(shaman.Talents.CallOfFlame),
 		ClassMask:  SpellMaskFireTotem,
 	})
 }
@@ -44,7 +44,7 @@ func (shaman *Shaman) applyCallOfThunder() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		FloatValue: genRanks.CallOfThunder.ValueAt(shaman.Talents.CallOfThunder),
+		FloatValue: spellData.CallOfThunder.ValueAt(shaman.Talents.CallOfThunder),
 		ClassMask:  SpellMaskLightningBolt | SpellMaskChainLightning | SpellMaskOverload,
 	})
 }
@@ -54,7 +54,7 @@ func (shaman *Shaman) applyConcussion() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.Concussion.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(shaman.Talents.Concussion),
+		FloatValue: spellData.Concussion.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(shaman.Talents.Concussion),
 		ClassMask:  SpellMaskLightningBolt | SpellMaskChainLightning | SpellMaskOverload | SpellMaskShock,
 	})
 }
@@ -206,7 +206,7 @@ func (shaman *Shaman) applyElementalPrecision() {
 		return
 	}
 
-	hitPercent := genRanks.ElementalPrecision.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_RESIST_MISS_CHANCE).ValueAt(shaman.Talents.ElementalPrecision)
+	hitPercent := spellData.ElementalPrecision.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_RESIST_MISS_CHANCE).ValueAt(shaman.Talents.ElementalPrecision)
 	shaman.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexFire] += hitPercent
 	shaman.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexFrost] += hitPercent
 	shaman.PseudoStats.SchoolBonusHitChance[stats.SchoolIndexNature] += hitPercent

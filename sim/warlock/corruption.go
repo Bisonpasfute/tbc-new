@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var corruptionRank = genRanks.Corruption.BySpellID(27216)
-var corruptionTick = corruptionRank.Periodic.(shared.SpellRankPeriodic)
+var corruptionRank = spellData.Corruption.BySpellID(27216)
+var corruptionTick = corruptionRank.Periodic.(shared.SpellDataPeriodic)
 var corruptionCoeff = corruptionTick.Coef
 
 func (warlock *Warlock) registerCorruption() *core.Spell {

@@ -53,11 +53,11 @@ func (warrior *Warrior) MakeShoutSpellHelper(config ShoutHelperConfig) *core.Spe
 	})
 }
 
-var battleShoutRank = genRanks.BattleShout.BySpellID(2048)
-var commandingShoutRank = genRanks.CommandingShout.BySpellID(469)
+var battleShoutRank = spellData.BattleShout.BySpellID(2048)
+var commandingShoutRank = spellData.CommandingShout.BySpellID(469)
 
 func (warrior *Warrior) registerShouts() {
-	commandingPresenceMultiplier := genRanks.CommandingPresence.MultiplierAt(warrior.Talents.CommandingPresence)
+	commandingPresenceMultiplier := spellData.CommandingPresence.MultiplierAt(warrior.Talents.CommandingPresence)
 
 	warrior.registerDemoralizingShout()
 

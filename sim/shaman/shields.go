@@ -80,8 +80,8 @@ func (shaman *Shaman) registerWaterShieldSpell() {
 	})
 }
 
-var lightningShieldRank = genRanks.LightningShield.BySpellID(25472)
-var waterShieldRank = genRanks.WaterShield.BySpellID(33736)
+var lightningShieldRank = spellData.LightningShield.BySpellID(25472)
+var waterShieldRank = spellData.WaterShield.BySpellID(33736)
 
 func (shaman *Shaman) registerLightningShieldSpell() {
 	actionID := core.ActionID{SpellID: lightningShieldRank.SpellID}

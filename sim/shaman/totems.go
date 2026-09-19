@@ -8,11 +8,11 @@ import (
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
-var windfuryTotemRank = genRanks.WindfuryTotem.BySpellID(25587)
-var strengthOfEarthTotemRank = genRanks.StrengthOfEarthTotem.BySpellID(25528)
-var graceOfAirTotemRank = genRanks.GraceOfAirTotem.BySpellID(25359)
-var wrathOfAirTotemRank = genRanks.WrathOfAirTotem.BySpellID(3738)
-var manaSpringTotemRank = genRanks.ManaSpringTotem.BySpellID(25570)
+var windfuryTotemRank = spellData.WindfuryTotem.BySpellID(25587)
+var strengthOfEarthTotemRank = spellData.StrengthOfEarthTotem.BySpellID(25528)
+var graceOfAirTotemRank = spellData.GraceOfAirTotem.BySpellID(25359)
+var wrathOfAirTotemRank = spellData.WrathOfAirTotem.BySpellID(3738)
+var manaSpringTotemRank = spellData.ManaSpringTotem.BySpellID(25570)
 
 func (shaman *Shaman) newTotemSpellConfig(flatCost int32, spellID int32, spellMask int64, gcd time.Duration) core.SpellConfig {
 	return core.SpellConfig{

@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var uaRank = genRanks.UnstableAffliction.BySpellID(30405)
-var uaTick = uaRank.Periodic.(shared.SpellRankPeriodic)
+var uaRank = spellData.UnstableAffliction.BySpellID(30405)
+var uaTick = uaRank.Periodic.(shared.SpellDataPeriodic)
 var uaCoeff = uaTick.Coef
 
 func (warlock *Warlock) registerUnstableAffliction() {

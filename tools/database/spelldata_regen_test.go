@@ -1,6 +1,6 @@
 package database
 
-// Regeneration check for the generated rank tables.
+// Regeneration check for the generated spell data tables.
 //
 // It re-derives every row of the families below straight from the client database and asserts the
 // committed table says the same thing. It began as a calibration gate, proving the derivation rule
@@ -41,7 +41,7 @@ const (
 type rankFamily struct {
 	Name     string
 	ClassBit int
-	Table    shared.SpellRankTable
+	Table    shared.SpellDataTable
 }
 
 // The two shaman tables were inline anonymous literals until they were hoisted to package vars so this
@@ -118,12 +118,12 @@ func TestGeneratedRankTablesMatchTheDatabase(t *testing.T) {
 
 	for _, c := range mismatched {
 		t.Errorf("%s rank %d (spell %d) %s: table says %v, the database derives %v (%s)\n"+
-			"    regenerate with `go run ./tools/database/gen_spellranks`, or fix DeriveRankAmount",
+			"    regenerate with `go run ./tools/database/gen_spelldata`, or fix DeriveRankAmount",
 			c.Family, c.Rank, c.SpellID, c.Field, c.Generated, c.Derived, c.Source)
 	}
 }
 
-func compareRow(t *testing.T, db *sql.DB, fam rankFamily, row shared.SpellRank) []comparison {
+func compareRow(t *testing.T, db *sql.DB, fam rankFamily, row shared.SpellData) []comparison {
 	t.Helper()
 
 	spell, candidates, err := RankCandidates(db, row.SpellID, fam.ClassBit)
@@ -150,26 +150,26 @@ func compareRow(t *testing.T, db *sql.DB, fam rankFamily, row shared.SpellRank) 
 	// sibling spell (Holy Shock's damage, Lay on Hands' energize) shows itself.
 	coef := 0.0
 	if row.Direct != nil {
-		out = append(out, matchPair(base, "Direct.Min", "Direct.Max", shared.SpellRankMin(row.Direct), shared.SpellRankMax(row.Direct),
+		out = append(out, matchPair(base, "Direct.Min", "Direct.Max", shared.SpellDataMin(row.Direct), shared.SpellDataMax(row.Direct),
 			directCandidates(candidates), spell)...)
 		coef = row.Direct.BonusCoefficient()
 	}
 
 	if row.Heal != nil {
-		out = append(out, matchPair(base, "Heal.Min", "Heal.Max", shared.SpellRankMin(row.Heal), shared.SpellRankMax(row.Heal),
+		out = append(out, matchPair(base, "Heal.Min", "Heal.Max", shared.SpellDataMin(row.Heal), shared.SpellDataMax(row.Heal),
 			directCandidates(candidates), spell)...)
 		coef = row.Heal.BonusCoefficient()
 	}
 
 	if row.Periodic != nil {
-		out = append(out, matchTick(base, shared.SpellRankMin(row.Periodic), periodicCandidates(candidates), spell))
+		out = append(out, matchTick(base, shared.SpellDataMin(row.Periodic), periodicCandidates(candidates), spell))
 		if row.Periodic.BonusCoefficient() > 0 {
 			coef = row.Periodic.BonusCoefficient()
 		}
 	}
 
 	if row.Energize != nil {
-		out = append(out, matchPair(base, "Energize", "", shared.SpellRankMin(row.Energize), 0,
+		out = append(out, matchPair(base, "Energize", "", shared.SpellDataMin(row.Energize), 0,
 			directCandidates(candidates), spell)...)
 	}
 

@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var ambushRank = genRanks.Ambush.BySpellID(27441)
+var ambushRank = spellData.Ambush.BySpellID(27441)
 
 func (rogue *Rogue) registerAmbushSpell() {
 	baseDamage, _ := ambushRank.Direct.Range()

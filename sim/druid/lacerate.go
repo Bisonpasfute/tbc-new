@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var lacerateRank = genRanks.Lacerate.BySpellID(33745)
-var lacerateTick = lacerateRank.Periodic.(shared.SpellRankPeriodic)
+var lacerateRank = spellData.Lacerate.BySpellID(33745)
+var lacerateTick = lacerateRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerLacerateSpell() {
 	tickDamageBase := lacerateTick.Tick

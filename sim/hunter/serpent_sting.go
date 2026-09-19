@@ -5,10 +5,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var serpentStingRank = genRanks.SerpentSting.BySpellID(27016)
+var serpentStingRank = spellData.SerpentSting.BySpellID(27016)
 
 func (hunter *Hunter) registerSerpentStingSpell() {
-	serpentStingTick := serpentStingRank.Periodic.(shared.SpellRankPeriodic)
+	serpentStingTick := serpentStingRank.Periodic.(shared.SpellDataPeriodic)
 
 	hunter.SerpentSting = hunter.RegisterRangedSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: serpentStingRank.SpellID},

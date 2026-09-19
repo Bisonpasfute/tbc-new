@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var agonyRank = genRanks.CurseOfAgony.BySpellID(27218)
-var agonyTick = agonyRank.Periodic.(shared.SpellRankPeriodic)
+var agonyRank = spellData.CurseOfAgony.BySpellID(27218)
+var agonyTick = agonyRank.Periodic.(shared.SpellDataPeriodic)
 var agonyCoeff = agonyTick.Coef
 
 func (warlock *Warlock) registerCurseOfAgony() {

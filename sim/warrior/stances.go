@@ -25,7 +25,7 @@ func (warrior *Warrior) StanceMatches(other Stance) bool {
 }
 
 func (warrior *Warrior) makeStanceSpell(stance Stance, mask int64, defenseType core.DefenseType, aura *core.Aura, stanceCD *core.Timer) *core.Spell {
-	maxRetainedRage := 10.0 + genRanks.TacticalMastery.Effect(shared.A_DUMMY, 0).ValueAt(warrior.Talents.TacticalMastery)
+	maxRetainedRage := 10.0 + spellData.TacticalMastery.Effect(shared.A_DUMMY, 0).ValueAt(warrior.Talents.TacticalMastery)
 	actionID := aura.ActionID
 	rageMetrics := warrior.NewRageMetrics(actionID)
 
@@ -106,7 +106,7 @@ func (warrior *Warrior) registerDefensiveStanceAura() *core.Aura {
 
 func (warrior *Warrior) registerBerserkerStanceAura() *core.Aura {
 	actionId := core.ActionID{SpellID: 2458}
-	threatMultiplier := 0.8 + genRanks.ImprovedBerserkerStance.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT3).FractionAt(warrior.Talents.ImprovedBerserkerStance)
+	threatMultiplier := 0.8 + spellData.ImprovedBerserkerStance.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT3).FractionAt(warrior.Talents.ImprovedBerserkerStance)
 
 	aura := warrior.RegisterAura(core.Aura{
 		Label:      "Berserker Stance",

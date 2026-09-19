@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var killCommandRank = genRanks.KillCommand.BySpellID(34026)
+var killCommandRank = spellData.KillCommand.BySpellID(34026)
 
 func (hunter *Hunter) registerKillCommandSpell() {
 	if hunter.Pet == nil {

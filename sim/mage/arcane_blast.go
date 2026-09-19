@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var arcaneBlastRank = genRanks.ArcaneBlast.BySpellID(30451)
+var arcaneBlastRank = spellData.ArcaneBlast.BySpellID(30451)
 
 func (mage *Mage) registerArcaneBlastSpell() {
 

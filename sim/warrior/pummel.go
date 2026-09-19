@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var pummelRank = genRanks.Pummel.BySpellID(6554)
+var pummelRank = spellData.Pummel.BySpellID(6554)
 var pummelBaseDamage, _ = pummelRank.Direct.Range()
 
 func (war *Warrior) registerPummel() {

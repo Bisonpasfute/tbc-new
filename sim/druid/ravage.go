@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var ravageRank = genRanks.Ravage.BySpellID(27005)
+var ravageRank = spellData.Ravage.BySpellID(27005)
 
 func (druid *Druid) registerRavageSpell() {
 	// 385% weapon damage, which the client states as E_WEAPON_PERCENT_DAMAGE = 384 on spell 27005 -
@@ -67,7 +67,7 @@ func (druid *Druid) registerRavageSpell() {
 				spell.BonusCritPercent += highHpCritPercentBonus
 			}
 
-			baseDamage := shared.SpellRankMin(ravageRank.Direct) + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
+			baseDamage := shared.SpellDataMin(ravageRank.Direct) + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeExpectedMeleeWeaponSpecialHitAndCrit)
 
 			if sim.IsExecutePhase90() {

@@ -5,9 +5,9 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var SmiteRankMap = genRanks.Smite
+var SmiteRankMap = spellData.Smite
 
-func (priest *Priest) registerSmiteSpell(rank shared.SpellRank) {
+func (priest *Priest) registerSmiteSpell(rank shared.SpellData) {
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},
 		SpellSchool:    core.SpellSchoolHoly,

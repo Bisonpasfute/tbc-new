@@ -5,10 +5,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var garroteRank = genRanks.Garrote.BySpellID(26884)
+var garroteRank = spellData.Garrote.BySpellID(26884)
 
 func (rogue *Rogue) registerGarrote() {
-	tick := garroteRank.Periodic.(shared.SpellRankPeriodic)
+	tick := garroteRank.Periodic.(shared.SpellDataPeriodic)
 
 	rogue.Garrote = rogue.GetOrRegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: garroteRank.SpellID},

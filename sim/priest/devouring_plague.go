@@ -10,10 +10,10 @@ import (
 // Devouring Plague - Undead Racial
 // Shadow school DoT, 3 min cooldown, 24s duration
 
-var DevouringPlagueRankMap = genRanks.DevouringPlague
+var DevouringPlagueRankMap = spellData.DevouringPlague
 
-func (priest *Priest) registerDevouringPlagueSpell(rank shared.SpellRank, cdTimer *core.Timer) {
-	tick := rank.Periodic.(shared.SpellRankPeriodic)
+func (priest *Priest) registerDevouringPlagueSpell(rank shared.SpellData, cdTimer *core.Timer) {
+	tick := rank.Periodic.(shared.SpellDataPeriodic)
 
 	healthMetrics := priest.NewHealthMetrics(core.ActionID{SpellID: rank.SpellID}.WithTag(1))
 

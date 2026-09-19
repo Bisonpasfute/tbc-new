@@ -7,10 +7,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var ShadowWordPainRankMap = genRanks.ShadowWordPain
+var ShadowWordPainRankMap = spellData.ShadowWordPain
 
-func (priest *Priest) registerShadowWordPainSpell(rank shared.SpellRank) {
-	tick := rank.Periodic.(shared.SpellRankPeriodic)
+func (priest *Priest) registerShadowWordPainSpell(rank shared.SpellData) {
+	tick := rank.Periodic.(shared.SpellDataPeriodic)
 
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},

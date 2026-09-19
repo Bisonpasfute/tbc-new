@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var steadyShotRank = genRanks.SteadyShot.BySpellID(34120)
+var steadyShotRank = spellData.SteadyShot.BySpellID(34120)
 
 func (hunter *Hunter) registerSteadyShotSpell() {
 	hunter.SteadyShot = hunter.RegisterRangedSpell(core.SpellConfig{

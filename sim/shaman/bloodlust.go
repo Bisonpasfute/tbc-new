@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var bloodlustRank = genRanks.Bloodlust.BySpellID(2825)
+var bloodlustRank = spellData.Bloodlust.BySpellID(2825)
 
 func (shaman *Shaman) BloodlustActionID() core.ActionID {
 	return core.ActionID{

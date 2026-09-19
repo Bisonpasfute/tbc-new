@@ -5,10 +5,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var fireballRank = genRanks.Fireball.BySpellID(27070)
+var fireballRank = spellData.Fireball.BySpellID(27070)
 
 func (mage *Mage) registerFireballSpell() {
-	fireballTick := fireballRank.Periodic.(shared.SpellRankPeriodic)
+	fireballTick := fireballRank.Periodic.(shared.SpellDataPeriodic)
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: fireballRank.SpellID},

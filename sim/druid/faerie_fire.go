@@ -4,8 +4,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var faerieFireRank = genRanks.FaerieFire.BySpellID(26993)
-var faerieFireFeralRank = genRanks.FaerieFireFeral.BySpellID(27011)
+var faerieFireRank = spellData.FaerieFire.BySpellID(26993)
+var faerieFireFeralRank = spellData.FaerieFireFeral.BySpellID(27011)
 
 func (druid *Druid) registerFaerieFireSpell() {
 	auras := druid.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {

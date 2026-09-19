@@ -32,7 +32,7 @@ func (shaman *Shaman) applyAncestralKnowledge() {
 	if shaman.Talents.AncestralKnowledge == 0 {
 		return
 	}
-	shaman.MultiplyStat(stats.Mana, genRanks.AncestralKnowledge.MultiplierAt(shaman.Talents.AncestralKnowledge))
+	shaman.MultiplyStat(stats.Mana, spellData.AncestralKnowledge.MultiplierAt(shaman.Talents.AncestralKnowledge))
 }
 
 func (shaman *Shaman) applyDualWield() {
@@ -46,7 +46,7 @@ func (shaman *Shaman) applyDualWieldSpecialization() {
 	if shaman.Talents.DualWieldSpecialization == 0 {
 		return
 	}
-	value := genRanks.DualWieldSpecialization.ValueAt(shaman.Talents.DualWieldSpecialization)
+	value := spellData.DualWieldSpecialization.ValueAt(shaman.Talents.DualWieldSpecialization)
 	buffed := false
 	DWaura := shaman.RegisterAura(core.Aura{
 		Label:      "Dual Wield Specialization",
@@ -157,7 +157,7 @@ func (shaman *Shaman) applyImprovedLightningShield() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.ImprovedLightningShield.FractionAt(shaman.Talents.ImprovedLightningShield),
+		FloatValue: spellData.ImprovedLightningShield.FractionAt(shaman.Talents.ImprovedLightningShield),
 		ClassMask:  SpellMaskLightningShield,
 	})
 }
@@ -168,7 +168,7 @@ func (shaman *Shaman) applyImprovedWeaponTotems() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.ImprovedWeaponTotems.EffectAt(1).FractionAt(shaman.Talents.ImprovedWeaponTotems),
+		FloatValue: spellData.ImprovedWeaponTotems.EffectAt(1).FractionAt(shaman.Talents.ImprovedWeaponTotems),
 		ClassMask:  SpellMaskFlametongueTotem,
 	})
 	// WF bonus in totems.go
@@ -186,7 +186,7 @@ func (shaman *Shaman) applyMentalQuickness() {
 	core.MakePermanent(shaman.RegisterAura(core.Aura{
 		Label:      "Mental Quickness",
 		BuildPhase: core.CharacterBuildPhaseTalents,
-	})).AttachStatDependency(shaman.NewDynamicStatDependency(stats.AttackPower, stats.SpellDamage, genRanks.MentalQuickness.Effect(shared.A_MOD_SPELL_DAMAGE_OF_ATTACK_POWER, 126).FractionAt(shaman.Talents.MentalQuickness)))
+	})).AttachStatDependency(shaman.NewDynamicStatDependency(stats.AttackPower, stats.SpellDamage, spellData.MentalQuickness.Effect(shared.A_MOD_SPELL_DAMAGE_OF_ATTACK_POWER, 126).FractionAt(shaman.Talents.MentalQuickness)))
 }
 
 func (shaman *Shaman) applyShamanisticFocus() {
@@ -224,7 +224,7 @@ func (shaman *Shaman) applyShamanisticFocus() {
 	})
 }
 
-var shamanisticRageRank = genRanks.ShamanisticRage.BySpellID(30823)
+var shamanisticRageRank = spellData.ShamanisticRage.BySpellID(30823)
 
 func (shaman *Shaman) applyShamanisticRage() {
 	if !shaman.Talents.ShamanisticRage {
@@ -286,7 +286,7 @@ func (shaman *Shaman) applyThunderingStrikes() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		FloatValue: genRanks.ThunderingStrikes.ValueAt(shaman.Talents.ThunderingStrikes),
+		FloatValue: spellData.ThunderingStrikes.ValueAt(shaman.Talents.ThunderingStrikes),
 		ProcMask:   core.ProcMaskMelee,
 	})
 }
@@ -317,7 +317,7 @@ func (shaman *Shaman) applyWeaponMastery() {
 	}
 	shaman.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: genRanks.WeaponMastery.FractionAt(shaman.Talents.WeaponMastery),
+		FloatValue: spellData.WeaponMastery.FractionAt(shaman.Talents.WeaponMastery),
 		ProcMask:   core.ProcMaskMelee,
 	})
 }

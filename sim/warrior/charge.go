@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var chargeRank = genRanks.Charge.BySpellID(11578)
+var chargeRank = spellData.Charge.BySpellID(11578)
 
 func (war *Warrior) registerCharge() {
 	actionID := core.ActionID{SpellID: chargeRank.SpellID}

@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shredRank = genRanks.Shred.BySpellID(27002)
+var shredRank = spellData.Shred.BySpellID(27002)
 
 func (druid *Druid) registerShredSpell() {
 	druid.Shred = druid.RegisterSpell(Cat, core.SpellConfig{
@@ -55,7 +55,7 @@ func (druid *Druid) registerShredSpell() {
 		},
 
 		ExpectedInitialDamage: func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-			baseDamage := (shared.SpellRankMin(shredRank.Direct)*2.25+druid.IdolShredBonus+druid.ShredFlatBonus)/2.25 + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
+			baseDamage := (shared.SpellDataMin(shredRank.Direct)*2.25+druid.IdolShredBonus+druid.ShredFlatBonus)/2.25 + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
 			if druid.MangleAuras != nil && druid.MangleAuras.Get(target).IsActive() {
 				baseDamage *= 1.3
 			}

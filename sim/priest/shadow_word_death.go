@@ -5,9 +5,9 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var ShadowWordDeathRankMap = genRanks.ShadowWordDeath
+var ShadowWordDeathRankMap = spellData.ShadowWordDeath
 
-func (priest *Priest) registerShadowWordDeathSpell(rank shared.SpellRank, cdTimer *core.Timer) {
+func (priest *Priest) registerShadowWordDeathSpell(rank shared.SpellData, cdTimer *core.Timer) {
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},
 		SpellSchool:    core.SpellSchoolShadow,

@@ -8,7 +8,7 @@ import (
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
-var aspectOfTheHawkRank = genRanks.AspectOfTheHawk.BySpellID(27044)
+var aspectOfTheHawkRank = spellData.AspectOfTheHawk.BySpellID(27044)
 
 func (hunter *Hunter) registerAspectOfTheHawkSpell() {
 	actionID := core.ActionID{SpellID: aspectOfTheHawkRank.SpellID}
@@ -17,7 +17,7 @@ func (hunter *Hunter) registerAspectOfTheHawkSpell() {
 		Label:      "Aspect of the Hawk",
 		ActionID:   actionID,
 		BuildPhase: core.CharacterBuildPhaseBase,
-	}).AttachStatBuff(stats.RangedAttackPower, shared.SpellRankMin(aspectOfTheHawkRank.Direct)))
+	}).AttachStatBuff(stats.RangedAttackPower, shared.SpellDataMin(aspectOfTheHawkRank.Direct)))
 
 	hunter.AspectOfTheHawk = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:       actionID,
@@ -68,7 +68,7 @@ func (hunter *Hunter) registerAspectOfTheViper() {
 			DefaultCast: core.Cast{
 				// Aspect of the Viper has no generated row - it carries no "Rank N" subtext, so the
 				// ladder discovery never sees it. See the not-generated list at the head of
-				// spell_ranks_auto_gen.go.
+				// spell_data_auto_gen.go.
 				GCD: core.GCDDefault,
 			},
 			IgnoreHaste: true,

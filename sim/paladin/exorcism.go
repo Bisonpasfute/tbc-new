@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core/proto"
 )
 
-var ExorcismRankMap = genRanks.Exorcism
+var ExorcismRankMap = spellData.Exorcism
 
 func (paladin *Paladin) getExorcismTimer() *core.Timer {
 	if paladin.exorcismTimer == nil {
@@ -19,7 +19,7 @@ func (paladin *Paladin) getExorcismTimer() *core.Timer {
 // https://www.wowhead.com/tbc/spell=10314
 //
 // Causes X to Y Holy damage to an Undead or Demon target.
-func (paladin *Paladin) registerExorcism(rankConfig shared.SpellRank) {
+func (paladin *Paladin) registerExorcism(rankConfig shared.SpellData) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
 	coefficient := rankConfig.Direct.BonusCoefficient()

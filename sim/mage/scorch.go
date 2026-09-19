@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var scorchRank = genRanks.Scorch.BySpellID(27074)
+var scorchRank = spellData.Scorch.BySpellID(27074)
 
 func (mage *Mage) registerScorchSpell() {
 

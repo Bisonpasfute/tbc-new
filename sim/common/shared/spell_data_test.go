@@ -7,27 +7,27 @@ import (
 
 // Attack power coefficients are hand-supplied, so the guards around them are the only thing standing
 // between a typo and a spell that silently scales off nothing.
-func apCoefTestTable() SpellRankTable {
-	return SpellRankTable{
-		{Rank: 1, SpellID: 100, Direct: SpellRankRange{Min: 10, Max: 20, Coef: 0.1}},
-		{Rank: 2, SpellID: 200, Direct: SpellRankRange{Min: 30, Max: 40, Coef: 0.2}},
+func apCoefTestTable() SpellDataTable {
+	return SpellDataTable{
+		{Rank: 1, SpellID: 100, Direct: SpellDataRange{Min: 10, Max: 20, Coef: 0.1}},
+		{Rank: 2, SpellID: 200, Direct: SpellDataRange{Min: 30, Max: 40, Coef: 0.2}},
 	}
 }
 
 func TestPerRankAPCoefficients(t *testing.T) {
 	src := apCoefTestTable()
-	out := WithSpellRankAPCoefs(src, map[int32]float64{1: 0.05, 2: 0.15})
+	out := WithSpellDataAPCoefs(src, map[int32]float64{1: 0.05, 2: 0.15})
 
-	if got := SpellRankAPCoef(out[0].Direct); got != 0.05 {
+	if got := SpellDataAPCoef(out[0].Direct); got != 0.05 {
 		t.Errorf("rank 1 AP coef = %v, want 0.05", got)
 	}
-	if got := SpellRankAPCoef(out[1].Direct); got != 0.15 {
+	if got := SpellDataAPCoef(out[1].Direct); got != 0.15 {
 		t.Errorf("rank 2 AP coef = %v, want 0.15", got)
 	}
-	if got := SpellRankAPCoef(src[0].Direct); got != 0 {
+	if got := SpellDataAPCoef(src[0].Direct); got != 0 {
 		t.Errorf("source table was mutated: %v", got)
 	}
-	if got := SpellRankCoef(out[1].Direct); got != 0.2 {
+	if got := SpellDataCoef(out[1].Direct); got != 0.2 {
 		t.Errorf("SP coef lost: %v", got)
 	}
 }
@@ -38,7 +38,7 @@ func TestAPCoefficientMissingRankPanics(t *testing.T) {
 			t.Error("expected a panic for a rank with no coefficient")
 		}
 	}()
-	WithSpellRankAPCoefs(apCoefTestTable(), map[int32]float64{1: 0.05})
+	WithSpellDataAPCoefs(apCoefTestTable(), map[int32]float64{1: 0.05})
 }
 
 func TestAPCoefficientUnknownRankPanics(t *testing.T) {
@@ -47,18 +47,18 @@ func TestAPCoefficientUnknownRankPanics(t *testing.T) {
 			t.Error("expected a panic for a coefficient naming a rank that does not exist")
 		}
 	}()
-	WithSpellRankAPCoefs(apCoefTestTable(), map[int32]float64{1: 0.05, 2: 0.15, 7: 0.25})
+	WithSpellDataAPCoefs(apCoefTestTable(), map[int32]float64{1: 0.05, 2: 0.15, 7: 0.25})
 }
 
 // Improved Righteous Fury's shape: one talent, two effects, and the role fields can only hold one.
-func effectTestRank() SpellRank {
-	return SpellRank{
+func effectTestRank() SpellData {
+	return SpellData{
 		Rank: 3, SpellID: 20470,
-		Effects: []SpellRankEffect{
+		Effects: []SpellDataEffect{
 			{Index: 0, Effect: E_APPLY_AURA, Aura: A_ADD_PCT_MODIFIER, Misc: 8, Value: 50},
 			{Index: 1, Effect: E_APPLY_AURA, Aura: A_ADD_FLAT_MODIFIER, Misc: 12, Value: -6},
 		},
-		Direct: SpellRankFlat{Value: 50, Coef: 1},
+		Direct: SpellDataFlat{Value: 50, Coef: 1},
 	}
 }
 
@@ -84,9 +84,9 @@ func TestEffectMissingPanics(t *testing.T) {
 // 186 ranked spells in this build carry two effects with the same aura and misc value. Returning the
 // first is how a caller silently reads the wrong one.
 func TestEffectAmbiguousPanics(t *testing.T) {
-	rank := SpellRank{
+	rank := SpellData{
 		Rank: 1, SpellID: 1,
-		Effects: []SpellRankEffect{
+		Effects: []SpellDataEffect{
 			{Index: 0, Effect: E_APPLY_AURA, Aura: A_MOD_DAMAGE_PERCENT_DONE, Misc: 0, Value: 10},
 			{Index: 1, Effect: E_APPLY_AURA, Aura: A_MOD_DAMAGE_PERCENT_DONE, Misc: 0, Value: 20},
 		},
@@ -99,15 +99,15 @@ func TestEffectAmbiguousPanics(t *testing.T) {
 	rank.Effect(A_MOD_DAMAGE_PERCENT_DONE, 0)
 }
 
-func talentLadder() SpellRankTable {
-	return SpellRankTable{
-		{Rank: 1, SpellID: 20468, Effects: []SpellRankEffect{
+func talentLadder() SpellDataTable {
+	return SpellDataTable{
+		{Rank: 1, SpellID: 20468, Effects: []SpellDataEffect{
 			{Index: 0, Effect: E_APPLY_AURA, Aura: A_ADD_PCT_MODIFIER, Misc: SPELLMOD_ALL_EFFECTS, Value: 16},
 			{Index: 1, Effect: E_APPLY_AURA, Aura: A_ADD_FLAT_MODIFIER, Misc: SPELLMOD_EFFECT2, Value: -2}}},
-		{Rank: 2, SpellID: 20469, Effects: []SpellRankEffect{
+		{Rank: 2, SpellID: 20469, Effects: []SpellDataEffect{
 			{Index: 0, Effect: E_APPLY_AURA, Aura: A_ADD_PCT_MODIFIER, Misc: SPELLMOD_ALL_EFFECTS, Value: 33},
 			{Index: 1, Effect: E_APPLY_AURA, Aura: A_ADD_FLAT_MODIFIER, Misc: SPELLMOD_EFFECT2, Value: -4}}},
-		{Rank: 3, SpellID: 20470, Effects: []SpellRankEffect{
+		{Rank: 3, SpellID: 20470, Effects: []SpellDataEffect{
 			{Index: 0, Effect: E_APPLY_AURA, Aura: A_ADD_PCT_MODIFIER, Misc: SPELLMOD_ALL_EFFECTS, Value: 50},
 			{Index: 1, Effect: E_APPLY_AURA, Aura: A_ADD_FLAT_MODIFIER, Misc: SPELLMOD_EFFECT2, Value: -6}}},
 	}

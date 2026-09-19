@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var executeRank = genRanks.Execute.BySpellID(25236)
+var executeRank = spellData.Execute.BySpellID(25236)
 
 func (war *Warrior) registerExecute() {
 

@@ -6,10 +6,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var MindFlayRankMap = genRanks.MindFlay
+var MindFlayRankMap = spellData.MindFlay
 
-func (priest *Priest) registerMindFlaySpell(rank shared.SpellRank) {
-	tick := rank.Periodic.(shared.SpellRankPeriodic)
+func (priest *Priest) registerMindFlaySpell(rank shared.SpellData) {
+	tick := rank.Periodic.(shared.SpellDataPeriodic)
 
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},

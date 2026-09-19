@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var eviscerateRank = genRanks.Eviscerate.BySpellID(26865)
+var eviscerateRank = spellData.Eviscerate.BySpellID(26865)
 
 func (rogue *Rogue) registerEviscerate() {
 	flatDamage, flatDamageMax := eviscerateRank.Direct.Range()
@@ -23,7 +23,7 @@ func (rogue *Rogue) registerEviscerate() {
 
 		EnergyCost: core.EnergyCostOptions{
 			Cost:          eviscerateRank.Cost,
-			Refund:        genRanks.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
+			Refund:        spellData.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
 			RefundMetrics: rogue.EnergyRefundMetrics,
 		},
 		Cast: core.CastConfig{

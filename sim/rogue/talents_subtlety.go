@@ -56,7 +56,7 @@ func (rogue *Rogue) registerOpportunity() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ClassMask:  RogueSpellBackstab | RogueSpellMutilate | RogueSpellAmbush,
-		FloatValue: genRanks.Opportunity.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(rogue.Talents.Opportunity),
+		FloatValue: spellData.Opportunity.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(rogue.Talents.Opportunity),
 	})
 }
 
@@ -137,7 +137,7 @@ func (rogue *Rogue) registerImprovedAmbush() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ClassMask:  RogueSpellAmbush,
-		FloatValue: genRanks.ImprovedAmbush.ValueAt(rogue.Talents.ImprovedAmbush),
+		FloatValue: spellData.ImprovedAmbush.ValueAt(rogue.Talents.ImprovedAmbush),
 	})
 }
 
@@ -162,7 +162,7 @@ func (rogue *Rogue) registerSerratedBlades() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ClassMask:  RogueSpellRupture,
-		FloatValue: genRanks.SerratedBlades.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DOT).FractionAt(rogue.Talents.SerratedBlades),
+		FloatValue: spellData.SerratedBlades.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DOT).FractionAt(rogue.Talents.SerratedBlades),
 	})
 }
 
@@ -239,7 +239,7 @@ func (rogue *Rogue) registerDirtyDeeds() {
 	})
 }
 
-var hemorrhageRank = genRanks.Hemorrhage.BySpellID(26864)
+var hemorrhageRank = spellData.Hemorrhage.BySpellID(26864)
 
 func (rogue *Rogue) registerHemorrhage() {
 	if !rogue.Talents.Hemorrhage {
@@ -303,7 +303,7 @@ func (rogue *Rogue) registerDeadliness() {
 		return
 	}
 
-	rogue.MultiplyStat(stats.AttackPower, genRanks.Deadliness.MultiplierAt(rogue.Talents.Deadliness))
+	rogue.MultiplyStat(stats.AttackPower, spellData.Deadliness.MultiplierAt(rogue.Talents.Deadliness))
 }
 
 func (rogue *Rogue) registerPremeditation() {
@@ -379,11 +379,11 @@ func (rogue *Rogue) registerSinisterCalling() {
 		return
 	}
 
-	rogue.MultiplyStat(stats.Agility, genRanks.SinisterCalling.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 1).MultiplierAt(rogue.Talents.SinisterCalling))
+	rogue.MultiplyStat(stats.Agility, spellData.SinisterCalling.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 1).MultiplierAt(rogue.Talents.SinisterCalling))
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ClassMask:  RogueSpellHemorrhage | RogueSpellBackstab,
-		FloatValue: genRanks.SinisterCalling.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT2).FractionAt(rogue.Talents.SinisterCalling),
+		FloatValue: spellData.SinisterCalling.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT2).FractionAt(rogue.Talents.SinisterCalling),
 	})
 }
 

@@ -5,13 +5,13 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var pyroblastRank = genRanks.Pyroblast.BySpellID(33938)
+var pyroblastRank = spellData.Pyroblast.BySpellID(33938)
 
 func (mage *Mage) registerPyroblastSpell() {
 	actionID := core.ActionID{SpellID: pyroblastRank.SpellID}
 
 	pyroblastDotCoefficient := 0.05000000075
-	pyroblastTick := pyroblastRank.Periodic.(shared.SpellRankPeriodic)
+	pyroblastTick := pyroblastRank.Periodic.(shared.SpellDataPeriodic)
 
 	mage.Pyroblast = mage.RegisterSpell(core.SpellConfig{
 		ActionID:       actionID,

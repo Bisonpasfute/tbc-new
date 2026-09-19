@@ -5,9 +5,9 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var StarfireRankMap = genRanks.Starfire.Ranks(6, 8)
+var StarfireRankMap = spellData.Starfire.Ranks(6, 8)
 
-func (druid *Druid) registerStarfireSpell(rankConfig shared.SpellRank) {
+func (druid *Druid) registerStarfireSpell(rankConfig shared.SpellData) {
 	spell := druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
 		SpellSchool:    core.SpellSchoolArcane,

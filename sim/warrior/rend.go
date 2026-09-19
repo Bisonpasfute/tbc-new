@@ -5,10 +5,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var rendRank = genRanks.Rend.BySpellID(25208)
+var rendRank = spellData.Rend.BySpellID(25208)
 
 func (war *Warrior) registerRend() {
-	tick := rendRank.Periodic.(shared.SpellRankPeriodic)
+	tick := rendRank.Periodic.(shared.SpellDataPeriodic)
 
 	war.Rend = war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rendRank.SpellID},

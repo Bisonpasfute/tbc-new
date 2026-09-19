@@ -12,14 +12,14 @@ func (paladin *Paladin) getHammerOfWrathTimer() *core.Timer {
 	return paladin.hammerOfWrathTimer
 }
 
-var HammerOfWrathRankMap = genRanks.HammerOfWrath
+var HammerOfWrathRankMap = spellData.HammerOfWrath
 
 // Hammer of Wrath
 // https://www.wowhead.com/tbc/spell=27180
 //
 // Hurls a hammer that strikes an enemy for Holy damage.
 // Only usable on enemies that have 20% or less health.
-func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellRank) {
+func (paladin *Paladin) registerHammerOfWrath(rankConfig shared.SpellData) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
 	coefficient := rankConfig.Direct.BonusCoefficient()

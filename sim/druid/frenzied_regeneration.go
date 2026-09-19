@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var frenziedRegenerationRank = genRanks.FrenziedRegeneration.BySpellID(26999)
-var frenziedRegenerationTick = frenziedRegenerationRank.Periodic.(shared.SpellRankPeriodic)
+var frenziedRegenerationRank = spellData.FrenziedRegeneration.BySpellID(26999)
+var frenziedRegenerationTick = frenziedRegenerationRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerFrenziedRegenerationSpell() {
 	actionID := core.ActionID{SpellID: frenziedRegenerationRank.SpellID}

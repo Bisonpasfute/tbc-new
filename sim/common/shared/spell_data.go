@@ -8,9 +8,9 @@ import (
 )
 
 // A rank's value, by shape. Only a periodic value has a tick schedule, so TickLength and
-// NumberOfTicks are reached by asserting to SpellRankPeriodic rather than through a method Flat and
+// NumberOfTicks are reached by asserting to SpellDataPeriodic rather than through a method Flat and
 // Range would answer with zeroes.
-type SpellRankValue interface {
+type SpellDataValue interface {
 	// Returns the damage range of the spell.
 	// Min/Max are the same if the spell only has a single value.
 	Range() (float64, float64)
@@ -19,24 +19,24 @@ type SpellRankValue interface {
 	BonusCoefficient() float64
 
 	// Attack Power scaling coefficient
-	// Defined manually, DBC does not hold this value - see WithSpellRankAPCoef.
+	// Defined manually, DBC does not hold this value - see WithSpellDataAPCoef.
 	APBonusCoefficient() float64
 
 	// Returns a static damage value or rolls between the min/max of the range.
 	Damage(sim *core.Simulation) float64
 
-	isSpellRankValue()
+	isSpellDataValue()
 }
 
 // A single number: a mana restore, a talent's value, damage the client does not roll.
-type SpellRankFlat struct {
+type SpellDataFlat struct {
 	Value  float64
 	Coef   float64
 	APCoef float64
 }
 
 // Damage or Healing "Direct/Impact"
-type SpellRankRange struct {
+type SpellDataRange struct {
 	Min    float64
 	Max    float64
 	Coef   float64
@@ -44,7 +44,7 @@ type SpellRankRange struct {
 }
 
 // DoT
-type SpellRankPeriodic struct {
+type SpellDataPeriodic struct {
 	Tick float64
 
 	// The high end where the client rolls the tick, which one spell in 293 does - Hellfire ticks
@@ -59,48 +59,48 @@ type SpellRankPeriodic struct {
 	NumberOfTicks int32
 }
 
-func (v SpellRankFlat) Range() (float64, float64)  { return v.Value, v.Value }
-func (v SpellRankRange) Range() (float64, float64) { return v.Min, v.Max }
-func (v SpellRankPeriodic) Range() (float64, float64) {
+func (v SpellDataFlat) Range() (float64, float64)  { return v.Value, v.Value }
+func (v SpellDataRange) Range() (float64, float64) { return v.Min, v.Max }
+func (v SpellDataPeriodic) Range() (float64, float64) {
 	if v.TickMax > v.Tick {
 		return v.Tick, v.TickMax
 	}
 	return v.Tick, v.Tick
 }
 
-func (v SpellRankFlat) Damage(_ *core.Simulation) float64    { return v.Value }
-func (v SpellRankRange) Damage(sim *core.Simulation) float64 { return sim.Roll(v.Min, v.Max) }
-func (v SpellRankPeriodic) Damage(sim *core.Simulation) float64 {
+func (v SpellDataFlat) Damage(_ *core.Simulation) float64    { return v.Value }
+func (v SpellDataRange) Damage(sim *core.Simulation) float64 { return sim.Roll(v.Min, v.Max) }
+func (v SpellDataPeriodic) Damage(sim *core.Simulation) float64 {
 	if v.TickMax > v.Tick {
 		return sim.Roll(v.Tick, v.TickMax)
 	}
 	return v.Tick
 }
 
-func (v SpellRankFlat) BonusCoefficient() float64     { return v.Coef }
-func (v SpellRankRange) BonusCoefficient() float64    { return v.Coef }
-func (v SpellRankPeriodic) BonusCoefficient() float64 { return v.Coef }
+func (v SpellDataFlat) BonusCoefficient() float64     { return v.Coef }
+func (v SpellDataRange) BonusCoefficient() float64    { return v.Coef }
+func (v SpellDataPeriodic) BonusCoefficient() float64 { return v.Coef }
 
-func (v SpellRankFlat) APBonusCoefficient() float64     { return v.APCoef }
-func (v SpellRankRange) APBonusCoefficient() float64    { return v.APCoef }
-func (v SpellRankPeriodic) APBonusCoefficient() float64 { return v.APCoef }
+func (v SpellDataFlat) APBonusCoefficient() float64     { return v.APCoef }
+func (v SpellDataRange) APBonusCoefficient() float64    { return v.APCoef }
+func (v SpellDataPeriodic) APBonusCoefficient() float64 { return v.APCoef }
 
 // Nil reads as zero: Lay on Hands rank 1 restores no mana where ranks 2-4 do.
-func SpellRankCoef(v SpellRankValue) float64 {
+func SpellDataCoef(v SpellDataValue) float64 {
 	if v == nil {
 		return 0
 	}
 	return v.BonusCoefficient()
 }
 
-func SpellRankAPCoef(v SpellRankValue) float64 {
+func SpellDataAPCoef(v SpellDataValue) float64 {
 	if v == nil {
 		return 0
 	}
 	return v.APBonusCoefficient()
 }
 
-func SpellRankMin(v SpellRankValue) float64 {
+func SpellDataMin(v SpellDataValue) float64 {
 	if v == nil {
 		return 0
 	}
@@ -108,7 +108,7 @@ func SpellRankMin(v SpellRankValue) float64 {
 	return min
 }
 
-func SpellRankMax(v SpellRankValue) float64 {
+func SpellDataMax(v SpellDataValue) float64 {
 	if v == nil {
 		return 0
 	}
@@ -116,12 +116,12 @@ func SpellRankMax(v SpellRankValue) float64 {
 	return max
 }
 
-func (v SpellRankFlat) isSpellRankValue()     {}
-func (v SpellRankRange) isSpellRankValue()    {}
-func (v SpellRankPeriodic) isSpellRankValue() {}
+func (v SpellDataFlat) isSpellDataValue()     {}
+func (v SpellDataRange) isSpellDataValue()    {}
+func (v SpellDataPeriodic) isSpellDataValue() {}
 
 // One rank of a spell, as the DBC describes it.
-type SpellRank struct {
+type SpellData struct {
 	Rank    int32
 	SpellID int32
 	Cost    int32
@@ -145,30 +145,30 @@ type SpellRank struct {
 	// aura fires on its own condition rather than on a roll, as Flurry's does on a crit, so it is
 	// not always the number a ProcTrigger wants.
 	ProcChance int32
-	Direct     SpellRankValue
-	Heal       SpellRankValue
-	Periodic   SpellRankValue
-	Energize   SpellRankValue
+	Direct     SpellDataValue
+	Heal       SpellDataValue
+	Periodic   SpellDataValue
+	Energize   SpellDataValue
 
 	// Every effect the client states, in index order. A role field above holds one each, which is not
 	// enough for a talent: Improved Righteous Fury raises threat on one effect and cuts damage taken
 	// on another, and only one of them can be Direct.
-	Effects []SpellRankEffect
+	Effects []SpellDataEffect
 
 	FlatThreatBonus float64
 }
 
 // Declared here rather than in the generated constant file so that an empty or missing one still
 // compiles - the generator cannot run if the package it writes into does not build.
-type SpellRankEffectKind int32
-type SpellRankAura int32
+type SpellDataEffectKind int32
+type SpellDataAura int32
 
 // One effect of a rank, as the client states it, so a caller can name the one it means instead of
 // depending on which effect the generator happened to file under a role.
-type SpellRankEffect struct {
+type SpellDataEffect struct {
 	Index  int32
-	Effect SpellRankEffectKind
-	Aura   SpellRankAura
+	Effect SpellDataEffectKind
+	Aura   SpellDataAura
 
 	// What Aura applies it to, and so what it means: for A_ADD_PCT_MODIFIER it selects which part of
 	// the spell is modified, for A_MOD_TOTAL_STAT_PERCENTAGE it is a stat, for A_MOD_DAMAGE_DONE a
@@ -186,7 +186,7 @@ type SpellRankEffect struct {
 
 // Panics when no effect matches, and when two do - 186 ranked spells carry a duplicate aura/misc
 // pair. Index into Effects where the pair cannot tell them apart.
-func (r SpellRank) Effect(aura SpellRankAura, misc int32) SpellRankEffect {
+func (r SpellData) Effect(aura SpellDataAura, misc int32) SpellDataEffect {
 	found, matches := -1, 0
 	for i, e := range r.Effects {
 		if e.Aura == aura && e.Misc == misc {
@@ -207,23 +207,23 @@ func (r SpellRank) Effect(aura SpellRankAura, misc int32) SpellRankEffect {
 	return r.Effects[found]
 }
 
-func (r SpellRank) GetRank() int32 { return r.Rank }
+func (r SpellData) GetRank() int32 { return r.Rank }
 
-func (r SpellRank) GetSpellID() int32 { return r.SpellID }
+func (r SpellData) GetSpellID() int32 { return r.SpellID }
 
-func (r SpellRank) GetRankLabel() string { return fmt.Sprintf("Rank %d", r.Rank) }
+func (r SpellData) GetRankLabel() string { return fmt.Sprintf("Rank %d", r.Rank) }
 
-type SpellRanked interface {
+type SpellDataRanked interface {
 	GetRank() int32
 	GetSpellID() int32
 }
 
 // A spell's ranks, keyed by rank number but held as a slice.
-type SpellRankTableOf[T SpellRanked] []T
+type SpellDataTableOf[T SpellDataRanked] []T
 
 // Panics on a rank the table does not have. A downrank chosen by typo has to fail loudly rather than
 // silently register nothing.
-func (t SpellRankTableOf[T]) ByRank(rank int32) T {
+func (t SpellDataTableOf[T]) ByRank(rank int32) T {
 	for _, row := range t {
 		if row.GetRank() == rank {
 			return row
@@ -232,7 +232,7 @@ func (t SpellRankTableOf[T]) ByRank(rank int32) T {
 	panic(fmt.Sprintf("no rank %d in table of %d ranks", rank, len(t)))
 }
 
-func (t SpellRankTableOf[T]) BySpellID(spellID int32) T {
+func (t SpellDataTableOf[T]) BySpellID(spellID int32) T {
 	for _, row := range t {
 		if row.GetSpellID() == spellID {
 			return row
@@ -243,7 +243,7 @@ func (t SpellRankTableOf[T]) BySpellID(spellID int32) T {
 
 // The highest rank present in the DATA, which is not always the last element -
 // Flamestrike is declared rank 7 then 6 - and is not necessarily a rank the game grants. See BySpellID.
-func (t SpellRankTableOf[T]) HighestRank() T {
+func (t SpellDataTableOf[T]) HighestRank() T {
 	if len(t) == 0 {
 		panic("HighestRank() on an empty rank table")
 	}
@@ -257,43 +257,43 @@ func (t SpellRankTableOf[T]) HighestRank() T {
 	return best
 }
 
-func (t SpellRankTableOf[T]) Ranks(ranks ...int32) SpellRankTableOf[T] {
-	out := make(SpellRankTableOf[T], 0, len(ranks))
+func (t SpellDataTableOf[T]) Ranks(ranks ...int32) SpellDataTableOf[T] {
+	out := make(SpellDataTableOf[T], 0, len(ranks))
 	for _, rank := range ranks {
 		out = append(out, t.ByRank(rank))
 	}
 	return out
 }
 
-func (t SpellRankTableOf[T]) RegisterAll(factory func(T)) {
+func (t SpellDataTableOf[T]) RegisterAll(factory func(T)) {
 	for _, row := range t {
 		factory(row)
 	}
 }
 
-type SpellRankTable = SpellRankTableOf[SpellRank]
+type SpellDataTable = SpellDataTableOf[SpellData]
 
 // Attack power is hand-supplied: one effect in 38357 carries a nonzero BonusCoefficientFromAP, so
 // melee spells hardcode theirs (sim/druid/rip.go:52 reads 990 + 0.18*ap). All forms return a copy and
 // panic if the table already carries one.
-func WithSpellRankAPCoef(table SpellRankTable, coef float64) SpellRankTable {
-	return applyAPCoef(table, func(SpellRank) float64 { return coef }, apDirect)
+func WithSpellDataAPCoef(table SpellDataTable, coef float64) SpellDataTable {
+	return applyAPCoef(table, func(SpellData) float64 { return coef }, apDirect)
 }
 
-func WithSpellRankPeriodicAPCoef(table SpellRankTable, coef float64) SpellRankTable {
-	return applyAPCoef(table, func(SpellRank) float64 { return coef }, apPeriodic)
+func WithSpellDataPeriodicAPCoef(table SpellDataTable, coef float64) SpellDataTable {
+	return applyAPCoef(table, func(SpellData) float64 { return coef }, apPeriodic)
 }
 
 // Every rank in the table has to be named. A ladder that gains a rank then fails loudly instead of
 // scaling the new one off nothing, which is the failure a map would otherwise hide.
-func WithSpellRankAPCoefs(table SpellRankTable, coefs map[int32]float64) SpellRankTable {
+func WithSpellDataAPCoefs(table SpellDataTable, coefs map[int32]float64) SpellDataTable {
 	requireEveryRank(table, coefs)
-	return applyAPCoef(table, func(r SpellRank) float64 { return coefs[r.Rank] }, apDirect)
+	return applyAPCoef(table, func(r SpellData) float64 { return coefs[r.Rank] }, apDirect)
 }
 
-func WithSpellRankPeriodicAPCoefs(table SpellRankTable, coefs map[int32]float64) SpellRankTable {
+func WithSpellDataPeriodicAPCoefs(table SpellDataTable, coefs map[int32]float64) SpellDataTable {
 	requireEveryRank(table, coefs)
-	return applyAPCoef(table, func(r SpellRank) float64 { return coefs[r.Rank] }, apPeriodic)
+	return applyAPCoef(table, func(r SpellData) float64 { return coefs[r.Rank] }, apPeriodic)
 }
 
 type apRole int
@@ -303,7 +303,7 @@ const (
 	apPeriodic
 )
 
-func requireEveryRank(table SpellRankTable, coefs map[int32]float64) {
+func requireEveryRank(table SpellDataTable, coefs map[int32]float64) {
 	for _, row := range table {
 		if _, ok := coefs[row.Rank]; !ok {
 			panic(fmt.Sprintf("spell %d rank %d has no AP coefficient in a per-rank map of %d",
@@ -324,8 +324,8 @@ func requireEveryRank(table SpellRankTable, coefs map[int32]float64) {
 	}
 }
 
-func applyAPCoef(table SpellRankTable, coefOf func(SpellRank) float64, role apRole) SpellRankTable {
-	out := make(SpellRankTable, len(table))
+func applyAPCoef(table SpellDataTable, coefOf func(SpellData) float64, role apRole) SpellDataTable {
+	out := make(SpellDataTable, len(table))
 	for i, row := range table {
 		out[i] = row
 		if role == apPeriodic {
@@ -337,7 +337,7 @@ func applyAPCoef(table SpellRankTable, coefOf func(SpellRank) float64, role apRo
 	return out
 }
 
-func withAPCoef(value SpellRankValue, coef float64, spellID, rank int32) SpellRankValue {
+func withAPCoef(value SpellDataValue, coef float64, spellID, rank int32) SpellDataValue {
 	if value == nil {
 		panic(fmt.Sprintf("spell %d rank %d has no value to give an AP coefficient", spellID, rank))
 	}
@@ -346,13 +346,13 @@ func withAPCoef(value SpellRankValue, coef float64, spellID, rank int32) SpellRa
 	}
 
 	switch v := value.(type) {
-	case SpellRankFlat:
+	case SpellDataFlat:
 		v.APCoef = coef
 		return v
-	case SpellRankRange:
+	case SpellDataRange:
 		v.APCoef = coef
 		return v
-	case SpellRankPeriodic:
+	case SpellDataPeriodic:
 		v.APCoef = coef
 		return v
 	}

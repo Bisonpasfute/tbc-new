@@ -1,10 +1,10 @@
-// Regenerates sim/<class>/spell_ranks_auto_gen.go from the client database.
+// Regenerates sim/<class>/spell_data_auto_gen.go from the client database.
 //
 // Deliberately its own binary rather than a mode of gen_db: gen_db imports the sim, and the sim reads
 // the tables this writes, so a stale or missing generated file would stop the generator that fixes it
 // from compiling. Importing only tools/database keeps regeneration possible from any state.
 //
-//	go run ./tools/database/gen_spellranks
+//	go run ./tools/database/gen_spelldata
 package main
 
 import (
@@ -26,7 +26,7 @@ func main() {
 	}
 	defer helper.Close()
 
-	if err := database.GenerateSpellRankFiles(helper); err != nil {
-		log.Fatalf("failed to generate spell rank tables: %v", err)
+	if err := database.GenerateSpellDataFiles(helper); err != nil {
+		log.Fatalf("failed to generate spell data tables: %v", err)
 	}
 }

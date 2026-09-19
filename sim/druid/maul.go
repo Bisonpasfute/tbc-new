@@ -7,7 +7,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var maulRank = genRanks.Maul.BySpellID(26996)
+var maulRank = spellData.Maul.BySpellID(26996)
 
 func (druid *Druid) registerMaulSpell() {
 	// The actual Maul spell that fires on the next auto-attack swing.
@@ -47,7 +47,7 @@ func (druid *Druid) registerMaulSpell() {
 		},
 
 		ExpectedInitialDamage: func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-			baseDamage := shared.SpellRankMin(maulRank.Direct) + druid.IdolMaulBonus + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
+			baseDamage := shared.SpellDataMin(maulRank.Direct) + druid.IdolMaulBonus + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
 			return spell.CalcDamage(sim, target, baseDamage, spell.OutcomeExpectedMeleeWeaponSpecialHitAndCrit)
 		},
 	})

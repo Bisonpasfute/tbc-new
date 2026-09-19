@@ -1,7 +1,7 @@
-# Spell Ranks
+# Spell Data
 
 Every ranked spell in the game has a table generated from the client database, checked in at
-`sim/<class>/spell_ranks_auto_gen.go`. A spell reads its numbers from that table instead of carrying
+`sim/<class>/spell_data_auto_gen.go`. A spell reads its numbers from that table instead of carrying
 hand-transcribed literals.
 
 - [Using a rank](#using-a-rank)
@@ -15,17 +15,17 @@ hand-transcribed literals.
 
 ## Using a rank
 
-Each class package has exactly one generated global, `genRanks`, with a field per spell family:
+Each class package has exactly one generated global, `spellData`, with a field per spell family:
 
 ```go
-genRanks.Exorcism          // the whole ladder, ranks 1-7
-genRanks.Fireball          // ranks 1-14
+spellData.Exorcism          // the whole ladder, ranks 1-7
+spellData.Fireball          // ranks 1-14
 ```
 
 Pick the rank your spell registers **by spell ID**:
 
 ```go
-var exorcismRanks = genRanks.Exorcism.BySpellID(27138)
+var exorcismRanks = spellData.Exorcism.BySpellID(27138)
 ```
 
 That is the identity the sim already uses everywhere - `ActionID`, saved APLs and the icon database all
@@ -47,9 +47,9 @@ The other accessors:
 A rank's value is discriminated by shape, so a variant only carries fields that mean something for it:
 
 ```go
-shared.SpellRankFlat     {Value, Coef, APCoef}                          // a mana restore, a talent's number
-shared.SpellRankRange    {Min, Max, Coef, APCoef}                       // damage or healing the client rolls
-shared.SpellRankPeriodic {Tick, TickMax, TickLength, NumberOfTicks, Coef, APCoef} // a tick and its schedule
+shared.SpellDataFlat     {Value, Coef, APCoef}                          // a mana restore, a talent's number
+shared.SpellDataRange    {Min, Max, Coef, APCoef}                       // damage or healing the client rolls
+shared.SpellDataPeriodic {Tick, TickMax, TickLength, NumberOfTicks, Coef, APCoef} // a tick and its schedule
 ```
 
 They sit on the four roles a rank can carry, any of which may be nil:
@@ -89,16 +89,16 @@ The methods assume the role is there. Where it may not be - `Energize` is nil on
 use the package helpers instead, which read a nil value as zero:
 
 ```go
-shared.SpellRankMin(rank.Energize)     // 0 rather than a panic
-shared.SpellRankMax(rank.Direct)
-shared.SpellRankCoef(rank.Periodic)
-shared.SpellRankAPCoef(rank.Direct)
+shared.SpellDataMin(rank.Energize)     // 0 rather than a panic
+shared.SpellDataMax(rank.Direct)
+shared.SpellDataCoef(rank.Periodic)
+shared.SpellDataAPCoef(rank.Direct)
 ```
 
 Tick length and count live only on the periodic shape, so assert for them:
 
 ```go
-p := rank.Periodic.(shared.SpellRankPeriodic)
+p := rank.Periodic.(shared.SpellDataPeriodic)
 p.TickLength     // time.Duration, feeds core.DotConfig.TickLength
 p.NumberOfTicks  // duration over the tick length, feeds core.DotConfig.NumberOfTicks
 ```
@@ -122,14 +122,14 @@ The role fields describe one effect each, which is all a castable spell needs. A
 carries two or three that the sim reads separately, and only one of them can be `Direct`:
 
 ```go
-irf := genRanks.ImprovedRighteousFury.ByRank(3)
+irf := spellData.ImprovedRighteousFury.ByRank(3)
 
 irf.Effect(shared.A_ADD_PCT_MODIFIER, 8).Value    //  50  threat bonus
 irf.Effect(shared.A_ADD_FLAT_MODIFIER, 12).Value  //  -6  damage taken
 irf.Effects[1].Value                              //  -6  the same effect, by index
 ```
 
-The aura and effect names are generated into `sim/common/shared/spell_rank_enums_auto_gen.go`, mirrored
+The aura and effect names are generated into `sim/common/shared/spell_data_enums_auto_gen.go`, mirrored
 from `tools/database/dbc/enums.go` and holding only the values the tables use, so the two cannot drift.
 `Misc` stays a plain int, because what it selects depends on the aura - see
 [The Misc value](#the-misc-value).
@@ -154,9 +154,9 @@ three readers. All of them answer the identity at rank 0 - an untaken talent - w
 panic:
 
 ```go
-genRanks.Moonfury.FractionAt(rank)        // 0.10 at 5/5 - the client's 10, over 100
-genRanks.NaturesReach.ValueAt(rank)       // 20 at 2/2  - the client's number as it stands
-genRanks.LivingSpirit.MultiplierAt(rank)  // 1.15 at 5/5 - 1 + the fraction
+spellData.Moonfury.FractionAt(rank)        // 0.10 at 5/5 - the client's 10, over 100
+spellData.NaturesReach.ValueAt(rank)       // 20 at 2/2  - the client's number as it stands
+spellData.LivingSpirit.MultiplierAt(rank)  // 1.15 at 5/5 - 1 + the fraction
 ```
 
 That replaces the `<literal> * float64(x.Talents.Y)` idiom, and with it the `if rank > 0` guard the
@@ -178,9 +178,9 @@ A talent with one effect per rank needs nothing further. One with several does, 
 rather than guess:
 
 ```go
-genRanks.ImprovedRighteousFury.
+spellData.ImprovedRighteousFury.
     Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).MultiplierAt(rank)   // 1.50 threat
-genRanks.ImprovedRighteousFury.
+spellData.ImprovedRighteousFury.
     Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT2).MultiplierAt(rank)      // 0.94 taken
 ```
 
@@ -199,7 +199,7 @@ client's two. Either aura reads the same number; `SPELLMOD_DAMAGE` is the conven
 fraction a `ProcTrigger` takes:
 
 ```go
-ProcChance: genRanks.SealFate.ProcChanceAt(rogue.Talents.SealFate)   // 0.20 at 1/5, 1.00 at 5/5
+ProcChance: spellData.SealFate.ProcChanceAt(rogue.Talents.SealFate)   // 0.20 at 1/5, 1.00 at 5/5
 ```
 
 **A 100 does not always mean a 100% roll.** Flurry and Enrage read 100 because they fire on their own
@@ -213,7 +213,7 @@ under `A_ADD_PCT_MODIFIER` and `A_ADD_FLAT_MODIFIER`, a stat under `A_MOD_TOTAL_
 school mask under `A_MOD_DAMAGE_DONE`. There is no single enum for it, so it stays an int.
 
 For the two modifier auras the `SPELLMOD_*` constants name it. Those are hand-written in
-`sim/common/shared/spell_rank_talents.go`, because the client ships no name list - each carries the
+`sim/common/shared/spell_data_talents.go`, because the client ships no name list - each carries the
 talents it was read off. All 23 were then checked against [TrinityCore's `SpellModOp`][tc] (3.3.5) and
 [cmangos-tbc's][cm] (2.4.3), which agree with every value, and with every name except 24 and 27 where
 cmangos says `SPELL_BONUS_DAMAGE` and `MULTIPLE_VALUE`. No modifier effect in the tables uses a value
@@ -227,7 +227,7 @@ outside those 23; the ones the cores name and TBC does not use are 13, 17, 20, 2
 ### Direct damage
 
 ```go
-var exorcismRanks = genRanks.Exorcism.BySpellID(27138)
+var exorcismRanks = spellData.Exorcism.BySpellID(27138)
 
 func (paladin *Paladin) registerExorcism() {
 	paladin.RegisterSpell(core.SpellConfig{
@@ -255,10 +255,10 @@ The tick and its schedule both come from the table, so `NumberOfTicks` and `Tick
 hand-written:
 
 ```go
-var swpRanks = genRanks.ShadowWordPain.BySpellID(25368)
+var swpRanks = spellData.ShadowWordPain.BySpellID(25368)
 
 func (priest *Priest) registerShadowWordPain() {
-	tick := swpRanks.Periodic.(shared.SpellRankPeriodic)
+	tick := swpRanks.Periodic.(shared.SpellDataPeriodic)
 
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID: core.ActionID{SpellID: swpRanks.SpellID},
@@ -280,11 +280,11 @@ func (priest *Priest) registerShadowWordPain() {
 ### A heal, and a mana restore
 
 ```go
-holyLight := genRanks.HolyLight.BySpellID(27136)
+holyLight := spellData.HolyLight.BySpellID(27136)
 low, high := holyLight.Heal.Range()          // both ends in one call
 
-layOnHands := genRanks.LayOnHands.BySpellID(27154)
-mana := shared.SpellRankMin(layOnHands.Energize)   // 900; rank 1 has no Energize at all, and reads 0
+layOnHands := spellData.LayOnHands.BySpellID(27154)
+mana := shared.SpellDataMin(layOnHands.Energize)   // 900; rank 1 has no Energize at all, and reads 0
 ```
 
 ### Registering several ranks
@@ -293,9 +293,9 @@ Downranking registers more than one, and the spec chooses which:
 
 ```go
 // Starfire's ladder runs 1-8; the sim registers only these two.
-genRanks.Starfire.Ranks(6, 8).RegisterAll(druid.registerStarfireSpell)
+spellData.Starfire.Ranks(6, 8).RegisterAll(druid.registerStarfireSpell)
 
-func (druid *Druid) registerStarfireSpell(rank shared.SpellRank) {
+func (druid *Druid) registerStarfireSpell(rank shared.SpellData) {
 	druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID: core.ActionID{SpellID: rank.SpellID},
 		Rank:     rank.Rank,
@@ -317,13 +317,13 @@ One coefficient for the whole ladder:
 
 ```go
 // Rupture's ranks are all periodic, so the coefficient goes on the tick.
-var ruptureRanks = shared.WithSpellRankPeriodicAPCoef(genRanks.Rupture, 0.18)
+var ruptureRanks = shared.WithSpellDataPeriodicAPCoef(spellData.Rupture, 0.18)
 ```
 
 Or one per rank, the way the spell power coefficient already varies because each row carries its own:
 
 ```go
-var ruptureRanks = shared.WithSpellRankPeriodicAPCoefs(genRanks.Rupture, map[int32]float64{
+var ruptureRanks = shared.WithSpellDataPeriodicAPCoefs(spellData.Rupture, map[int32]float64{
 	1: 0.04, 2: 0.06, 3: 0.08, 4: 0.10, 5: 0.12, 6: 0.15, 7: 0.18,
 })
 ```
@@ -334,23 +334,23 @@ later client build fails loudly instead of quietly mis-scaling.
 
 |                                        |                                |
 | -------------------------------------- | ------------------------------ |
-| `WithSpellRankAPCoef(t, c)`            | one coefficient, on `Direct`   |
-| `WithSpellRankPeriodicAPCoef(t, c)`    | one coefficient, on `Periodic` |
-| `WithSpellRankAPCoefs(t, map)`         | per rank, on `Direct`          |
-| `WithSpellRankPeriodicAPCoefs(t, map)` | per rank, on `Periodic`        |
+| `WithSpellDataAPCoef(t, c)`            | one coefficient, on `Direct`   |
+| `WithSpellDataPeriodicAPCoef(t, c)`    | one coefficient, on `Periodic` |
+| `WithSpellDataAPCoefs(t, map)`         | per rank, on `Direct`          |
+| `WithSpellDataPeriodicAPCoefs(t, map)` | per rank, on `Periodic`        |
 
 All four return a copy, so the generated table keeps what the database said. All four panic if the role
-is nil on any rank - check the generated table first, `genRanks.Mangle` is the _learn-spell_ entry
+is nil on any rank - check the generated table first, `spellData.Mangle` is the _learn-spell_ entry
 (`Effect = 36`) and carries no value at all - and if the table already carries a coefficient, because a
 value that appears upstream should be noticed, not silently shadowed.
 
 ## Regenerating
 
 ```
-go run ./tools/database/gen_spellranks
+go run ./tools/database/gen_spelldata
 ```
 
-Reads `tools/database/wowsims.db` and rewrites every `sim/<class>/spell_ranks_auto_gen.go`. It is its
+Reads `tools/database/wowsims.db` and rewrites every `sim/<class>/spell_data_auto_gen.go`. It is its
 own binary rather than a mode of `gen_db` on purpose: `gen_db` imports the sim, and the sim reads these
 tables, so a stale generated file would stop the generator that fixes it from compiling.
 
@@ -361,7 +361,7 @@ file, which names every family that could not be resolved and why.
 
 `go test ./tools/database/ -run GeneratedRankTables` re-derives amounts and coefficients from the
 database and compares them to the committed tables. It covers the 23 families listed in
-`spellranks_regen_test.go` - 514 of the 3327 rows - so it is not a substitute for regenerating and
+`spelldata_regen_test.go` - 514 of the 3327 rows - so it is not a substitute for regenerating and
 checking the diff is empty, which is the only check that covers every row. It skips when `wowsims.db`
 is absent.
 
@@ -377,7 +377,7 @@ happened during the mage port. Use `BySpellID`.
 also not the last element: Flamestrike is declared rank 7 then rank 6.
 
 **A rank can carry nothing in a role.** Lay on Hands rank 1 restores no mana where ranks 2-4 do, so
-`rank.Energize` is nil there. The `SpellRank*` helpers read nil as zero; a direct field access does not.
+`rank.Energize` is nil there. The `SpellData*` helpers read nil as zero; a direct field access does not.
 
 **Never delete a generated file before regenerating it.** The class package stops compiling, and
 `gen_db` - which imports the sim - then cannot build either. Regenerate over the top, or

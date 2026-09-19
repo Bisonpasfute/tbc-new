@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var exposeArmorRank = genRanks.ExposeArmor.BySpellID(26866)
+var exposeArmorRank = spellData.ExposeArmor.BySpellID(26866)
 
 func (rogue *Rogue) registerExposeArmorSpell() {
 	rogue.ExposeArmorAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
@@ -23,7 +23,7 @@ func (rogue *Rogue) registerExposeArmorSpell() {
 
 		EnergyCost: core.EnergyCostOptions{
 			Cost:          exposeArmorRank.Cost,
-			Refund:        genRanks.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
+			Refund:        spellData.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
 			RefundMetrics: rogue.EnergyRefundMetrics,
 		},
 		Cast: core.CastConfig{
@@ -60,7 +60,7 @@ func (rogue *Rogue) registerExposeArmorSpell() {
 }
 
 func (rogue *Rogue) GetExposeArmorValue() float64 {
-	return 410.0 * float64(rogue.ComboPoints()) * genRanks.ImprovedExposeArmor.MultiplierAt(rogue.Talents.ImprovedExposeArmor)
+	return 410.0 * float64(rogue.ComboPoints()) * spellData.ImprovedExposeArmor.MultiplierAt(rogue.Talents.ImprovedExposeArmor)
 }
 
 func (rogue *Rogue) CanApplyExposeArmorAura(target *core.Unit) bool {

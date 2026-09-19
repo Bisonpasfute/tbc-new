@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var hamstringRank = genRanks.Hamstring.BySpellID(25212)
+var hamstringRank = spellData.Hamstring.BySpellID(25212)
 var hamstringBaseDamage, _ = hamstringRank.Direct.Range()
 
 func (war *Warrior) registerHamstring() {

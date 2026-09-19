@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var curseOfRecklessnessRank = genRanks.CurseOfRecklessness.BySpellID(27226)
+var curseOfRecklessnessRank = spellData.CurseOfRecklessness.BySpellID(27226)
 
 func (warlock *Warlock) registerCurseOfRecklessness() {
 	warlock.CurseOfRecklessnessAuras = warlock.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {

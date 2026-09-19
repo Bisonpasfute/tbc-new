@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var prowlRank = genRanks.Prowl.BySpellID(5215)
+var prowlRank = spellData.Prowl.BySpellID(5215)
 
 func (druid *Druid) registerProwlSpell() {
 	actionID := core.ActionID{SpellID: prowlRank.SpellID}

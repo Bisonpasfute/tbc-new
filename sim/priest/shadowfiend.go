@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shadowfiendRank = genRanks.Shadowfiend.BySpellID(34433)
+var shadowfiendRank = spellData.Shadowfiend.BySpellID(34433)
 
 func (priest *Priest) registerShadowfiendSpell() {
 	actionID := core.ActionID{SpellID: shadowfiendRank.SpellID}

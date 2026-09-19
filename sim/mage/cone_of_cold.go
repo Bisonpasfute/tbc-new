@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var coneOfColdRank = genRanks.ConeOfCold.BySpellID(27087)
+var coneOfColdRank = spellData.ConeOfCold.BySpellID(27087)
 
 func (mage *Mage) registerConeOfColdSpell() {
 

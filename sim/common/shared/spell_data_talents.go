@@ -34,30 +34,30 @@ const (
 )
 
 // Reads the ladder by points spent. Rank 0 is untaken and answers 0, where ByRank would panic.
-func (t SpellRankTableOf[T]) ValueAt(rank int32) float64 {
+func (t SpellDataTableOf[T]) ValueAt(rank int32) float64 {
 	return ladderValue(t, rank, nil)
 }
 
 // The client states a percentage as an integer: 16, not 0.16.
-func (t SpellRankTableOf[T]) FractionAt(rank int32) float64 {
+func (t SpellDataTableOf[T]) FractionAt(rank int32) float64 {
 	return t.ValueAt(rank) / 100
 }
 
 // The sign comes from the data: Improved Righteous Fury states -2/-4/-6, so rank 3 gives 0.94.
-func (t SpellRankTableOf[T]) MultiplierAt(rank int32) float64 {
+func (t SpellDataTableOf[T]) MultiplierAt(rank int32) float64 {
 	return 1 + t.FractionAt(rank)
 }
 
 // The client's proc chance as a fraction, which is the form a ProcTrigger takes. Rank 0 is untaken
 // and answers 0.
-func (t SpellRankTableOf[T]) ProcChanceAt(rank int32) float64 {
-	return ladderValue(t, rank, func(row SpellRank) float64 { return float64(row.ProcChance) }) / 100
+func (t SpellDataTableOf[T]) ProcChanceAt(rank int32) float64 {
+	return ladderValue(t, rank, func(row SpellData) float64 { return float64(row.ProcChance) }) / 100
 }
 
 // For the case Effect cannot serve: two effects sharing an aura and misc value, as Tactical Mastery's
 // two threat modifiers do. The index is the client's EffectIndex, not the slice position.
-func (t SpellRankTableOf[T]) EffectAt(index int32) SpellRankEffectLadder[T] {
-	pick := func(row SpellRank) float64 {
+func (t SpellDataTableOf[T]) EffectAt(index int32) SpellDataEffectLadder[T] {
+	pick := func(row SpellData) float64 {
 		for _, e := range row.Effects {
 			if e.Index == index {
 				return e.Value
@@ -65,39 +65,39 @@ func (t SpellRankTableOf[T]) EffectAt(index int32) SpellRankEffectLadder[T] {
 		}
 		panic(fmt.Sprintf("spell %d rank %d has no effect at index %d", row.SpellID, row.Rank, index))
 	}
-	return SpellRankEffectLadder[T]{table: t, pick: pick}
+	return SpellDataEffectLadder[T]{table: t, pick: pick}
 }
 
-func (t SpellRankTableOf[T]) Effect(aura SpellRankAura, misc int32) SpellRankEffectLadder[T] {
-	pick := func(row SpellRank) float64 { return row.Effect(aura, misc).Value }
-	return SpellRankEffectLadder[T]{table: t, pick: pick}
+func (t SpellDataTableOf[T]) Effect(aura SpellDataAura, misc int32) SpellDataEffectLadder[T] {
+	pick := func(row SpellData) float64 { return row.Effect(aura, misc).Value }
+	return SpellDataEffectLadder[T]{table: t, pick: pick}
 }
 
-type SpellRankEffectLadder[T SpellRanked] struct {
-	table SpellRankTableOf[T]
-	pick  func(SpellRank) float64
+type SpellDataEffectLadder[T SpellDataRanked] struct {
+	table SpellDataTableOf[T]
+	pick  func(SpellData) float64
 }
 
-func (l SpellRankEffectLadder[T]) ValueAt(rank int32) float64 {
+func (l SpellDataEffectLadder[T]) ValueAt(rank int32) float64 {
 	return ladderValue(l.table, rank, l.pick)
 }
 
-func (l SpellRankEffectLadder[T]) FractionAt(rank int32) float64 {
+func (l SpellDataEffectLadder[T]) FractionAt(rank int32) float64 {
 	return l.ValueAt(rank) / 100
 }
 
-func (l SpellRankEffectLadder[T]) MultiplierAt(rank int32) float64 {
+func (l SpellDataEffectLadder[T]) MultiplierAt(rank int32) float64 {
 	return 1 + l.FractionAt(rank)
 }
 
-func ladderValue[T SpellRanked](table SpellRankTableOf[T], rank int32, pick func(SpellRank) float64) float64 {
+func ladderValue[T SpellDataRanked](table SpellDataTableOf[T], rank int32, pick func(SpellData) float64) float64 {
 	if rank <= 0 {
 		return 0
 	}
 
-	row, ok := any(table.ByRank(rank)).(SpellRank)
+	row, ok := any(table.ByRank(rank)).(SpellData)
 	if !ok {
-		panic(fmt.Sprintf("rank %d is not a SpellRank, so it carries no effects or proc chance", rank))
+		panic(fmt.Sprintf("rank %d is not a SpellData, so it carries no effects or proc chance", rank))
 	}
 	if pick != nil {
 		return pick(row)

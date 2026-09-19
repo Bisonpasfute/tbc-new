@@ -7,10 +7,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var FlameStrikeRankMap = genRanks.Flamestrike.Ranks(7, 6)
+var FlameStrikeRankMap = spellData.Flamestrike.Ranks(7, 6)
 
-func (mage *Mage) registerFlamestrike(rankConfig shared.SpellRank) {
-	tick := rankConfig.Periodic.(shared.SpellRankPeriodic)
+func (mage *Mage) registerFlamestrike(rankConfig shared.SpellData) {
+	tick := rankConfig.Periodic.(shared.SpellDataPeriodic)
 
 	flameStrikeCoefficient := 0.23600000143 // Per https://wago.tools/db2/SpellEffect?build=2.5.5.65295&filter%5BSpellID%5D=exact%253A2120 Field: "BonusCoefficient"
 	flameStrikeDotCoefficient := 0.02999999933

@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var fireBlastRank = genRanks.FireBlast.BySpellID(27079)
+var fireBlastRank = spellData.FireBlast.BySpellID(27079)
 
 func (mage *Mage) registerFireBlastSpell() {
 

@@ -7,10 +7,10 @@ import (
 
 const RuptureSpellID = 26867
 
-var ruptureRank = genRanks.Rupture.BySpellID(RuptureSpellID)
+var ruptureRank = spellData.Rupture.BySpellID(RuptureSpellID)
 
 func (rogue *Rogue) registerRupture() {
-	tick := ruptureRank.Periodic.(shared.SpellRankPeriodic)
+	tick := ruptureRank.Periodic.(shared.SpellDataPeriodic)
 
 	rogue.Rupture = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: ruptureRank.SpellID},
@@ -23,7 +23,7 @@ func (rogue *Rogue) registerRupture() {
 
 		EnergyCost: core.EnergyCostOptions{
 			Cost:          ruptureRank.Cost,
-			Refund:        genRanks.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
+			Refund:        spellData.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
 			RefundMetrics: rogue.EnergyRefundMetrics,
 		},
 		Cast: core.CastConfig{

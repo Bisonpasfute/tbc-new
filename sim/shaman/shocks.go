@@ -7,12 +7,12 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var earthShockRank = genRanks.EarthShock.BySpellID(25454)
-var flameShockRank = genRanks.FlameShock.BySpellID(25457)
-var frostShockRank = genRanks.FrostShock.BySpellID(25464)
+var earthShockRank = spellData.EarthShock.BySpellID(25454)
+var flameShockRank = spellData.FlameShock.BySpellID(25457)
+var frostShockRank = spellData.FrostShock.BySpellID(25464)
 
 // Shared logic for all shocks.
-func (shaman *Shaman) newShockSpellConfig(rank shared.SpellRank, spellSchool core.SpellSchool, shockTimer *core.Timer) core.SpellConfig {
+func (shaman *Shaman) newShockSpellConfig(rank shared.SpellData, spellSchool core.SpellSchool, shockTimer *core.Timer) core.SpellConfig {
 	return core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: rank.SpellID},
 		SpellSchool: spellSchool,
@@ -53,7 +53,7 @@ func (shaman *Shaman) registerEarthShockSpell(shockTimer *core.Timer) {
 }
 
 func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
-	tick := flameShockRank.Periodic.(shared.SpellRankPeriodic)
+	tick := flameShockRank.Periodic.(shared.SpellDataPeriodic)
 
 	config := shaman.newShockSpellConfig(flameShockRank, core.SpellSchoolFire, shockTimer)
 	config.ClassSpellMask = SpellMaskFlameShockDirect

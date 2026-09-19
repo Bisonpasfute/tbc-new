@@ -5,8 +5,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var doomRank = genRanks.CurseOfDoom.BySpellID(30910)
-var doomTick = doomRank.Periodic.(shared.SpellRankPeriodic)
+var doomRank = spellData.CurseOfDoom.BySpellID(30910)
+var doomTick = doomRank.Periodic.(shared.SpellDataPeriodic)
 var doomCoeff = doomTick.Coef
 
 func (warlock *Warlock) registerCurseOfDoom() {

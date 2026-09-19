@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var blizzardRank = genRanks.Blizzard.BySpellID(27085)
+var blizzardRank = spellData.Blizzard.BySpellID(27085)
 
 func (mage *Mage) registerBlizzardSpell() {
 

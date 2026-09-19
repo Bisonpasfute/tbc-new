@@ -5,8 +5,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var mangleCatRank = genRanks.MangleCat.BySpellID(33983)
-var mangleBearRank = genRanks.MangleBear.BySpellID(33987)
+var mangleCatRank = spellData.MangleCat.BySpellID(33983)
+var mangleBearRank = spellData.MangleBear.BySpellID(33987)
 
 func (druid *Druid) registerMangleAuras() {
 	if druid.MangleAuras != nil {
@@ -61,7 +61,7 @@ func (druid *Druid) registerMangleCatSpell() {
 		},
 
 		ExpectedInitialDamage: func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-			baseDamage := (shared.SpellRankMin(mangleCatRank.Direct)*1.6+druid.IdolMangleCatBonus)/1.6 + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
+			baseDamage := (shared.SpellDataMin(mangleCatRank.Direct)*1.6+druid.IdolMangleCatBonus)/1.6 + spell.Unit.AutoAttacks.MH().CalculateAverageWeaponDamage(spell.MeleeAttackPower(target))
 			return spell.CalcDamage(sim, target, baseDamage, spell.OutcomeExpectedMeleeWeaponSpecialHitAndCrit)
 		},
 	})

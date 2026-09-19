@@ -12,14 +12,14 @@ func (paladin *Paladin) getAvengersShieldTimer() *core.Timer {
 	return paladin.avengersShieldTimer
 }
 
-var AvengersShieldRankMap = genRanks.AvengersShield
+var AvengersShieldRankMap = spellData.AvengersShield
 
 // Avenger's Shield (Talent)
 // https://www.wowhead.com/tbc/spell=31935
 //
 // Hurls a holy shield at the enemy, dealing Holy damage, dazing them and
 // then jumping to additional nearby enemies. Affects 3 total targets.
-func (paladin *Paladin) registerAvengersShield(rankConfig shared.SpellRank) {
+func (paladin *Paladin) registerAvengersShield(rankConfig shared.SpellData) {
 	paladin.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rankConfig.SpellID},
 		SpellSchool:    core.SpellSchoolHoly,

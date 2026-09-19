@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var incinerateRank = genRanks.Incinerate.BySpellID(32231)
+var incinerateRank = spellData.Incinerate.BySpellID(32231)
 var incinerateCoeff = incinerateRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerIncinerate() {

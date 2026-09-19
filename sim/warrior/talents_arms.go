@@ -71,7 +71,7 @@ func (war *Warrior) registerDeflection() {
 		return
 	}
 
-	war.PseudoStats.BaseParryChance += genRanks.Deflection.FractionAt(war.Talents.Deflection)
+	war.PseudoStats.BaseParryChance += spellData.Deflection.FractionAt(war.Talents.Deflection)
 }
 
 func (war *Warrior) registerImprovedRend() {
@@ -82,7 +82,7 @@ func (war *Warrior) registerImprovedRend() {
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask:  SpellMaskRend,
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.ImprovedRend.FractionAt(war.Talents.ImprovedRend),
+		FloatValue: spellData.ImprovedRend.FractionAt(war.Talents.ImprovedRend),
 	})
 }
 
@@ -128,7 +128,7 @@ func (war *Warrior) registerImprovedOverpower() {
 	})).AttachSpellMod(core.SpellModConfig{
 		ClassMask:  SpellMaskOverpower,
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		FloatValue: genRanks.ImprovedOverpower.ValueAt(war.Talents.ImprovedOverpower),
+		FloatValue: spellData.ImprovedOverpower.ValueAt(war.Talents.ImprovedOverpower),
 	})
 }
 
@@ -218,7 +218,7 @@ func (war *Warrior) registerTwoHandedWeaponSpecialization() {
 		ClassMask:  SpellMaskDirectDamageSpells,
 		School:     core.SpellSchoolPhysical,
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: genRanks.TwoHandedWeaponSpecialization.Effect(shared.A_MOD_DAMAGE_PERCENT_DONE, 1).FractionAt(war.Talents.TwoHandedWeaponSpecialization),
+		FloatValue: spellData.TwoHandedWeaponSpecialization.Effect(shared.A_MOD_DAMAGE_PERCENT_DONE, 1).FractionAt(war.Talents.TwoHandedWeaponSpecialization),
 	})
 
 	if war.GetMainHandType() == proto.HandType_HandTypeTwoHand {
@@ -242,7 +242,7 @@ func (war *Warrior) registerImpale() {
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask:  SpellMaskDamageSpells,
 		Kind:       core.SpellMod_CritMultiplier_Flat,
-		FloatValue: genRanks.Impale.FractionAt(war.Talents.Impale),
+		FloatValue: spellData.Impale.FractionAt(war.Talents.Impale),
 	})
 }
 
@@ -255,7 +255,7 @@ func (war *Warrior) registerPoleaxeSpecialization() {
 		return handItem != nil && (handItem.WeaponType == proto.WeaponType_WeaponTypeAxe || handItem.WeaponType == proto.WeaponType_WeaponTypePolearm)
 	}
 
-	critPercent := genRanks.PoleaxeSpecialization.ValueAt(war.Talents.PoleaxeSpecialization)
+	critPercent := spellData.PoleaxeSpecialization.ValueAt(war.Talents.PoleaxeSpecialization)
 
 	mhCritMod := war.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
@@ -408,7 +408,7 @@ func (war *Warrior) registerSwordSpecialization() {
 	}
 
 	var swordSpecializationSpell *core.Spell
-	procChance := genRanks.SwordSpecialization.ProcChanceAt(war.Talents.SwordSpecialization)
+	procChance := spellData.SwordSpecialization.ProcChanceAt(war.Talents.SwordSpecialization)
 
 	newSwordSpecializationDPM := func() *core.DynamicProcManager {
 		return war.NewFixedProcChanceManager(
@@ -509,7 +509,7 @@ func (war *Warrior) registerBloodFrenzy() {
 	})
 }
 
-var mortalStrikeRank = genRanks.MortalStrike.BySpellID(30330)
+var mortalStrikeRank = spellData.MortalStrike.BySpellID(30330)
 var mortalStrikeBaseDamage, _ = mortalStrikeRank.Direct.Range()
 
 func (war *Warrior) registerMortalStrike() {
@@ -570,7 +570,7 @@ func (war *Warrior) registerImprovedMortalStrike() {
 	war.AddStaticMod(core.SpellModConfig{
 		ClassMask:  SpellMaskMortalStrike,
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.ImprovedMortalStrike.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(war.Talents.ImprovedMortalStrike),
+		FloatValue: spellData.ImprovedMortalStrike.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(war.Talents.ImprovedMortalStrike),
 	})
 }
 

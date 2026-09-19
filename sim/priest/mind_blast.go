@@ -5,9 +5,9 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var MindBlastRankMap = genRanks.MindBlast
+var MindBlastRankMap = spellData.MindBlast
 
-func (priest *Priest) registerMindBlastSpell(rank shared.SpellRank, cdTimer *core.Timer) {
+func (priest *Priest) registerMindBlastSpell(rank shared.SpellData, cdTimer *core.Timer) {
 
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},

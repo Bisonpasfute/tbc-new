@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var drainLifeRank = genRanks.DrainLife.BySpellID(27220)
-var drainLifeTick = drainLifeRank.Periodic.(shared.SpellRankPeriodic)
+var drainLifeRank = spellData.DrainLife.BySpellID(27220)
+var drainLifeTick = drainLifeRank.Periodic.(shared.SpellDataPeriodic)
 var drainLifeCoeff = drainLifeTick.Coef
 
 func (warlock *Warlock) registerDrainLife() {
@@ -21,7 +21,7 @@ func (warlock *Warlock) registerDrainLife() {
 	}
 
 	// Read once rather than per tick: the ladder lookup scans the table and boxes the rank.
-	soulSiphonPerAffliction := genRanks.SoulSiphon.Effect(shared.A_DUMMY, 0).FractionAt(warlock.Talents.SoulSiphon)
+	soulSiphonPerAffliction := spellData.SoulSiphon.Effect(shared.A_DUMMY, 0).FractionAt(warlock.Talents.SoulSiphon)
 
 	warlock.DrainLife = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: drainLifeRank.SpellID},

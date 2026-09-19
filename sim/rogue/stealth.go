@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var stealthRank = genRanks.Stealth.BySpellID(1784)
+var stealthRank = spellData.Stealth.BySpellID(1784)
 
 func (rogue *Rogue) registerStealthAura() {
 	rogue.StealthAura = rogue.RegisterAura(core.Aura{

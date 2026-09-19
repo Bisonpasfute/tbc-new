@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var sunderArmorRank = genRanks.SunderArmor.BySpellID(25225)
+var sunderArmorRank = spellData.SunderArmor.BySpellID(25225)
 
 func (war *Warrior) registerSunderArmor() {
 	actionId := core.ActionID{SpellID: sunderArmorRank.SpellID}

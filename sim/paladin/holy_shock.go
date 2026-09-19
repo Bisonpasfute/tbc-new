@@ -12,14 +12,14 @@ func (paladin *Paladin) getHolyShockTimer() *core.Timer {
 	return paladin.holyShockTimer
 }
 
-var HolyShockRankMap = genRanks.HolyShock
+var HolyShockRankMap = spellData.HolyShock
 
 // Holy Shock
 // https://www.wowhead.com/tbc/spell=20473
 //
 // Blasts the target with Holy energy, causing X to Y Holy damage to an enemy,
 // or X*1.267 to Y*1.267 healing to an ally.
-func (paladin *Paladin) registerHolyShock(rankConfig shared.SpellRank) {
+func (paladin *Paladin) registerHolyShock(rankConfig shared.SpellData) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
 	coefficient := rankConfig.Direct.BonusCoefficient()

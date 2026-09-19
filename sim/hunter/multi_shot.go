@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var multiShotRank = genRanks.MultiShot.BySpellID(27021)
+var multiShotRank = spellData.MultiShot.BySpellID(27021)
 
 func (hunter *Hunter) registerMultiShotSpell() {
 	hunter.MultiShot = hunter.RegisterRangedSpell(core.SpellConfig{

@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var rakeRank = genRanks.Rake.BySpellID(27003)
-var rakeTick = rakeRank.Periodic.(shared.SpellRankPeriodic)
+var rakeRank = spellData.Rake.BySpellID(27003)
+var rakeTick = rakeRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerRakeSpell() {
 	druid.Rake = druid.RegisterSpell(Cat, core.SpellConfig{

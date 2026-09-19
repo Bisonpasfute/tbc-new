@@ -15,7 +15,7 @@ func (paladin *Paladin) getHolyShieldTimer() *core.Timer {
 	return paladin.holyShieldTimer
 }
 
-var HolyShieldRankMap = genRanks.HolyShield
+var HolyShieldRankMap = spellData.HolyShield
 
 // Holy Shield (Talent)
 // https://www.wowhead.com/tbc/spell=20925
@@ -23,10 +23,10 @@ var HolyShieldRankMap = genRanks.HolyShield
 // Increases chance to block by 30% for 10 sec, and deals Holy damage
 // for each attack blocked while active. Damage caused by Holy Shield causes
 // 35% additional threat. Each block expends a charge. 4 charges.
-func (paladin *Paladin) registerHolyShield(rankConfig shared.SpellRank) {
+func (paladin *Paladin) registerHolyShield(rankConfig shared.SpellData) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
-	value := shared.SpellRankMin(rankConfig.Direct)
+	value := shared.SpellDataMin(rankConfig.Direct)
 	coefficient := rankConfig.Direct.BonusCoefficient()
 
 	actionID := core.ActionID{SpellID: spellID}

@@ -13,7 +13,7 @@ func (paladin *Paladin) getHolyWrathTimer() *core.Timer {
 	return paladin.holyWrathTimer
 }
 
-var HolyWrathRankMap = genRanks.HolyWrath
+var HolyWrathRankMap = spellData.HolyWrath
 
 // Holy Wrath
 // https://www.wowhead.com/tbc/spell=2812/holy-wrath
@@ -21,7 +21,7 @@ var HolyWrathRankMap = genRanks.HolyWrath
 // Sends bolts of holy power in all directions, causing Holy damage
 // to all Undead and Demon targets within 20 yds.
 // 2 sec cast, 1 min cooldown.
-func (paladin *Paladin) registerHolyWrath(rankConfig shared.SpellRank) {
+func (paladin *Paladin) registerHolyWrath(rankConfig shared.SpellData) {
 	spellID := rankConfig.SpellID
 	cost := rankConfig.Cost
 	coefficient := rankConfig.Direct.BonusCoefficient()

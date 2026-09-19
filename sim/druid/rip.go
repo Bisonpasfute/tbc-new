@@ -5,8 +5,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var ripRank = genRanks.Rip.BySpellID(27008)
-var ripTick = ripRank.Periodic.(shared.SpellRankPeriodic)
+var ripRank = spellData.Rip.BySpellID(27008)
+var ripTick = ripRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerRipSpell() {
 	idolBonus := func(cp int32) float64 {

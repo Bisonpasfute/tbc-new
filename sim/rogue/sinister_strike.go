@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var sinisterStrikeRank = genRanks.SinisterStrike.BySpellID(26862)
+var sinisterStrikeRank = spellData.SinisterStrike.BySpellID(26862)
 
 func (rogue *Rogue) registerSinisterStrikeSpell() {
 	baseDamage, _ := sinisterStrikeRank.Direct.Range()

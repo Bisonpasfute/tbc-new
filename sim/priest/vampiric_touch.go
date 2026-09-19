@@ -7,10 +7,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var VampiricTouchRankMap = genRanks.VampiricTouch
+var VampiricTouchRankMap = spellData.VampiricTouch
 
-func (priest *Priest) registerVampiricTouchSpell(rank shared.SpellRank) {
-	tick := rank.Periodic.(shared.SpellRankPeriodic)
+func (priest *Priest) registerVampiricTouchSpell(rank shared.SpellData) {
+	tick := rank.Periodic.(shared.SpellDataPeriodic)
 
 	manaMetrics := priest.NewManaMetrics(core.ActionID{SpellID: rank.SpellID}.WithTag(1))
 

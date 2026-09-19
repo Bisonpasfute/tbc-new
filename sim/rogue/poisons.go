@@ -195,7 +195,7 @@ func (rogue *Rogue) applyDeadlyPoison() {
 	if procMask == core.ProcMaskUnknown {
 		return
 	}
-	pph := 0.3 + genRanks.ImprovedPoisons.FractionAt(rogue.Talents.ImprovedPoisons)
+	pph := 0.3 + spellData.ImprovedPoisons.FractionAt(rogue.Talents.ImprovedPoisons)
 	rogue.deadlyPoisonPPHM = rogue.NewFixedProcChanceManager(pph, procMask)
 
 	rogue.MakeProcTriggerAura(core.ProcTrigger{
@@ -218,7 +218,7 @@ func (rogue *Rogue) applyWoundPoison() {
 	if procMask == core.ProcMaskUnknown {
 		return
 	}
-	pph := 0.3 + genRanks.ImprovedPoisons.FractionAt(rogue.Talents.ImprovedPoisons)
+	pph := 0.3 + spellData.ImprovedPoisons.FractionAt(rogue.Talents.ImprovedPoisons)
 	rogue.woundPoisonPPHM = rogue.NewFixedProcChanceManager(pph, procMask)
 
 	rogue.MakeProcTriggerAura(core.ProcTrigger{
@@ -241,7 +241,7 @@ func (rogue *Rogue) applyInstantPoison() {
 	if procMask == core.ProcMaskUnknown {
 		return
 	}
-	pph := 0.2 + genRanks.ImprovedPoisons.FractionAt(rogue.Talents.ImprovedPoisons)
+	pph := 0.2 + spellData.ImprovedPoisons.FractionAt(rogue.Talents.ImprovedPoisons)
 	rogue.instantPoisonPPHM = rogue.NewFixedProcChanceManager(pph, procMask)
 
 	rogue.MakeProcTriggerAura(core.ProcTrigger{

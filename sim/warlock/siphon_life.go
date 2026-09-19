@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var siphonLifeRank = genRanks.SiphonLife.BySpellID(30911)
-var siphonLifeTick = siphonLifeRank.Periodic.(shared.SpellRankPeriodic)
+var siphonLifeRank = spellData.SiphonLife.BySpellID(30911)
+var siphonLifeTick = siphonLifeRank.Periodic.(shared.SpellDataPeriodic)
 var siphonLifeCoeff = siphonLifeTick.Coef
 
 func (warlock *Warlock) registerSiphonLifeSpell() {

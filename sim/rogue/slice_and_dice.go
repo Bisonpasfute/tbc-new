@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var sliceAndDiceRank = genRanks.SliceAndDice.BySpellID(6774)
+var sliceAndDiceRank = spellData.SliceAndDice.BySpellID(6774)
 
 func (rogue *Rogue) registerSliceAndDice() {
 	actionID := core.ActionID{SpellID: sliceAndDiceRank.SpellID}
@@ -75,5 +75,5 @@ func (rogue *Rogue) registerSliceAndDice() {
 
 func (rogue *Rogue) getSliceDuration(comboPoints int32) time.Duration {
 	duration := rogue.sliceAndDiceDurations[comboPoints]
-	return time.Duration(float64(duration+rogue.SliceAndDiceBonusDuration) * genRanks.ImprovedSliceAndDice.MultiplierAt(rogue.Talents.ImprovedSliceAndDice))
+	return time.Duration(float64(duration+rogue.SliceAndDiceBonusDuration) * spellData.ImprovedSliceAndDice.MultiplierAt(rogue.Talents.ImprovedSliceAndDice))
 }

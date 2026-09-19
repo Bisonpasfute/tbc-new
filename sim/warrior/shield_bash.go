@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shieldBashRank = genRanks.ShieldBash.BySpellID(29704)
+var shieldBashRank = spellData.ShieldBash.BySpellID(29704)
 
 func (war *Warrior) registerShieldBash() {
 	actionID := core.ActionID{SpellID: shieldBashRank.SpellID}

@@ -1,6 +1,6 @@
 ---
 name: wowsims-spells
-description: 'Use when working on WoWSims TBC spell data: registering or downranking a spell, reading cost, cast time, GCD, cooldown, range, missile speed or damage from the generated rank tables, regenerating those tables from the client database, or reconciling a sim number against what the DBC says.'
+description: 'Use when working on WoWSims TBC spell data: registering or downranking a spell, reading cost, cast time, GCD, cooldown, range, missile speed or damage from the generated spell data tables, regenerating those tables from the client database, or reconciling a sim number against what the DBC says.'
 argument-hint: 'Describe the spell, rank, or generated-table task to work on.'
 ---
 
@@ -8,9 +8,9 @@ argument-hint: 'Describe the spell, rank, or generated-table task to work on.'
 
 ## Scope
 
-- The generated rank tables in sim/<class>/spell_ranks_auto_gen.go — 807 families, 3327 rows, all nine classes.
-- Reading them from a spell config: sim/common/shared/spell_ranks.go.
-- Regenerating them: tools/database/gen_spell_ranks.go, tools/database/spellranks.go.
+- The generated spell data tables in sim/<class>/spell_data_auto_gen.go — 807 families, 3327 rows, all nine classes.
+- Reading them from a spell config: sim/common/shared/spell_data.go.
+- Regenerating them: tools/database/gen_spell_data.go, tools/database/spelldata.go.
 - Reconciling a sim number that disagrees with the client data.
 
 - Reading a talent's per-rank values, which come from the same tables.
@@ -19,19 +19,19 @@ Not in scope: item and enchant data (gen_db proper), and talent _trees_ — the 
 
 ## Architecture
 
-- sim/common/shared/spell_ranks.go — hand-written. SpellRank, the SpellRankValue union, the table accessors. The only hand-written piece of the pipeline.
-- sim/<class>/spell_ranks_auto_gen.go — generated, checked in, one `genRanks` global per class with a field per family.
-- tools/database/spellranks.go — the derivation rule and the row loader, shared by the generator and the regeneration check so the two cannot drift.
-- tools/database/gen_spell_ranks.go — ladder discovery, role assignment, rendering.
-- tools/database/gen_spellranks/ — the standalone binary. Not a mode of gen_db: gen_db imports the sim and the sim reads these tables, so a stale generated file stopped the generator that would fix it from compiling.
-- sim/common/shared/spell_rank_talents.go — hand-written. The rank-indexed readers and the SPELLMOD names.
-- sim/common/shared/spell_rank_enums_auto_gen.go — generated. The A_ and E_ names the tables use, mirrored from tools/database/dbc/enums.go by parsing it with go/ast, because sim must not import tools.
-- docs/spell_ranks.md — the usage guide, with worked examples.
+- sim/common/shared/spell_data.go — hand-written. SpellData, the SpellDataValue union, the table accessors. The only hand-written piece of the pipeline.
+- sim/<class>/spell_data_auto_gen.go — generated, checked in, one `spellData` global per class with a field per family.
+- tools/database/spelldata.go — the derivation rule and the row loader, shared by the generator and the regeneration check so the two cannot drift.
+- tools/database/gen_spell_data.go — ladder discovery, role assignment, rendering.
+- tools/database/gen_spelldata/ — the standalone binary. Not a mode of gen_db: gen_db imports the sim and the sim reads these tables, so a stale generated file stopped the generator that would fix it from compiling.
+- sim/common/shared/spell_data_talents.go — hand-written. The rank-indexed readers and the SPELLMOD names.
+- sim/common/shared/spell_data_enums_auto_gen.go — generated. The A_ and E_ names the tables use, mirrored from tools/database/dbc/enums.go by parsing it with go/ast, because sim must not import tools.
+- docs/spell_data.md — the usage guide, with worked examples.
 
 ## Using a rank
 
 ```go
-var exorcismRank = genRanks.Exorcism.BySpellID(27138)
+var exorcismRank = spellData.Exorcism.BySpellID(27138)
 
 ManaCost:         core.ManaCostOptions{FlatCost: exorcismRank.Cost},
 BonusCoefficient: exorcismRank.Direct.BonusCoefficient(),
@@ -47,9 +47,9 @@ ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 },
 ```
 
-A rank's value is discriminated by shape — SpellRankFlat, SpellRankRange, SpellRankPeriodic — behind a sealed interface, so a flat number has no Max to misread and only a periodic value carries a tick schedule. `Damage(sim)` rolls where the client rolls and returns the amount unchanged where it does not; `Range()` gives both ends.
+A rank's value is discriminated by shape — SpellDataFlat, SpellDataRange, SpellDataPeriodic — behind a sealed interface, so a flat number has no Max to misread and only a periodic value carries a tick schedule. `Damage(sim)` rolls where the client rolls and returns the amount unchanged where it does not; `Range()` gives both ends.
 
-Role fields: Direct, Heal, Periodic, Energize. Each is one effect. A rank can carry nothing in a role — Lay on Hands rank 1 restores no mana where ranks 2-4 do — so the `SpellRankMin/Max/Coef/APCoef` helpers read nil as zero where a direct field access would panic.
+Role fields: Direct, Heal, Periodic, Energize. Each is one effect. A rank can carry nothing in a role — Lay on Hands rank 1 restores no mana where ranks 2-4 do — so the `SpellDataMin/Max/Coef/APCoef` helpers read nil as zero where a direct field access would panic.
 
 ## Using a talent
 
@@ -57,9 +57,9 @@ A talent is read by the points spent in it, not registered at a rank it has. All
 the identity at rank 0 — untaken — where `ByRank` would panic, so no `if rank > 0` guard is needed:
 
 ```go
-genRanks.Moonfury.FractionAt(rank)        // 0.10 at 5/5 — the client's 10, over 100
-genRanks.NaturesReach.ValueAt(rank)       // 20 at 2/2  — the client's number as it stands
-genRanks.LivingSpirit.MultiplierAt(rank)  // 1.15 at 5/5 — 1 + the fraction
+spellData.Moonfury.FractionAt(rank)        // 0.10 at 5/5 — the client's 10, over 100
+spellData.NaturesReach.ValueAt(rank)       // 20 at 2/2  — the client's number as it stands
+spellData.LivingSpirit.MultiplierAt(rank)  // 1.15 at 5/5 — 1 + the fraction
 ```
 
 `MultiplierAt` takes its sign from the data: Improved Righteous Fury states its reduction as -2/-4/-6,
@@ -68,9 +68,9 @@ so rank 3 gives 0.94 and nobody writes the minus.
 A talent with several effects must name one, and `ValueAt` panics rather than guess:
 
 ```go
-genRanks.ImprovedRighteousFury.
+spellData.ImprovedRighteousFury.
     Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).MultiplierAt(rank)  // 1.50 threat
-genRanks.ImprovedRighteousFury.
+spellData.ImprovedRighteousFury.
     Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT2).MultiplierAt(rank)     // 0.94 taken
 ```
 
@@ -81,7 +81,7 @@ a gap.
 ## Regenerating
 
 ```
-go run ./tools/database/gen_spellranks     # then the diff must be empty on a second run
+go run ./tools/database/gen_spelldata     # then the diff must be empty on a second run
 go test --tags=with_db ./tools/database/   # the regeneration check
 ```
 
@@ -118,7 +118,7 @@ Evidence that the sim is right: a uniform offset across unrelated abilities usua
 ```
 go test --tags=with_db ./sim/...
 git status --porcelain -- '*.results'      # empty unless a number was meant to move
-go run ./tools/database/gen_spellranks     # regenerate; the diff must be empty
+go run ./tools/database/gen_spelldata     # regenerate; the diff must be empty
 ```
 
 A port that was meant to be mechanical and moves a golden is a wrong port, not a new baseline.

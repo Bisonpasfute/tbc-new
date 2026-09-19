@@ -9,10 +9,10 @@ import (
 
 // Starshards - Night Elf Racial
 // Arcane school DoT, 0 mana cost, 30s cooldown, 15s duration
-var StarshardsRankMap = genRanks.Starshards
+var StarshardsRankMap = spellData.Starshards
 
-func (priest *Priest) registerStarshardsSpell(rank shared.SpellRank, cdTimer *core.Timer) {
-	tick := rank.Periodic.(shared.SpellRankPeriodic)
+func (priest *Priest) registerStarshardsSpell(rank shared.SpellData, cdTimer *core.Timer) {
+	tick := rank.Periodic.(shared.SpellDataPeriodic)
 
 	priest.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rank.SpellID},

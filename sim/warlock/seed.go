@@ -6,8 +6,8 @@ import (
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
-var seedRank = genRanks.SeedOfCorruption.BySpellID(27243)
-var seedTick = seedRank.Periodic.(shared.SpellRankPeriodic)
+var seedRank = spellData.SeedOfCorruption.BySpellID(27243)
+var seedTick = seedRank.Periodic.(shared.SpellDataPeriodic)
 var seedTickCoeff = seedTick.Coef
 var seedPopCoeff = 0.214
 var seedExplosionCoeff = 0.143

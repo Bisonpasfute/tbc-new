@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var conflagrateRank = genRanks.Conflagrate.BySpellID(30912)
+var conflagrateRank = spellData.Conflagrate.BySpellID(30912)
 var conflagrateCoeff = conflagrateRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerConflagrate() {

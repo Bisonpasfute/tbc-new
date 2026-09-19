@@ -7,10 +7,10 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var tigersFuryRank = genRanks.TigersFury.BySpellID(9846)
+var tigersFuryRank = spellData.TigersFury.BySpellID(9846)
 
 func (druid *Druid) registerTigersFurySpell() {
-	weaponDamageBonus := shared.SpellRankMin(tigersFuryRank.Direct)
+	weaponDamageBonus := shared.SpellDataMin(tigersFuryRank.Direct)
 
 	druid.TigersFuryAura = druid.RegisterAura(core.Aura{
 		Label:    "Tiger's Fury",

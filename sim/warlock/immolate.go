@@ -7,8 +7,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var immolateRank = genRanks.Immolate.BySpellID(27215)
-var immolateTick = immolateRank.Periodic.(shared.SpellRankPeriodic)
+var immolateRank = spellData.Immolate.BySpellID(27215)
+var immolateTick = immolateRank.Periodic.(shared.SpellDataPeriodic)
 var immolateCoeff = immolateRank.Direct.BonusCoefficient()
 var immolateDotCoeff = immolateTick.Coef
 

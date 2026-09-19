@@ -346,7 +346,7 @@ func (paladin *Paladin) applyImprovedBlessingOfWisdom() {
 func (paladin *Paladin) applySanctifiedLight() {
 	paladin.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		FloatValue: genRanks.SanctifiedLight.ValueAt(paladin.Talents.SanctifiedLight),
+		FloatValue: spellData.SanctifiedLight.ValueAt(paladin.Talents.SanctifiedLight),
 		ClassMask:  SpellMaskHolyLight | SpellMaskHolyShock,
 	})
 }
@@ -360,7 +360,7 @@ func (paladin *Paladin) applyPurifyingPower() {
 	})
 	paladin.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		FloatValue: genRanks.PurifyingPower.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CRITICAL_CHANCE).ValueAt(paladin.Talents.PurifyingPower),
+		FloatValue: spellData.PurifyingPower.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CRITICAL_CHANCE).ValueAt(paladin.Talents.PurifyingPower),
 		ClassMask:  SpellMaskExorcism | SpellMaskHolyWrath,
 	})
 }
@@ -376,7 +376,7 @@ func (paladin *Paladin) applyHolyPowerTalent() {
 
 // Holy Guidance - Increases your spell damage and healing by 7/14/21/28/35% of your total Intellect
 func (paladin *Paladin) applyHolyGuidance() {
-	paladin.AddStatDependency(stats.Intellect, stats.SpellDamage, genRanks.HolyGuidance.Effect(shared.A_MOD_SPELL_DAMAGE_OF_STAT_PERCENT, 126).FractionAt(paladin.Talents.HolyGuidance))
+	paladin.AddStatDependency(stats.Intellect, stats.SpellDamage, spellData.HolyGuidance.Effect(shared.A_MOD_SPELL_DAMAGE_OF_STAT_PERCENT, 126).FractionAt(paladin.Talents.HolyGuidance))
 }
 
 // ==================
@@ -423,7 +423,7 @@ func (paladin *Paladin) applyRedoubt() {
 
 // Shield Specialization - Increases the amount of damage absorbed by your shield by 10/20/30%
 func (paladin *Paladin) applyShieldSpecialization() {
-	paladin.PseudoStats.BlockValueMultiplier *= genRanks.ShieldSpecialization.MultiplierAt(paladin.Talents.ShieldSpecialization)
+	paladin.PseudoStats.BlockValueMultiplier *= spellData.ShieldSpecialization.MultiplierAt(paladin.Talents.ShieldSpecialization)
 }
 
 // Ardent Defender - When you have less than 35% health, all damage taken is reduced by 6/12/18/24/30%
@@ -466,7 +466,7 @@ func (paladin *Paladin) applyPrecision() {
 
 // Toughness - Increases your armor value from items by 2/4/6/8/10%
 func (paladin *Paladin) applyToughness() {
-	paladin.MultiplyStat(stats.Armor, genRanks.Toughness.MultiplierAt(paladin.Talents.Toughness))
+	paladin.MultiplyStat(stats.Armor, spellData.Toughness.MultiplierAt(paladin.Talents.Toughness))
 }
 
 // Improved Righteous Fury - While Righteous Fury is active, all damage taken is reduced by 2/4/6%
@@ -482,7 +482,7 @@ func (paladin *Paladin) applyImprovedRighteousFury() {
 		// gives 0.98 / 0.96 / 0.94 and the minus is never written here.
 		spell.RelatedSelfBuff.AttachMultiplicativePseudoStatBuff(
 			&paladin.PseudoStats.DamageTakenMultiplier,
-			genRanks.ImprovedRighteousFury.
+			spellData.ImprovedRighteousFury.
 				Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_EFFECT2).
 				MultiplierAt(paladin.Talents.ImprovedRighteousFury),
 		)
@@ -497,7 +497,7 @@ func (paladin *Paladin) applyAnticipation() {
 
 // Spell Warding - All spell damage taken is reduced by 2/4%
 func (paladin *Paladin) applySpellWarding() {
-	reduction := genRanks.SpellWarding.MultiplierAt(paladin.Talents.SpellWarding)
+	reduction := spellData.SpellWarding.MultiplierAt(paladin.Talents.SpellWarding)
 	for i := range paladin.PseudoStats.SchoolDamageTakenMultiplier {
 		if i == int(stats.SchoolIndexPhysical) || i == int(stats.SchoolIndexNone) {
 			continue
@@ -539,7 +539,7 @@ func (paladin *Paladin) applyReckoning() {
 	paladin.MakeProcTriggerAura(core.ProcTrigger{
 		Name:               "Reckoning",
 		Callback:           core.CallbackOnSpellHitTaken,
-		ProcChance:         genRanks.Reckoning.ProcChanceAt(paladin.Talents.Reckoning),
+		ProcChance:         spellData.Reckoning.ProcChanceAt(paladin.Talents.Reckoning),
 		RequireDamageDealt: true,
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			procAura.Activate(sim)
@@ -550,7 +550,7 @@ func (paladin *Paladin) applyReckoning() {
 
 // Sacred Duty - Increases your total Stamina by 3/6% and reduces the cooldown of your Divine Shield and Divine Protection by 30/60 sec
 func (paladin *Paladin) applySacredDuty() {
-	bonus := genRanks.SacredDuty.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(paladin.Talents.SacredDuty)
+	bonus := spellData.SacredDuty.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(paladin.Talents.SacredDuty)
 	paladin.MultiplyStat(stats.Stamina, bonus)
 	// TODO: Implement cooldown reduction
 }
@@ -559,7 +559,7 @@ func (paladin *Paladin) applySacredDuty() {
 func (paladin *Paladin) applyOneHandedWeaponSpecialization() {
 	paladin.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: genRanks.OneHandedWeaponSpecialization.FractionAt(paladin.Talents.OneHandedWeaponSpecialization),
+		FloatValue: spellData.OneHandedWeaponSpecialization.FractionAt(paladin.Talents.OneHandedWeaponSpecialization),
 	})
 }
 
@@ -569,7 +569,7 @@ func (paladin *Paladin) applyImprovedHolyShield() {
 	paladin.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ClassMask:  SpellMaskHolyShieldProc,
-		FloatValue: genRanks.ImprovedHolyShield.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(paladin.Talents.ImprovedHolyShield),
+		FloatValue: spellData.ImprovedHolyShield.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(paladin.Talents.ImprovedHolyShield),
 	})
 }
 
@@ -578,7 +578,7 @@ func (paladin *Paladin) applyCombatExpertise() {
 	expertiseBonus := float64(paladin.Talents.CombatExpertise)
 	paladin.AddStat(stats.ExpertiseRating, expertiseBonus*core.ExpertisePerQuarterPercentReduction)
 
-	staminaBonus := genRanks.CombatExpertise.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(paladin.Talents.CombatExpertise)
+	staminaBonus := spellData.CombatExpertise.Effect(shared.A_MOD_TOTAL_STAT_PERCENTAGE, 2).MultiplierAt(paladin.Talents.CombatExpertise)
 	paladin.MultiplyStat(stats.Stamina, staminaBonus)
 }
 
@@ -611,7 +611,7 @@ func (paladin *Paladin) applyImprovedJudgement() {
 
 // Deflection - Increases your Parry chance by 1/2/3/4/5%
 func (paladin *Paladin) applyDeflection() {
-	paladin.PseudoStats.BaseParryChance += genRanks.Deflection.FractionAt(paladin.Talents.Deflection)
+	paladin.PseudoStats.BaseParryChance += spellData.Deflection.FractionAt(paladin.Talents.Deflection)
 }
 
 // Conviction - Increases your chance to get a critical strike with melee attacks by 1/2/3/4/5%
@@ -629,7 +629,7 @@ func (paladin *Paladin) applyCrusade() {
 	paladin.Env.RegisterPostFinalizeEffect(func() {
 		for _, at := range paladin.AttackTables {
 			if slices.Contains([]proto.MobType{proto.MobType_MobTypeDemon, proto.MobType_MobTypeHumanoid, proto.MobType_MobTypeUndead, proto.MobType_MobTypeElemental}, at.Defender.MobType) {
-				at.DamageDealtMultiplier *= genRanks.Crusade.MultiplierAt(paladin.Talents.Crusade)
+				at.DamageDealtMultiplier *= spellData.Crusade.MultiplierAt(paladin.Talents.Crusade)
 			}
 		}
 	})
@@ -640,7 +640,7 @@ func (paladin *Paladin) applyTwoHandedWeaponSpecialization() {
 	weaponMod := paladin.AddDynamicMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Pct,
 		ProcMask:   core.ProcMaskMelee,
-		FloatValue: genRanks.TwoHandedWeaponSpecialization.FractionAt(paladin.Talents.TwoHandedWeaponSpecialization),
+		FloatValue: spellData.TwoHandedWeaponSpecialization.FractionAt(paladin.Talents.TwoHandedWeaponSpecialization),
 	})
 
 	if paladin.GetMainHandType() == proto.HandType_HandTypeTwoHand {
@@ -735,7 +735,7 @@ func (paladin *Paladin) applyDivinePurposeTalent() {
 
 // Fanaticism - Increases the critical strike chance of all Judgements capable of a critical hit by 3/6/9/12/15% and reduces threat caused by all actions by 6/12/18/24/30%
 func (paladin *Paladin) applyFanaticism() {
-	critChance := genRanks.Fanaticism.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CRITICAL_CHANCE).ValueAt(paladin.Talents.Fanaticism)
+	critChance := spellData.Fanaticism.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_CRITICAL_CHANCE).ValueAt(paladin.Talents.Fanaticism)
 	threatReduc := -.06 * float64(paladin.Talents.Fanaticism)
 
 	paladin.AddStaticMod(core.SpellModConfig{

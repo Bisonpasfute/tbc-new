@@ -145,7 +145,7 @@ func (rogue *Rogue) Initialize() {
 	rogue.registerStealthAura()
 
 	rogue.ruthlessnessMetrics = rogue.NewComboPointMetrics(core.ActionID{SpellID: 14161})
-	rogue.ruthlessnessChance = genRanks.Ruthlessness.ProcChanceAt(rogue.Talents.Ruthlessness)
+	rogue.ruthlessnessChance = spellData.Ruthlessness.ProcChanceAt(rogue.Talents.Ruthlessness)
 	rogue.relentlessStrikesMetrics = rogue.NewEnergyMetrics(core.ActionID{SpellID: 14179})
 }
 

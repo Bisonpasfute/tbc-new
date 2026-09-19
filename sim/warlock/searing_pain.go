@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var searingPainRank = genRanks.SearingPain.BySpellID(30459)
+var searingPainRank = spellData.SearingPain.BySpellID(30459)
 var searingPainCoeff = searingPainRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerSearingPain() {

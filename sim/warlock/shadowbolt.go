@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shadowBoltRank = genRanks.ShadowBolt.BySpellID(27209)
+var shadowBoltRank = spellData.ShadowBolt.BySpellID(27209)
 var shadowBoltCoeff = shadowBoltRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerShadowBolt() {

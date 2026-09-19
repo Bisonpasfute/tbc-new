@@ -5,8 +5,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var moonfireRank = genRanks.Moonfire.BySpellID(26988)
-var moonfireTick = moonfireRank.Periodic.(shared.SpellRankPeriodic)
+var moonfireRank = spellData.Moonfire.BySpellID(26988)
+var moonfireTick = moonfireRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerMoonfireSpell() {
 	druid.registerMoonfireImpactSpell()

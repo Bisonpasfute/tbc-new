@@ -7,7 +7,7 @@ import (
 	"github.com/wowsims/tbc/sim/core/proto"
 )
 
-var earthElementalTotemRank = genRanks.EarthElementalTotem.BySpellID(2062)
+var earthElementalTotemRank = spellData.EarthElementalTotem.BySpellID(2062)
 
 func (shaman *Shaman) registerEarthElementalTotem() {
 	actionID := core.ActionID{SpellID: earthElementalTotemRank.SpellID}

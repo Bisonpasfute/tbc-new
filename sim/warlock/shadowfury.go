@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shadowFuryRank = genRanks.Shadowfury.BySpellID(30414)
+var shadowFuryRank = spellData.Shadowfury.BySpellID(30414)
 var shadowFuryCoeff = shadowFuryRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerShadowfury() {

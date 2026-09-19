@@ -5,8 +5,8 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var insectSwarmRank = genRanks.InsectSwarm.BySpellID(27013)
-var insectSwarmTick = insectSwarmRank.Periodic.(shared.SpellRankPeriodic)
+var insectSwarmRank = spellData.InsectSwarm.BySpellID(27013)
+var insectSwarmTick = insectSwarmRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerInsectSwarmSpell() {
 	druid.InsectSwarm = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{

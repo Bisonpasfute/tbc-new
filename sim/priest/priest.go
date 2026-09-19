@@ -45,11 +45,11 @@ func (priest *Priest) Initialize() {
 	mindblastCDTimer := priest.NewTimer()
 	shadowWordDeathCDTimer := priest.NewTimer()
 
-	MindBlastRankMap.RegisterAll(func(rank shared.SpellRank) {
+	MindBlastRankMap.RegisterAll(func(rank shared.SpellData) {
 		priest.registerMindBlastSpell(rank, mindblastCDTimer)
 	})
 	ShadowWordPainRankMap.RegisterAll(priest.registerShadowWordPainSpell)
-	ShadowWordDeathRankMap.RegisterAll(func(rank shared.SpellRank) {
+	ShadowWordDeathRankMap.RegisterAll(func(rank shared.SpellData) {
 		priest.registerShadowWordDeathSpell(rank, shadowWordDeathCDTimer)
 	})
 	SmiteRankMap.RegisterAll(priest.registerSmiteSpell)
@@ -57,13 +57,13 @@ func (priest *Priest) Initialize() {
 
 	if priest.Race == proto.Race_RaceNightElf {
 		starshardsCDTimer := priest.NewTimer()
-		StarshardsRankMap.RegisterAll(func(rank shared.SpellRank) {
+		StarshardsRankMap.RegisterAll(func(rank shared.SpellData) {
 			priest.registerStarshardsSpell(rank, starshardsCDTimer)
 		})
 	}
 	if priest.Race == proto.Race_RaceUndead {
 		devouringPlagueCDTimer := priest.NewTimer()
-		DevouringPlagueRankMap.RegisterAll(func(rank shared.SpellRank) {
+		DevouringPlagueRankMap.RegisterAll(func(rank shared.SpellData) {
 			priest.registerDevouringPlagueSpell(rank, devouringPlagueCDTimer)
 		})
 	}

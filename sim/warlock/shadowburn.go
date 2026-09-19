@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shadowBurnRank = genRanks.Shadowburn.BySpellID(30546)
+var shadowBurnRank = spellData.Shadowburn.BySpellID(30546)
 var shadowBurnCoeff = shadowBurnRank.Direct.BonusCoefficient()
 
 func (warlock *Warlock) registerShadowBurn() {

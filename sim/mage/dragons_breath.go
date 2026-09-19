@@ -6,7 +6,7 @@ import (
 
 const dragonsBreathCoefficient = 0.1930000037
 
-var dragonsBreathRank = genRanks.DragonsBreath.BySpellID(33043)
+var dragonsBreathRank = spellData.DragonsBreath.BySpellID(33043)
 
 func (mage *Mage) registerDragonsBreathSpell() {
 	if !mage.Talents.DragonsBreath {

@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var vanishRank = genRanks.Vanish.BySpellID(1856)
+var vanishRank = spellData.Vanish.BySpellID(1856)
 
 func (rogue *Rogue) registerVanishSpell() {
 	rogue.Vanish = rogue.RegisterSpell(core.SpellConfig{

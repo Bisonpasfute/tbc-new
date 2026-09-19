@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var interceptRank = genRanks.Intercept.BySpellID(25275)
+var interceptRank = spellData.Intercept.BySpellID(25275)
 
 func (war *Warrior) registerIntercept() {
 	actionID := core.ActionID{SpellID: interceptRank.SpellID}

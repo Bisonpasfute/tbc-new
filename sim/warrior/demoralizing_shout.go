@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var demoralizingShoutRank = genRanks.DemoralizingShout.BySpellID(25203)
+var demoralizingShoutRank = spellData.DemoralizingShout.BySpellID(25203)
 
 func (war *Warrior) registerDemoralizingShout() {
 	war.DemoralizingShoutAuras = war.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {

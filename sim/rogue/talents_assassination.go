@@ -59,7 +59,7 @@ func (rogue *Rogue) registerImprovedEviscerate() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		ClassMask:  RogueSpellEviscerate,
 		Kind:       core.SpellMod_DamageDone_Flat,
-		FloatValue: genRanks.ImprovedEviscerate.FractionAt(rogue.Talents.ImprovedEviscerate),
+		FloatValue: spellData.ImprovedEviscerate.FractionAt(rogue.Talents.ImprovedEviscerate),
 	})
 }
 
@@ -76,7 +76,7 @@ func (rogue *Rogue) registerMurder() {
 		return
 	}
 
-	var multiplier float64 = genRanks.Murder.MultiplierAt(rogue.Talents.Murder)
+	var multiplier float64 = spellData.Murder.MultiplierAt(rogue.Talents.Murder)
 	rogue.Env.RegisterPostFinalizeEffect(func() {
 		for _, at := range rogue.AttackTables {
 			if slices.Contains([]proto.MobType{proto.MobType_MobTypeHumanoid, proto.MobType_MobTypeGiant, proto.MobType_MobTypeBeast, proto.MobType_MobTypeDragonkin}, at.Defender.MobType) {
@@ -100,7 +100,7 @@ func (rogue *Rogue) registerPuncturingWounds() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
 		ClassMask:  RogueSpellMutilateHit,
-		FloatValue: genRanks.PuncturingWounds.EffectAt(1).ValueAt(rogue.Talents.PuncturingWounds),
+		FloatValue: spellData.PuncturingWounds.EffectAt(1).ValueAt(rogue.Talents.PuncturingWounds),
 	})
 }
 
@@ -126,7 +126,7 @@ func (rogue *Rogue) registerLethality() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_CritMultiplier_Flat,
 		ClassMask:  RogueSpellLethality,
-		FloatValue: genRanks.Lethality.FractionAt(rogue.Talents.Lethality),
+		FloatValue: spellData.Lethality.FractionAt(rogue.Talents.Lethality),
 	})
 }
 
@@ -138,7 +138,7 @@ func (rogue *Rogue) registerVilePoisons() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_DamageDone_Flat,
 		ClassMask:  RogueSpellPoisons,
-		FloatValue: genRanks.VilePoisons.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(rogue.Talents.VilePoisons),
+		FloatValue: spellData.VilePoisons.Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_DAMAGE).FractionAt(rogue.Talents.VilePoisons),
 	})
 }
 
@@ -195,7 +195,7 @@ func (rogue *Rogue) registerSealFate() {
 	rogue.MakeProcTriggerAura(core.ProcTrigger{
 		Name:       "Seal Fate Trigger",
 		ActionID:   core.ActionID{SpellID: 14195},
-		ProcChance: genRanks.SealFate.ProcChanceAt(rogue.Talents.SealFate),
+		ProcChance: spellData.SealFate.ProcChanceAt(rogue.Talents.SealFate),
 		Callback:   core.CallbackOnSpellHitDealt,
 		Outcome:    core.OutcomeCrit,
 		SpellFlags: SpellFlagBuilder,
@@ -214,7 +214,7 @@ func (rogue *Rogue) registerMasterPoisoner() {
 	rogue.AddStaticMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusHit_Percent,
 		ClassMask:  RogueSpellPoisons,
-		FloatValue: genRanks.MasterPoisoner.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_RESIST_MISS_CHANCE).ValueAt(rogue.Talents.MasterPoisoner),
+		FloatValue: spellData.MasterPoisoner.Effect(shared.A_ADD_FLAT_MODIFIER, shared.SPELLMOD_RESIST_MISS_CHANCE).ValueAt(rogue.Talents.MasterPoisoner),
 	})
 }
 
@@ -259,7 +259,7 @@ func (rogue *Rogue) registerFindWeakness() {
 
 const MutilateSpellID int32 = 34413
 
-var mutilateRank = genRanks.Mutilate.BySpellID(MutilateSpellID)
+var mutilateRank = spellData.Mutilate.BySpellID(MutilateSpellID)
 
 func (rogue *Rogue) registerMutilate() {
 	if !rogue.Talents.Mutilate {

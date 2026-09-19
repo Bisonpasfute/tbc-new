@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var overpowerRank = genRanks.Overpower.BySpellID(11585)
+var overpowerRank = spellData.Overpower.BySpellID(11585)
 var overpowerBaseDamage, _ = overpowerRank.Direct.Range()
 
 func (war *Warrior) registerOverpower() {

@@ -19,7 +19,7 @@ func (paladin *Paladin) registerRighteousFury() {
 	// Named by aura rather than read out of Direct: the talent's other effect cuts damage taken,
 	// and which of the two lands in Direct is the generator's choice, not a promise. MultiplierAt
 	// answers 1 at rank 0, so an untaken talent leaves the base 60% alone.
-	threatBonus := 0.6 * genRanks.ImprovedRighteousFury.
+	threatBonus := 0.6 * spellData.ImprovedRighteousFury.
 		Effect(shared.A_ADD_PCT_MODIFIER, shared.SPELLMOD_ALL_EFFECTS).
 		MultiplierAt(paladin.Talents.ImprovedRighteousFury)
 

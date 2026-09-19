@@ -55,7 +55,7 @@ func (war *Warrior) registerCruelty() {
 		return
 	}
 
-	war.AddStat(stats.PhysicalCritPercent, genRanks.Cruelty.ValueAt(war.Talents.Cruelty))
+	war.AddStat(stats.PhysicalCritPercent, spellData.Cruelty.ValueAt(war.Talents.Cruelty))
 }
 
 func (war *Warrior) registerUnbridledWrath() {
@@ -85,7 +85,7 @@ func (war *Warrior) registerDualWieldSpecialization() {
 	war.AddStaticMod(core.SpellModConfig{
 		ProcMask:   core.ProcMaskMeleeOH,
 		Kind:       core.SpellMod_DamageDone_Pct,
-		FloatValue: genRanks.DualWieldSpecialization.FractionAt(war.Talents.DualWieldSpecialization),
+		FloatValue: spellData.DualWieldSpecialization.FractionAt(war.Talents.DualWieldSpecialization),
 	})
 }
 
@@ -325,7 +325,7 @@ func (war *Warrior) registerPrecision() {
 		return
 	}
 
-	war.AddStat(stats.PhysicalHitPercent, genRanks.Precision.ValueAt(war.Talents.Precision))
+	war.AddStat(stats.PhysicalHitPercent, spellData.Precision.ValueAt(war.Talents.Precision))
 }
 
 func (war *Warrior) registerBloodthirst() {
@@ -390,7 +390,7 @@ func (war *Warrior) registerImprovedBerserkerStance() {
 		return
 	}
 
-	apDep := war.NewDynamicMultiplyStat(stats.AttackPower, genRanks.ImprovedBerserkerStance.Effect(shared.A_MOD_ATTACK_POWER_PCT, 0).MultiplierAt(war.Talents.ImprovedBerserkerStance))
+	apDep := war.NewDynamicMultiplyStat(stats.AttackPower, spellData.ImprovedBerserkerStance.Effect(shared.A_MOD_ATTACK_POWER_PCT, 0).MultiplierAt(war.Talents.ImprovedBerserkerStance))
 	aura := war.RegisterAura(core.Aura{
 		Label:      "Improved Berserker Stance",
 		Duration:   core.NeverExpires,

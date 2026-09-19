@@ -4,7 +4,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var demoralizingRoarRank = genRanks.DemoralizingRoar.BySpellID(26998)
+var demoralizingRoarRank = spellData.DemoralizingRoar.BySpellID(26998)
 
 func (druid *Druid) registerDemoralizingRoarSpell() {
 	druid.registerDemoralizingRoarAura()

@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var fireElementalTotemRank = genRanks.FireElementalTotem.BySpellID(2894)
+var fireElementalTotemRank = spellData.FireElementalTotem.BySpellID(2894)
 
 func (shaman *Shaman) registerFireElementalTotem() {
 

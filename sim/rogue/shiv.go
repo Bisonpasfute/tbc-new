@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core/proto"
 )
 
-var shivRank = genRanks.Shiv.BySpellID(5938)
+var shivRank = spellData.Shiv.BySpellID(5938)
 
 func (rogue *Rogue) registerShivSpell() {
 	shivCostMod := rogue.AddDynamicMod(core.SpellModConfig{

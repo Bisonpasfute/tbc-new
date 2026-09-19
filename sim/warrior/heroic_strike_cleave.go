@@ -4,9 +4,9 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var heroicStrikeRank = genRanks.HeroicStrike.BySpellID(29707)
+var heroicStrikeRank = spellData.HeroicStrike.BySpellID(29707)
 var heroicStrikeBaseDamage, _ = heroicStrikeRank.Direct.Range()
-var cleaveRank = genRanks.Cleave.BySpellID(25231)
+var cleaveRank = spellData.Cleave.BySpellID(25231)
 
 func (war *Warrior) registerHeroicStrike() {
 	spell := war.RegisterSpell(core.SpellConfig{
@@ -52,7 +52,7 @@ func (war *Warrior) registerHeroicStrike() {
 func (war *Warrior) registerCleave() {
 	const maxTargets int32 = 2
 	cleaveVal, _ := cleaveRank.Direct.Range()
-	flatDamage := cleaveVal * genRanks.ImprovedCleave.MultiplierAt(war.Talents.ImprovedCleave)
+	flatDamage := cleaveVal * spellData.ImprovedCleave.MultiplierAt(war.Talents.ImprovedCleave)
 
 	spell := war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: cleaveRank.SpellID},

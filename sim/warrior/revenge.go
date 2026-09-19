@@ -6,7 +6,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var revengeRank = genRanks.Revenge.BySpellID(30357)
+var revengeRank = spellData.Revenge.BySpellID(30357)
 
 func (war *Warrior) registerRevenge() {
 	actionID := core.ActionID{SpellID: revengeRank.SpellID}

@@ -22,7 +22,7 @@ func (rogue *Rogue) registerEnvenom() {
 
 		EnergyCost: core.EnergyCostOptions{
 			Cost:          35,
-			Refund:        genRanks.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
+			Refund:        spellData.QuickRecovery.Effect(shared.A_DUMMY, 0).FractionAt(rogue.Talents.QuickRecovery),
 			RefundMetrics: rogue.EnergyRefundMetrics,
 		},
 		Cast: core.CastConfig{
