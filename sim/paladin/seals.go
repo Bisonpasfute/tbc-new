@@ -39,31 +39,31 @@ func (seal seal) GetRankLabel() string {
 	return fmt.Sprintf("Rank %d", seal.rank)
 }
 
-// A seal is three spells for one rank - the aura, the proc it triggers and the judgement - so it
-// keeps its own row rather than becoming a SpellData. Every field the client states is read from the
-// tables here; the proc and the judgement damage are passed in, because what the client says about
-// them is not always what the sim wants.
-//
-// The judgement's spell ID comes from the table on all six families, including Seal of Righteousness,
-// whose seal effect 1 names it: 21084 states 20186+1 = 20187.
 // Seal of Justice is the one family the client charges nothing for, on either rank.
 func sealMana(s seal, mana float64) seal {
 	s.manaCost = mana
 	return s
 }
 
-// For the families whose judgement states its own damage. Light and Wisdom are dispatchers with
-// nothing to read, and Justice deals none.
-func sealOfJudged(seals, judges shared.SpellDataTable, rank int32, p proc) seal {
+// Everything the client states, judgement damage included - Righteousness, the Crusader and Command
+// all state theirs.
+func sealOf(seals, judges shared.SpellDataTable, rank int32, p proc) seal {
 	j := judges.ByRank(rank)
-	return sealOf(seals, judges, rank, p, judge{
+	return sealWithJudgement(seals, judges, rank, p, judge{
 		minDamage: shared.SpellDataMin(j.Direct),
 		maxDamage: shared.SpellDataMax(j.Direct),
 		coeff:     shared.SpellDataCoef(j.Direct),
 	})
 }
 
-func sealOf(seals, judges shared.SpellDataTable, rank int32, p proc, j judge) seal {
+// For the three families whose judgement damage has to be supplied by hand: Light and Wisdom state
+// nothing the tables can reach, and Justice deals none.
+//
+// A seal is three spells for one rank - the aura, the proc it triggers and the judgement - so it
+// keeps its own row rather than becoming a SpellData. The proc is always passed in, because no
+// family has its coefficient in the client. The judgement's spell ID always comes from the table,
+// including Seal of Righteousness, whose seal effect 1 names it: 21084 states 20186+1 = 20187.
+func sealWithJudgement(seals, judges shared.SpellDataTable, rank int32, p proc, j judge) seal {
 	s := seals.ByRank(rank)
 	j.spellID = judges.ByRank(rank).SpellID
 	return seal{rank: rank, spellID: s.SpellID, manaCost: float64(s.Cost), proc: p, judge: j}
@@ -74,15 +74,15 @@ var SealOfRighteousnessRanks = sealRankMap{
 	// the client at all. The judgement damage matches the hand rows on ranks 2-9; rank 1 was a flat
 	// 26 against the client's 25-26, the same one-die-side roll Immolate rank 9 and Water Shield
 	// turned out to be, and the client's is taken.
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 1, proc{spellID: 25742, value: spellData.SealOfRighteousness.ByRank(1).Effects[0].Value, coeff: 0.029}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 2, proc{spellID: 25740, value: spellData.SealOfRighteousness.ByRank(2).Effects[0].Value, coeff: 0.063}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 3, proc{spellID: 25739, value: spellData.SealOfRighteousness.ByRank(3).Effects[0].Value, coeff: 0.093}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 4, proc{spellID: 25738, value: spellData.SealOfRighteousness.ByRank(4).Effects[0].Value, coeff: 0.1}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 5, proc{spellID: 25737, value: spellData.SealOfRighteousness.ByRank(5).Effects[0].Value, coeff: 0.1}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 6, proc{spellID: 25736, value: spellData.SealOfRighteousness.ByRank(6).Effects[0].Value, coeff: 0.1}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 7, proc{spellID: 25735, value: spellData.SealOfRighteousness.ByRank(7).Effects[0].Value, coeff: 0.1}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 8, proc{spellID: 25713, value: spellData.SealOfRighteousness.ByRank(8).Effects[0].Value, coeff: 0.1}),
-	sealOfJudged(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 9, proc{spellID: 27156, value: spellData.SealOfRighteousness.ByRank(9).Effects[0].Value, coeff: 0.1}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 1, proc{spellID: 25742, value: spellData.SealOfRighteousness.ByRank(1).Effects[0].Value, coeff: 0.029}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 2, proc{spellID: 25740, value: spellData.SealOfRighteousness.ByRank(2).Effects[0].Value, coeff: 0.063}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 3, proc{spellID: 25739, value: spellData.SealOfRighteousness.ByRank(3).Effects[0].Value, coeff: 0.093}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 4, proc{spellID: 25738, value: spellData.SealOfRighteousness.ByRank(4).Effects[0].Value, coeff: 0.1}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 5, proc{spellID: 25737, value: spellData.SealOfRighteousness.ByRank(5).Effects[0].Value, coeff: 0.1}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 6, proc{spellID: 25736, value: spellData.SealOfRighteousness.ByRank(6).Effects[0].Value, coeff: 0.1}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 7, proc{spellID: 25735, value: spellData.SealOfRighteousness.ByRank(7).Effects[0].Value, coeff: 0.1}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 8, proc{spellID: 25713, value: spellData.SealOfRighteousness.ByRank(8).Effects[0].Value, coeff: 0.1}),
+	sealOf(spellData.SealOfRighteousness, spellData.JudgementOfRighteousness, 9, proc{spellID: 27156, value: spellData.SealOfRighteousness.ByRank(9).Effects[0].Value, coeff: 0.1}),
 }
 
 var SealOfLightRanks = sealRankMap{
@@ -100,37 +100,37 @@ var SealOfLightRanks = sealRankMap{
 	//
 	// The proc values are exact too, against proc spells that carry no rank subtext and so are in no
 	// table.
-	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 1, proc{spellID: 20167, value: 39, coeff: 0.0}, judge{minDamage: 25, maxDamage: 25, coeff: 0.0}),
-	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 2, proc{spellID: 20333, value: 53, coeff: 0.0}, judge{minDamage: 34, maxDamage: 34, coeff: 0.0}),
-	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 3, proc{spellID: 20334, value: 76, coeff: 0.0}, judge{minDamage: 49, maxDamage: 49, coeff: 0.0}),
-	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 4, proc{spellID: 20340, value: 94, coeff: 0.0}, judge{minDamage: 61, maxDamage: 61, coeff: 0.0}),
-	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 5, proc{spellID: 27161, value: 133, coeff: 0.0}, judge{minDamage: 95, maxDamage: 95, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 1, proc{spellID: 20167, value: 39, coeff: 0.0}, judge{minDamage: 25, maxDamage: 25, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 2, proc{spellID: 20333, value: 53, coeff: 0.0}, judge{minDamage: 34, maxDamage: 34, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 3, proc{spellID: 20334, value: 76, coeff: 0.0}, judge{minDamage: 49, maxDamage: 49, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 4, proc{spellID: 20340, value: 94, coeff: 0.0}, judge{minDamage: 61, maxDamage: 61, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfLight, spellData.JudgementOfLight, 5, proc{spellID: 27161, value: 133, coeff: 0.0}, judge{minDamage: 95, maxDamage: 95, coeff: 0.0}),
 }
 
 var SealOfWisdomRanks = sealRankMap{
-	sealOf(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 1, proc{spellID: 20168, value: 50, coeff: 0.0}, judge{minDamage: 33, maxDamage: 33, coeff: 0.0}),
-	sealOf(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 2, proc{spellID: 20350, value: 71, coeff: 0.0}, judge{minDamage: 46, maxDamage: 46, coeff: 0.0}),
-	sealOf(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 3, proc{spellID: 20351, value: 90, coeff: 0.0}, judge{minDamage: 59, maxDamage: 59, coeff: 0.0}),
-	sealOf(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 4, proc{spellID: 27167, value: 121, coeff: 0.0}, judge{minDamage: 74, maxDamage: 74, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 1, proc{spellID: 20168, value: 50, coeff: 0.0}, judge{minDamage: 33, maxDamage: 33, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 2, proc{spellID: 20350, value: 71, coeff: 0.0}, judge{minDamage: 46, maxDamage: 46, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 3, proc{spellID: 20351, value: 90, coeff: 0.0}, judge{minDamage: 59, maxDamage: 59, coeff: 0.0}),
+	sealWithJudgement(spellData.SealOfWisdom, spellData.JudgementOfWisdom, 4, proc{spellID: 27167, value: 121, coeff: 0.0}, judge{minDamage: 74, maxDamage: 74, coeff: 0.0}),
 }
 
 var SealOfJusticeRanks = sealRankMap{
 	// The judgement stuns and deals no damage, which is why both ranks are zero where the client gives
 	// rank 2 a 7. The client states no mana cost for either rank; the sim charges 10, so that stays.
-	sealMana(sealOf(spellData.SealOfJustice, spellData.JudgementOfJustice, 1, proc{spellID: 20170}, judge{}), 10),
-	sealMana(sealOf(spellData.SealOfJustice, spellData.JudgementOfJustice, 2, proc{spellID: 20170}, judge{}), 10),
+	sealMana(sealWithJudgement(spellData.SealOfJustice, spellData.JudgementOfJustice, 1, proc{spellID: 20170}, judge{}), 10),
+	sealMana(sealWithJudgement(spellData.SealOfJustice, spellData.JudgementOfJustice, 2, proc{spellID: 20170}, judge{}), 10),
 }
 
 var SealOfTheCrusaderRanks = sealRankMap{
 	// The attack power is the effect's high end, not its low one: rank 1's base is 39.2 and the game
 	// buffs for 41. Exact on all seven ranks, and so is the judgement damage.
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 1, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(1).Effects[0].High()}),
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 2, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(2).Effects[0].High()}),
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 3, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(3).Effects[0].High()}),
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 4, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(4).Effects[0].High()}),
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 5, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(5).Effects[0].High()}),
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 6, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(6).Effects[0].High()}),
-	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 7, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(7).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 1, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(1).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 2, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(2).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 3, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(3).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 4, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(4).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 5, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(5).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 6, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(6).Effects[0].High()}),
+	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 7, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(7).Effects[0].High()}),
 }
 
 var SealOfCommandRanks = sealRankMap{
@@ -140,12 +140,12 @@ var SealOfCommandRanks = sealRankMap{
 	//
 	// The judgement damage is the client's full number. Judgement of Command deals half of it unless
 	// the target is stunned, and registerSealOfCommandRank halves it there rather than here.
-	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 1, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
-	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 2, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
-	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 3, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
-	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 4, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
-	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 5, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
-	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 6, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 1, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 2, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 3, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 4, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 5, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 6, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
 }
 
 func (paladin *Paladin) registerSeals() {
