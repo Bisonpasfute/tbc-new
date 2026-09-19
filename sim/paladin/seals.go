@@ -86,9 +86,20 @@ var SealOfRighteousnessRanks = sealRankMap{
 }
 
 var SealOfLightRanks = sealRankMap{
-	// Judgement of Light and Wisdom are dispatchers with no damage effect of their own, so the
-	// judgement heal stays literal. The proc values are exact against the proc spells, which carry no
-	// rank subtext and so are in no table.
+	// Judgement of Light and Wisdom state nothing themselves - each is a lone proc-trigger debuff
+	// pointing at a spell this build does not extract. The heal and the mana are on a same-name,
+	// same-rank spell the client never grants, and they derive exactly: 25/34/49/61/95 here and
+	// 33/46/59/74 for Wisdom, checked against all nine by hand.
+	//
+	// They stay literal because no generic rule reaches them safely. Searching siblings by skill line
+	// puts Blizzard's tick damage on the channel; allowing any ungranted same-name spell gives warrior
+	// Enrage and hunter Fire Resistance a Direct off creature abilities; adding a spell-class guard
+	// drops Wisdom, whose hidden half has no SpellClassOptions row where Light's has one, and still
+	// files priest Inspiration's armour percentage as Direct. Three shapes, three different wrong
+	// answers, for nine numbers that are right here.
+	//
+	// The proc values are exact too, against proc spells that carry no rank subtext and so are in no
+	// table.
 	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 1, proc{spellID: 20167, value: 39, coeff: 0.0}, judge{minDamage: 25, maxDamage: 25, coeff: 0.0}),
 	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 2, proc{spellID: 20333, value: 53, coeff: 0.0}, judge{minDamage: 34, maxDamage: 34, coeff: 0.0}),
 	sealOf(spellData.SealOfLight, spellData.JudgementOfLight, 3, proc{spellID: 20334, value: 76, coeff: 0.0}, judge{minDamage: 49, maxDamage: 49, coeff: 0.0}),
@@ -112,14 +123,14 @@ var SealOfJusticeRanks = sealRankMap{
 
 var SealOfTheCrusaderRanks = sealRankMap{
 	// The attack power is the effect's high end, not its low one: rank 1's base is 39.2 and the game
-	// buffs for 41. Exact on all seven ranks.
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 1, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(1).Effects[0].High()}, judge{minDamage: 23}),
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 2, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(2).Effects[0].High()}, judge{minDamage: 35}),
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 3, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(3).Effects[0].High()}, judge{minDamage: 58}),
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 4, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(4).Effects[0].High()}, judge{minDamage: 92}),
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 5, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(5).Effects[0].High()}, judge{minDamage: 127}),
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 6, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(6).Effects[0].High()}, judge{minDamage: 161}),
-	sealOf(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 7, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(7).Effects[0].High()}, judge{minDamage: 219}),
+	// buffs for 41. Exact on all seven ranks, and so is the judgement damage.
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 1, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(1).Effects[0].High()}),
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 2, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(2).Effects[0].High()}),
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 3, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(3).Effects[0].High()}),
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 4, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(4).Effects[0].High()}),
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 5, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(5).Effects[0].High()}),
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 6, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(6).Effects[0].High()}),
+	sealOfJudged(spellData.SealOfTheCrusader, spellData.JudgementOfTheCrusader, 7, proc{spellID: 21082, value: spellData.SealOfTheCrusader.ByRank(7).Effects[0].High()}),
 }
 
 var SealOfCommandRanks = sealRankMap{
