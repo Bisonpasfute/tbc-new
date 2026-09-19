@@ -2,6 +2,7 @@ package mage
 
 import (
 	"fmt"
+
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
