@@ -11,8 +11,8 @@ var steadyShotRank = spellData.SteadyShot.BySpellID(34120)
 func (hunter *Hunter) registerSteadyShotSpell() {
 	hunter.SteadyShot = hunter.RegisterRangedSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: steadyShotRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeRanged,
+		SpellSchool:    steadyShotRank.SpellSchool,
+		DefenseType:    steadyShotRank.DefenseType,
 		ClassSpellMask: HunterSpellSteadyShot,
 		ProcMask:       core.ProcMaskRangedSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

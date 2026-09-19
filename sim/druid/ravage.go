@@ -16,8 +16,8 @@ func (druid *Druid) registerRavageSpell() {
 
 	druid.Ravage = druid.RegisterSpell(Cat, core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: ravageRank.SpellID},
-		SpellSchool:      core.SpellSchoolPhysical,
-		DefenseType:      core.DefenseTypeMelee,
+		SpellSchool:      ravageRank.SpellSchool,
+		DefenseType:      ravageRank.DefenseType,
 		ProcMask:         core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask:   DruidSpellRavage,
 		Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

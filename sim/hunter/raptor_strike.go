@@ -11,8 +11,8 @@ var raptorStrikeRank = spellData.RaptorStrike.BySpellID(27014)
 func (hunter *Hunter) registerRaptorStrikeSpell() {
 	hunter.RaptorStrike = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: raptorStrikeRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    raptorStrikeRank.SpellSchool,
+		DefenseType:    raptorStrikeRank.DefenseType,
 		ClassSpellMask: HunterSpellRaptorStrike,
 		ProcMask:       core.ProcMaskMeleeMH,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagNoOnCastComplete,

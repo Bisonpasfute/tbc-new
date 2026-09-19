@@ -69,8 +69,8 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 
 	shaman.FlameShock.RelatedDotSpell = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: flameShockRank.SpellID, Tag: 1},
-		SpellSchool:      core.SpellSchoolFire,
-		DefenseType:      core.DefenseTypeMagic,
+		SpellSchool:      flameShockRank.SpellSchool,
+		DefenseType:      flameShockRank.DefenseType,
 		ProcMask:         core.ProcMaskSpellDamage,
 		Flags:            config.Flags & ^core.SpellFlagAPL | core.SpellFlagPassiveSpell,
 		ClassSpellMask:   SpellMaskFlameShockDot,

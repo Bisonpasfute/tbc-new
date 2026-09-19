@@ -15,7 +15,7 @@ func (warlock *Warlock) registerConflagrate() {
 
 	warlock.Conflagrate = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: conflagrateRank.SpellID},
-		SpellSchool:    core.SpellSchoolFire,
+		SpellSchool:    conflagrateRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellConflagrate,
@@ -34,7 +34,7 @@ func (warlock *Warlock) registerConflagrate() {
 		},
 
 		DamageMultiplier: 1.0,
-		DefenseType:      core.DefenseTypeMagic,
+		DefenseType:      conflagrateRank.DefenseType,
 		ThreatMultiplier: 1,
 		BonusCoefficient: conflagrateCoeff,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {

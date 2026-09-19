@@ -15,8 +15,8 @@ func (druid *Druid) registerLacerateSpell() {
 
 	druid.Lacerate = druid.RegisterSpell(Bear, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: lacerateRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    lacerateRank.SpellSchool,
+		DefenseType:    lacerateRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellLacerate,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

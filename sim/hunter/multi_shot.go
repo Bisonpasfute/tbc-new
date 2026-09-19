@@ -11,8 +11,8 @@ var multiShotRank = spellData.MultiShot.BySpellID(27021)
 func (hunter *Hunter) registerMultiShotSpell() {
 	hunter.MultiShot = hunter.RegisterRangedSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: multiShotRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeRanged,
+		SpellSchool:    multiShotRank.SpellSchool,
+		DefenseType:    multiShotRank.DefenseType,
 		ProcMask:       core.ProcMaskRangedSpecial,
 		ClassSpellMask: HunterSpellMultiShot,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

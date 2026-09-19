@@ -9,7 +9,7 @@ var vanishRank = spellData.Vanish.BySpellID(1856)
 func (rogue *Rogue) registerVanishSpell() {
 	rogue.Vanish = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: vanishRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
+		SpellSchool:    vanishRank.SpellSchool,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellVanish,
 

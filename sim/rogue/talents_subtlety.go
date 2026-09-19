@@ -250,8 +250,8 @@ func (rogue *Rogue) registerHemorrhage() {
 	rogue.Hemorrhage = rogue.GetOrRegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: hemorrhageRank.SpellID},
 		ClassSpellMask: RogueSpellHemorrhage,
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    hemorrhageRank.SpellSchool,
+		DefenseType:    hemorrhageRank.DefenseType,
 		Flags:          core.SpellFlagAPL | core.SpellFlagMeleeMetrics | SpellFlagBuilder,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		MaxRange:       core.MaxMeleeRange,

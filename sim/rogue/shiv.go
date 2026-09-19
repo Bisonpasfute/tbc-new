@@ -17,8 +17,8 @@ func (rogue *Rogue) registerShivSpell() {
 
 	rogue.Shiv = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: shivRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    shivRank.SpellSchool,
+		DefenseType:    shivRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeOHSpecial,
 		Flags:          core.SpellFlagCannotBeDodged | core.SpellFlagMeleeMetrics | SpellFlagBuilder | core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellShiv,

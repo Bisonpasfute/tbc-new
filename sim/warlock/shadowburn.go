@@ -11,7 +11,7 @@ func (warlock *Warlock) registerShadowBurn() {
 
 	warlock.Shadowburn = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: shadowBurnRank.SpellID},
-		SpellSchool:    core.SpellSchoolShadow,
+		SpellSchool:    shadowBurnRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL | core.SpellFlagBinary,
 		ClassSpellMask: WarlockSpellShadowBurn,
@@ -28,7 +28,7 @@ func (warlock *Warlock) registerShadowBurn() {
 		},
 
 		DamageMultiplier: 1,
-		DefenseType:      core.DefenseTypeMagic,
+		DefenseType:      shadowBurnRank.DefenseType,
 		ThreatMultiplier: 1,
 		BonusCoefficient: shadowBurnCoeff,
 

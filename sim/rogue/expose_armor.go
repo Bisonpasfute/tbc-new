@@ -14,8 +14,8 @@ func (rogue *Rogue) registerExposeArmorSpell() {
 
 	rogue.ExposeArmor = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: exposeArmorRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    exposeArmorRank.SpellSchool,
+		DefenseType:    exposeArmorRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MetricSplits:   6,

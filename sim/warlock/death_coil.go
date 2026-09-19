@@ -10,8 +10,8 @@ func (warlock *Warlock) registerDeathCoil() {
 
 	warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: deathCoilRank.SpellID},
-		SpellSchool:    core.SpellSchoolShadow,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    deathCoilRank.SpellSchool,
+		DefenseType:    deathCoilRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellDeathCoil,

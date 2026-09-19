@@ -9,8 +9,8 @@ var wrathRank = spellData.Wrath.BySpellID(26985)
 func (druid *Druid) registerWrathSpell() {
 	druid.Wrath = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: wrathRank.SpellID},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    wrathRank.SpellSchool,
+		DefenseType:    wrathRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: DruidSpellWrath,
 		Flags:          core.SpellFlagAPL,

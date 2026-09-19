@@ -13,8 +13,8 @@ func (druid *Druid) registerMaulSpell() {
 	// The actual Maul spell that fires on the next auto-attack swing.
 	maulSpell := druid.RegisterSpell(Bear, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: maulRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    maulRank.SpellSchool,
+		DefenseType:    maulRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellMaul,
 		Flags:          core.SpellFlagMeleeMetrics,

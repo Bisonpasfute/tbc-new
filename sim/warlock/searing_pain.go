@@ -11,7 +11,7 @@ func (warlock *Warlock) registerSearingPain() {
 
 	warlock.Shadowburn = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: searingPainRank.SpellID},
-		SpellSchool:    core.SpellSchoolFire,
+		SpellSchool:    searingPainRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellSearingPain,
@@ -26,7 +26,7 @@ func (warlock *Warlock) registerSearingPain() {
 		},
 
 		DamageMultiplier: 1,
-		DefenseType:      core.DefenseTypeMagic,
+		DefenseType:      searingPainRank.DefenseType,
 		ThreatMultiplier: 2,
 		BonusCoefficient: searingPainCoeff,
 

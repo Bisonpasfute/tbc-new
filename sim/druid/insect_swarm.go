@@ -11,8 +11,8 @@ var insectSwarmTick = insectSwarmRank.Periodic.(shared.SpellDataPeriodic)
 func (druid *Druid) registerInsectSwarmSpell() {
 	druid.InsectSwarm = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: insectSwarmRank.SpellID},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    insectSwarmRank.SpellSchool,
+		DefenseType:    insectSwarmRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		ClassSpellMask: DruidSpellInsectSwarm,
 		Flags:          core.SpellFlagAPL | core.SpellFlagBinary,

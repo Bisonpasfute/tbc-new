@@ -12,8 +12,8 @@ func (war *Warrior) registerExecute() {
 
 	spell := war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: executeRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    executeRank.SpellSchool,
+		DefenseType:    executeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		ClassSpellMask: SpellMaskExecute,

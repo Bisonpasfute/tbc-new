@@ -22,8 +22,8 @@ func (warlock *Warlock) registerCurseOfAgony() {
 		ActionID:       core.ActionID{SpellID: agonyRank.SpellID},
 		Flags:          core.SpellFlagAPL,
 		ProcMask:       core.ProcMaskSpellDamage,
-		SpellSchool:    core.SpellSchoolShadow,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    agonyRank.SpellSchool,
+		DefenseType:    agonyRank.DefenseType,
 		ClassSpellMask: WarlockSpellCurseOfAgony,
 
 		ThreatMultiplier: 1,

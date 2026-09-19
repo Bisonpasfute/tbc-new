@@ -12,8 +12,8 @@ func (mage *Mage) registerFireballSpell() {
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: fireballRank.SpellID},
-		SpellSchool:    core.SpellSchoolFire,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    fireballRank.SpellSchool,
+		DefenseType:    fireballRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: MageSpellFireball,

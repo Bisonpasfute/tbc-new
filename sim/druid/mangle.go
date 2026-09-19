@@ -24,8 +24,8 @@ func (druid *Druid) registerMangleCatSpell() {
 
 	druid.MangleCat = druid.RegisterSpell(Cat, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: mangleCatRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    mangleCatRank.SpellSchool,
+		DefenseType:    mangleCatRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellMangleCat,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -76,8 +76,8 @@ func (druid *Druid) registerMangleBearSpell() {
 
 	druid.MangleBear = druid.RegisterSpell(Bear, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: mangleBearRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    mangleBearRank.SpellSchool,
+		DefenseType:    mangleBearRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellMangleBear,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

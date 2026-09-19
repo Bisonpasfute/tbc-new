@@ -12,8 +12,8 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 
 	hunter.SerpentSting = hunter.RegisterRangedSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: serpentStingRank.SpellID},
-		SpellSchool: core.SpellSchoolNature,
-		DefenseType: core.DefenseTypeRanged,
+		SpellSchool: serpentStingRank.SpellSchool,
+		DefenseType: serpentStingRank.DefenseType,
 		// A cast, not a proc, but one that must not read as a ranged hit to on-hit listeners; what
 		// the sting's application should count as is a separate question. Matches only listeners
 		// that state no mask.

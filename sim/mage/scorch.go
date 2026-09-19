@@ -12,8 +12,8 @@ func (mage *Mage) registerScorchSpell() {
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: scorchRank.SpellID},
-		SpellSchool:    core.SpellSchoolFire,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    scorchRank.SpellSchool,
+		DefenseType:    scorchRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: MageSpellScorch,

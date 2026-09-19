@@ -15,8 +15,8 @@ func (mage *Mage) registerDragonsBreathSpell() {
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: dragonsBreathRank.SpellID},
-		SpellSchool:    core.SpellSchoolFire,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    dragonsBreathRank.SpellSchool,
+		DefenseType:    dragonsBreathRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: MageSpellDragonsBreath,

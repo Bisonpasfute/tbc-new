@@ -11,8 +11,8 @@ func (rogue *Rogue) registerSinisterStrikeSpell() {
 
 	rogue.SinisterStrike = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: sinisterStrikeRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    sinisterStrikeRank.SpellSchool,
+		DefenseType:    sinisterStrikeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | SpellFlagBuilder | core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellSinisterStrike,

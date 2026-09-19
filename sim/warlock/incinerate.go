@@ -10,7 +10,7 @@ var incinerateCoeff = incinerateRank.Direct.BonusCoefficient()
 func (warlock *Warlock) registerIncinerate() {
 	warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: incinerateRank.SpellID},
-		SpellSchool:    core.SpellSchoolFire,
+		SpellSchool:    incinerateRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		MissileSpeed:   incinerateRank.MissileSpeed,
@@ -25,7 +25,7 @@ func (warlock *Warlock) registerIncinerate() {
 		},
 
 		DamageMultiplierAdditive: 1,
-		DefenseType:              core.DefenseTypeMagic,
+		DefenseType:              incinerateRank.DefenseType,
 		ThreatMultiplier:         1,
 		BonusCoefficient:         incinerateCoeff,
 

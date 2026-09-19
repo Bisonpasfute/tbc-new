@@ -15,8 +15,8 @@ func (druid *Druid) registerFaerieFireSpell() {
 	druid.FaerieFire = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ClassSpellMask: DruidSpellFaerieFire,
 		ActionID:       core.ActionID{SpellID: faerieFireRank.SpellID},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    faerieFireRank.SpellSchool,
+		DefenseType:    faerieFireRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 
@@ -57,8 +57,8 @@ func (druid *Druid) registerFaerieFireFeralSpell() {
 	druid.FaerieFireFeral = druid.RegisterSpell(Cat|Bear, core.SpellConfig{
 		ClassSpellMask: DruidSpellFaerieFireFeral,
 		ActionID:       core.ActionID{SpellID: faerieFireFeralRank.SpellID},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    faerieFireFeralRank.SpellSchool,
+		DefenseType:    faerieFireFeralRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 

@@ -12,8 +12,8 @@ func (war *Warrior) registerRend() {
 
 	war.Rend = war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rendRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    rendRank.SpellSchool,
+		DefenseType:    rendRank.DefenseType,
 		ClassSpellMask: SpellMaskRend,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,

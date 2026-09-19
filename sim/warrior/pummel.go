@@ -13,8 +13,8 @@ func (war *Warrior) registerPummel() {
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		ClassSpellMask: SpellMaskPummel,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    pummelRank.SpellSchool,
+		DefenseType:    pummelRank.DefenseType,
 		MaxRange:       core.MaxMeleeRange,
 
 		RageCost: core.RageCostOptions{

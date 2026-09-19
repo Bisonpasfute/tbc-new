@@ -10,8 +10,8 @@ var shredRank = spellData.Shred.BySpellID(27002)
 func (druid *Druid) registerShredSpell() {
 	druid.Shred = druid.RegisterSpell(Cat, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: shredRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    shredRank.SpellSchool,
+		DefenseType:    shredRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellShred,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

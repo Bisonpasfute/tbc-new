@@ -14,12 +14,12 @@ func (war *Warrior) registerThunderClap() {
 
 	war.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: thunderClapRank.SpellID},
-		SpellSchool: core.SpellSchoolPhysical,
+		SpellSchool: thunderClapRank.SpellSchool,
 		// Thunder Clap is Physical but Magic in SpellCategories: it rolls on the spell hit table
 		// (logs show full resists next to armor mitigation) and crits on spell crit chance for
 		// 1.5x. Warriors have no base spell crit, so logs without Totem of Wrath show none
 		// (0 of 799 landed hits from 6 prot warriors on fresh.warcraftlogs.com, 2026-09-14).
-		DefenseType:    core.DefenseTypeMagic,
+		DefenseType:    thunderClapRank.DefenseType,
 		ProcMask:       core.ProcMaskRangedSpecial,
 		Flags:          core.SpellFlagAPL | core.SpellFlagBinary,
 		ClassSpellMask: SpellMaskThunderClap,

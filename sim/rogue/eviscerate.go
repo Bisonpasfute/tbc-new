@@ -14,8 +14,8 @@ func (rogue *Rogue) registerEviscerate() {
 
 	rogue.Eviscerate = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: eviscerateRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    eviscerateRank.SpellSchool,
+		DefenseType:    eviscerateRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | SpellFlagFinisher | core.SpellFlagAPL,
 		MetricSplits:   6,

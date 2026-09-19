@@ -15,8 +15,8 @@ func (druid *Druid) registerRipSpell() {
 
 	druid.Rip = druid.RegisterSpell(Cat, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: ripRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    ripRank.SpellSchool,
+		DefenseType:    ripRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellRip,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

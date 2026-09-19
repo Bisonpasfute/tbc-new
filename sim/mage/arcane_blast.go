@@ -13,8 +13,8 @@ func (mage *Mage) registerArcaneBlastSpell() {
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: arcaneBlastRank.SpellID},
-		SpellSchool:    core.SpellSchoolArcane,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    arcaneBlastRank.SpellSchool,
+		DefenseType:    arcaneBlastRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: MageSpellArcaneBlast,

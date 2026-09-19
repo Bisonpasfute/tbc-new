@@ -346,8 +346,8 @@ func (war *Warrior) registerShieldSlam() {
 	war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: shieldSlamRank.SpellID},
 		ClassSpellMask: SpellMaskShieldSlam,
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    shieldSlamRank.SpellSchool,
+		DefenseType:    shieldSlamRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MaxRange:       core.MaxMeleeRange,
@@ -414,8 +414,8 @@ func (war *Warrior) registerDevastate() {
 	war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: devastateRank.SpellID},
 		ClassSpellMask: SpellMaskDevastate,
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    devastateRank.SpellSchool,
+		DefenseType:    devastateRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		MaxRange:       core.MaxMeleeRange,

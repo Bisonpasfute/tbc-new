@@ -519,8 +519,8 @@ func (war *Warrior) registerMortalStrike() {
 
 	war.MortalStrike = war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: mortalStrikeRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    mortalStrikeRank.SpellSchool,
+		DefenseType:    mortalStrikeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagAPL | core.SpellFlagMeleeMetrics,
 		ClassSpellMask: SpellMaskMortalStrike,

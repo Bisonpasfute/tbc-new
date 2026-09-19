@@ -13,8 +13,8 @@ var rakeTick = rakeRank.Periodic.(shared.SpellDataPeriodic)
 func (druid *Druid) registerRakeSpell() {
 	druid.Rake = druid.RegisterSpell(Cat, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: rakeRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    rakeRank.SpellSchool,
+		DefenseType:    rakeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellRake,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

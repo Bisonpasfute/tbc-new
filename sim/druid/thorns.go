@@ -18,8 +18,8 @@ func (druid *Druid) registerThornsSpell() {
 
 	druid.RegisterSpell(Humanoid, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: thornsRank.SpellID},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    thornsRank.SpellSchool,
+		DefenseType:    thornsRank.DefenseType,
 		Flags:          core.SpellFlagAPL | core.SpellFlagHelpful,
 		ClassSpellMask: DruidSpellThorns,
 		ProcMask:       core.ProcMaskEmpty,

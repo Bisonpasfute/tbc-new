@@ -11,7 +11,7 @@ func (warlock *Warlock) registerShadowfury() {
 
 	warlock.Shadowfury = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: shadowFuryRank.SpellID},
-		SpellSchool:    core.SpellSchoolShadow,
+		SpellSchool:    shadowFuryRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellShadowFury,
@@ -31,7 +31,7 @@ func (warlock *Warlock) registerShadowfury() {
 		},
 
 		DamageMultiplier: 1,
-		DefenseType:      core.DefenseTypeMagic,
+		DefenseType:      shadowFuryRank.DefenseType,
 		ThreatMultiplier: 1,
 		BonusCoefficient: shadowFuryCoeff,
 

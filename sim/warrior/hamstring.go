@@ -10,8 +10,8 @@ var hamstringBaseDamage, _ = hamstringRank.Direct.Range()
 func (war *Warrior) registerHamstring() {
 	war.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: hamstringRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    hamstringRank.SpellSchool,
+		DefenseType:    hamstringRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
 		ClassSpellMask: SpellMaskHamstring,

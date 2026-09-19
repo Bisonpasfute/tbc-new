@@ -88,8 +88,8 @@ func (shaman *Shaman) registerLightningShieldSpell() {
 
 	lsDamage := shaman.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: lightningShieldRank.SpellID},
-		SpellSchool:      core.SpellSchoolNature,
-		DefenseType:      core.DefenseTypeMagic,
+		SpellSchool:      lightningShieldRank.SpellSchool,
+		DefenseType:      lightningShieldRank.DefenseType,
 		ProcMask:         core.ProcMaskEmpty,
 		Flags:            SpellFlagShamanSpell,
 		ClassSpellMask:   SpellMaskLightningShield,

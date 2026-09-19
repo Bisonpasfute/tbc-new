@@ -25,8 +25,8 @@ func (warlock *Warlock) registerDrainLife() {
 
 	warlock.DrainLife = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: drainLifeRank.SpellID},
-		SpellSchool:    core.SpellSchoolShadow,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    drainLifeRank.SpellSchool,
+		DefenseType:    drainLifeRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagChanneled | core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellDrainLife,

@@ -9,8 +9,8 @@ var arcaneShotRank = spellData.ArcaneShot.BySpellID(27019)
 func (hunter *Hunter) registerArcaneShotSpell() {
 	hunter.ArcaneShot = hunter.RegisterRangedSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: arcaneShotRank.SpellID},
-		SpellSchool:    core.SpellSchoolArcane,
-		DefenseType:    core.DefenseTypeRanged,
+		SpellSchool:    arcaneShotRank.SpellSchool,
+		DefenseType:    arcaneShotRank.DefenseType,
 		ClassSpellMask: HunterSpellArcaneShot,
 		ProcMask:       core.ProcMaskRangedSpecial,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

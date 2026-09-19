@@ -12,8 +12,8 @@ func (mage *Mage) registerFrostNovaSpell() {
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: frostNovaRank.SpellID},
-		SpellSchool:    core.SpellSchoolFrost,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    frostNovaRank.SpellSchool,
+		DefenseType:    frostNovaRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL | core.SpellFlagBinary,
 		ClassSpellMask: MageSpellFrostNova,

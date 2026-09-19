@@ -33,7 +33,7 @@ func (rogue *Rogue) registerStealthAura() {
 
 	rogue.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: stealthRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
+		SpellSchool:    stealthRank.SpellSchool,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: RogueSpellStealth,
 

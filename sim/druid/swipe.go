@@ -9,8 +9,8 @@ var swipeRank = spellData.Swipe.BySpellID(26997)
 func (druid *Druid) registerSwipeBearSpell() {
 	druid.Swipe = druid.RegisterSpell(Bear, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: swipeRank.SpellID},
-		SpellSchool:    core.SpellSchoolPhysical,
-		DefenseType:    core.DefenseTypeMelee,
+		SpellSchool:    swipeRank.SpellSchool,
+		DefenseType:    swipeRank.DefenseType,
 		ProcMask:       core.ProcMaskMeleeMHSpecial,
 		ClassSpellMask: DruidSpellSwipe,
 		Flags:          core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

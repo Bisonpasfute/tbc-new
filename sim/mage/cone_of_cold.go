@@ -12,8 +12,8 @@ func (mage *Mage) registerConeOfColdSpell() {
 
 	mage.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: coneOfColdRank.SpellID},
-		SpellSchool:    core.SpellSchoolFrost,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    coneOfColdRank.SpellSchool,
+		DefenseType:    coneOfColdRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL | core.SpellFlagBinary,
 		ClassSpellMask: MageSpellConeOfCold,

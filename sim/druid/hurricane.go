@@ -11,8 +11,8 @@ var hurricaneRank = spellData.Hurricane.BySpellID(27012)
 func (druid *Druid) registerHurricaneSpell() {
 	druid.Hurricane = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: hurricaneRank.SpellID},
-		SpellSchool:    core.SpellSchoolNature,
-		DefenseType:    core.DefenseTypeMagic,
+		SpellSchool:    hurricaneRank.SpellSchool,
+		DefenseType:    hurricaneRank.DefenseType,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagChanneled | core.SpellFlagAPL,
 		ClassSpellMask: DruidSpellHurricane,

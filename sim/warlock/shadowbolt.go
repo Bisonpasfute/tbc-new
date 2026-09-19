@@ -11,7 +11,7 @@ func (warlock *Warlock) registerShadowBolt() {
 
 	warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: shadowBoltRank.SpellID},
-		SpellSchool:    core.SpellSchoolShadow,
+		SpellSchool:    shadowBoltRank.SpellSchool,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
 		ClassSpellMask: WarlockSpellShadowBolt,
@@ -26,7 +26,7 @@ func (warlock *Warlock) registerShadowBolt() {
 		},
 
 		DamageMultiplierAdditive: 1,
-		DefenseType:              core.DefenseTypeMagic,
+		DefenseType:              shadowBoltRank.DefenseType,
 		ThreatMultiplier:         1,
 		BonusCoefficient:         shadowBoltCoeff,
 
