@@ -52,6 +52,17 @@ func sealMana(s seal, mana float64) seal {
 	return s
 }
 
+// For the families whose judgement states its own damage. Light and Wisdom are dispatchers with
+// nothing to read, and Justice deals none.
+func sealOfJudged(seals, judges shared.SpellDataTable, rank int32, p proc) seal {
+	j := judges.ByRank(rank)
+	return sealOf(seals, judges, rank, p, judge{
+		minDamage: shared.SpellDataMin(j.Direct),
+		maxDamage: shared.SpellDataMax(j.Direct),
+		coeff:     shared.SpellDataCoef(j.Direct),
+	})
+}
+
 func sealOf(seals, judges shared.SpellDataTable, rank int32, p proc, j judge) seal {
 	s := seals.ByRank(rank)
 	j.spellID = judges.ByRank(rank).SpellID
@@ -112,13 +123,16 @@ var SealOfTheCrusaderRanks = sealRankMap{
 var SealOfCommandRanks = sealRankMap{
 	// The proc share and its coefficient both stay literal: the 70 lives on the proc spell 20424,
 	// which carries no rank subtext and so is in no table, and the coefficient is community-derived
-	// and in no column at all. The judgement damage stays halved until the stun rule lands.
-	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 1, proc{spellID: 20424, value: 0.70, coeff: 0.29}, judge{minDamage: 68, maxDamage: 73, coeff: 0.429}),
-	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 2, proc{spellID: 20424, value: 0.70, coeff: 0.29}, judge{minDamage: 97, maxDamage: 105, coeff: 0.429}),
-	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 3, proc{spellID: 20424, value: 0.70, coeff: 0.29}, judge{minDamage: 124, maxDamage: 135, coeff: 0.429}),
-	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 4, proc{spellID: 20424, value: 0.70, coeff: 0.29}, judge{minDamage: 154, maxDamage: 168, coeff: 0.429}),
-	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 5, proc{spellID: 20424, value: 0.70, coeff: 0.29}, judge{minDamage: 193, maxDamage: 211, coeff: 0.429}),
-	sealOf(spellData.SealOfCommand, spellData.JudgementOfCommand, 6, proc{spellID: 20424, value: 0.70, coeff: 0.29}, judge{minDamage: 228, maxDamage: 252, coeff: 0.429}),
+	// and in no column at all.
+	//
+	// The judgement damage is the client's full number. Judgement of Command deals half of it unless
+	// the target is stunned, and registerSealOfCommandRank halves it there rather than here.
+	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 1, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 2, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 3, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 4, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 5, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
+	sealOfJudged(spellData.SealOfCommand, spellData.JudgementOfCommand, 6, proc{spellID: 20424, value: 0.70, coeff: 0.29}),
 }
 
 func (paladin *Paladin) registerSeals() {
@@ -896,7 +910,11 @@ func (paladin *Paladin) registerSealOfVengeance() {
 // any one time. Lasts 30 sec.
 //
 // Unleashing this Seal's energy will judge an enemy, instantly causing
-// 228 to 252 Holy damage, 456 to 504 if the target is stunned or incapacitated. (stunned is just damage x2)
+// 228 to 252 Holy damage, 456 to 504 if the target is stunned or incapacitated.
+//
+// The table carries 456-504, which is what the client states; the half is applied at cast time
+// against PseudoStats.Stunned. No encounter stuns the boss, so the halved branch is the only one
+// any preset takes - the stunned path ships untested.
 func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 	minDamage := seal.judge.minDamage
 	maxDamage := seal.judge.maxDamage
@@ -913,7 +931,12 @@ func (paladin *Paladin) registerSealOfCommandRank(seal seal) {
 		ThreatMultiplier: 1,
 		BonusCoefficient: seal.judge.coeff,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+			// The client states the stunned number and the game halves it otherwise, so the roll comes
+			// first and the halving second - rolling a halved range is not the same distribution.
 			baseDamage := sim.Roll(minDamage, maxDamage)
+			if !target.PseudoStats.Stunned {
+				baseDamage /= 2
+			}
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialCritOnly)
 			action := core.NewDelayedAction(core.DelayedActionOptions{
 				DoAt:     sim.CurrentTime + core.SpellBatchWindow,
