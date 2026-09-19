@@ -1,10 +1,11 @@
 package warrior
 
 import (
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var demoralizingShoutRank = spellData.DemoralizingShout.BySpellID(25203)
+var demoralizingShoutRank = shared.WithSpellDataFlatThreat(spellData.DemoralizingShout, 56).BySpellID(25203)
 
 func (war *Warrior) registerDemoralizingShout() {
 	war.DemoralizingShoutAuras = war.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
@@ -30,7 +31,7 @@ func (war *Warrior) registerDemoralizingShout() {
 		},
 
 		ThreatMultiplier: 1,
-		FlatThreatBonus:  56,
+		FlatThreatBonus:  demoralizingShoutRank.FlatThreatBonus,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.ActiveTargetUnits {

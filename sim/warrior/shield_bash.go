@@ -1,10 +1,11 @@
 package warrior
 
 import (
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shieldBashRank = spellData.ShieldBash.BySpellID(29704)
+var shieldBashRank = shared.WithSpellDataFlatThreat(spellData.ShieldBash, 192).BySpellID(29704)
 
 func (war *Warrior) registerShieldBash() {
 	actionID := core.ActionID{SpellID: shieldBashRank.SpellID}
@@ -35,7 +36,7 @@ func (war *Warrior) registerShieldBash() {
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1.5,
-		FlatThreatBonus:  192,
+		FlatThreatBonus:  shieldBashRank.FlatThreatBonus,
 
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return war.PseudoStats.CanBlock && war.StanceMatches(DefensiveStance|BattleStance)

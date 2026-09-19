@@ -18,23 +18,24 @@ import (
 var rankSubtext = regexp.MustCompile(`^Rank (\d+)$`)
 
 type generatedRow struct {
-	Rank         int32
-	SpellID      int32
-	Cost         int32
-	CastTimeMs   int32
-	GCDMs        int32
-	CooldownMs   int32
-	MinRange     float64
-	MaxRange     float64
-	MissileSpeed float64
-	ProcChance   int32
-	SchoolMask   int32
-	DefenseType  int32
-	Effects      []generatedEffect
-	Direct       *generatedAmount
-	Heal         *generatedAmount
-	Periodic     *generatedAmount
-	Energize     *generatedAmount
+	Rank            int32
+	SpellID         int32
+	Cost            int32
+	CastTimeMs      int32
+	GCDMs           int32
+	CooldownMs      int32
+	MinRange        float64
+	MaxRange        float64
+	MissileSpeed    float64
+	ProcChance      int32
+	FlatThreatBonus float64
+	SchoolMask      int32
+	DefenseType     int32
+	Effects         []generatedEffect
+	Direct          *generatedAmount
+	Heal            *generatedAmount
+	Periodic        *generatedAmount
+	Energize        *generatedAmount
 }
 
 type generatedEffect struct {
@@ -447,6 +448,9 @@ func buildRow(db *sql.DB, rank int32, spellID int32, mask int) (generatedRow, er
 			row.Heal = amountOf(e)
 		case e.Effect == dbc.E_ENERGIZE && row.Energize == nil:
 			row.Energize = amountOf(e)
+		case IsThreatEffect(e.Effect) && row.FlatThreatBonus == 0:
+			min, _ := DeriveRankAmount(e, spell.SpellLevel, spell.MaxLevel)
+			row.FlatThreatBonus = min
 		case IsPeriodicAura(e.Aura) && row.Periodic == nil:
 			row.Periodic = amountOf(e)
 		}
@@ -678,6 +682,9 @@ func formatRow(row generatedRow, namer *rankEnumNamer) string {
 	}
 	if row.ProcChance > 0 {
 		parts = append(parts, fmt.Sprintf("ProcChance: %d", row.ProcChance))
+	}
+	if row.FlatThreatBonus != 0 {
+		parts = append(parts, fmt.Sprintf("FlatThreatBonus: %s", num(row.FlatThreatBonus)))
 	}
 	if name := schoolName(row.SchoolMask); name != "" {
 		parts = append(parts, "SpellSchool: "+name)

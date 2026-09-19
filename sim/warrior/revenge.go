@@ -3,10 +3,11 @@ package warrior
 import (
 	"time"
 
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var revengeRank = spellData.Revenge.BySpellID(30357)
+var revengeRank = shared.WithSpellDataFlatThreat(spellData.Revenge, 200).BySpellID(30357)
 
 func (war *Warrior) registerRevenge() {
 	actionID := core.ActionID{SpellID: revengeRank.SpellID}
@@ -54,7 +55,7 @@ func (war *Warrior) registerRevenge() {
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
-		FlatThreatBonus:  200,
+		FlatThreatBonus:  revengeRank.FlatThreatBonus,
 
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return war.StanceMatches(DefensiveStance) && aura.IsActive()

@@ -7,7 +7,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var lacerateRank = spellData.Lacerate.BySpellID(33745)
+var lacerateRank = shared.WithSpellDataFlatThreat(spellData.Lacerate, 267).BySpellID(33745)
 var lacerateTick = lacerateRank.Periodic.(shared.SpellDataPeriodic)
 
 func (druid *Druid) registerLacerateSpell() {
@@ -34,7 +34,7 @@ func (druid *Druid) registerLacerateSpell() {
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 0.5,
-		FlatThreatBonus:  267,
+		FlatThreatBonus:  lacerateRank.FlatThreatBonus,
 		MaxRange:         core.MaxMeleeRange,
 
 		Dot: core.DotConfig{

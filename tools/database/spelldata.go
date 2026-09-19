@@ -30,6 +30,12 @@ func IsWeaponDamageEffect(effect dbc.SpellEffectType) bool {
 
 // Devouring Plague ticks as a leech rather than as plain periodic damage, so "is this a DoT" cannot be
 // a single aura check.
+// The client states a flat threat amount on the abilities whose point is threat: Feint and Cower
+// shed it, Distracting Shot adds it. 22 ranked spells across four families carry one.
+func IsThreatEffect(effect dbc.SpellEffectType) bool {
+	return effect == dbc.E_THREAT || effect == dbc.E_THREAT_ALL
+}
+
 func IsPeriodicAura(aura dbc.EffectAuraType) bool {
 	return aura == dbc.A_PERIODIC_DAMAGE || aura == dbc.A_PERIODIC_LEECH
 }

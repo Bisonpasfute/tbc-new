@@ -1,10 +1,11 @@
 package warrior
 
 import (
+	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var hamstringRank = spellData.Hamstring.BySpellID(25212)
+var hamstringRank = shared.WithSpellDataFlatThreat(spellData.Hamstring, 167.5).BySpellID(25212)
 var hamstringBaseDamage, _ = hamstringRank.Direct.Range()
 
 func (war *Warrior) registerHamstring() {
@@ -30,7 +31,7 @@ func (war *Warrior) registerHamstring() {
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1.25,
-		FlatThreatBonus:  167.5,
+		FlatThreatBonus:  hamstringRank.FlatThreatBonus,
 
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return war.StanceMatches(BerserkerStance)

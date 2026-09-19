@@ -160,6 +160,9 @@ type SpellData struct {
 	// on another, and only one of them can be Direct.
 	Effects []SpellDataEffect
 
+	// Flat threat, before ThreatMultiplier. The client states one only where the ability exists to
+	// shed or hold threat - E_THREAT on Feint, Cower, Disengage and Distracting Shot - so everything
+	// else arrives through WithSpellDataFlatThreat.
 	FlatThreatBonus float64
 }
 
@@ -293,6 +296,37 @@ func (t SpellDataTableOf[T]) RegisterAll(factory func(T)) {
 }
 
 type SpellDataTable = SpellDataTableOf[SpellData]
+
+// Threat is hand-supplied in the same way and for the same reason: the client states a flat threat
+// amount only on the four families whose whole purpose is threat - Feint, Cower, Disengage and
+// Distracting Shot, through E_THREAT - and the generator fills those. Every other threat number in
+// the sim is community-derived and has no column to come from.
+//
+// Both forms return a copy and panic if the table already carries a value, so a threat the client
+// does start stating is noticed rather than silently shadowed.
+func WithSpellDataFlatThreat(table SpellDataTable, threat float64) SpellDataTable {
+	return applyFlatThreat(table, func(SpellData) float64 { return threat })
+}
+
+// Every rank in the table has to be named, so a ladder that gains one fails loudly instead of
+// leaving the new rank at zero threat.
+func WithSpellDataFlatThreats(table SpellDataTable, threats map[int32]float64) SpellDataTable {
+	requireEveryRank(table, threats)
+	return applyFlatThreat(table, func(r SpellData) float64 { return threats[r.Rank] })
+}
+
+func applyFlatThreat(table SpellDataTable, threatOf func(SpellData) float64) SpellDataTable {
+	out := make(SpellDataTable, len(table))
+	for i, row := range table {
+		out[i] = row
+		if row.FlatThreatBonus != 0 {
+			panic(fmt.Sprintf("spell %d rank %d already has flat threat %v from the client DB",
+				row.SpellID, row.Rank, row.FlatThreatBonus))
+		}
+		out[i].FlatThreatBonus = threatOf(row)
+	}
+	return out
+}
 
 // Attack power is hand-supplied: one effect in 38357 carries a nonzero BonusCoefficientFromAP, so
 // melee spells hardcode theirs (sim/druid/rip.go:52 reads 990 + 0.18*ap). All forms return a copy and

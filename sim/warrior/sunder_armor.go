@@ -5,7 +5,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var sunderArmorRank = spellData.SunderArmor.BySpellID(25225)
+var sunderArmorRank = shared.WithSpellDataFlatThreat(spellData.SunderArmor, 301.5).BySpellID(25225)
 
 func (war *Warrior) registerSunderArmor() {
 	actionId := core.ActionID{SpellID: sunderArmorRank.SpellID}
@@ -32,7 +32,7 @@ func (war *Warrior) registerSunderArmor() {
 
 			DamageMultiplier: 1,
 			ThreatMultiplier: 1,
-			FlatThreatBonus:  301.5,
+			FlatThreatBonus:  sunderArmorRank.FlatThreatBonus,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				result := spell.CalcOutcome(sim, target, shared.GetOutcome(spell, outcome))

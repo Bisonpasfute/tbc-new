@@ -7,7 +7,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var maulRank = spellData.Maul.BySpellID(26996)
+var maulRank = shared.WithSpellDataFlatThreat(spellData.Maul, 344).BySpellID(26996)
 
 func (druid *Druid) registerMaulSpell() {
 	// The actual Maul spell that fires on the next auto-attack swing.
@@ -32,7 +32,7 @@ func (druid *Druid) registerMaulSpell() {
 
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
-		FlatThreatBonus:  344,
+		FlatThreatBonus:  maulRank.FlatThreatBonus,
 		MaxRange:         core.MaxMeleeRange,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
