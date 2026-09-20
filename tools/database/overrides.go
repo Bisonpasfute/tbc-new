@@ -75,6 +75,15 @@ var ItemOverrides = []*proto.UIItem{
 	{Id: 278953, Phase: 2}, // Frostscythe of Lord Ahune (ilvl 128)
 	{Id: 279240, Phase: 2}, // Shroud of Winter's Chill (ilvl 128)
 
+	// Brewfest - the ilvl 141 versions are the live ones
+	{Id: 281735, Phase: 3}, // Dark Iron Smoking Pipe (ilvl 141)
+	{Id: 281739, Phase: 3}, // Empty Mug of Direbrew (ilvl 141)
+	{Id: 281743, Phase: 3}, // Coren's Lucky Coin (ilvl 141)
+	{Id: 281748, Phase: 3}, // Direbrew Hops (ilvl 141)
+	{Id: 281893, Phase: 3}, // Balebrew Charm (ilvl 141)
+	{Id: 281895, Phase: 3}, // Brightbrew Charm (ilvl 141)
+	{Id: 281903, Phase: 3}, // Direbrew's Shanker (ilvl 141)
+
 	{Id: 34665, Phase: 5},
 	{Id: 34666, Phase: 5},
 	{Id: 34667, Phase: 5},
@@ -168,35 +177,36 @@ var ItemDenyList = map[int32]struct{}{
 	279241: {}, // Shroud of Winter's Chill (ilvl 141)
 	279242: {}, // Shroud of Winter's Chill (ilvl 154)
 
-	// TBC - Brewfest - Old items
-	// NOTE: Enable the correct ilvl once the holiday comes around
+	// TBC - Brewfest - superseded by the ilvl 141 versions below
+	38287: {}, // Empty Mug of Direbrew (ilvl 110)
+	38288: {}, // Direbrew Hops (ilvl 110)
+	38289: {}, // Coren's Lucky Coin (ilvl 110)
+	38290: {}, // Dark Iron Smoking Pipe (ilvl 110)
+	37127: {}, // Brightbrew Charm (ilvl 128)
+	37128: {}, // Balebrew Charm (ilvl 128)
+	37597: {}, // Direbrew's Shanker (ilvl 115)
+
+	// TBC - Brewfest - wrong ilvl variants (the ilvl 141 versions are live)
 	281726: {}, // Dark Iron Smoking Pipe (ilvl 115)
 	281734: {}, // Dark Iron Smoking Pipe (ilvl 128)
-	281735: {}, // Dark Iron Smoking Pipe (ilvl 141)
 	281736: {}, // Dark Iron Smoking Pipe (ilvl 154)
 	281737: {}, // Empty Mug of Direbrew (ilvl 115)
 	281738: {}, // Empty Mug of Direbrew (ilvl 128)
-	281739: {}, // Empty Mug of Direbrew (ilvl 141)
 	281740: {}, // Empty Mug of Direbrew (ilvl 154)
 	281741: {}, // Coren's Lucky Coin (ilvl 115)
 	281742: {}, // Coren's Lucky Coin (ilvl 128)
-	281743: {}, // Coren's Lucky Coin (ilvl 141)
 	281744: {}, // Coren's Lucky Coin (ilvl 154)
 	281745: {}, // Direbrew Hops (ilvl 115)
 	281747: {}, // Direbrew Hops (ilvl 128)
-	281748: {}, // Direbrew Hops (ilvl 141)
 	281749: {}, // Direbrew Hops (ilvl 154)
 	281892: {}, // Balebrew Charm (ilvl 128)
-	281893: {}, // Balebrew Charm (ilvl 141)
 	281894: {}, // Brightbrew Charm (ilvl 128)
-	281895: {}, // Brightbrew Charm (ilvl 141)
 	281897: {}, // Brightbrew Charm (ilvl 154)
 	281898: {}, // Brightbrew Charm (ilvl 115)
 	281899: {}, // Balebrew Charm (ilvl 154)
 	281900: {}, // Balebrew Charm (ilvl 115)
 	281901: {}, // Direbrew's Shanker (ilvl 115)
 	281902: {}, // Direbrew's Shanker (ilvl 128)
-	281903: {}, // Direbrew's Shanker (ilvl 141)
 	281904: {}, // Direbrew's Shanker (ilvl 154)
 
 	// TBC - Hallows End - Old items

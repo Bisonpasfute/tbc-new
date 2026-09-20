@@ -126,28 +126,28 @@ func RegisterAllOnUseCds() {
 	shared.NewSimpleStatActive(30629) // Scarab of Displacement - https://www.wowhead.com/tbc/spell=38351
 
 	// AttackPower / RangedAttackPower
-	shared.NewSimpleStatActive(14554) // Cloudkeeper Legplates - https://www.wowhead.com/tbc/spell=18787
-	shared.NewSimpleStatActive(21180) // Earthstrike - https://www.wowhead.com/tbc/spell=25891
-	shared.NewSimpleStatActive(23041) // Slayer's Crest - https://www.wowhead.com/tbc/spell=28777
-	shared.NewSimpleStatActive(25628) // Ogre Mauler's Badge - https://www.wowhead.com/tbc/spell=32362
-	shared.NewSimpleStatActive(25633) // Uniting Charm - https://www.wowhead.com/tbc/spell=32362
-	shared.NewSimpleStatActive(25937) // Terokkar Tablet of Precision - https://www.wowhead.com/tbc/spell=39200
-	shared.NewSimpleStatActive(25994) // Rune of Force - https://www.wowhead.com/tbc/spell=32955
-	shared.NewSimpleStatActive(28041) // Bladefist's Breadth - https://www.wowhead.com/tbc/spell=33667
-	shared.NewSimpleStatActive(29383) // Bloodlust Brooch - https://www.wowhead.com/tbc/spell=35166
-	shared.NewSimpleStatActive(29776) // Core of Ar'kelos - https://www.wowhead.com/tbc/spell=35733
-	shared.NewSimpleStatActive(31617) // Ancient Draenei War Talisman - https://www.wowhead.com/tbc/spell=33667
-	shared.NewSimpleStatActive(32654) // Crystalforged Trinket - https://www.wowhead.com/tbc/spell=40724
-	shared.NewSimpleStatActive(33831) // Berserker's Call - https://www.wowhead.com/tbc/spell=43716
-	shared.NewSimpleStatActive(38287) // Empty Mug of Direbrew - https://www.wowhead.com/tbc/spell=51955
+	shared.NewSimpleStatActive(14554)  // Cloudkeeper Legplates - https://www.wowhead.com/tbc/spell=18787
+	shared.NewSimpleStatActive(21180)  // Earthstrike - https://www.wowhead.com/tbc/spell=25891
+	shared.NewSimpleStatActive(23041)  // Slayer's Crest - https://www.wowhead.com/tbc/spell=28777
+	shared.NewSimpleStatActive(25628)  // Ogre Mauler's Badge - https://www.wowhead.com/tbc/spell=32362
+	shared.NewSimpleStatActive(25633)  // Uniting Charm - https://www.wowhead.com/tbc/spell=32362
+	shared.NewSimpleStatActive(25937)  // Terokkar Tablet of Precision - https://www.wowhead.com/tbc/spell=39200
+	shared.NewSimpleStatActive(25994)  // Rune of Force - https://www.wowhead.com/tbc/spell=32955
+	shared.NewSimpleStatActive(28041)  // Bladefist's Breadth - https://www.wowhead.com/tbc/spell=33667
+	shared.NewSimpleStatActive(29383)  // Bloodlust Brooch - https://www.wowhead.com/tbc/spell=35166
+	shared.NewSimpleStatActive(29776)  // Core of Ar'kelos - https://www.wowhead.com/tbc/spell=35733
+	shared.NewSimpleStatActive(31617)  // Ancient Draenei War Talisman - https://www.wowhead.com/tbc/spell=33667
+	shared.NewSimpleStatActive(32654)  // Crystalforged Trinket - https://www.wowhead.com/tbc/spell=40724
+	shared.NewSimpleStatActive(33831)  // Berserker's Call - https://www.wowhead.com/tbc/spell=43716
+	shared.NewSimpleStatActive(281739) // Empty Mug of Direbrew - https://www.wowhead.com/tbc/spell=1312281
 
 	// BlockRating
 	shared.NewSimpleStatActive(30300) // Dabiri's Enigma - https://www.wowhead.com/tbc/spell=36372
 
 	// BlockValue
-	shared.NewSimpleStatActive(23040) // Glyph of Deflection - https://www.wowhead.com/tbc/spell=28773
-	shared.NewSimpleStatActive(29387) // Gnomeregan Auto-Blocker 600 - https://www.wowhead.com/tbc/spell=35169
-	shared.NewSimpleStatActive(38289) // Coren's Lucky Coin - https://www.wowhead.com/tbc/spell=51952
+	shared.NewSimpleStatActive(23040)  // Glyph of Deflection - https://www.wowhead.com/tbc/spell=28773
+	shared.NewSimpleStatActive(29387)  // Gnomeregan Auto-Blocker 600 - https://www.wowhead.com/tbc/spell=35169
+	shared.NewSimpleStatActive(281743) // Coren's Lucky Coin - https://www.wowhead.com/tbc/spell=1312295
 
 	// DefenseRating
 	shared.NewSimpleStatActive(25996) // Emblem of Perseverance - https://www.wowhead.com/tbc/spell=32957
@@ -175,26 +175,26 @@ func RegisterAllOnUseCds() {
 		RequireDamageDealt:    false,
 		TrinketLimitsDuration: true,
 	})
-	shared.NewSimpleStatActive(23046) // The Restrained Essence of Sapphiron - https://www.wowhead.com/tbc/spell=28779
-	shared.NewSimpleStatActive(23047) // Eye of the Dead - https://www.wowhead.com/tbc/spell=28780
-	shared.NewSimpleStatActive(25619) // Glowing Crystal Insignia - https://www.wowhead.com/tbc/spell=32355
-	shared.NewSimpleStatActive(25620) // Ancient Crystal Talisman - https://www.wowhead.com/tbc/spell=32355
-	shared.NewSimpleStatActive(25634) // Oshu'gun Relic - https://www.wowhead.com/tbc/spell=32367
-	shared.NewSimpleStatActive(25936) // Terokkar Tablet of Vim - https://www.wowhead.com/tbc/spell=39201
-	shared.NewSimpleStatActive(25995) // Star of Sha'naar - https://www.wowhead.com/tbc/spell=32956
-	shared.NewSimpleStatActive(27828) // Warp-Scarab Brooch - https://www.wowhead.com/tbc/spell=33400
-	shared.NewSimpleStatActive(28040) // Vengeance of the Illidari - https://www.wowhead.com/tbc/spell=33662
-	shared.NewSimpleStatActive(28223) // Arcanist's Stone - https://www.wowhead.com/tbc/spell=34000
-	shared.NewSimpleStatActive(29132) // Scryer's Bloodgem - https://www.wowhead.com/tbc/spell=35337
-	shared.NewSimpleStatActive(29179) // Xi'ri's Gift - https://www.wowhead.com/tbc/spell=35337
-	shared.NewSimpleStatActive(29370) // Icon of the Silver Crescent - https://www.wowhead.com/tbc/spell=35163
-	shared.NewSimpleStatActive(29376) // Essence of the Martyr - https://www.wowhead.com/tbc/spell=35165
-	shared.NewSimpleStatActive(30293) // Heavenly Inspiration - https://www.wowhead.com/tbc/spell=36347
-	shared.NewSimpleStatActive(31615) // Ancient Draenei Arcane Relic - https://www.wowhead.com/tbc/spell=33662
-	shared.NewSimpleStatActive(33828) // Tome of Diabolic Remedy - https://www.wowhead.com/tbc/spell=43710
-	shared.NewSimpleStatActive(33829) // Hex Shrunken Head - https://www.wowhead.com/tbc/spell=43712
-	shared.NewSimpleStatActive(38288) // Direbrew Hops - https://www.wowhead.com/tbc/spell=51954
-	shared.NewSimpleStatActive(38290) // Dark Iron Smoking Pipe - https://www.wowhead.com/tbc/spell=51953
+	shared.NewSimpleStatActive(23046)  // The Restrained Essence of Sapphiron - https://www.wowhead.com/tbc/spell=28779
+	shared.NewSimpleStatActive(23047)  // Eye of the Dead - https://www.wowhead.com/tbc/spell=28780
+	shared.NewSimpleStatActive(25619)  // Glowing Crystal Insignia - https://www.wowhead.com/tbc/spell=32355
+	shared.NewSimpleStatActive(25620)  // Ancient Crystal Talisman - https://www.wowhead.com/tbc/spell=32355
+	shared.NewSimpleStatActive(25634)  // Oshu'gun Relic - https://www.wowhead.com/tbc/spell=32367
+	shared.NewSimpleStatActive(25936)  // Terokkar Tablet of Vim - https://www.wowhead.com/tbc/spell=39201
+	shared.NewSimpleStatActive(25995)  // Star of Sha'naar - https://www.wowhead.com/tbc/spell=32956
+	shared.NewSimpleStatActive(27828)  // Warp-Scarab Brooch - https://www.wowhead.com/tbc/spell=33400
+	shared.NewSimpleStatActive(28040)  // Vengeance of the Illidari - https://www.wowhead.com/tbc/spell=33662
+	shared.NewSimpleStatActive(28223)  // Arcanist's Stone - https://www.wowhead.com/tbc/spell=34000
+	shared.NewSimpleStatActive(29132)  // Scryer's Bloodgem - https://www.wowhead.com/tbc/spell=35337
+	shared.NewSimpleStatActive(29179)  // Xi'ri's Gift - https://www.wowhead.com/tbc/spell=35337
+	shared.NewSimpleStatActive(29370)  // Icon of the Silver Crescent - https://www.wowhead.com/tbc/spell=35163
+	shared.NewSimpleStatActive(29376)  // Essence of the Martyr - https://www.wowhead.com/tbc/spell=35165
+	shared.NewSimpleStatActive(30293)  // Heavenly Inspiration - https://www.wowhead.com/tbc/spell=36347
+	shared.NewSimpleStatActive(31615)  // Ancient Draenei Arcane Relic - https://www.wowhead.com/tbc/spell=33662
+	shared.NewSimpleStatActive(33828)  // Tome of Diabolic Remedy - https://www.wowhead.com/tbc/spell=43710
+	shared.NewSimpleStatActive(33829)  // Hex Shrunken Head - https://www.wowhead.com/tbc/spell=43712
+	shared.NewSimpleStatActive(281735) // Dark Iron Smoking Pipe - https://www.wowhead.com/tbc/spell=1312270
+	shared.NewSimpleStatActive(281748) // Direbrew Hops - https://www.wowhead.com/tbc/spell=1312306
 
 	// Health
 	shared.NewSimpleStatActive(28042) // Regal Protectorate - https://www.wowhead.com/tbc/spell=33668
@@ -388,16 +388,16 @@ func RegisterAllOnUseCds() {
 	// https://www.wowhead.com/tbc/spell=46783
 	// Not simulated: Figurine - Shadowsong Panther: "Shadowsong Panther" (46784) - ignored effect type 28
 	// https://www.wowhead.com/tbc/spell=46784
-	// Not simulated: Brightbrew Charm: "Summon the Brewmaiden" (48041) - ignored effect type 28
-	// https://www.wowhead.com/tbc/spell=48041
-	// Not simulated: Balebrew Charm: "Summon the Black Brewmaiden" (48042) - ignored effect type 28
-	// https://www.wowhead.com/tbc/spell=48042
 	// Not simulated: Medallion of the Alliance: "PvP Trinket" (42292) - ignored aura type 77
 	// https://www.wowhead.com/tbc/spell=42292
 	// Not simulated: Medallion of the Horde: "PvP Trinket" (42292) - ignored aura type 77
 	// https://www.wowhead.com/tbc/spell=42292
 	// Not simulated: Don Carlos' Famous Hat: "Summon Coyote Spirit" (51149) - ignored effect type 28
 	// https://www.wowhead.com/tbc/spell=51149
+	// Not simulated: Balebrew Charm: "Summon the Black Brewmaiden" (1312358) - ignored effect type 28
+	// https://www.wowhead.com/tbc/spell=1312358
+	// Not simulated: Brightbrew Charm: "Summon the Brewmaiden" (1312338) - ignored effect type 28
+	// https://www.wowhead.com/tbc/spell=1312338
 
 	// SpellCritRating
 	shared.NewSimpleStatActive(19952) // Gri'lek's Charm of Valor - https://www.wowhead.com/tbc/spell=24498

@@ -347,7 +347,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-Coren'sLuckyCoin-38289"
+ key: "TestEnhancement-AllItems-Coren'sLuckyCoin-281743"
  value: {
   dps: 1886.34828
   tps: 1195.00642
@@ -396,10 +396,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-DarkIronSmokingPipe-38290"
+ key: "TestEnhancement-AllItems-DarkIronSmokingPipe-281735"
  value: {
-  dps: 1925.78438
-  tps: 1200.68238
+  dps: 1939.60182
+  tps: 1202.59571
  }
 }
 dps_results: {
@@ -431,10 +431,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-DirebrewHops-38288"
+ key: "TestEnhancement-AllItems-DirebrewHops-281748"
  value: {
-  dps: 1911.87232
-  tps: 1198.80428
+  dps: 1920.6474
+  tps: 1199.9688
  }
 }
 dps_results: {
@@ -487,10 +487,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-EmptyMugofDirebrew-38287"
+ key: "TestEnhancement-AllItems-EmptyMugofDirebrew-281739"
  value: {
-  dps: 1938.33871
-  tps: 1230.81258
+  dps: 1956.89492
+  tps: 1243.59278
  }
 }
 dps_results: {

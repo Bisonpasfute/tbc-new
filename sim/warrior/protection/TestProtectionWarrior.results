@@ -461,11 +461,11 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-Coren'sLuckyCoin-38289"
+ key: "TestProtectionWarrior-AllItems-Coren'sLuckyCoin-281743"
  value: {
-  dps: 795.3834
-  tps: 1454.8152
-  dtps: 1276.48364
+  dps: 801.25473
+  tps: 1464.09118
+  dtps: 1268.0829
  }
 }
 dps_results: {
@@ -501,7 +501,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-DarkIronSmokingPipe-38290"
+ key: "TestProtectionWarrior-AllItems-DarkIronSmokingPipe-281735"
  value: {
   dps: 775.39202
   tps: 1425.10754
@@ -549,7 +549,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-DirebrewHops-38288"
+ key: "TestProtectionWarrior-AllItems-DirebrewHops-281748"
  value: {
   dps: 775.39202
   tps: 1425.10754
@@ -629,11 +629,11 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-EmptyMugofDirebrew-38287"
+ key: "TestProtectionWarrior-AllItems-EmptyMugofDirebrew-281739"
  value: {
-  dps: 794.88454
-  tps: 1456.16285
-  dtps: 1301.02936
+  dps: 802.12138
+  tps: 1467.01883
+  dtps: 1297.39172
  }
 }
 dps_results: {
