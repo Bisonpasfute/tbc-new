@@ -326,7 +326,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRogue-AllItems-Coren'sLuckyCoin-38289"
+ key: "TestRogue-AllItems-Coren'sLuckyCoin-281743"
  value: {
   dps: 1821.72253
   tps: 905.3961
@@ -361,7 +361,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRogue-AllItems-DarkIronSmokingPipe-38290"
+ key: "TestRogue-AllItems-DarkIronSmokingPipe-281735"
  value: {
   dps: 1821.72253
   tps: 905.3961
@@ -396,7 +396,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRogue-AllItems-DirebrewHops-38288"
+ key: "TestRogue-AllItems-DirebrewHops-281748"
  value: {
   dps: 1821.72253
   tps: 905.3961
@@ -466,10 +466,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRogue-AllItems-EmptyMugofDirebrew-38287"
+ key: "TestRogue-AllItems-EmptyMugofDirebrew-281739"
  value: {
-  dps: 1873.3746
-  tps: 931.06717
+  dps: 1891.81469
+  tps: 940.2319
  }
 }
 dps_results: {
