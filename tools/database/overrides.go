@@ -75,6 +75,14 @@ var ItemOverrides = []*proto.UIItem{
 	{Id: 278953, Phase: 2}, // Frostscythe of Lord Ahune (ilvl 128)
 	{Id: 279240, Phase: 2}, // Shroud of Winter's Chill (ilvl 128)
 
+	{Id: 281735, Phase: 3}, // Dark Iron Smoking Pipe (ilvl 141)
+	{Id: 281739, Phase: 3}, // Empty Mug of Direbrew (ilvl 141)
+	{Id: 281743, Phase: 3}, // Coren's Lucky Coin (ilvl 141)
+	{Id: 281748, Phase: 3}, // Direbrew Hops (ilvl 141)
+	{Id: 281893, Phase: 3}, // Balebrew Charm (ilvl 141)
+	{Id: 281895, Phase: 3}, // Brightbrew Charm (ilvl 141)
+	{Id: 281903, Phase: 3}, // Direbrew's Shanker (ilvl 141)
+
 	{Id: 34665, Phase: 5},
 	{Id: 34666, Phase: 5},
 	{Id: 34667, Phase: 5},
