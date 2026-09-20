@@ -1,5 +1,17 @@
 import * as PresetUtils from '@app/preset_utils';
-import { ConsumesSpec, Debuffs, Drums, IndividualBuffs, PartyBuffs, Profession, PseudoStat, RaidBuffs, Stat, TristateEffect } from '@generated/proto/common';
+import {
+	ConsumesSpec,
+	Debuffs,
+	Drums,
+	IndividualBuffs,
+	PartyBuffs,
+	Profession,
+	PseudoStat,
+	Race,
+	RaidBuffs,
+	Stat,
+	TristateEffect,
+} from '@generated/proto/common';
 import { DpsPriest_Options as Options } from '@generated/proto/priest';
 import { SavedTalents } from '@generated/proto/ui';
 import { Stats } from '@sim/proto/stats';
@@ -119,8 +131,9 @@ export const DefaultDebuffs = Debuffs.create({
 });
 
 export const OtherDefaults = {
+	race: Race.RaceTroll,
 	channelClipDelay: 100,
-	distanceFromTarget: 28,
+	distanceFromTarget: 20,
 	profession1: Profession.Enchanting,
 	profession2: Profession.Tailoring,
 };
