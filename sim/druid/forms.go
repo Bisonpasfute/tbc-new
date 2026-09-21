@@ -309,18 +309,22 @@ func (druid *Druid) registerBearFormSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
-			if cur := druid.CurrentRage(); cur > 0 {
-				// Resets rage to 0 when entering bear form
-				druid.SpendRage(sim, cur, rageMetrics)
-			}
-			// Wolfshead Helm: +5 rage on shift into Bear.
-			rageGain := druid.WolfsheadRageBonus
-			// Furor: 20% chance per rank (rank 5 = 100%) to gain 10 rage on shift.
-			if druid.FurorProcChance == 1 || (druid.FurorProcChance > 0 && sim.RandomFloat("Furor") < druid.FurorProcChance) {
-				rageGain += 10.0
-			}
-			if rageGain > 0 {
-				druid.AddRage(sim, rageGain, rageMetrics)
+			// Shifting before the pull keeps the configured starting rage: the
+			// rage wipe and the on-shift gains only model an in-combat shift.
+			if sim.CurrentTime > 0 {
+				if cur := druid.CurrentRage(); cur > 0 {
+					// Resets rage to 0 when entering bear form
+					druid.SpendRage(sim, cur, rageMetrics)
+				}
+				// Wolfshead Helm: +5 rage on shift into Bear.
+				rageGain := druid.WolfsheadRageBonus
+				// Furor: 20% chance per rank (rank 5 = 100%) to gain 10 rage on shift.
+				if druid.FurorProcChance == 1 || (druid.FurorProcChance > 0 && sim.RandomFloat("Furor") < druid.FurorProcChance) {
+					rageGain += 10.0
+				}
+				if rageGain > 0 {
+					druid.AddRage(sim, rageGain, rageMetrics)
+				}
 			}
 			druid.BearFormAura.Activate(sim)
 		},
