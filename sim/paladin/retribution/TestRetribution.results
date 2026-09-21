@@ -205,14 +205,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRetribution-AllItems-Battlemaster'sAlacrity-35326"
- value: {
-  dps: 1824.23326
-  tps: 922.61482
-  dtps: 12.67184
- }
-}
-dps_results: {
  key: "TestRetribution-AllItems-Battlemaster'sAlacrity-35327"
  value: {
   dps: 1824.23326

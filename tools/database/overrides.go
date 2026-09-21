@@ -83,6 +83,14 @@ var ItemOverrides = []*proto.UIItem{
 	{Id: 281895, Phase: 3}, // Brightbrew Charm (ilvl 141)
 	{Id: 281903, Phase: 3}, // Direbrew's Shanker (ilvl 141)
 
+	// Battlemaster trinkets are phase 3
+	{Id: 33832, Phase: 3}, // Battlemaster's Determination
+	{Id: 34049, Phase: 3}, // Battlemaster's Audacity
+	{Id: 34050, Phase: 3}, // Battlemaster's Perseverance
+	{Id: 34162, Phase: 3}, // Battlemaster's Depravity
+	{Id: 34163, Phase: 3}, // Battlemaster's Cruelty
+	{Id: 35327, Phase: 3}, // Battlemaster's Alacrity
+
 	{Id: 34665, Phase: 5},
 	{Id: 34666, Phase: 5},
 	{Id: 34667, Phase: 5},
@@ -137,6 +145,7 @@ var ItemDenyList = map[int32]struct{}{
 	34578: {}, // Battlemaster's Determination
 	34579: {}, // Battlemaster's Audacity
 	34580: {}, // Battlemaster's Perseverence
+	35326: {}, // Battlemaster's Alacrity (duplicate of 35327)
 
 	// Ahune items with the wrong ilvl
 	35494:  {}, // Shroud of Winter's Chill (ilvl 110)
