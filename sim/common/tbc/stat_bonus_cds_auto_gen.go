@@ -206,7 +206,6 @@ func RegisterAllOnUseCds() {
 	shared.NewSimpleStatActive(34162) // Battlemaster's Depravity - https://www.wowhead.com/tbc/spell=44055
 	shared.NewSimpleStatActive(34163) // Battlemaster's Cruelty - https://www.wowhead.com/tbc/spell=44055
 	shared.NewSimpleStatActive(34428) // Steely Naaru Sliver - https://www.wowhead.com/tbc/spell=45049
-	shared.NewSimpleStatActive(35326) // Battlemaster's Alacrity - https://www.wowhead.com/tbc/spell=44055
 	shared.NewSimpleStatActive(35327) // Battlemaster's Alacrity - https://www.wowhead.com/tbc/spell=44055
 
 	// Health / Strength

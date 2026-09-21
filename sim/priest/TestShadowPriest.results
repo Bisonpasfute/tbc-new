@@ -207,13 +207,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestShadowPriest-AllItems-Battlemaster'sAlacrity-35326"
- value: {
-  dps: 1739.39452
-  tps: 900.12253
- }
-}
-dps_results: {
  key: "TestShadowPriest-AllItems-Battlemaster'sAlacrity-35327"
  value: {
   dps: 1739.39452

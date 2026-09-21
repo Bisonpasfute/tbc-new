@@ -287,15 +287,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralCat-AllItems-Battlemaster'sAlacrity-35326"
- value: {
-  dps: 2485.91021
-  tps: 1265.64077
-  dtps: 10.57974
-  hps: 69.70382
- }
-}
-dps_results: {
  key: "TestFeralCat-AllItems-Battlemaster'sAlacrity-35327"
  value: {
   dps: 2485.91021

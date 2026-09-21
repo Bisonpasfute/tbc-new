@@ -200,13 +200,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-Battlemaster'sAlacrity-35326"
- value: {
-  dps: 1888.8319
-  tps: 1197.09726
- }
-}
-dps_results: {
  key: "TestEnhancement-AllItems-Battlemaster'sAlacrity-35327"
  value: {
   dps: 1888.8319

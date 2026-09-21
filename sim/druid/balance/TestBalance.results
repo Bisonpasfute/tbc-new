@@ -193,13 +193,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestBalance-AllItems-Battlemaster'sAlacrity-35326"
- value: {
-  dps: 1474.91969
-  tps: 992.66384
- }
-}
-dps_results: {
  key: "TestBalance-AllItems-Battlemaster'sAlacrity-35327"
  value: {
   dps: 1474.91969
