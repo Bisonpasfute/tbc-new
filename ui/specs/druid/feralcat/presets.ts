@@ -1,5 +1,5 @@
 import * as PresetUtils from '@app/preset_utils';
-import { ConsumesSpec, Drums, Profession, Race, Spec, Stat } from '@generated/proto/common';
+import { ConsumesSpec, Profession, Race, Spec, Stat } from '@generated/proto/common';
 import {
 	FeralCatDruid_Options as FeralDruidOptions,
 	FeralCatDruid_Rotation as FeralCatDruidRotation,
@@ -78,7 +78,6 @@ export const DefaultConsumables = ConsumesSpec.create({
 	foodId: 27664, // Grilled Mudfish (+20 Agility)
 	mhImbueId: 34340, // Adamantite Weightstone
 	conjuredId: 12662, // Demonic Rune
-	drumsId: Drums.GreaterDrumsOfBattle,
 	superSapper: true,
 	goblinSapper: true,
 	scrollAgi: true,
