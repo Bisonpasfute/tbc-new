@@ -50,7 +50,7 @@ export const ConsumesPicker = ({
 					</PickerGroup>
 				</ConsumeRow>
 			)}
-			<ConsumeRow name="elixirs">
+			<ConsumeRow name="elixirs" configs={[configs.flask, configs.battleElixir, configs.guardianElixir]}>
 				<PickerGroup variant="icons" className="justify-end">
 					<div data-testid="consumes-flasks">
 						<IconEnumPicker modObject={player} config={configs.flask} />
@@ -64,7 +64,7 @@ export const ConsumesPicker = ({
 					</div>
 				</PickerGroup>
 			</ConsumeRow>
-			<ConsumeRow name="food">
+			<ConsumeRow name="food" configs={[configs.food]}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-food">
 					<IconEnumPicker modObject={player} config={configs.food} />
 				</PickerGroup>
@@ -78,7 +78,7 @@ export const ConsumesPicker = ({
 					</PickerGroup>
 				</ConsumeRow>
 			)}
-			<ConsumeRow name="imbue">
+			<ConsumeRow name="imbue" configs={[configs.mhImbue, ...(player.getPlayerSpec().canDualWield ? [configs.ohImbue] : [])]}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-imbue">
 					<IconEnumPicker modObject={player} config={configs.mhImbue} />
 					{/* Vanilla gated the off-hand imbue on the five dual-wield specs. The picker's own
@@ -91,7 +91,7 @@ export const ConsumesPicker = ({
 			{/* Never unmounted, the way vanilla's drums row was: the picker has to stay mounted while
 			    it is hidden so that it zeroes a drums selection the player can no longer make, and restores
 			    it if Leatherworking comes back. A gear planner hides the row for good. */}
-			<ConsumeRow name="drums" hidden={!encounterConsumes}>
+			<ConsumeRow name="drums" configs={[configs.drums]} hidden={!encounterConsumes}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-drums">
 					<IconEnumPicker modObject={player} config={configs.drums} />
 				</PickerGroup>
@@ -122,7 +122,7 @@ export const ConsumesPicker = ({
 					</PickerGroup>
 				</ConsumeRow>
 			)}
-			<ConsumeRow name="pet" hidden={!encounterConsumes}>
+			<ConsumeRow name="pet" configs={[configs.petFood, ConsumablesInputs.PetScrollAgi, ConsumablesInputs.PetScrollStr]} hidden={!encounterConsumes}>
 				<PickerGroup variant="icons" className="justify-end" data-testid="consumes-pet">
 					<IconEnumPicker modObject={player} config={configs.petFood} />
 					<IconPicker modObject={player} config={ConsumablesInputs.PetScrollAgi} />
