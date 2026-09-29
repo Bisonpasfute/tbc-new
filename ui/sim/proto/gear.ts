@@ -363,11 +363,7 @@ export class Gear extends BaseGear {
 	}
 	hasOHWeapon(): boolean {
 		const weapon = this.getEquippedItem(ItemSlot.ItemSlotOffHand);
-		return (
-			weapon != null &&
-			![HandType.HandTypeOffHand].includes(weapon.item.handType) &&
-			![WeaponType.WeaponTypeOffHand, WeaponType.WeaponTypeShield].includes(weapon.item.weaponType)
-		);
+		return weapon != null && ![WeaponType.WeaponTypeOffHand, WeaponType.WeaponTypeShield].includes(weapon.item.weaponType);
 	}
 	hasBluntMHWeapon(): boolean {
 		const weapon = this.getEquippedItem(ItemSlot.ItemSlotMainHand);
