@@ -1,4 +1,4 @@
-import { APLAction, APLPrepullAction, APLRotation, APLRotation_Type } from '@generated/proto/apl';
+import { APLAction, APLListItem, APLPrepullAction, APLRotation, APLRotation_Type } from '@generated/proto/apl';
 import { ActionID as ActionIdProto, Cooldowns, Spec } from '@generated/proto/common';
 
 import { Player } from '../player/player';
@@ -131,6 +131,47 @@ export function simpleCooldownActions(cooldowns: Cooldowns): Array<APLAction> {
 			const schedule = cd.timings.map(timing => timing.toFixed(1) + 's').join(', ');
 			return scheduledCooldownAction(schedule, cd.id!);
 		});
+}
+
+/**
+ * Hides top-level castSpell actions for any cooldown the user has scheduled with
+ * at least one timing, so a preset's own logic for that spell can't fire before or
+ * between the user's timings. Hiding rather than removing keeps list indices stable.
+ * Mutates the given list, so pass a cloned rotation's list.
+ * Matches on spell/item ID and ignores tag and rank, because the simulator removes
+ * the whole shared-timer family from autocast anyway.
+ * Cooldowns with no timings are left alone: their schedule action is invalid and
+ * gets dropped, so hiding the preset line would mean the spell is never cast.
+ */
+export function hideScheduledCooldownCasts(priorityList: Array<APLListItem>, cooldowns: Cooldowns): void {
+	const scheduled = new Set(
+		cooldowns.cooldowns
+			.filter(cd => cd.timings.length > 0)
+			.map(cd => rawIdKey(cd.id))
+			.filter(key => key !== null),
+	);
+	if (!scheduled.size) return;
+
+	for (const item of priorityList) {
+		const action = item.action?.action;
+		if (action?.oneofKind !== 'castSpell') continue;
+		const key = rawIdKey(action.castSpell.spellId);
+		if (key !== null && scheduled.has(key)) item.hide = true;
+	}
+}
+
+function rawIdKey(id: ActionIdProto | undefined): string | null {
+	const rawId = id?.rawId;
+	switch (rawId?.oneofKind) {
+		case 'spellId':
+			return `spell:${rawId.spellId}`;
+		case 'itemId':
+			return `item:${rawId.itemId}`;
+		case 'otherId':
+			return `other:${rawId.otherId}`;
+		default:
+			return null;
+	}
 }
 
 export function standardCooldownDefaults(cooldowns: Cooldowns, prepotAt?: string, startAutocastCDsAt?: string): [Array<APLPrepullAction>, Array<APLAction>] {
