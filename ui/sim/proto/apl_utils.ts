@@ -1,4 +1,4 @@
-import { APLAction, APLListItem, APLPrepullAction, APLRotation, APLRotation_Type } from '@generated/proto/apl';
+import { APLAction, APLPrepullAction, APLRotation, APLRotation_Type } from '@generated/proto/apl';
 import { ActionID as ActionIdProto, Cooldowns, Spec } from '@generated/proto/common';
 
 import { Player } from '../player/player';
@@ -134,16 +134,16 @@ export function simpleCooldownActions(cooldowns: Cooldowns): Array<APLAction> {
 }
 
 /**
- * Hides top-level castSpell actions for any cooldown the user has scheduled with
- * at least one timing, so a preset's own logic for that spell can't fire before or
- * between the user's timings. Hiding rather than removing keeps list indices stable.
- * Mutates the given list, so pass a cloned rotation's list.
+ * Hides castSpell actions, in the priority list and in action groups, for any cooldown
+ * the user has scheduled with at least one timing, so a preset's own logic for that
+ * spell can't fire before or between the user's timings. Hiding rather than removing
+ * keeps list indices stable. Mutates the given rotation, so pass a clone.
  * Matches on spell/item ID and ignores tag and rank, because the simulator removes
  * the whole shared-timer family from autocast anyway.
  * Cooldowns with no timings are left alone: their schedule action is invalid and
  * gets dropped, so hiding the preset line would mean the spell is never cast.
  */
-export function hideScheduledCooldownCasts(priorityList: Array<APLListItem>, cooldowns: Cooldowns): void {
+export function hideScheduledCooldownCasts(rotation: APLRotation, cooldowns: Cooldowns): void {
 	const scheduled = new Set(
 		cooldowns.cooldowns
 			.filter(cd => cd.timings.length > 0)
@@ -152,7 +152,7 @@ export function hideScheduledCooldownCasts(priorityList: Array<APLListItem>, coo
 	);
 	if (!scheduled.size) return;
 
-	for (const item of priorityList) {
+	for (const item of [...rotation.priorityList, ...rotation.groups.flatMap(group => group.actions)]) {
 		const action = item.action?.action;
 		if (action?.oneofKind !== 'castSpell') continue;
 		const key = rawIdKey(action.castSpell.spellId);

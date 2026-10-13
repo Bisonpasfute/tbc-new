@@ -178,7 +178,7 @@ export default defineSpec<Spec.SpecMage>({
 		rotation.valueVariables[2] = delayMajorCDsString;
 
 		// The user's timings replace the preset's own logic for those spells (e.g. Icy Veins lust/drums alignment).
-		AplUtils.hideScheduledCooldownCasts(rotation.priorityList, cooldowns);
+		AplUtils.hideScheduledCooldownCasts(rotation, cooldowns);
 
 		return APLRotation.create({
 			prepullActions: rotation.prepullActions,
