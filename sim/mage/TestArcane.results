@@ -440,8 +440,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-EarringofSoulfulMeditation-30665"
  value: {
-  dps: 1964.6407
-  tps: 965.93305
+  dps: 1968.57205
+  tps: 967.78796
  }
 }
 dps_results: {
@@ -888,8 +888,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-PendantoftheVioletEye-28727"
  value: {
-  dps: 1982.11999
-  tps: 973.08108
+  dps: 1986.57871
+  tps: 975.39435
  }
 }
 dps_results: {
@@ -1281,8 +1281,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-Average-Default"
  value: {
-  dps: 1974.52021
-  tps: 945.8216
+  dps: 1974.41099
+  tps: 945.75697
  }
 }
 dps_results: {
@@ -1302,29 +1302,29 @@ dps_results: {
 dps_results: {
  key: "TestArcane-Settings-Orc-p1Arcane-Arcane-arcane-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2675.82178
-  tps: 1173.06018
+  dps: 2700.12054
+  tps: 1193.16055
  }
 }
 dps_results: {
  key: "TestArcane-Settings-Orc-p1Arcane-Arcane-arcane-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 833.99561
-  tps: 1185.87732
+  dps: 831.91497
+  tps: 1182.89026
  }
 }
 dps_results: {
  key: "TestArcane-Settings-Orc-p1Arcane-Arcane-arcane-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 833.99561
-  tps: 552.29203
+  dps: 831.91497
+  tps: 549.07841
  }
 }
 dps_results: {
  key: "TestArcane-Settings-Orc-p1Arcane-Arcane-arcane-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1235.20858
-  tps: 830.51303
+  dps: 1331.12752
+  tps: 844.1388
  }
 }
 dps_results: {
@@ -1344,29 +1344,29 @@ dps_results: {
 dps_results: {
  key: "TestArcane-Settings-Troll-p1Arcane-Arcane-arcane-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2690.69265
-  tps: 1180.39686
+  dps: 2716.13945
+  tps: 1202.07996
  }
 }
 dps_results: {
  key: "TestArcane-Settings-Troll-p1Arcane-Arcane-arcane-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 839.46954
-  tps: 1192.23913
+  dps: 831.94202
+  tps: 1181.77724
  }
 }
 dps_results: {
  key: "TestArcane-Settings-Troll-p1Arcane-Arcane-arcane-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 839.46954
-  tps: 558.8483
+  dps: 831.94202
+  tps: 548.82122
  }
 }
 dps_results: {
  key: "TestArcane-Settings-Troll-p1Arcane-Arcane-arcane-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1243.17719
-  tps: 838.61818
+  dps: 1319.46474
+  tps: 833.31755
  }
 }
 dps_results: {
