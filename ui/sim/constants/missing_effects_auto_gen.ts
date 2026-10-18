@@ -2689,12 +2689,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		38175, // The Horseman's Blade
-		[
-			"Summon Pumpkin Soldiers to burn your foes.", // 50070 - https://www.wowhead.com/tbc/spell=50070
-		]
-	],
-	[
 		38506, // Don Carlos' Famous Hat
 		[
 			"", // 52172 - https://www.wowhead.com/tbc/spell=52172
@@ -2704,6 +2698,12 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		186073, // Communal Totem of the Storm
 		[
 			"Reduces the mana cost of Stormstrike by 5.", // 352522 - https://www.wowhead.com/tbc/spell=352522
+		]
+	],
+	[
+		281923, // The Horseman's Blade
+		[
+			"Summon Pumpkin Soldiers to burn your foes.", // 50070 - https://www.wowhead.com/tbc/spell=50070
 		]
 	],
 ])
