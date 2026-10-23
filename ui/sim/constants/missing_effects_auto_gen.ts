@@ -2172,12 +2172,6 @@ export const MISSING_ITEM_EFFECTS = new Map<number, string[]>([
 		]
 	],
 	[
-		33507, // Stonebreaker's Totem
-		[
-			"Your Shock spells have a chance to grant 110 attack power for 10s.", // 43749 - https://www.wowhead.com/tbc/spell=43749
-		]
-	],
-	[
 		33508, // Idol of Budding Life
 		[
 			"Reduces the mana cost of Rejuvenation by 36.", // 43736 - https://www.wowhead.com/tbc/spell=43736

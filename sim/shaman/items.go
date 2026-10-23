@@ -45,6 +45,29 @@ func init() {
 		character.ItemSwap.RegisterProc(33506, procAura)
 	})
 
+	// Stonebreaker's Totem
+	core.NewItemEffect(33507, func(agent core.Agent) {
+		character := agent.GetCharacter()
+
+		aura := character.NewTemporaryStatsAura("Elemental Strength", core.ActionID{SpellID: 43749}, stats.Stats{stats.AttackPower: 110}, time.Second*10)
+		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
+			Name:           "Stonebreaker's Totem",
+			ActionID:       core.ActionID{ItemID: 33507},
+			Callback:       core.CallbackOnSpellHitDealt,
+			Outcome:        core.OutcomeLanded,
+			ClassSpellMask: SpellMaskFlameShockDirect | SpellMaskEarthShock | SpellMaskFrostShock,
+			ProcChance:     0.5,
+			ICD:            time.Second * 10,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				aura.Activate(sim)
+			},
+		})
+
+		eligibleSlots := character.ItemSwap.EligibleSlotsForItem(33507)
+		character.AddStatProcBuff(33507, aura, false, eligibleSlots)
+		character.ItemSwap.RegisterProc(33507, procAura)
+	})
+
 	// Totem of Ancestral Guidance
 	core.NewItemEffect(32330, func(agent core.Agent) {
 		character := agent.GetCharacter()

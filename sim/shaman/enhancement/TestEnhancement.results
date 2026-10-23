@@ -1181,6 +1181,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-Stonebreaker'sTotem-33507"
+ value: {
+  dps: 1946.60068
+  tps: 1236.45329
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-StrengthoftheClefthoof"
  value: {
   dps: 1735.40303

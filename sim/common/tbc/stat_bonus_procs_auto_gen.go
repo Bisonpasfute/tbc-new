@@ -5362,21 +5362,6 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Your Shock spells have a chance to grant 110 attack power for 10s.
-	// https://www.wowhead.com/tbc/spell=43749
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskUnknown,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 33507, ItemName: "Stonebreaker's Totem"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
 	// Reduces the mana cost of Rejuvenation by 36.
 	// https://www.wowhead.com/tbc/spell=43736
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
