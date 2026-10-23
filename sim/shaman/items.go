@@ -30,7 +30,7 @@ func init() {
 		aura := character.NewTemporaryStatsAura("Energized", core.ActionID{SpellID: 43751}, stats.Stats{stats.SpellHasteRating: 100}, time.Second*10)
 		procAura := character.MakeProcTriggerAura(core.ProcTrigger{
 			Name:           "Skycall Totem",
-			ActionID:       core.ActionID{ItemID: 43750},
+			ActionID:       core.ActionID{ItemID: 33506},
 			Callback:       core.CallbackOnSpellHitDealt,
 			Outcome:        core.OutcomeLanded,
 			ClassSpellMask: SpellMaskLightningBolt | SpellMaskLightningBoltOverload,
@@ -41,7 +41,7 @@ func init() {
 		})
 
 		eligibleSlots := character.ItemSwap.EligibleSlotsForItem(33506)
-		character.AddStatProcBuff(39441, aura, false, eligibleSlots)
+		character.AddStatProcBuff(33506, aura, false, eligibleSlots)
 		character.ItemSwap.RegisterProc(33506, procAura)
 	})
 
